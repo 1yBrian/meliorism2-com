@@ -1,0 +1,533 @@
+<!-- signal-os:date: 2026-05-10 -->
+<!-- signal-os:slug: feynman-technique -->
+<!-- signal-os:title: The Feynman Technique -->
+<!-- signal-os:concept: If you can't explain it simply, you don't understand it well enough. Teaching as the deepest test of knowledge. -->
+<!-- signal-os:format: The Lecture Hall -->
+<!-- signal-os:dimension: In-Person Presence -->
+<!-- signal-os:sources: 9 -->
+<!-- signal-os:tags: #learning #cognition #reasoning -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 10 · The Feynman Technique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0A1A0A;
+  --chalk:#F0EDD8;
+  --chalkf:rgba(240,237,216,0.65);
+  --green:#3A7A3A;
+  --amber:#D4A820;
+  --amberf:rgba(212,168,32,0.25);
+  --border:rgba(240,237,216,0.12);
+  --surface:rgba(240,237,216,0.04);
+}
+html,body{height:100%;background:var(--bg);color:var(--chalk);font-family:'Lora',serif;overflow:hidden;}
+
+/* chalk texture on bg */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;
+  background:rgba(10,26,10,0.97);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+  font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--chalkf);
+}
+.sb-logo a{font-weight:600;color:var(--chalk);text-decoration:none;font-family:'Lora',serif;font-size:0.74rem;letter-spacing:0.08em;}
+.sb-sep{opacity:0.25;}
+.sb-right{margin-left:auto;display:flex;gap:14px;}
+
+/* ENTRY */
+#entry{
+  position:fixed;inset:0;top:36px;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;overflow-y:auto;padding-bottom:80px;
+  z-index:10;
+}
+.hall-header{
+  font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;
+  color:var(--chalkf);text-transform:uppercase;margin-bottom:36px;text-align:center;
+}
+.chalkboard{
+  background:#1A2E1A;
+  border:3px solid #2A4A2A;
+  border-radius:4px;
+  padding:40px 48px;
+  max-width:520px;width:100%;
+  box-shadow:0 0 40px rgba(58,122,58,0.2),inset 0 0 60px rgba(0,0,0,0.3);
+  position:relative;margin-bottom:36px;
+}
+.chalkboard::before{
+  content:'';position:absolute;inset:6px;border:1px solid rgba(58,122,58,0.25);pointer-events:none;
+}
+.board-quote{
+  font-family:'Lora',serif;font-style:italic;font-size:1.05rem;line-height:1.7;
+  color:var(--chalk);text-align:center;margin-bottom:20px;
+  text-shadow:0 0 20px rgba(240,237,216,0.15);
+}
+.board-attr{
+  font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--chalkf);
+  text-align:center;margin-bottom:24px;
+}
+.board-note{
+  font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--amber);
+  text-align:center;line-height:1.5;
+  text-shadow:0 0 8px var(--amberf);
+}
+.entry-btn{
+  display:inline-block;padding:13px 38px;
+  border:1.5px solid var(--green);color:var(--chalk);
+  font-family:'Share Tech Mono',monospace;font-size:0.8rem;
+  letter-spacing:0.1em;cursor:pointer;background:transparent;
+  transition:all 0.2s;
+  box-shadow:0 0 12px rgba(58,122,58,0.2);
+}
+.entry-btn:hover{
+  background:rgba(58,122,58,0.2);
+  box-shadow:0 0 24px rgba(58,122,58,0.4);
+}
+
+/* MAIN */
+#main{
+  display:none;
+  position:fixed;inset:0;top:36px;
+  grid-template-columns:200px 1fr;
+  grid-template-rows:1fr auto;
+  background:var(--bg);
+}
+.sidebar{
+  background:rgba(10,26,10,0.8);border-right:1px solid var(--border);
+  padding:24px 0;overflow-y:auto;
+  border-right:1px solid var(--green);
+}
+.sidebar-label{
+  font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--chalkf);padding:0 16px 12px;
+  border-bottom:1px solid var(--border);margin-bottom:8px;
+}
+.step-item{
+  display:flex;align-items:flex-start;gap:10px;padding:10px 16px;
+  cursor:pointer;border-left:3px solid transparent;transition:all 0.15s;
+}
+.step-item:hover,.step-item.active{border-left-color:var(--amber);}
+.step-item.active{background:rgba(212,168,32,0.06);}
+.step-num{
+  font-family:'Share Tech Mono',monospace;font-size:0.62rem;color:var(--amber);
+  font-weight:500;min-width:18px;padding-top:2px;
+  text-shadow:0 0 6px var(--amberf);
+}
+.step-name{font-size:0.78rem;line-height:1.4;color:var(--chalk);opacity:0.8;}
+.step-item.active .step-name{opacity:1;font-weight:500;}
+
+.content{overflow-y:auto;padding:48px 56px 80px;}
+.section{max-width:700px;padding-bottom:64px;border-bottom:1px solid var(--border);margin-bottom:64px;}
+.section:last-of-type{border-bottom:none;}
+.section-num{
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--amber);
+  letter-spacing:0.14em;text-transform:uppercase;display:block;margin-bottom:12px;
+  text-shadow:0 0 8px var(--amberf);
+}
+.section h2{font-size:1.85rem;font-weight:400;line-height:1.2;margin-bottom:24px;color:var(--chalk);}
+.section p{font-size:0.94rem;line-height:1.85;color:var(--chalkf);margin-bottom:14px;}
+strong{color:var(--chalk);}
+.cite{
+  font-size:0.74rem;color:var(--chalk);border-left:3px solid var(--amber);
+  padding:10px 16px;margin:10px 0 24px;display:block;line-height:1.7;
+  background:rgba(212,168,32,0.05);
+  box-shadow:-3px 0 0 var(--amberf);
+}
+
+/* WALL */
+.wall{
+  width:100vw;position:relative;left:50%;transform:translateX(-50%);
+  background:#0F200F;border-top:1px solid var(--green);border-bottom:1px solid var(--green);
+  padding:56px 40px;margin:64px 0;
+  box-shadow:0 0 60px rgba(58,122,58,0.1);
+}
+.wall-label{
+  font-family:'Share Tech Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;
+  color:var(--amber);text-transform:uppercase;margin-bottom:8px;display:block;
+  text-shadow:0 0 12px var(--amberf);
+}
+.wall-sub{font-size:0.84rem;color:var(--chalkf);margin-bottom:40px;font-style:italic;}
+.translation-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+}
+.trans-head{
+  font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;
+  text-transform:uppercase;padding:10px 16px;
+  background:rgba(58,122,58,0.2);color:var(--chalkf);
+}
+.trans-cell{
+  padding:14px 16px;font-size:0.82rem;line-height:1.5;
+  border:1px solid rgba(240,237,216,0.06);vertical-align:top;
+}
+.trans-cell.expert{color:var(--chalkf);background:rgba(240,237,216,0.03);}
+.trans-cell.simple{color:var(--chalk);background:rgba(58,122,58,0.08);}
+.trans-cell.gap{
+  font-family:'Share Tech Mono',monospace;font-size:0.72rem;
+  color:var(--amber);background:rgba(212,168,32,0.05);line-height:1.6;
+  text-shadow:0 0 6px rgba(212,168,32,0.2);
+}
+.trans-label{
+  font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:var(--amber);
+  display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.1em;
+  opacity:0.7;
+}
+
+/* FOOTER */
+.main-footer{
+  grid-column:1/-1;border-top:1px solid var(--border);
+  padding:12px 24px;display:flex;align-items:center;gap:16px;
+  font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--chalkf);
+  background:rgba(10,26,10,0.95);
+}
+.main-footer a{color:var(--chalk);text-decoration:none;}
+.main-footer a:hover{color:var(--amber);}
+.footer-sep{opacity:0.3;}
+
+@media(max-width:768px){
+  #entry{overflow-y:auto;padding-bottom:80px;}
+  #main{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .content{padding:28px 20px 80px;}
+  .chalkboard{padding:28px 24px;}
+  .wall{padding:36px 20px;left:0;transform:none;width:100%;}
+  .translation-grid{grid-template-columns:1fr;}
+  .trans-head:nth-child(2),.trans-head:nth-child(3){display:none;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <div class="sb-logo"><a href="/">MELIORISM2.COM</a></div>
+  <span class="sb-sep">|</span>
+  <span>010 · THE FEYNMAN TECHNIQUE</span>
+  <div class="sb-right">
+    <span id="clk"></span>
+    <span>IN-PERSON PRESENCE</span>
+  </div>
+</div>
+
+<div id="entry">
+  <div class="hall-header">Lecture Hall 010 · In-Person Presence</div>
+  <div class="chalkboard">
+    <p class="board-quote">"If you can't explain it simply, you don't understand it well enough."</p>
+    <p class="board-attr">— Attributed to Richard Feynman<br>He never actually said this exactly.</p>
+    <p class="board-note">But the idea is his. And it changes everything.</p>
+  </div>
+  <button class="entry-btn" onclick="openMain()">To the Board →</button>
+</div>
+
+<div id="main">
+  <nav class="sidebar">
+    <div class="sidebar-label">Lesson Plan</div>
+    <div class="step-item active" onclick="goTo('s1',this)">
+      <span class="step-num">01</span>
+      <span class="step-name">Who Feynman Was</span>
+    </div>
+    <div class="step-item" onclick="goTo('s2',this)">
+      <span class="step-num">02</span>
+      <span class="step-name">The 4 Steps</span>
+    </div>
+    <div class="step-item" onclick="goTo('s3',this)">
+      <span class="step-num">03</span>
+      <span class="step-name">Where the Gap Appears</span>
+    </div>
+    <div class="step-item" onclick="goTo('s4',this)">
+      <span class="step-num">04</span>
+      <span class="step-name">Practitioners & the Illusion</span>
+    </div>
+    <div class="step-item" onclick="goTo('s5',this)">
+      <span class="step-num">05</span>
+      <span class="step-name">In-Person Presence</span>
+    </div>
+    <div class="step-item" onclick="goTo('s6',this)">
+      <span class="step-num">06</span>
+      <span class="step-name">The Curse of Knowledge</span>
+    </div>
+    <div class="step-item" onclick="goTo('wall',this)">
+      <span class="step-num">07</span>
+      <span class="step-name">The Translation Test</span>
+    </div>
+    <div class="step-item" onclick="goTo('s8',this)">
+      <span class="step-num">08</span>
+      <span class="step-name">Field Work</span>
+    </div>
+  </nav>
+
+  <div class="content" id="contentPane">
+
+    <div class="section" id="s1" data-track="section-feynman-who">
+      <span class="section-num">Step 01 — The Man</span>
+      <h2>Not a Self-Help Icon. A Nobel Physicist Who Taught.</h2>
+      <p>Richard Feynman won the Nobel Prize in Physics in 1965 for his work on quantum electrodynamics. He was also known as "The Great Explainer" — not because he had a content strategy, but because he believed that the inability to explain something simply was evidence of incomplete understanding.</p>
+      <p>He was famously impatient with formalism that substituted symbolic fluency for actual comprehension. In his <em>Surely You're Joking, Mr. Feynman!</em> he describes teaching in Brazil and realizing that students had memorized texts without understanding the phenomena the texts described. They could recite Maxwell's equations and couldn't recognize what light was. He called this the difference between knowing the name of something and knowing something.</p>
+      <p>The technique that bears his name was not packaged by Feynman himself. It was assembled from his documented teaching practices and interviews by people trying to understand why his explanations were so effective. What they found was a method built around failure: keep explaining until your explanation breaks down, then fix the understanding.</p>
+      <span class="cite"><em>Feynman, Richard P.</em> <em>Surely You're Joking, Mr. Feynman! Adventures of a Curious Character.</em> W. W. Norton, 1985. The Brazil lecture episode (pp. 212–219) is the clearest articulation of his philosophy of understanding versus knowing the name.</span>
+    </div>
+
+    <div class="section" id="s2" data-track="section-4steps">
+      <span class="section-num">Step 02 — The Method</span>
+      <h2>Four Steps, One Purpose: Finding the Gap</h2>
+      <p><strong>Step 1: Choose a concept.</strong> Pick something you want to understand — or think you already understand. Write it at the top of a blank page.</p>
+      <p><strong>Step 2: Explain it as if teaching a child.</strong> Not a smart teenager. A young child who has no jargon, no disciplinary vocabulary, no context you can assume. Write the explanation down. Don't explain it in your head — write it. The gap between what you can think and what you can write is where the illusion lives.</p>
+      <p><strong>Step 3: Find the gaps and go back to the source.</strong> Where did your explanation break down? Where did you resort to jargon? Where did you skip a logical step? Those are the places you don't understand. Go back to the primary source — the actual research, the original mechanism — and work through those places until you can explain them simply.</p>
+      <p><strong>Step 4: Simplify and use analogies.</strong> If you still rely on technical terms to complete the explanation, build an analogy. Find something the child already understands that works the same way. If you can't build the analogy, your understanding of the mechanism is incomplete.</p>
+      <span class="cite">The four-step formulation is widely attributed to Feynman but was codified by educators after his death. The best documented version appears in <em>Gleick, James.</em> <em>Genius: The Life and Science of Richard Feynman.</em> Pantheon, 1992, drawing on Feynman's own teaching notebooks from Caltech, 1961–1963.</span>
+    </div>
+
+    <div class="section" id="s3" data-track="section-gap">
+      <span class="section-num">Step 03 — The Gap</span>
+      <h2>The Moment Your Simple Explanation Fails</h2>
+      <p>The technique is most useful not when it succeeds but when it breaks down. The failure is the data. When you cannot explain something simply, you have located a specific gap in your understanding — not a vague sense that you might know more but a precise point where the mechanism is unclear to you.</p>
+      <p>Carl Wieman, who won the 2001 Nobel Prize in Physics and spent the second half of his career studying science education, documented this in his reform of undergraduate physics teaching. Students who could solve textbook problems could not explain the concepts behind the solutions. They had learned a pattern-matching procedure, not a mechanism. The Feynman test would have caught this immediately: ask them to explain why the formula works, in plain language, to a non-specialist. Most couldn't.</p>
+      <p>Wieman's finding is generalizable to every professional domain: fluency with the procedures of a field and understanding of the mechanisms are not the same thing. The Feynman technique is a test that distinguishes them.</p>
+      <span class="cite"><em>Wieman, Carl E.</em> "The 'Curse of Knowledge,' or Why Intuition About Teaching Often Fails." <em>APS News</em> 16, no. 10 (2007). Wieman's Science Education Initiative at the University of British Columbia (2007–2013) documented widespread procedural fluency without conceptual understanding across STEM disciplines.</span>
+    </div>
+
+    <div class="section" id="s4" data-track="section-illusion">
+      <span class="section-num">Step 04 — The Illusion</span>
+      <h2>Practitioners and the Expertise Illusion</h2>
+      <p>Can you explain your core methodology to a 10-year-old? Not a simplified version of it — the actual thing you believe about how humans learn or change or develop. The mechanism. In plain language. Without the vocabulary that your field gave you.</p>
+      <p>Anders Ericsson's research on expert performance documents how expertise involves the chunking of knowledge into patterns that become automatic and largely invisible to the expert. Experts process situations through pattern recognition, not deliberate analysis. This is efficient. It also means experts often cannot explain what they're doing while they're doing it — the mechanism has been subsumed into an automatic response.</p>
+      <p>The problem arises when an expert who can't explain their mechanism tries to teach it. What gets transmitted is the vocabulary of the field, the procedures, the approved forms — not the underlying understanding. Learners learn to sound like experts without acquiring the comprehension that would allow them to adapt when the standard procedure doesn't fit the situation in front of them.</p>
+      <span class="cite"><em>Ericsson, K. Anders, and Robert Pool.</em> <em>Peak: Secrets from the New Science of Expertise.</em> Houghton Mifflin Harcourt, 2016. See especially Chapter 3 on mental representations — the cognitive structures that experts build but rarely consciously examine or explain.</span>
+    </div>
+
+    <div class="section" id="s5" data-track="section-presence">
+      <span class="section-num">Step 05 — In-Person Presence</span>
+      <h2>The Room Knows When You Don't Own What You're Teaching</h2>
+      <p>In-person presence is not about charisma or performance. It is about whether the person at the front of the room is actually present to what they know — whether the knowledge lives in their body, their voice, their responses to unexpected questions — or whether it lives in slides.</p>
+      <p>When a facilitator owns their material at the level of mechanism — when they can explain it simply, analogically, from multiple angles — something shifts in the room. Participants can feel whether the person teaching them knows the thing or knows the presentation about the thing. The difference is not subtle. It reads as trustworthiness.</p>
+      <p>Conversely, facilitators who have memorized their own content without passing it through a Feynman test have a characteristic failure mode: they handle unexpected questions by returning to the script. The question arrives; there is a brief moment of blankness; and then the facilitator restates what they just said, sometimes in a slightly different order. The room knows. Nobody says anything about it, but the room knows.</p>
+      <span class="cite">The relationship between embodied knowledge and presence is under-researched in L&D literature but well-documented in performance and somatic psychology. See <em>Strozzi-Heckman, Richard.</em> <em>The Leadership Dojo.</em> Frog Books, 2007, for the most rigorous treatment of how comprehension registers in the body and reads to others as presence or its absence.</span>
+    </div>
+
+    <div class="section" id="s6" data-track="section-curse">
+      <span class="section-num">Step 06 — The Curse of Knowledge</span>
+      <h2>Heath &amp; Heath and Why Experts Fail to Teach</h2>
+      <p>In <em>Made to Stick</em>, Chip and Dan Heath describe the "curse of knowledge": once you know something, it is nearly impossible to remember what it was like not to know it. The curse operates in every training room, every time an expert facilitator assumes a baseline of understanding that the participants don't have.</p>
+      <p>The Feynman technique is the most direct practical cure for the curse of knowledge because it forces the expert to rebuild the explanation from below, in language that assumes nothing. The act of writing out the explanation in plain language re-creates the learning pathway — and reveals every place where the expert silently skipped a step that the learner would not have been able to skip.</p>
+      <p>Kahneman's description of System 2 thinking is also relevant: truly explaining something simply requires effortful analytical thinking, not the automatic retrieval that experts use in their daily work. The Feynman technique is cognitively demanding precisely because it forces experts off autopilot. That demand is the point. Autopilot is where the gaps hide.</p>
+      <span class="cite"><em>Heath, Chip, and Dan Heath.</em> <em>Made to Stick: Why Some Ideas Survive and Others Die.</em> Random House, 2007. The "curse of knowledge" section (pp. 19–23) includes the "tapping experiment" — a study that quantifies how dramatically experts overestimate how much their audience understands. <em>Kahneman, Daniel.</em> <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux, 2011.</span>
+    </div>
+
+    <!-- WALL MOMENT -->
+    <div class="wall" id="wall" data-track="wall-translation-test">
+      <span class="wall-label">Wall Moment 010 — The Translation Test</span>
+      <p class="wall-sub">Four common L&D concepts. Expert language, Feynman translation, and what the gap reveals.</p>
+      <div class="translation-grid">
+        <div class="trans-head">Concept</div>
+        <div class="trans-head">Expert Language</div>
+        <div class="trans-head">Feynman Translation → What the Gap Reveals</div>
+
+        <div class="trans-cell expert"><strong>Learning Objectives</strong></div>
+        <div class="trans-cell expert">"Participants will demonstrate mastery of cognitive-behavioral frameworks and apply evidence-based metacognitive strategies in aligned performance contexts."</div>
+        <div class="trans-cell gap">
+          <span class="trans-label">Plain version:</span>
+          "Here's what you'll be able to do that you couldn't before."
+          <span class="trans-label" style="margin-top:10px;">Gap revealed:</span>
+          Most learning objectives describe activities, not outcomes. The jargon hides this.
+        </div>
+
+        <div class="trans-cell expert"><strong>Instructional Design</strong></div>
+        <div class="trans-cell expert">"ADDIE-based systematic design of instructional interventions using Bloom's revised taxonomy to scaffold affective, cognitive, and psychomotor domains."</div>
+        <div class="trans-cell gap">
+          <span class="trans-label">Plain version:</span>
+          "A way of building learning experiences so that the hard stuff comes after the easy stuff and the learner can actually do something at the end."
+          <span class="trans-label" style="margin-top:10px;">Gap revealed:</span>
+          Most designers know the model, not the mechanism. Ask why Bloom's hierarchy is ordered the way it is.
+        </div>
+
+        <div class="trans-cell expert"><strong>Spaced Repetition</strong></div>
+        <div class="trans-cell expert">"Leveraging the spacing effect through algorithmically optimized retrieval practice intervals to counteract the Ebbinghaus forgetting curve."</div>
+        <div class="trans-cell gap">
+          <span class="trans-label">Plain version:</span>
+          "If you study something, then sleep on it, then study it again a few days later, you remember it much longer than if you crammed."
+          <span class="trans-label" style="margin-top:10px;">Gap revealed:</span>
+          Practitioners cite the research; few can explain why sleep matters to the mechanism.
+        </div>
+
+        <div class="trans-cell expert"><strong>Psychological Safety</strong></div>
+        <div class="trans-cell expert">"Creating an interpersonal risk climate that enables voice behavior, reduces performance anxiety, and supports learning-oriented team norms."</div>
+        <div class="trans-cell gap">
+          <span class="trans-label">Plain version:</span>
+          "People speak up when they don't think saying the wrong thing will hurt them."
+          <span class="trans-label" style="margin-top:10px;">Gap revealed:</span>
+          Most safety interventions target the climate, not the specific fear. What exactly are people afraid will happen?
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="s8" data-track="section-fieldwork">
+      <span class="section-num">Step 08 — Field Work</span>
+      <h2>The Test This Week</h2>
+      <p><strong>The Blank Page Test:</strong> Take the core concept at the center of your current program. Write it at the top of a blank page. Explain it to a child — not in your head, on paper. Where does your explanation break down? That breakdown is your work.</p>
+      <p><strong>The Analogy Demand:</strong> Pick one technical term you use regularly with participants. Build an analogy for it that requires no disciplinary vocabulary. If you can't, you haven't passed the Feynman test on that term.</p>
+      <p><strong>The Question Test:</strong> In your next session, leave a 10-minute window for questions you haven't prepared for. Note which questions you answered by returning to your script. Those are the gaps.</p>
+      <p style="margin-top:36px;font-size:0.79rem;color:var(--chalkf);font-family:'Share Tech Mono',monospace;">Sources: Feynman (1985) · Gleick (1992) · Wieman (2007) · Ericsson &amp; Pool (2016) · Heath &amp; Heath (2007) · Kahneman (2011) · Strozzi-Heckman (2007) · Ebbinghaus, Hermann. Über das Gedächtnis (1885) · Bjork, Robert. "New Conceptualizations of Practice." Psychological Science 3, no. 4 (1994)</p>
+    </div>
+  </div>
+
+  <footer class="main-footer">
+    <a href="/archive/index.html">← THE LIBRARY</a>
+    <span class="footer-sep">|</span>
+    <span>Issue 010 · The Feynman Technique · 2026-05-10</span>
+  </footer>
+</div>
+
+<script>
+function tick(){
+  const n=new Date();
+  document.getElementById('clk').textContent=
+    n.getUTCHours().toString().padStart(2,'0')+':'+
+    n.getUTCMinutes().toString().padStart(2,'0')+':'+
+    n.getUTCSeconds().toString().padStart(2,'0')+' UTC';
+  document.getElementById('clk').style.cssText='font-family:"Share Tech Mono",monospace;font-size:0.7rem;color:rgba(240,237,216,0.65);';
+}
+tick();setInterval(tick,1000);
+
+function openMain(){
+  track('entry-open');
+  document.getElementById('entry').style.display='none';
+  const m=document.getElementById('main');
+  requestAnimationFrame(()=>{requestAnimationFrame(()=>{m.style.display='grid';});});
+}
+
+function goTo(id,el){
+  track('nav-'+id);
+  document.querySelectorAll('.step-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  const t=document.getElementById(id);
+  if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+const tracked=new Set();
+function track(label){
+  if(!tracked.has(label)){tracked.add(label);console.log('[SO]',label);}
+}
+
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&e.target.dataset.track){
+      track(e.target.dataset.track);
+      const all=Array.from(document.querySelectorAll('[data-track]'));
+      const idx=all.indexOf(e.target);
+      const items=document.querySelectorAll('.step-item');
+      if(items[idx]){
+        document.querySelectorAll('.step-item').forEach(i=>i.classList.remove('active'));
+        items[idx].classList.add('active');
+      }
+    }
+  });
+},{threshold:0.25});
+document.querySelectorAll('[data-track]').forEach(el=>obs.observe(el));
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

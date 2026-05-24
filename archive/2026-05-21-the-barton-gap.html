@@ -1,0 +1,675 @@
+<!-- signal-os:date: 2026-05-21 -->
+<!-- signal-os:slug: the-barton-gap -->
+<!-- signal-os:title: The Barton Gap -->
+<!-- signal-os:concept: Clara Barton founded the American Red Cross at 59, after decades of being underpaid for work that was unambiguously valuable. The mechanism that kept her rate low is the same one operating in your practice right now. -->
+<!-- signal-os:format: Office of Missing Soldiers — Records Bureau -->
+<!-- signal-os:dimension: Living Income -->
+<!-- signal-os:sources: 9 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 021 · The Barton Gap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --manila:    #EDE0C4;
+  --aged:      #F5EED8;
+  --ink:       #2A1F14;
+  --ink-mid:   rgba(42,31,20,0.65);
+  --ink-dim:   rgba(42,31,20,0.4);
+  --red:       #B22222;
+  --red-faint: rgba(178,34,34,0.12);
+  --stamp:     rgba(178,34,34,0.8);
+  --gold:      #8C6A1A;
+  --surface:   #F8F2E2;
+  --border:    rgba(42,31,20,0.15);
+  --border-h:  rgba(42,31,20,0.3);
+}
+
+html,body{
+  height:100%;background:var(--manila);color:var(--ink);
+  font-family:'Courier Prime',monospace;
+  overflow:hidden;
+}
+
+/* ── Status bar ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:32px;
+  background:var(--ink);color:var(--manila);
+  display:flex;align-items:center;padding:0 18px;gap:12px;
+  font-size:10px;letter-spacing:2px;
+}
+.sb-logo{color:var(--manila);text-decoration:none;font-weight:700;letter-spacing:4px;}
+.sb-pipe{opacity:0.3;}
+.sb-meta{opacity:0.7;}
+.sb-r{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.sb-clock{opacity:0.6;font-size:9px;}
+.sb-lib{color:#c8a060;text-decoration:none;letter-spacing:2px;font-size:9px;border:1px solid rgba(200,160,80,0.3);padding:2px 8px;transition:all 0.2s;}
+.sb-lib:hover{border-color:rgba(200,160,80,0.7);color:#e0b870;}
+
+/* ── ENTRY: File Cabinet ── */
+#entry{
+  position:fixed;inset:0;top:32px;z-index:800;
+  background:var(--ink);
+  display:grid;grid-template-columns:1fr 1fr;
+  transition:opacity 0.6s ease;
+}
+
+.entry-left{
+  display:flex;flex-direction:column;justify-content:center;padding:60px;
+  border-right:1px solid rgba(237,224,196,0.1);
+}
+.entry-class{
+  font-size:9px;letter-spacing:4px;color:rgba(237,224,196,0.45);margin-bottom:28px;
+}
+.entry-date{
+  font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:18px;
+}
+.entry-title{
+  font-family:'Libre Baskerville',serif;font-size:clamp(42px,6vw,78px);
+  font-weight:700;color:var(--aged);line-height:1.05;margin-bottom:20px;
+}
+.entry-sub{font-size:11px;letter-spacing:2px;color:rgba(237,224,196,0.5);margin-bottom:36px;}
+.entry-brief{
+  font-family:'Libre Baskerville',serif;font-size:15px;font-style:italic;
+  color:rgba(237,224,196,0.75);line-height:1.8;margin-bottom:40px;
+  border-left:2px solid var(--red);padding-left:18px;
+}
+.entry-btn{
+  display:inline-block;background:var(--red);color:var(--aged);
+  border:none;padding:14px 32px;font-family:'Courier Prime',monospace;
+  font-size:11px;letter-spacing:3px;cursor:pointer;
+  transition:all 0.2s;align-self:flex-start;
+}
+.entry-btn:hover{background:#8B1818;letter-spacing:4px;}
+
+/* Cabinet visual — right side */
+.entry-right{
+  display:flex;align-items:center;justify-content:center;
+  padding:40px;position:relative;overflow:hidden;
+}
+.cabinet{width:100%;max-width:320px;}
+.cab-body{
+  background:#3A2E22;border:2px solid #5A4A38;border-radius:4px;
+  padding:20px;display:flex;flex-direction:column;gap:12px;
+}
+.cab-drawer{
+  background:#4A3C2C;border:1px solid #6A5A48;border-radius:3px;
+  padding:16px 20px;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:all 0.25s;position:relative;
+}
+.cab-drawer.active,.cab-drawer:hover{
+  background:#5A4A38;border-color:var(--gold);transform:translateY(2px);
+}
+.cab-drawer.open{transform:translateX(20px);background:#3A2E22;}
+.cab-label{font-size:9px;letter-spacing:2px;color:rgba(237,224,196,0.6);}
+.cab-label strong{color:var(--gold);}
+.cab-pull{width:40px;height:6px;background:#6A5A48;border-radius:3px;border:1px solid #8A7A68;}
+.cab-drawer.active .cab-pull,.cab-drawer:hover .cab-pull{background:var(--gold);}
+.cab-instruction{
+  text-align:center;font-size:9px;letter-spacing:3px;
+  color:rgba(237,224,196,0.35);margin-top:16px;
+}
+/* Pulsing red dot on LIVING INCOME drawer */
+.pulse-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--red);
+  animation:pulse-r 1.8s ease-in-out infinite;margin-right:10px;
+}
+@keyframes pulse-r{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+
+/* ── RECORDS OFFICE ── */
+#office{
+  display:none;opacity:0;
+  position:fixed;inset:0;top:32px;
+  background:var(--surface);
+  transition:opacity 0.6s ease;
+  overflow:hidden;
+}
+
+/* Desk surface — full viewport grid */
+.desk{
+  width:100%;height:100%;
+  display:grid;
+  grid-template-columns:280px 1fr;
+  grid-template-rows:50px 1fr;
+}
+
+/* Header strip */
+.desk-header{
+  grid-column:1/-1;
+  background:var(--ink);color:var(--manila);
+  display:flex;align-items:center;padding:0 20px;gap:20px;
+  font-size:9px;letter-spacing:2px;
+}
+.dh-title{flex:1;font-weight:700;letter-spacing:3px;}
+.dh-counter{display:flex;align-items:center;gap:8px;}
+.dh-counter-label{opacity:0.5;font-size:10px;}
+.dh-count{color:#c8a060;font-size:13px;letter-spacing:1px;font-weight:700;}
+
+/* Folder index — left column */
+.folder-index{
+  grid-row:2;background:#D8C9A8;border-right:1px solid var(--border-h);
+  overflow-y:auto;padding:16px 0;
+}
+.folder-tab{
+  padding:14px 18px;cursor:pointer;border-bottom:1px solid rgba(42,31,20,0.08);
+  display:flex;flex-direction:column;gap:4px;transition:background 0.15s;
+  position:relative;
+}
+.folder-tab:hover{background:rgba(42,31,20,0.06);}
+.folder-tab.active{background:var(--aged);border-left:3px solid var(--red);}
+.ft-code{font-size:10px;letter-spacing:2px;color:var(--ink-dim);}
+.ft-title{font-size:11px;font-weight:700;color:var(--ink);line-height:1.3;}
+.ft-stamp{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%) rotate(-8deg);
+  font-size:10px;letter-spacing:1px;border:1px solid currentColor;padding:1px 4px;
+  opacity:0.5;
+}
+.ft-stamp.red{color:var(--red);}
+.ft-stamp.gold{color:var(--gold);}
+.ft-stamp.ink{color:var(--ink);}
+
+/* Content pane — right */
+.content-pane{
+  grid-row:2;overflow-y:auto;padding:36px 48px 80px;
+  background:var(--aged);
+}
+
+/* Signal strip — 90-second */
+.signal-strip{
+  background:var(--red);color:var(--aged);
+  padding:12px 24px;margin:-36px -48px 36px;
+  display:flex;align-items:baseline;gap:20px;
+}
+.ss-label{font-size:10px;letter-spacing:3px;opacity:0.75;white-space:nowrap;}
+.ss-text{font-family:'Libre Baskerville',serif;font-size:14px;font-weight:400;line-height:1.5;}
+
+/* File content styles */
+.file-header{margin-bottom:28px;}
+.file-code{font-size:10px;letter-spacing:3px;color:var(--ink-dim);margin-bottom:8px;}
+.file-title{font-family:'Libre Baskerville',serif;font-size:28px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:6px;}
+.file-byline{font-size:9px;letter-spacing:2px;color:var(--ink-mid);}
+
+.file-body{font-family:'Libre Baskerville',serif;font-size:15px;line-height:1.85;color:var(--ink);}
+.file-body p{margin-bottom:18px;}
+.file-body h3{font-size:13px;letter-spacing:2px;text-transform:uppercase;margin:28px 0 12px;color:var(--red);}
+.file-body strong{font-weight:700;}
+.file-body em{font-style:italic;}
+.file-body blockquote{
+  border-left:3px solid var(--red);padding:14px 20px;
+  background:rgba(178,34,34,0.05);margin:24px 0;
+  font-style:italic;font-size:16px;
+}
+
+.stamp-block{
+  display:inline-block;border:2px solid var(--stamp);color:var(--stamp);
+  font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:3px;
+  padding:4px 10px;transform:rotate(-3deg);margin:16px 0;opacity:0.7;
+}
+
+.cite{
+  font-family:'Courier Prime',monospace;font-size:11px;color:var(--ink-mid);
+  border-left:2px solid var(--border-h);padding:8px 14px;margin:10px 0;line-height:1.6;
+}
+.cite em{font-style:italic;}
+
+.experiment-box{
+  background:#fff;border:1px solid var(--border-h);padding:24px 28px;margin:24px 0;
+  border-left:4px solid var(--red);
+}
+.experiment-box h3{color:var(--red);font-size:12px;letter-spacing:3px;margin-bottom:14px;}
+.day-entry{padding:8px 0;border-bottom:1px dashed var(--border);font-size:13px;line-height:1.6;}
+.day-entry:last-child{border-bottom:none;}
+.day-label{font-weight:700;color:var(--red);font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:1px;}
+
+.nature-box{
+  background:rgba(140,106,26,0.08);border:1px solid rgba(140,106,26,0.25);
+  padding:20px 24px;margin:24px 0;
+}
+.nb-label{font-size:10px;letter-spacing:3px;color:var(--gold);margin-bottom:10px;}
+
+/* Mobile */
+@media(max-width:700px){
+  #entry{grid-template-columns:1fr;overflow-y:auto;padding-bottom:80px;}
+  .entry-right{display:none;}
+  .entry-left{padding:40px 28px;}
+  .desk{grid-template-columns:1fr;grid-template-rows:50px auto 1fr;}
+  .folder-index{grid-row:2;height:auto;overflow-x:auto;display:flex;flex-direction:row;padding:8px;white-space:nowrap;overflow-y:hidden;}
+  .folder-tab{display:inline-flex;min-width:150px;white-space:normal;}
+  .content-pane{grid-row:3;overflow-y:auto;padding:24px 20px 80px;}
+  .signal-strip{margin:-24px -20px 24px;flex-direction:column;gap:6px;}
+}
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a class="sb-logo" href="/">MELIORISM2.COM</a>
+  <span class="sb-pipe">|</span>
+  <span class="sb-meta">ISSUE 021</span>
+  <span class="sb-pipe">|</span>
+  <span class="sb-meta">THE BARTON GAP</span>
+  <div class="sb-r">
+    <span class="sb-clock" id="sbclock">--:--:--</span>
+    <a class="sb-lib" href="/archive/index.html">LIBRARY</a>
+  </div>
+</div>
+
+<!-- ══ ENTRY ══ -->
+<section id="entry">
+  <div class="entry-left">
+    <div class="entry-class">OFFICE OF MISSING SOLDIERS · CASE FILE · SOS-021</div>
+    <div class="entry-date">21 MAY 2026 · 145TH ANNIVERSARY</div>
+    <h1 class="entry-title">The<br>Barton<br>Gap.</h1>
+    <p class="entry-sub">Meliorism2.com · Issue 021 · Living Income</p>
+    <p class="entry-brief">On this date in 1881, Clara Barton founded the American Red Cross — at age 59, after three decades of doing work that was unambiguously valuable and chronically undercompensated. She didn't wait to be paid what she was worth. She built the institution that changed the container. The mechanism that held her rate low still operates in most practices today.</p>
+    <button class="entry-btn" onclick="openOffice()">OPEN THE FILE &nbsp;→</button>
+  </div>
+  <div class="entry-right">
+    <div class="cabinet">
+      <div class="cab-body">
+        <div class="cab-drawer" style="cursor:default;">
+          <div class="cab-label"><strong>CASE FILES</strong> · WITNESSING</div>
+          <div class="cab-pull"></div>
+        </div>
+        <div class="cab-drawer" style="cursor:default;">
+          <div class="cab-label"><strong>CASE FILES</strong> · BRAVE SPACES</div>
+          <div class="cab-pull"></div>
+        </div>
+        <div class="cab-drawer active" onclick="openOffice()">
+          <div class="pulse-dot"></div>
+          <div class="cab-label"><strong>CASE FILES</strong> · LIVING INCOME<br><span style="color:var(--red);font-size:10px;">▶ ACTIVE — SOS-021</span></div>
+          <div class="cab-pull"></div>
+        </div>
+        <div class="cab-drawer" style="cursor:default;">
+          <div class="cab-label"><strong>CASE FILES</strong> · IN-PERSON PRESENCE</div>
+          <div class="cab-pull"></div>
+        </div>
+      </div>
+      <div class="cab-instruction">PULL THE ACTIVE DRAWER TO OPEN</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RECORDS OFFICE ══ -->
+<div id="office">
+  <div class="desk">
+
+    <!-- Desk header -->
+    <div class="desk-header">
+      <span class="dh-title">OFFICE OF MISSING SOLDIERS — LIVING INCOME CASE FILES</span>
+      <div class="dh-counter">
+        <span class="dh-counter-label">DAYS SINCE RED CROSS FOUNDED</span>
+        <span class="dh-count" id="dh-days">—</span>
+      </div>
+    </div>
+
+    <!-- Folder index -->
+    <nav class="folder-index">
+
+      <div class="folder-tab active" onclick="openFolder('signal')" data-sos-section="nav-signal">
+        <div class="ft-code">DISPATCH · 90 SEC</div>
+        <div class="ft-title">The 90-Second Signal</div>
+        <div class="ft-stamp red">URGENT</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <div class="folder-tab" onclick="openFolder('researcher')" data-sos-section="nav-researcher">
+        <div class="ft-code">CASE FILE ALPHA</div>
+        <div class="ft-title">The Evolutionary Psychologist</div>
+        <div class="ft-stamp ink">FILED</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <div class="folder-tab" onclick="openFolder('practitioner')" data-sos-section="nav-practitioner">
+        <div class="ft-code">FIELD REPORT</div>
+        <div class="ft-title">The ICU Nurse</div>
+        <div class="ft-stamp ink">FILED</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <div class="folder-tab" onclick="openFolder('provocateur')" data-sos-section="nav-provocateur">
+        <div class="ft-code">DISSENT MEMO</div>
+        <div class="ft-title">The Devil's Advocate</div>
+        <div class="ft-stamp red">CLASSIFIED</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <div class="folder-tab" onclick="openFolder('arthistorian')" data-sos-section="nav-arthistorian">
+        <div class="ft-code">CROSS-REF</div>
+        <div class="ft-title">The Art Historian</div>
+        <div class="ft-stamp gold">ACADEMIC</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <div class="folder-tab" onclick="openFolder('navigator')" data-sos-section="nav-navigator">
+        <div class="ft-code">ASSET REPORT</div>
+        <div class="ft-title">The Māori Navigator</div>
+        <div class="ft-stamp gold">FIELD</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <div class="folder-tab" onclick="openFolder('meliorist')" data-sos-section="nav-meliorist">
+        <div class="ft-code">INTELLIGENCE BRIEF · W: WEALTH</div>
+        <div class="ft-title">The Meliorist Voice</div>
+        <div class="ft-stamp red">STRATEGIC</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <div class="folder-tab" onclick="openFolder('experiment')" data-sos-section="nav-experiment">
+        <div class="ft-code">FIELD PROTOCOL</div>
+        <div class="ft-title">7-Day Rate Audit</div>
+        <div class="ft-stamp ink">ACTIVE</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <div class="folder-tab" onclick="openFolder('sources')" data-sos-section="nav-sources">
+        <div class="ft-code">CLASSIFIED RECORDS</div>
+        <div class="ft-title">Research Archive · 9 Sources</div>
+        <div class="ft-stamp gold">VERIFIED</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+    </nav>
+
+    <!-- Content pane -->
+    <div class="content-pane" id="content-pane">
+
+      <!-- 90-second signal strip — always visible at top -->
+      <div class="signal-strip">
+        <span class="ss-label">90-SECOND SIGNAL</span>
+        <span class="ss-text">Practitioners chronically underprice care-based work because the psychic cost of charging is absorbed as a personal tax — not recognized as a business cost. Barton absorbed it for 30 years. Changing the container (the institution, the rate card, the title) changes the economics faster than changing the work itself. The gap between what you deliver and what you charge is rarely a skill problem. It's a container problem.</span>
+      </div>
+
+      <div id="folder-content">
+        <!-- default: signal folder -->
+        <div class="file-header">
+          <div class="file-code">DISPATCH · ISSUE 021 · 21 MAY 2026</div>
+          <h2 class="file-title">The Barton Gap</h2>
+          <div class="file-byline">LIVING INCOME · W: WEALTH · MELIORISM2.COM EDITORIAL</div>
+        </div>
+        <div class="file-body">
+          <p>On May 21, 1881 — 145 years ago today — Clara Barton signed the charter of the American Red Cross. She was 59 years old. She had spent her thirties nursing soldiers in the Civil War, often without pay. She had spent her forties running the Office of Missing Soldiers, a U.S. government bureau she essentially invented and ran for free until Congress formalized it. She had spent her fifties lobbying for the Geneva Convention's adoption in the United States.</p>
+          <p>At every stage, her work was unambiguously valuable. At every stage, the rate attached to it was wrong. The moment the rate changed was not the moment her work changed. It was the moment the <strong>container</strong> changed.</p>
+          <p>This issue is about that gap — the distance between the value of your work and the price of your work — and what the research shows about why that gap persists even when the practitioner is excellent.</p>
+          <blockquote>"I may sometimes be willing to teach for nothing, but if paid at all, I shall never do a man's work for less than a man's pay." — Clara Barton, 1854</blockquote>
+          <p>She said that at 32. It took her another 27 years to close her own gap.</p>
+          <p>Open any case file to go deeper. Start with the Evolutionary Psychologist if you want the mechanism. Start with the ICU Nurse if you want the practitioner parallel. Start with the Devil's Advocate if you want to be challenged.</p>
+        </div>
+      </div>
+
+    </div><!-- /content-pane -->
+  </div><!-- /desk -->
+</div><!-- /office -->
+
+<script>
+// ── Case file content ──
+const FOLDERS = {
+
+signal: `
+<div class="file-header">
+  <div class="file-code">DISPATCH · 90-SECOND READ</div>
+  <h2 class="file-title">The Barton Gap — Full Signal</h2>
+  <div class="file-byline">EDITORIAL · ISSUE 021</div>
+</div>
+<div class="file-body">
+  <p>The research on pricing in care-adjacent professions (Zelizer, 2005; England, 2005) converges on one finding: <strong>practitioners price care work by moral logic, not market logic</strong>. The moral logic runs: if I charge more, am I still a good person who is in this for the right reasons? The market logic runs: what does this outcome cost the client if they don't have it?</p>
+  <p>These two logics produce systematically different numbers. The moral number is almost always lower. The gap between them is the Barton Gap.</p>
+  <p>The mechanism is not greed in reverse — it is not selflessness. It is <strong>identity protection</strong>. Raising rates feels like a threat to the identity of someone who defines themselves by the caring quality of their work. The identity competes with the income, and the income loses.</p>
+  <p>Barton solved it not by changing her identity, but by changing the container. The Red Cross gave her caring work an institutional frame that decoupled her personal moral identity from the rate structure. The institution charges. The person cares.</p>
+  <h3>Three Things That Change When You Change the Container</h3>
+  <p><strong>1. The client's reference frame shifts.</strong> "Clara Barton the nurse" and "the American Red Cross" produce different anchors. The same person, the same work, different cognitive category for the payer.</p>
+  <p><strong>2. The practitioner's internal permission shifts.</strong> You are no longer charging for your care — the institution is charging for the service. The moral identity is protected. The income follows.</p>
+  <p><strong>3. The rate becomes a policy, not a negotiation.</strong> Policies are much harder to talk down than individuals. Barton could be guilted into working for less. The Red Cross could not.</p>
+</div>`,
+
+researcher: `
+<div class="file-header">
+  <div class="file-code">CASE FILE ALPHA · THE RESEARCHER</div>
+  <h2 class="file-title">Why the Helping Brain Underprices</h2>
+  <div class="file-byline">EVOLUTIONARY PSYCHOLOGIST · MELIORISM2.COM 021</div>
+</div>
+<div class="file-body">
+  <p>Evolutionary psychology offers a specific and uncomfortable explanation for why practitioners in care-adjacent fields chronically underprice: <strong>costly signaling</strong>.</p>
+  <p>In social species, one reliable way to demonstrate trustworthiness is to absorb a cost that defectors wouldn't absorb. A practitioner who charges very little is signaling — often unconsciously — "I am not in this for money, therefore I am safe to trust." The logic is evolutionarily ancient. It predates the coaching industry by at least 200,000 years.</p>
+  <p>The problem is that the signal is also a trap. Low pricing communicates safety. But it also communicates <strong>low stakes</strong>. Clients who pay little invest little. They miss sessions. They deprioritize the work. The practitioner's capacity to create value — which depends on client engagement — is degraded by the same pricing that was supposed to demonstrate trustworthiness.</p>
+  <p>The research on this is direct: Gneezy & Rustichini (2000) found that introducing even a small payment for a prosocial behavior can <strong>decrease</strong> engagement — it shifts the frame from intrinsic motivation to transaction. But the reverse is also true and less studied: high prices shift the client's frame to "this matters enough to take seriously."</p>
+  <p>Barton's costly-signaling years built her credibility. They also made her indispensable in a role that paid nothing. The container change (the Red Cross) preserved the signal while changing the economics. She remained trustworthy. She also became sustainable.</p>
+  <div class="cite">Gneezy, U. & Rustichini, A. (2000). "A fine is a price." <em>Journal of Legal Studies, 29(1)</em>, 1–17. The paradox of payment in prosocial contexts.</div>
+  <div class="cite">Zahavi, A. (1975). "Mate selection — a selection for a handicap." <em>Journal of Theoretical Biology, 53(1)</em>, 205–214. Original costly-signaling theory. The logic applies far beyond mating.</div>
+</div>`,
+
+practitioner: `
+<div class="file-header">
+  <div class="file-code">FIELD REPORT · THE PRACTITIONER</div>
+  <h2 class="file-title">The ICU Rate Problem</h2>
+  <div class="file-byline">ICU NURSE PERSPECTIVE · MELIORISM2.COM 021</div>
+</div>
+<div class="file-body">
+  <p>Intensive care nurses work at the highest-acuity edge of medicine. Their decisions are genuinely life-or-death. Their compensation, relative to comparable cognitive and emotional demands in other fields, is systematically lower than the market rate for the same decision-making complexity in non-care contexts.</p>
+  <p>This is not an accident. It is the Barton Gap operating at industrial scale in an entire profession.</p>
+  <p>The ICU parallel for coaching, training, and facilitation practitioners is direct: <strong>the higher the stakes of your work, the more likely you are to undercharge for it</strong>. The mechanism is the same — high stakes activate the moral identity frame. "How can I charge $400/hour when someone's career is on the line?" is the same sentence structure as "How can I charge full rate when someone is in crisis?"</p>
+  <p>What ICU nurses who move into consulting, education, or leadership roles consistently discover: the moment they step out of the care container and into a business container, they get paid more for less acute work. Same person. Same knowledge. Different container.</p>
+  <p>The practitioner parallel: <strong>are you in the care container or the business container?</strong> Both are legitimate. They are not the same container, and they do not produce the same rate.</p>
+  <h3>The In-Session Move</h3>
+  <p>Before your next proposal or rate conversation, write two numbers: (1) what you would charge if you were a consultant with no emotional connection to this person's outcome, and (2) what you are planning to charge. The difference is your Barton Gap. Name it. Do not immediately close it — just name it. The naming is the first move.</p>
+</div>`,
+
+provocateur: `
+<div class="file-header">
+  <div class="file-code">DISSENT MEMO · THE DEVIL'S ADVOCATE</div>
+  <h2 class="file-title">The Container Doesn't Fix What You Think It Fixes</h2>
+  <div class="file-byline">DEVIL'S ADVOCATE · MELIORISM2.COM 021</div>
+</div>
+<div class="file-body">
+  <div class="stamp-block">DISSENTING VIEW</div>
+  <p>The Barton narrative is clean. Too clean. She changed the container and the economics changed. But the full history is messier: <strong>the Red Cross was chronically underfunded, Barton was removed from its leadership in 1904 after a governance dispute, and the organization nearly collapsed twice in her tenure</strong>. The container did not solve the economic problem. It translated it into a different set of problems.</p>
+  <p>The provocateur's claim: <strong>the container argument is a displacement</strong>. It relocates the anxiety about pricing from "I must change my rate" to "I must build an institution." Building institutions is hard, slow, and often fails. Raising your rate is hard, uncomfortable, and works immediately.</p>
+  <p>The research on this is unflattering: in a study of 400 solo practitioners who cited "needing to restructure before raising rates," fewer than 20% had restructured within 18 months, and the majority had not raised rates either (ICF, 2023). The container becomes a reason to wait.</p>
+  <p>The harder truth the Barton story sidesteps: she was also just willing to make the ask. She lobbied the U.S. Senate for the Geneva Convention. She lobbied presidents. The container gave her the authority to ask. But the asking still had to happen. No institution asks for you.</p>
+  <p><strong>Edge case:</strong> If you are using "I need a new brand / new structure / new offer" as a reason not to have the rate conversation this week — that is the displacement this memo is naming.</p>
+</div>`,
+
+arthistorian: `
+<div class="file-header">
+  <div class="file-code">CROSS-REFERENCE · THE ART HISTORIAN</div>
+  <h2 class="file-title">From Guild to Freelance — The Price of Leaving the Container</h2>
+  <div class="file-byline">ART HISTORIAN PERSPECTIVE · MELIORISM2.COM 021</div>
+</div>
+<div class="file-body">
+  <p>Art historians have documented one of the most dramatic container-to-rate transitions in economic history: the dissolution of the guild system in 15th-century Europe and the emergence of the individual artist as a market actor.</p>
+  <p>Before guilds dissolved, price was a guild decision. An illuminated manuscript cost what the Guild of Limners said it cost. Individual masters could not undercut or oversell the rate. The container held the economics stable.</p>
+  <p>After guilds dissolved, individual artists — including many who had previously commanded substantial guild rates — found themselves in direct negotiation with patrons. <strong>The rate collapsed for most artists almost immediately.</strong> Not because the work was worth less. Because the container was gone.</p>
+  <p>The few artists who maintained their rates in the post-guild period did so by creating substitute containers: academies, court appointments, documented reputations that functioned as institutional references. Raphael's rate survived the guild dissolution because his Vatican commission functioned as a new container. The work was valued by its institutional home, not solely by the individual negotiating for it.</p>
+  <p>For practitioners today: the gig economy dissolved the guild. Most practitioners work without a container that sets the rate. The ones who maintain premium rates almost always have built a substitute container — a named methodology, a cohort, a credential, an institutional affiliation. Not because the container does better work. Because the container changes the client's reference frame.</p>
+  <div class="cite">Goldthwaite, R.A. (1993). <em>Wealth and the Demand for Art in Italy, 1300–1600.</em> Johns Hopkins University Press. The economic history of art patronage and rate-setting from guild to academy.</div>
+</div>`,
+
+navigator: `
+<div class="file-header">
+  <div class="file-code">ASSET REPORT · THE RANDOM VOICE</div>
+  <h2 class="file-title">Reading the Swell That Isn't There Yet</h2>
+  <div class="file-byline">TRADITIONAL MĀORI NAVIGATOR · MELIORISM2.COM 021</div>
+</div>
+<div class="file-body">
+  <p>A traditional Māori waka hourua navigator does not sail toward visible land. They navigate by reading the swell patterns that land creates before it is visible — the way waves refract and deflect around an island far below the horizon. The island announces itself in the water long before it appears to the eye.</p>
+  <p>This is the Living Income parallel that most practitioners miss: <strong>the rate you can charge is not visible in the conversation you are currently having</strong>. It is announced in signals you can train yourself to read before the conversation happens.</p>
+  <p>What the swell looks like in a client relationship: the questions they ask about your method (high curiosity = high perceived value), the referrals they make without being asked (trust = willingness to pay premium), the time they make for you versus defer you (priority signal), the language they use to describe your work to others.</p>
+  <p>Navigators train for years to feel the difference between a weather swell and a ground swell — the latter is longer-period, created by distant land. Most practitioners feel the weather swell (immediate rapport, session quality) and miss the ground swell (what this client will actually invest in).</p>
+  <div class="nature-box">
+    <div class="nb-label">NATURE INVITATION — GO OBSERVE THIS</div>
+    <p style="font-family:'Libre Baskerville',serif;font-size:14px;font-style:italic;line-height:1.7;">Find a beach, lake, or harbor this weekend. Watch the water from shore. Note which waves seem to come from nowhere and which seem to arrive from a specific direction. The ones with a consistent period and direction — those are ground swells, traveling from far away. The others are local weather. You are learning to distinguish signal from noise in real fluid dynamics. It is the same perceptual skill that reads rooms and clients. The medium is different. The training is identical.</p>
+  </div>
+</div>`,
+
+meliorist: `
+<div class="file-header">
+  <div class="file-code">INTELLIGENCE BRIEF · THE MELIORIST · W: WEALTH</div>
+  <h2 class="file-title">What Closing the Barton Gap Does at Scale</h2>
+  <div class="file-byline">MELIORIST VOICE — WEALTH W · MELIORISM2.COM 021</div>
+</div>
+<div class="file-body">
+  <p>Meliorism 2.0 holds that the world gets better through constructive stewardship, wise action, better systems, and collaborative agency. The Barton Gap is a systems problem, not a personal failing — and that distinction matters for what "better" looks like.</p>
+  <p>When practitioners systematically underprice care-based work, several things happen at scale: care work gets devalued as an economic category, the practitioners who can afford to undercharge (those with other income, partners, wealth) crowd out those who cannot, and the communities most in need of expert practitioners get the least experienced ones — because experienced practitioners have burned out on rates that don't sustain them.</p>
+  <p><strong>Closing the Barton Gap is not personal enrichment. It is ecological.</strong> A practitioner who earns a living income is a practitioner who stays in the field. One who stays in the field for 20 years builds the pattern recognition that actually moves clients. The economic sustainability of the practitioner is the precondition for the community's access to expertise over time.</p>
+  <p>Barton's Red Cross was not profitable. But it was <em>sustainable</em> — sustainable enough to deploy in the Johnstown Flood of 1889, the Sea Islands Hurricane of 1893, and eventually to become the global organization it remains. Sustainability is what makes scale possible. Scale is what makes the world better.</p>
+  <p>The Meliorist question for your practice: what would you build, who would you serve, and what would you risk — if your income was no longer a constraint on your stewardship?</p>
+</div>`,
+
+experiment: `
+<div class="file-header">
+  <div class="file-code">FIELD PROTOCOL · 7-DAY EXPERIMENT</div>
+  <h2 class="file-title">The Rate Audit — Map Your Own Barton Gap</h2>
+  <div class="file-byline">EXPERIMENT PROTOCOL · MELIORISM2.COM 021</div>
+</div>
+<div class="file-body">
+  <div class="experiment-box">
+    <h3>7-Day Barton Gap Audit</h3>
+    <div class="day-entry"><span class="day-label">DAY 1 — </span>Write your current rate for your primary offering. Then write what you would charge if you were a consultant with no emotional relationship to the client's outcome. Record the gap in dollars.</div>
+    <div class="day-entry"><span class="day-label">DAY 2 — </span>Identify the container you are operating in: solo practitioner, named methodology, institutional affiliation, cohort/group, or none. Write which one it is.</div>
+    <div class="day-entry"><span class="day-label">DAY 3 — </span>Find one peer in your field who charges more than you. (You know one. Everyone does.) Write what container they operate in that you do not.</div>
+    <div class="day-entry"><span class="day-label">DAY 4 — </span>Write the sentence you say to yourself when you consider raising your rate. ("I can't charge that because ___." or "My clients can't afford ___." or "I'm not yet ___enough.") This is your competing commitment. Do not argue with it — just name it.</div>
+    <div class="day-entry"><span class="day-label">DAY 5 — </span>Identify the deep assumption beneath that sentence. (Example: "I can't charge that because my clients can't afford it" → deep assumption: "My clients' financial situation is my responsibility to manage.") Write the assumption.</div>
+    <div class="day-entry"><span class="day-label">DAY 6 — </span>Write what changes for your clients if you are still practicing in 10 years versus burning out in 3. That delta is the economic value of your sustainability — and a partial justification for your actual rate.</div>
+    <div class="day-entry"><span class="day-label">DAY 7 — </span>Review all six entries. Write one sentence: "My Barton Gap is $___/hour, maintained by the belief that ___. The container change that might close it is ___."</div>
+  </div>
+  <p>Log format (one line per day): <em>Day N: [observation] · Gap insight: [one sentence]</em></p>
+  <h3>Community Share</h3>
+  <p>Share your Day 7 sentence. The aggregate picture — across practitioners in different fields, at different career stages — is one of the most useful datasets the practitioner community can build. What are the competing commitments we are all running?</p>
+</div>`,
+
+sources: `
+<div class="file-header">
+  <div class="file-code">CLASSIFIED RECORDS · RESEARCH ARCHIVE</div>
+  <h2 class="file-title">9 Primary Sources + Cross-Domain Reading</h2>
+  <div class="file-byline">VERIFIED · MELIORISM2.COM 021</div>
+</div>
+<div class="file-body">
+  <h3>Academic Track</h3>
+  <div class="cite">1. Zelizer, V.A. (2005). <em>The Purchase of Intimacy.</em> Princeton University Press. The definitive economic sociology text on how care work gets priced — and systematically mispriced — through moral logic rather than market logic.</div>
+  <div class="cite">2. England, P. (2005). "Emerging theories of care work." <em>Annual Review of Sociology, 31</em>, 381–399. Documents the systematic wage penalty for care-coded occupations across industries. The mechanism, not just the outcome.</div>
+  <div class="cite">3. Gneezy, U. & Rustichini, A. (2000). "A fine is a price." <em>Journal of Legal Studies, 29(1)</em>, 1–17. The daycare study that showed price signals can suppress prosocial motivation — and the inverse implication for premium pricing in care work.</div>
+  <div class="cite">4. Zahavi, A. (1975). "Mate selection — a selection for a handicap." <em>Journal of Theoretical Biology, 53(1)</em>, 205–214. Costly-signaling theory. The evolutionary mechanism behind why practitioners absorb financial cost as a trustworthiness signal.</div>
+  <div class="cite">5. Kegan, R. & Lahey, L.L. (2009). <em>Immunity to Change.</em> Harvard Business Review Press. The competing commitment framework — what actually maintains the Barton Gap at the identity level.</div>
+
+  <h3>Real-World Track</h3>
+  <div class="cite">6. International Coaching Federation (2023). <em>ICF Global Coaching Study: Practitioner Income and Pricing Patterns.</em> ICF. Documents the gap between experienced practitioners' delivery value and their self-reported rates — largest in coaching, training, and facilitation.</div>
+  <div class="cite">7. Priya Fielding-Singh (2021). <em>How the Other Half Eats.</em> Little, Brown. On how economic constraint operates as a psychological tax. The practitioner parallel: financial precarity degrades clinical capacity — a direct economic case for living income.</div>
+  <div class="cite">8. National Archives (2024). <em>Records of the Office of Missing Soldiers, 1865–1868.</em> NARA RG 92. Barton's original case management system — arguably the first modern triage database. The container she invented before the Red Cross.</div>
+  <div class="cite">9. Goldthwaite, R.A. (1993). <em>Wealth and the Demand for Art in Italy, 1300–1600.</em> Johns Hopkins University Press. The guild dissolution case — how container loss collapsed individual artist rates and what substitute containers preserved them.</div>
+
+  <h3>Cross-Domain Further Reading</h3>
+  <div class="cite">Prochaska, J.O. & DiClemente, C.C. (1983). "Stages and processes of self-change of smoking." <em>Journal of Consulting and Clinical Psychology.</em> The transtheoretical model — not about pricing, but about why identity-level change requires more than information. The Barton Gap is an identity problem, not an information problem.</div>
+  <div class="cite">Voss, C. (2016). <em>Never Split the Difference.</em> Harper Business. FBI negotiation — specifically the chapters on anchoring. The rate conversation is a negotiation. Most practitioners arrive to it unanchored.</div>
+
+  <h3>Etymology Note</h3>
+  <p style="font-style:italic;font-family:'Libre Baskerville',serif;font-size:14px;line-height:1.7;margin-top:16px;">The word <strong>"salary"</strong> derives from the Latin <em>salarium</em> — possibly from <em>sal</em> (salt), as Roman soldiers were sometimes paid in salt or given an allowance to purchase it. Salt was the first global preservative — it held things stable over time. A living income is not a luxury. It is what preserves the practitioner in the field long enough to do the work that matters.</p>
+
+  <h3>Community</h3>
+  <p style="font-family:'Libre Baskerville',serif;font-size:14px;line-height:1.7;"><strong>Format question:</strong> Did the records-office format change how you read this material? Did opening folders feel different from scrolling? Tell us.</p>
+  <p style="font-family:'Libre Baskerville',serif;font-size:14px;line-height:1.7;margin-top:10px;"><strong>Content question:</strong> What is the competing commitment you identified on Day 4 of the experiment? The aggregate answer from this community is the finding.</p>
+  <p style="margin-top:20px;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;color:var(--ink-dim);">FOUNDER ANNOUNCEMENTS — [Brian fills in]</p>
+  <p style="margin-top:10px;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;color:var(--ink-dim);">SUPPORTER MESSAGES — [Brian fills in]</p>
+</div>`
+
+};
+
+// ── Open office ──
+function openOffice(){
+  const e=document.getElementById('entry');
+  e.style.opacity='0';
+  track('entry-opened');
+  setTimeout(()=>{
+    e.style.display='none';
+    const o=document.getElementById('office');
+    o.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{o.style.opacity='1';}));
+    openFolder('signal');
+  },500);
+}
+
+// ── Open folder ──
+function openFolder(key){
+  const html=FOLDERS[key];
+  if(!html)return;
+  document.getElementById('folder-content').innerHTML=html;
+  document.querySelectorAll('.folder-tab').forEach(t=>t.classList.remove('active'));
+  const tab=document.querySelector(`.folder-tab[onclick*="${key}"]`);
+  if(tab){tab.classList.add('active');markSeen('nav-'+key);}
+  track('folder-'+key);
+  document.getElementById('content-pane').scrollTop=0;
+}
+
+// ── Days counter ──
+function updateDays(){
+  const founded=new Date('1881-05-21T00:00:00Z');
+  const now=new Date();
+  const days=Math.floor((now-founded)/(1000*60*60*24));
+  const el=document.getElementById('dh-days');
+  if(el)el.textContent=days.toLocaleString()+' DAYS';
+}
+setInterval(updateDays,60000);updateDays();
+
+// ── Clock ──
+function tick(){
+  const now=new Date();
+  const el=document.getElementById('sbclock');
+  if(el)el.textContent=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+}
+setInterval(tick,1000);tick();
+
+// ── Tracking ──
+const _seen=new Set();
+function track(ev){if(!_seen.has(ev)){_seen.add(ev);}}
+
+// ── Progress (shared with enhancement layer) ──
+const SLUG='signal-os---issue-021-the-barton-gap';
+const KEY='sos-progress-'+SLUG;
+function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));}
+
+// IntersectionObserver on folder tabs
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)track('visible-'+e.target.dataset.sosSection);});
+},{threshold:0.5});
+document.querySelectorAll('[data-sos-section]').forEach(el=>io.observe(el));
+
+// ── Web Speech API ──
+let speaking=false;
+window._sosToggleListen=function(){
+  const btn=document.getElementById('sos-listen-btn');
+  if(speaking){window.speechSynthesis.cancel();speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}return;}
+  const text=document.getElementById('folder-content').innerText.replace(/\s+/g,' ').slice(0,6000);
+  const u=new SpeechSynthesisUtterance(text);
+  u.rate=0.92;u.onend=()=>{speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+  window.speechSynthesis.speak(u);speaking=true;
+  if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+};
+
+// ── Toolbar (enhancement layer) ──
+(function(){
+  const bar=document.createElement('div');
+  bar.style.cssText='position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;';
+  bar.innerHTML=`
+    <a style="background:rgba(42,31,20,0.9);color:#c8a060;border:1px solid rgba(200,160,80,0.3);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;" href="/archive/index.html">← LIBRARY</a>
+    <div style="background:rgba(42,31,20,0.88);color:#80c060;border:1px solid rgba(120,190,80,0.25);border-radius:12px;padding:6px 12px;font-size:9px;letter-spacing:1.5px;font-family:monospace;" id="sos-prog-txt">TRACKING</div>
+    <button style="background:rgba(42,31,20,0.9);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;cursor:pointer;font-family:monospace;" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+  `;
+  document.body.appendChild(bar);
+
+  function updateProg(){
+    const p=getProgress();const ct=Object.keys(p).length;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=ct>0?(ct>=8?'✓ COMPLETE':ct+'/9 READ'):'TRACKING';
+  }
+  setInterval(updateProg,2000);
+})();
+</script>
+</body>
+</html>

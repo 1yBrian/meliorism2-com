@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- signal-os:date: 2026-05-15 -->
+<!-- signal-os:slug: the-23-minute-problem -->
+<!-- signal-os:title: The 23-Minute Problem -->
+<!-- signal-os:concept: You design for a learner who can focus for 45 minutes. That learner no longer exists — not by choice, but by accumulated debt. -->
+<!-- signal-os:format: Mission Control / Launch Sequence -->
+<!-- signal-os:dimension: In-Person Presence -->
+<!-- signal-os:sources: 9 -->
+<!-- signal-os:tags: #attention #presence #learning -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 15 · The 23-Minute Problem</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --void:#000203;
+  --deep:#020609;
+  --panel:#050c12;
+  --screen:#030a10;
+  --ph:#00e87f;        /* phosphor green */
+  --phd:rgba(0,232,127,0.55);
+  --phf:rgba(0,232,127,0.07);
+  --phb:rgba(0,232,127,0.25);
+  --or:#f46010;        /* NASA orange */
+  --ord:rgba(244,96,16,0.75);
+  --orf:rgba(244,96,16,0.09);
+  --orb:rgba(244,96,16,0.28);
+  --am:#ffb624;
+  --rd:#ff3b3b;
+  --cy:#00d4ff;
+  --wh:#e8f2fa;
+  --dm:rgba(232,242,250,0.6);
+  --mu:rgba(232,242,250,0.3);
+  --br:rgba(0,232,127,0.14);
+  --brh:rgba(0,232,127,0.35);
+}
+
+html{height:100%;overflow:hidden;}
+body{background:var(--void);color:var(--wh);font-family:'Barlow',sans-serif;height:100%;overflow:hidden;}
+#phase-control{height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#phase-control::-webkit-scrollbar{width:4px;}
+#phase-control::-webkit-scrollbar-track{background:transparent;}
+#phase-control::-webkit-scrollbar-thumb{background:rgba(0,232,127,0.2);border-radius:2px;}
+
+/* ── CRT overlay ── */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.13) 3px,rgba(0,0,0,0.13) 4px);pointer-events:none;z-index:9998;}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.6) 100%);pointer-events:none;z-index:9997;}
+
+/* ── Utility ── */
+.hidden{display:none!important;}
+.fade-in{animation:fadeIn 0.8s ease forwards;}
+.fade-in-slow{animation:fadeIn 1.6s ease forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.2}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes glow-pulse{0%,100%{text-shadow:0 0 20px var(--ph),0 0 40px rgba(0,232,127,0.3)}50%{text-shadow:0 0 40px var(--ph),0 0 80px rgba(0,232,127,0.5)}}
+@keyframes shake{0%,100%{transform:translate(0,0)}10%{transform:translate(-3px,2px)}20%{transform:translate(3px,-2px)}30%{transform:translate(-4px,1px)}40%{transform:translate(4px,-1px)}50%{transform:translate(-2px,3px)}60%{transform:translate(2px,-3px)}70%{transform:translate(-3px,1px)}80%{transform:translate(3px,-1px)}90%{transform:translate(-1px,2px)}}
+@keyframes rocketLaunch{0%{transform:translateY(0) scale(1);opacity:1}80%{transform:translateY(-300px) scale(0.5);opacity:0.6}100%{transform:translateY(-600px) scale(0.1);opacity:0}}
+@keyframes flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:0.6}94%{opacity:1}95%{opacity:0.7}96%{opacity:1}}
+@keyframes scanDown{0%{top:-100%}100%{top:100%}}
+@keyframes countGlow{0%{text-shadow:0 0 60px currentColor,0 0 120px currentColor;transform:scale(1)}50%{text-shadow:0 0 100px currentColor,0 0 200px currentColor;transform:scale(1.05)}100%{text-shadow:0 0 60px currentColor,0 0 120px currentColor;transform:scale(1)}}
+@keyframes ignitionFlash{0%{background:var(--void)}20%{background:rgba(244,96,16,0.8)}60%{background:rgba(244,96,16,0.2)}100%{background:var(--void)}}
+@keyframes barFill{from{width:0}to{width:var(--target)}}
+@keyframes debtCount{from{opacity:0.4}to{opacity:1}}
+
+/* ════════════════════════════════════════
+   PHASE 1: LAUNCH SCREEN
+════════════════════════════════════════ */
+#phase-launch{
+  position:fixed;inset:0;z-index:500;
+  background:var(--void);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+  gap:0;
+}
+.launch-noise{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:0.4;pointer-events:none;
+}
+.houston-wrap{
+  text-align:center;
+  max-width:720px;
+  padding:0 32px;
+  position:relative;
+}
+#houston-text{
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(1rem,2.5vw,1.4rem);
+  font-weight:600;
+  letter-spacing:6px;
+  color:var(--ph);
+  text-shadow:0 0 30px var(--ph),0 0 60px rgba(0,232,127,0.3);
+  text-transform:uppercase;
+  min-height:2em;
+  animation:flicker 8s ease-in-out infinite;
+}
+.cursor{
+  display:inline-block;width:2px;height:1.1em;
+  background:var(--ph);box-shadow:0 0 8px var(--ph);
+  vertical-align:middle;margin-left:2px;
+  animation:blink 0.8s step-end infinite;
+}
+#problem-reveal{
+  margin-top:48px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(1.6rem,4vw,2.8rem);
+  font-weight:700;
+  line-height:1.2;
+  color:var(--wh);
+  text-align:center;
+  letter-spacing:-0.5px;
+  opacity:0;
+}
+#problem-reveal .stat{
+  color:var(--or);
+  text-shadow:0 0 30px rgba(244,96,16,0.5);
+}
+#problem-reveal .stat2{
+  color:var(--cy);
+  text-shadow:0 0 30px rgba(0,212,255,0.4);
+}
+#problem-reveal .warn{
+  display:block;
+  margin-top:20px;
+  font-size:0.6em;
+  letter-spacing:4px;
+  color:var(--ph);
+  text-shadow:0 0 20px var(--ph);
+}
+#launch-btn{
+  margin-top:56px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.8rem;font-weight:600;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--void);background:var(--ph);
+  border:none;padding:16px 40px;
+  cursor:pointer;
+  opacity:0;
+  box-shadow:0 0 30px rgba(0,232,127,0.4),0 0 60px rgba(0,232,127,0.2);
+  transition:box-shadow 0.2s,transform 0.15s;
+  position:relative;
+}
+#launch-btn::before{
+  content:'▶ ';
+}
+#launch-btn:hover{
+  box-shadow:0 0 50px rgba(0,232,127,0.7),0 0 100px rgba(0,232,127,0.3);
+  transform:scale(1.03);
+}
+.launch-corner{
+  position:absolute;width:20px;height:20px;
+}
+.launch-corner.tl{top:0;left:0;border-top:1px solid rgba(0,232,127,0.4);border-left:1px solid rgba(0,232,127,0.4);}
+.launch-corner.tr{top:0;right:0;border-top:1px solid rgba(0,232,127,0.4);border-right:1px solid rgba(0,232,127,0.4);}
+.launch-corner.bl{bottom:0;left:0;border-bottom:1px solid rgba(0,232,127,0.4);border-left:1px solid rgba(0,232,127,0.4);}
+.launch-corner.br{bottom:0;right:0;border-bottom:1px solid rgba(0,232,127,0.4);border-right:1px solid rgba(0,232,127,0.4);}
+.launch-sig{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  font-family:'JetBrains Mono',monospace;font-size:0.88rem;
+  letter-spacing:3px;color:rgba(0,232,127,0.75);white-space:nowrap;
+}
+.launch-sig a{color:var(--ph);text-shadow:0 0 8px var(--ph);opacity:1!important;}
+
+/* ════════════════════════════════════════
+   PHASE 2: COUNTDOWN
+════════════════════════════════════════ */
+#phase-countdown{
+  position:fixed;inset:0;z-index:400;
+  background:var(--void);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:0;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.4s;
+}
+#phase-countdown.visible{opacity:1;pointer-events:all;}
+#phase-countdown.flash{animation:ignitionFlash 0.6s ease forwards;}
+
+.cd-rocket{
+  font-size:5rem;
+  margin-bottom:40px;
+  filter:drop-shadow(0 0 20px rgba(244,96,16,0.6));
+  animation:hover 1.5s ease-in-out infinite;
+}
+@keyframes hover{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.cd-rocket.launching{animation:rocketLaunch 1.2s ease-in forwards!important;}
+
+.cd-mission{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;letter-spacing:5px;
+  color:var(--phd);margin-bottom:32px;
+  text-shadow:0 0 10px var(--ph);
+}
+#count-display{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(8rem,20vw,16rem);
+  font-weight:900;line-height:1;
+  color:var(--ph);
+  text-shadow:0 0 60px var(--ph),0 0 120px rgba(0,232,127,0.3);
+  animation:countGlow 1s ease-in-out infinite;
+  letter-spacing:-4px;
+  min-width:3ch;text-align:center;
+}
+#count-display.warn-color{color:var(--am);text-shadow:0 0 60px var(--am),0 0 120px rgba(255,182,36,0.3);}
+#count-display.crit-color{color:var(--rd);text-shadow:0 0 60px var(--rd),0 0 120px rgba(255,59,59,0.3);}
+#count-display.ignite-color{color:var(--or);text-shadow:0 0 80px var(--or),0 0 160px rgba(244,96,16,0.5);}
+
+#ignition-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.9rem;letter-spacing:6px;
+  color:var(--or);
+  text-shadow:0 0 20px var(--or);
+  margin-top:24px;
+  min-height:1.5em;
+  text-align:center;
+}
+.cd-flames{
+  margin-top:16px;
+  font-size:3rem;
+  opacity:0;
+  transition:opacity 0.2s;
+  filter:drop-shadow(0 0 20px rgba(244,96,16,0.8));
+}
+.cd-flames.visible{opacity:1;}
+
+/* ════════════════════════════════════════
+   PHASE 3: CONTROL ROOM
+════════════════════════════════════════ */
+#phase-control{
+  opacity:0;
+  transition:opacity 1s;
+  pointer-events:none;
+}
+#phase-control.visible{
+  opacity:1;
+  pointer-events:all;
+}
+
+/* Status bar */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:34px;background:#000203;
+  border-bottom:1px solid var(--brh);
+  display:flex;align-items:center;padding:0 18px;
+}
+.sb-logo{font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:600;color:var(--ph);letter-spacing:4px;text-shadow:0 0 10px var(--ph);text-decoration:none;flex-shrink:0;}
+.sb-sep{width:1px;height:16px;background:var(--br);margin:0 14px;flex-shrink:0;}
+.sb-mission{font-family:'JetBrains Mono',monospace;font-size:0.74rem;color:var(--phd);letter-spacing:2px;flex:1;}
+.sb-library{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#00e87f;text-decoration:none;letter-spacing:2px;margin-left:20px;flex-shrink:0;opacity:1;text-shadow:0 0 8px rgba(0,232,127,0.6);transition:text-shadow 0.2s;}
+.sb-library:hover{text-shadow:0 0 16px var(--ph);}
+
+/* ── Fixed footer — archive link always visible at bottom ── */
+.sos-footer{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:36px;background:#000203;
+  border-top:1px solid var(--brh);
+  display:flex;align-items:center;justify-content:center;gap:32px;
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:3px;
+}
+.sos-footer a{color:#00e87f;text-decoration:none;opacity:1;text-shadow:0 0 8px rgba(0,232,127,0.5);transition:text-shadow 0.2s;}
+.sos-footer a:hover{text-shadow:0 0 16px var(--ph);}
+.sos-footer .f-sep{color:var(--brh);}
+.sb-stats{display:flex;gap:16px;flex-shrink:0;}
+.sb-stat{font-family:'JetBrains Mono',monospace;font-size:0.74rem;color:var(--mu);letter-spacing:1px;}
+.sb-stat .v{color:var(--ph);}
+.sb-stat .w{color:var(--am);}
+.pd{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--ph);box-shadow:0 0 6px var(--ph);margin-right:7px;animation:pulse 2s ease-in-out infinite;}
+
+/* Control room grid */
+.cr{
+  margin-top:34px;
+  padding-bottom:42px; /* clears fixed footer */
+  min-height:calc(100vh - 34px);
+  display:grid;
+  grid-template-columns:1fr 310px;
+  grid-template-rows:1fr auto;
+  grid-template-areas:"bb telem" "strip strip";
+  gap:2px;background:#000;padding:2px;
+}
+
+/* Big board */
+.bb{
+  grid-area:bb;background:var(--screen);
+  border:1px solid var(--br);
+  position:relative;display:flex;
+  flex-direction:column;justify-content:center;
+  padding:48px 56px;overflow:hidden;
+}
+.bb-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,232,127,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,127,0.03) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;}
+.bb-glow{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,232,127,0.04) 0%,transparent 55%),radial-gradient(ellipse at 85% 15%,rgba(0,212,255,0.05) 0%,transparent 55%);pointer-events:none;}
+.bb-tag{font-family:'JetBrains Mono',monospace;font-size:0.76rem;letter-spacing:4px;color:var(--ph);text-shadow:0 0 10px var(--ph);margin-bottom:20px;position:relative;}
+.bb-tag::before{content:'▶ ';}
+.bb-iss{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--mu);letter-spacing:2px;margin-bottom:14px;position:relative;}
+.bb-h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3.8rem,7.5vw,7rem);font-weight:900;line-height:0.87;letter-spacing:-2px;text-transform:uppercase;color:var(--wh);position:relative;margin-bottom:28px;}
+.bb-h1 em{display:block;color:var(--or);text-shadow:0 0 40px rgba(244,96,16,0.4),0 0 80px rgba(244,96,16,0.15);font-style:normal;}
+.bb-concept{font-size:1rem;font-weight:300;line-height:1.65;color:var(--dm);max-width:480px;border-left:2px solid var(--or);padding-left:18px;margin-bottom:28px;position:relative;}
+.bb-signal{position:relative;background:var(--phf);border:1px solid var(--brh);border-left:3px solid var(--ph);padding:16px 20px;max-width:480px;}
+.bb-stag{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:3px;color:var(--ph);text-shadow:0 0 8px var(--ph);margin-bottom:8px;}
+.bb-stxt{font-size:0.95rem;font-weight:400;line-height:1.6;color:var(--wh);}
+.bb-corner{position:absolute;bottom:20px;right:20px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--mu);letter-spacing:1px;text-align:right;line-height:2;}
+
+/* Debt counter in big board */
+.debt-counter{
+  position:absolute;top:20px;right:20px;
+  background:rgba(255,59,59,0.08);
+  border:1px solid rgba(255,59,59,0.25);
+  padding:10px 16px;
+  text-align:center;
+}
+.debt-lbl{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:rgba(255,59,59,0.7);margin-bottom:4px;}
+#debt-val{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:600;color:var(--rd);text-shadow:0 0 15px rgba(255,59,59,0.5);letter-spacing:-1px;}
+.debt-sub{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(255,59,59,0.5);letter-spacing:1px;margin-top:2px;}
+
+/* Telemetry column */
+.telem{
+  grid-area:telem;background:var(--panel);
+  border:1px solid var(--br);border-left:none;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.telem-hdr{padding:11px 15px;border-bottom:1px solid var(--br);background:rgba(0,232,127,0.04);}
+.telem-hdr-lbl{font-family:'JetBrains Mono',monospace;font-size:0.74rem;letter-spacing:3px;color:var(--ph);text-shadow:0 0 8px var(--ph);}
+.tb{padding:15px;border-bottom:1px solid var(--br);}
+.tb-lbl{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--mu);margin-bottom:4px;text-transform:uppercase;}
+.tb-val{font-family:'JetBrains Mono',monospace;font-size:1.9rem;font-weight:600;line-height:1;letter-spacing:-1px;}
+.tb-val.crit{color:var(--rd);text-shadow:0 0 20px rgba(255,59,59,0.6);}
+.tb-val.warn{color:var(--am);text-shadow:0 0 20px rgba(255,182,36,0.5);}
+.tb-val.nom{color:var(--ph);text-shadow:0 0 20px rgba(0,232,127,0.5);}
+.tb-val.rec{color:var(--cy);text-shadow:0 0 20px rgba(0,212,255,0.5);}
+.tb-unit{font-family:'JetBrains Mono',monospace;font-size:0.74rem;color:var(--mu);margin-top:3px;letter-spacing:1px;}
+.tb-bar{margin-top:8px;height:3px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;}
+.tb-fill{height:100%;border-radius:2px;}
+.tb-fill.crit{background:var(--rd);box-shadow:0 0 8px var(--rd);}
+.tb-fill.warn{background:var(--am);box-shadow:0 0 8px var(--am);}
+.tb-fill.nom{background:var(--ph);box-shadow:0 0 8px var(--ph);}
+.tb-fill.rec{background:var(--cy);box-shadow:0 0 8px var(--cy);}
+.tb-src{font-family:'JetBrains Mono',monospace;font-size:0.74rem;color:var(--mu);margin-top:6px;line-height:1.6;}
+.tb-src a{color:var(--phd);text-decoration:none;}
+.tb-src a:hover{color:var(--ph);}
+
+/* System status rows */
+.sys{padding:12px 15px;flex:1;}
+.sys-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.sys-row:last-child{border-bottom:none;}
+.sys-k{font-family:'JetBrains Mono',monospace;font-size:0.74rem;color:var(--dm);letter-spacing:1px;}
+.sys-v{font-family:'JetBrains Mono',monospace;font-size:0.74rem;letter-spacing:1px;}
+.sys-v.ok{color:var(--ph);text-shadow:0 0 6px var(--ph);}
+.sys-v.wn{color:var(--am);}
+.sys-v.ct{color:var(--rd);animation:blink 1s step-end infinite;}
+
+/* Status strip */
+.strip{
+  grid-area:strip;display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2px;background:#000;
+}
+.sp{
+  background:var(--panel);border-top:1px solid var(--br);
+  padding:13px 16px;display:flex;align-items:center;gap:11px;
+  position:relative;overflow:hidden;
+}
+.sp::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.sp.nom::before{background:var(--ph);box-shadow:0 0 10px var(--ph);}
+.sp.wn::before{background:var(--am);box-shadow:0 0 10px var(--am);}
+.sp.ct::before{background:var(--rd);box-shadow:0 0 10px var(--rd);}
+.sp.rc::before{background:var(--cy);box-shadow:0 0 10px var(--cy);}
+.sp-ico{font-size:1.3rem;flex-shrink:0;width:30px;text-align:center;}
+.sp-lbl{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--mu);margin-bottom:2px;}
+.sp-st{font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;letter-spacing:1px;}
+.sp-st.nom{color:var(--ph);text-shadow:0 0 8px var(--ph);}
+.sp-st.wn{color:var(--am);}
+.sp-st.ct{color:var(--rd);}
+.sp-st.rc{color:var(--cy);}
+.sp-desc{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--mu);margin-top:2px;}
+
+/* ── MISSION BAYS (interactive, below fold) ── */
+.bay-wrap{padding:2px;background:#000;}
+
+.bay-hdr{
+  padding:9px 18px;background:var(--panel);
+  border-top:1px solid var(--br);border-bottom:1px solid var(--br);
+  display:flex;align-items:center;gap:14px;margin-bottom:2px;
+}
+.bay-id{font-family:'JetBrains Mono',monospace;font-size:0.76rem;letter-spacing:3px;color:var(--ph);text-shadow:0 0 8px var(--ph);}
+.bay-title{font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;letter-spacing:3px;font-weight:600;color:var(--dm);text-transform:uppercase;flex:1;}
+.bay-st{font-family:'JetBrains Mono',monospace;font-size:0.74rem;color:var(--mu);letter-spacing:1px;}
+
+/* Locked / unlockable panel */
+.lock-panel{
+  background:var(--screen);border:1px solid var(--br);
+  padding:40px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:200px;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:border-color 0.3s,background 0.3s;
+}
+.lock-panel:hover{border-color:var(--brh);background:rgba(0,232,127,0.04);}
+.lock-panel::before{
+  content:'';position:absolute;top:-100%;left:0;right:0;height:100%;
+  background:linear-gradient(transparent,rgba(0,232,127,0.04),transparent);
+  animation:scanDown 3s ease-in-out infinite;
+  pointer-events:none;
+}
+.lock-icon{font-size:2rem;margin-bottom:14px;opacity:0.4;}
+.lock-class{
+  font-family:'JetBrains Mono',monospace;font-size:0.74rem;
+  letter-spacing:4px;color:var(--mu);margin-bottom:8px;
+}
+.lock-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;
+  font-weight:700;letter-spacing:2px;color:var(--dm);
+  text-transform:uppercase;margin-bottom:20px;text-align:center;
+}
+.decrypt-btn{
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  font-weight:600;letter-spacing:3px;
+  color:var(--ph);background:var(--phf);
+  border:1px solid var(--brh);padding:8px 24px;
+  cursor:pointer;text-transform:uppercase;
+  box-shadow:0 0 15px rgba(0,232,127,0.1);
+  transition:box-shadow 0.2s,transform 0.15s;
+}
+.decrypt-btn::before{content:'⌐ ';}
+.decrypt-btn:hover{box-shadow:0 0 25px rgba(0,232,127,0.3);transform:scale(1.03);}
+
+/* Decrypt animation overlay */
+.decrypt-overlay{
+  position:absolute;inset:0;
+  background:var(--screen);
+  display:flex;align-items:center;justify-content:center;
+  z-index:10;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:3px;
+  color:var(--ph);text-shadow:0 0 10px var(--ph);
+}
+
+/* Revealed content */
+.bay-content{display:none;}
+.bay-content.open{display:block;}
+
+/* Screen panels */
+.scr{background:var(--screen);border:1px solid var(--br);position:relative;overflow:hidden;padding:28px 32px;}
+.scr::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 65%,rgba(0,0,0,0.25) 100%);pointer-events:none;}
+.scr-lbl{font-family:'JetBrains Mono',monospace;font-size:0.74rem;letter-spacing:3px;color:var(--phd);text-shadow:0 0 6px var(--ph);margin-bottom:13px;text-transform:uppercase;}
+.scr-inner{position:relative;z-index:1;}
+
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;}
+.g-wn{display:grid;grid-template-columns:2fr 1fr;gap:2px;}
+
+/* Data readouts */
+.dr-lbl{font-family:'JetBrains Mono',monospace;font-size:0.74rem;letter-spacing:2px;color:var(--mu);margin-bottom:4px;}
+.dr-val{font-family:'JetBrains Mono',monospace;font-size:2.4rem;font-weight:600;line-height:1;letter-spacing:-1px;margin-bottom:6px;}
+.dr-val.or{color:var(--or);text-shadow:0 0 20px rgba(244,96,16,0.4);}
+.dr-val.rd{color:var(--rd);text-shadow:0 0 20px rgba(255,59,59,0.4);}
+.dr-val.am{color:var(--am);}
+.dr-val.ph{color:var(--ph);text-shadow:0 0 20px rgba(0,232,127,0.4);}
+.dr-desc{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--dm);line-height:1.6;}
+
+/* Prose */
+.prose{font-size:0.91rem;line-height:1.75;color:var(--dm);font-weight:300;}
+.prose strong{color:var(--wh);font-weight:500;}
+.prose+.prose{margin-top:13px;}
+.prose sup{font-size:0.65em;color:var(--phd);}
+.cite{font-family:'JetBrains Mono',monospace;font-size:0.58em;color:var(--phd);vertical-align:super;cursor:help;}
+.callout{background:var(--orf);border-left:3px solid var(--or);padding:16px 20px;margin:20px 0;}
+.callout-txt{font-size:1rem;font-weight:400;line-height:1.5;color:var(--wh);}
+
+/* Protocol panels */
+.proto-id{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:2px;color:var(--ph);text-shadow:0 0 8px var(--ph);margin-bottom:13px;}
+.proto-h{font-family:'Barlow Condensed',sans-serif;font-size:1.25rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--wh);margin-bottom:11px;}
+.proto-action{display:inline-block;margin-top:13px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:2px;color:var(--ph);background:var(--phf);border:1px solid var(--brh);padding:5px 12px;}
+
+/* Image screens */
+.img-scr{position:relative;overflow:hidden;background:#000;border:1px solid var(--br);}
+.img-scr img{width:100%;height:100%;object-fit:cover;display:block;opacity:0.7;filter:saturate(0.7) contrast(1.2);}
+.img-ov{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,2,3,0.92));}
+.img-lbl{font-family:'JetBrains Mono',monospace;font-size:0.74rem;letter-spacing:2px;color:var(--ph);text-shadow:0 0 6px var(--ph);margin-bottom:4px;}
+.img-cap{font-size:0.77rem;color:var(--dm);line-height:1.4;}
+.hc{position:absolute;width:16px;height:16px;}
+.hc.tl{top:9px;left:9px;border-top:1px solid var(--ph);border-left:1px solid var(--ph);}
+.hc.tr{top:9px;right:9px;border-top:1px solid var(--ph);border-right:1px solid var(--ph);}
+.hc.bl{bottom:50px;left:9px;border-bottom:1px solid var(--ph);border-left:1px solid var(--ph);}
+.hc.br{bottom:50px;right:9px;border-bottom:1px solid var(--ph);border-right:1px solid var(--ph);}
+
+/* Data row */
+.data-row{font-family:'JetBrains Mono',monospace;font-size:0.6rem;line-height:2.2;color:var(--dm);}
+.data-row .k{color:var(--mu);}
+.data-row .hi{color:var(--ph);text-shadow:0 0 6px var(--ph);}
+
+/* Etymology */
+.etym-word{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:900;color:var(--or);text-shadow:0 0 20px rgba(244,96,16,0.35);letter-spacing:2px;margin-bottom:6px;}
+.etym-root{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:2px;color:var(--phd);margin-bottom:10px;}
+
+/* Mission log */
+.log{background:rgba(0,0,0,0.5);border:1px solid var(--br);font-family:'JetBrains Mono',monospace;font-size:0.66rem;padding:18px 22px;color:var(--dm);}
+.log-line{border-bottom:1px solid rgba(255,255,255,0.04);padding:5px 0;display:flex;gap:12px;}
+.log-line:last-child{border-bottom:none;}
+.log-k{color:var(--mu);flex-shrink:0;}
+.log-blank{flex:1;border-bottom:1px solid var(--brh);}
+
+/* Community Qs */
+.cq{padding:11px 0;border-bottom:1px solid var(--br);}
+.cq:last-child{border-bottom:none;}
+.cq-p{font-family:'JetBrains Mono',monospace;font-size:0.74rem;letter-spacing:2px;color:var(--phd);margin-bottom:5px;}
+.cq-t{font-size:0.87rem;line-height:1.5;color:var(--dm);font-weight:300;}
+
+/* Bibliography */
+.bib{display:flex;gap:13px;padding:10px 0;border-bottom:1px solid var(--br);}
+.bib:last-child{border-bottom:none;}
+.bib-n{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--mu);flex-shrink:0;width:28px;padding-top:2px;}
+.bib-t{font-size:0.88rem;color:var(--dm);line-height:1.6;}
+.bib-t strong{color:var(--wh);font-weight:500;}
+.bib-t em{color:var(--phd);font-style:normal;}
+
+/* Meliorism */
+.mel{background:var(--phf);border:1px solid var(--brh);border-left:3px solid var(--ph);padding:18px 22px;}
+.mel-lbl{font-family:'JetBrains Mono',monospace;font-size:0.74rem;letter-spacing:3px;color:var(--ph);text-shadow:0 0 8px var(--ph);margin-bottom:9px;}
+
+/* ── Tablet ── */
+@media(max-width:900px){
+  .cr{grid-template-columns:1fr;grid-template-rows:auto auto auto;grid-template-areas:"bb" "telem" "strip";min-height:unset;}
+  .telem{border-left:1px solid var(--br);}
+  .g2,.g3,.g-wn{grid-template-columns:1fr;}
+  .strip{grid-template-columns:1fr 1fr;}
+}
+
+/* ── Mobile ── */
+@media(max-width:600px){
+  /* Bump base size so labels/tags read without squinting */
+  html{font-size:20px;}
+
+  /* Status bar: taller, logo + library only, both readable */
+  .sb{height:52px;padding:0 16px;}
+  .sb-mission{display:none;}
+  .sb-sep{display:none;}
+  .sb-stats{display:none;}
+  .sb-logo{font-size:0.9rem;letter-spacing:3px;}
+  .sb-library{
+    font-size:1rem;
+    letter-spacing:2px;
+    margin:0 0 0 auto;
+    opacity:1;
+    color:var(--ph);
+    text-shadow:0 0 10px var(--ph);
+    padding:10px 0;
+    font-weight:600;
+  }
+
+  /* Control room offset for taller bar + footer */
+  .cr{margin-top:52px;padding-bottom:52px;}
+  /* Footer — full width on mobile, larger tap targets */
+  .sos-footer{height:44px;font-size:0.9rem;letter-spacing:2px;gap:20px;}
+
+  /* Launch screen sig — wrap cleanly, readable */
+  .launch-sig{
+    font-size:1rem;
+    white-space:normal;
+    text-align:center;
+    padding:0 24px;
+    bottom:80px;
+    width:100%;
+    left:0;
+    transform:none;
+    line-height:2.6;
+    color:rgba(0,232,127,0.85);
+  }
+
+  /* Launch screen body text */
+  #problem-reveal{font-size:1.3rem;line-height:1.5;}
+
+  /* Prose — comfortable reading size */
+  .prose{font-size:1.05rem;line-height:1.8;}
+
+  /* Labels and tags — no more squinting */
+  .scr-lbl,.bb-tag,.bb-iss,.bay-id,.bay-st,.bay-title,
+  .telem-hdr-lbl,.tb-lbl,.tb-unit,.tb-src,
+  .sp-lbl,.sp-desc,.lock-class,.mel-lbl,.cq-p,
+  .bib-n,.dr-lbl,.data-row,.sys-k,.sys-v{
+    font-size:0.82rem;
+    line-height:1.6;
+  }
+
+  /* Slightly larger panels */
+  .bb{padding:24px 16px;}
+  .scr{padding:20px 18px;}
+  .strip{grid-template-columns:1fr;}
+  .tb{padding:16px 14px;}
+
+  /* Library section cards — big tap targets */
+  .bay-hdr{padding:14px 16px;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     PHASE 1: LAUNCH SCREEN
+══════════════════════════════════════ -->
+<div id="phase-launch">
+  <div class="launch-noise"></div>
+  <div class="houston-wrap">
+    <div class="launch-corner tl"></div>
+    <div class="launch-corner tr"></div>
+    <div class="launch-corner bl"></div>
+    <div class="launch-corner br"></div>
+    <div id="houston-text"><span class="cursor"></span></div>
+    <div id="problem-reveal">
+      The average learner switches tasks every <span class="stat">9.8 minutes.</span><br>
+      Recovery from one interruption takes <span class="stat2">23 minutes 15 seconds.</span><br>
+      Standard session design assumes 45 minutes of sustained focus.<br>
+      <span class="warn">THAT LEARNER NO LONGER EXISTS.</span>
+    </div>
+    <button id="launch-btn" onclick="startCountdown()">INITIATE LAUNCH SEQUENCE</button>
+  </div>
+  <div class="launch-sig">MELIORISM2.COM · ISSUE 015 · MISSION CONTROL &nbsp;·&nbsp; <a href="index.html" style="color:#00e87f;text-decoration:none;letter-spacing:inherit;opacity:1;text-shadow:0 0 10px rgba(0,232,127,0.7);font-weight:600;">← THE LIBRARY</a></div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 2: COUNTDOWN
+══════════════════════════════════════ -->
+<div id="phase-countdown">
+  <div class="cd-mission">MELIORISM2.COM MISSION 003 · T-MINUS</div>
+  <div class="cd-rocket" id="cd-rocket">🚀</div>
+  <div id="count-display">3</div>
+  <div id="ignition-label"></div>
+  <div class="cd-flames" id="cd-flames">🔥🔥🔥</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     STATUS BAR — always visible, above all phases
+══════════════════════════════════════ -->
+<div class="sb">
+  <a href="https://meliorism2.com" class="sb-logo">MELIORISM2.COM</a>
+  <div class="sb-sep"></div>
+  <div class="sb-mission">MISSION: THE-23-MINUTE-PROBLEM &nbsp;·&nbsp; ISSUE 015 &nbsp;·&nbsp; 2026-05-15</div>
+  <a href="index.html" class="sb-library">← LIBRARY</a>
+  <div class="sb-stats">
+    <div class="sb-stat"><span class="pd"></span>SYS <span class="v">NOMINAL</span></div>
+    <div class="sb-stat">DIM: <span class="v">IN-PERSON PRESENCE</span></div>
+    <div class="sb-stat">ATTN DEBT: <span class="w">⚠ ACTIVE</span></div>
+    <div class="sb-stat" id="clk">UTC <span class="v">--:--:--</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 3: CONTROL ROOM
+══════════════════════════════════════ -->
+<div id="phase-control">
+
+  <!-- Control Room Grid -->
+  <div class="cr">
+
+    <!-- BIG BOARD -->
+    <div class="bb">
+      <div class="bb-grid"></div>
+      <div class="bb-glow"></div>
+      <!-- Live attention debt counter -->
+      <div class="debt-counter">
+        <div class="debt-lbl">ATTN DEBT ACCRUED</div>
+        <div id="debt-val">0:00</div>
+        <div class="debt-sub">SINCE YOU ARRIVED</div>
+      </div>
+      <div class="bb-tag" style="position:relative;">MISSION BRIEF &nbsp;·&nbsp; IN-PERSON PRESENCE</div>
+      <div class="bb-iss" style="position:relative;">MELIORISM2.COM / ISSUE 015 / 2026-05-15</div>
+      <h1 class="bb-h1">The<br><em>23-Minute</em><br>Problem</h1>
+      <p class="bb-concept">You design for a learner who can focus for 45 minutes.<br>That learner no longer exists — not by choice, but by debt.</p>
+      <div class="bb-signal">
+        <div class="bb-stag">90-SEC SIGNAL</div>
+        <div class="bb-stxt">After one interruption, full focus recovery takes 23 minutes 15 seconds.<sup class="cite" title="Mark, G. UC Irvine, CHI 2008">[1]</sup> The average adult switches tasks every 9.8 minutes.<sup class="cite" title="McKinsey Center for Future of Work, 2026">[2]</sup> Your learners arrive at every session already in deficit. That's not a motivation problem. It's an architecture problem.</div>
+      </div>
+      <div class="bb-corner">
+        SOURCES: 9 VERIFIED<br>GLORIA MARK · UCI<br>McKINSEY FUTURE OF WORK 2026<br>FORMAT: MISSION CONTROL
+      </div>
+    </div>
+
+    <!-- TELEMETRY COLUMN -->
+    <div class="telem">
+      <div class="telem-hdr"><div class="telem-hdr-lbl">ATTENTION TELEMETRY · LIVE</div></div>
+      <div class="tb">
+        <div class="tb-lbl">RECOVERY WINDOW</div>
+        <div class="tb-val rec">23:15</div>
+        <div class="tb-unit">MIN:SEC AFTER INTERRUPTION</div>
+        <div class="tb-bar"><div class="tb-fill rec" style="width:100%"></div></div>
+        <div class="tb-src">Mark, G. UC Irvine, 2008 <a href="https://dl.acm.org/doi/10.1145/1357054.1357072" target="_blank">[1]</a></div>
+      </div>
+      <div class="tb">
+        <div class="tb-lbl">AVG TASK DURATION</div>
+        <div class="tb-val crit">9.8</div>
+        <div class="tb-unit">MINUTES BEFORE SWITCH</div>
+        <div class="tb-bar"><div class="tb-fill crit" style="width:42%"></div></div>
+        <div class="tb-src">McKinsey Center for Future of Work, 2026 <a href="https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights" target="_blank">[2]</a> · 14,200 employees</div>
+      </div>
+      <div class="tb">
+        <div class="tb-lbl">DIGITAL ATTENTION SPAN</div>
+        <div class="tb-val warn">7.97</div>
+        <div class="tb-unit">SECONDS AVERAGE · 2026</div>
+        <div class="tb-bar"><div class="tb-fill warn" style="width:17%"></div></div>
+        <div class="tb-src">Amra & Elma Research, 2026 <a href="https://speakwiseapp.com/blog/attention-span-statistics" target="_blank">[3]</a></div>
+      </div>
+      <div class="tb">
+        <div class="tb-lbl">SESSION DESIGN ASSUMPTION</div>
+        <div class="tb-val nom">45</div>
+        <div class="tb-unit">MIN · INDUSTRY STANDARD ARC</div>
+        <div class="tb-bar"><div class="tb-fill nom" style="width:100%"></div></div>
+        <div class="tb-src">Standard corporate L&amp;D block format vs. biological reality: MISMATCH</div>
+      </div>
+      <div class="sys">
+        <div class="telem-hdr-lbl" style="margin-bottom:10px;">SYSTEM STATUS</div>
+        <div class="sys-row"><span class="sys-k">LEARNER ATTENTION</span><span class="sys-v ct">DEGRADED</span></div>
+        <div class="sys-row"><span class="sys-k">PRACTITIONER INSTRUMENT</span><span class="sys-v wn">AT RISK</span></div>
+        <div class="sys-row"><span class="sys-k">RECOVERY PROTOCOL</span><span class="sys-v ok">AVAILABLE</span></div>
+        <div class="sys-row"><span class="sys-k">SESSION DESIGN</span><span class="sys-v ct">LEGACY</span></div>
+        <div class="sys-row"><span class="sys-k">INTERVENTION</span><span class="sys-v ok">READY</span></div>
+      </div>
+    </div>
+
+    <!-- STATUS STRIP -->
+    <div class="strip">
+      <div class="sp nom"><div class="sp-ico">🧠</div><div><div class="sp-lbl">SYS-A · BASELINE</div><div class="sp-st nom">NOMINAL</div><div class="sp-desc">No interruption · full capacity</div></div></div>
+      <div class="sp ct"><div class="sp-ico">⚡</div><div><div class="sp-lbl">SYS-B · INTERRUPTION</div><div class="sp-st ct">TRIGGER ▶ CRITICAL</div><div class="sp-desc">Slack · notification · side question</div></div></div>
+      <div class="sp wn"><div class="sp-ico">⚠</div><div><div class="sp-lbl">SYS-C · ATTENTION DEBT</div><div class="sp-st wn">DEGRADED · 9.8 MIN</div><div class="sp-desc">Next task starts before recovery</div></div></div>
+      <div class="sp rc"><div class="sp-ico">🔄</div><div><div class="sp-lbl">SYS-D · RECOVERY</div><div class="sp-st rc">ACTIVE · 23:15 MIN</div><div class="sp-desc">Undisturbed time required</div></div></div>
+    </div>
+  </div><!-- /cr -->
+
+  <!-- ══ MISSION BAYS (unlockable) ══ -->
+  <div class="bay-wrap">
+
+    <!-- BAY 01 -->
+    <div class="bay-hdr" style="margin-top:2px;">
+      <div class="bay-id">BAY 01</div>
+      <div class="bay-title">Mission Background — The Artemis Connection</div>
+      <div class="bay-st">CONTEXT BRIEF</div>
+    </div>
+    <div class="lock-panel" onclick="unlockBay(this,'bay01-content')" id="bay01-lock" data-bay="01">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-class">CLASSIFICATION: OPEN ACCESS</div>
+      <div class="lock-title">Why Artemis II Matters Here</div>
+      <button class="decrypt-btn" onclick="event.stopPropagation();unlockBay(document.getElementById('bay01-lock'),'bay01-content')">DECRYPT BAY 01</button>
+    </div>
+    <div id="bay01-content" class="bay-content">
+      <div class="g-wn">
+        <div class="scr">
+          <div class="scr-lbl">EDITORIAL CONNECTION</div>
+          <div class="scr-inner">
+            <p class="prose">Five weeks ago — April 1, 2026 — NASA's Artemis II launched four humans on the first crewed lunar trajectory since Apollo. Splashdown April 10. Nine days. 694,481 miles traveled. Zero Slack notifications.</p>
+            <div class="callout">
+              <div class="callout-txt">Those four astronauts had something your learners don't: undisturbed cognitive time, designed into the mission architecture. The spacecraft was engineered around the attention the task required. No context switching. No notification economy.</div>
+            </div>
+            <p class="prose">Every serious human endeavor — surgery, flight, mission control itself — designs for the attention the task demands. Training programs are the exception. We design for attention that hasn't existed in the general population for years, then wonder why learning doesn't transfer.</p>
+            <p class="prose" style="margin-top:13px;">This is the practitioner's Artemis problem: <strong>how do you create conditions for full cognitive presence when your learners live inside the interruption economy?</strong></p>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <div class="scr" style="flex:1;"><div class="scr-lbl">ARTEMIS II · MISSION DATA</div><div class="scr-inner"><div class="data-row"><div><span class="k">LAUNCH &nbsp;&nbsp;·</span> APR 01 2026</div><div><span class="k">SPLASHDOWN ·</span> APR 10 2026</div><div><span class="k">DURATION ·</span> 9 DAYS</div><div><span class="k">DISTANCE ·</span> 694,481 MI</div><div><span class="k">CREW &nbsp;&nbsp;&nbsp;&nbsp;·</span> 4 HUMANS</div><div><span class="k">NOTIFS &nbsp;&nbsp;·</span> <span class="hi">0</span></div></div></div></div>
+          <div class="scr" style="flex:1;"><div class="scr-lbl">CREW MANIFEST</div><div class="scr-inner"><div class="data-row"><div><span class="k">CDR ·</span> REID WISEMAN</div><div><span class="k">PLT ·</span> VICTOR GLOVER</div><div><span class="k">MS1 ·</span> CHRISTINA KOCH</div><div><span class="k">MS2 ·</span> JEREMY HANSEN</div></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BAY 02 -->
+    <div class="bay-hdr" style="margin-top:2px;">
+      <div class="bay-id">BAY 02</div>
+      <div class="bay-title">Research Data — The Mechanism</div>
+      <div class="bay-st">VERIFIED · 4 SOURCES</div>
+    </div>
+    <div class="lock-panel" onclick="unlockBay(this,'bay02-content')" id="bay02-lock" data-bay="02">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-class">CLASSIFICATION: RESEARCH DATA</div>
+      <div class="lock-title">The Science Behind the Numbers</div>
+      <button class="decrypt-btn" onclick="event.stopPropagation();unlockBay(document.getElementById('bay02-lock'),'bay02-content')">DECRYPT BAY 02</button>
+    </div>
+    <div id="bay02-content" class="bay-content">
+      <div class="g3">
+        <div class="scr"><div class="scr-lbl">FINDING 01 · GLORIA MARK · UCI</div><div class="scr-inner"><div class="dr-lbl">RECOVERY TIME AFTER INTERRUPTION</div><div class="dr-val or">23:15</div><div class="dr-desc">Average min:sec to fully reengage after a single interruption. Not "back to the document" — back to the same depth of thought. Source: Mark et al., CHI 2008.<sup class="cite" title="Mark, G. et al. The cost of interrupted work. CHI 2008.">[1]</sup></div><p class="prose" style="margin-top:14px;font-size:0.85rem;">This is the most replicated finding in attention research. Conducted in 2008. In 2026, interruption rate has risen sharply. Recovery time has not changed. <strong>Biology does not update with software.</strong></p></div></div>
+        <div class="scr"><div class="scr-lbl">FINDING 02 · McKINSEY 2026</div><div class="scr-inner"><div class="dr-lbl">AVG TASK DURATION BEFORE SWITCH</div><div class="dr-val rd">9.8</div><div class="dr-desc">Minutes. 14,200 employees. 22 industries surveyed. McKinsey Center for Future of Work, 2026.<sup class="cite" title="McKinsey Center for Future of Work, 2026">[2]</sup> Most workers never stay long enough to reach the depth it takes 23 minutes to recover.</div><p class="prose" style="margin-top:14px;font-size:0.85rem;">Most workers never experience deep focus anymore. They live below the threshold. <strong>Your learners have forgotten what focused feels like.</strong></p></div></div>
+        <div class="scr"><div class="scr-lbl">FINDING 03 · COMPOUND EFFECT</div><div class="scr-inner"><div class="dr-lbl">FULL RECOVERIES BEFORE YOUR SESSION</div><div class="dr-val am">≈ 0</div><div class="dr-desc">If avg task time is 9.8 min and recovery requires 23:15, the average knowledge worker switches tasks before recovery ever completes. Debt compounds across every hour.</div><p class="prose" style="margin-top:14px;font-size:0.85rem;">This is why 3pm sessions feel harder than 9am sessions even when participants arrive willing. You're not working with distracted learners — you're working with <strong>depleted</strong> ones.</p></div></div>
+      </div>
+    </div>
+
+    <!-- BAY 03 -->
+    <div class="bay-hdr" style="margin-top:2px;">
+      <div class="bay-id">BAY 03</div>
+      <div class="bay-title">Flight Director Protocols — Three Leverage Points</div>
+      <div class="bay-st">ACTIONABLE · FOR PRACTITIONERS</div>
+    </div>
+    <div class="lock-panel" onclick="unlockBay(this,'bay03-content')" id="bay03-lock" data-bay="03">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-class">CLASSIFICATION: PRACTITIONER TOOLS</div>
+      <div class="lock-title">What You Can Actually Do</div>
+      <button class="decrypt-btn" onclick="event.stopPropagation();unlockBay(document.getElementById('bay03-lock'),'bay03-content')">DECRYPT BAY 03</button>
+    </div>
+    <div id="bay03-content" class="bay-content">
+      <div class="g3">
+        <div class="scr"><div class="scr-lbl">LP-1 · PRE-LAUNCH</div><div class="scr-inner"><div class="proto-id">BEFORE SESSION OPENS</div><div class="proto-h">Design for the Debt That Already Exists</div><p class="prose" style="font-size:0.88rem;">Stop designing the first 10 minutes as warm-up. Design it as decompression. Your learners walked in mid-interruption cycle. Give them a ritual that ends the previous context — not content that competes with it.</p><div class="proto-action">ACTION: ONE PHYSICAL RESET BEFORE FIRST SLIDE</div></div></div>
+        <div class="scr"><div class="scr-lbl">LP-2 · IGNITION</div><div class="scr-inner"><div class="proto-id">FIRST 10 MINUTES</div><div class="proto-h">The 9.8-Minute Session Design Rule</div><p class="prose" style="font-size:0.88rem;">Structure learning in sub-10-minute arcs with intentional transition points. Not because shorter is better — because you need to work with the attention the room actually has. Each arc delivers one complete idea. The transition is the design.</p><div class="proto-action">ACTION: MAP YOUR NEXT SESSION IN 9-MIN ARCS</div></div></div>
+        <div class="scr"><div class="scr-lbl">LP-3 · MID-MISSION</div><div class="scr-inner"><div class="proto-id">AT RE-ENGAGEMENT MOMENTS</div><div class="proto-h">Name the Fog Before You Fight It</div><p class="prose" style="font-size:0.88rem;">When the room goes quiet mid-session — not contemplative, but the particular vacancy of overload — name it: "I notice we might be at a saturation point." You're modeling what a self-aware learner does. Fastest reset: surface the state.</p><div class="proto-action">ACTION: TWO PLANNED RE-ENGAGEMENT POINTS PER SESSION</div></div></div>
+      </div>
+    </div>
+
+    <!-- BAY 04 -->
+    <div class="bay-hdr" style="margin-top:2px;">
+      <div class="bay-id">BAY 04</div>
+      <div class="bay-title">Field Station Alpha — Nature as Recovery Infrastructure</div>
+      <div class="bay-st">SEASON'S NOTE · SPRING 2026</div>
+    </div>
+    <div class="lock-panel" onclick="unlockBay(this,'bay04-content')" id="bay04-lock" data-bay="04">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-class">CLASSIFICATION: FIELD INTELLIGENCE</div>
+      <div class="lock-title">The Oldest Recovery Protocol Exists Outside</div>
+      <button class="decrypt-btn" onclick="event.stopPropagation();unlockBay(document.getElementById('bay04-lock'),'bay04-content')">DECRYPT BAY 04</button>
+    </div>
+    <div id="bay04-content" class="bay-content">
+      <div class="g2">
+        <div class="img-scr" style="min-height:300px;"><div class="hc tl"></div><div class="hc tr"></div><div class="hc bl"></div><div class="hc br"></div><img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=900&q=80" alt="Redwood forest" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#0a1a0a,#040d04)'"/><div class="img-ov"><div class="img-lbl">FIELD ASSET · MUIR WOODS · CALIFORNIA</div><div class="img-cap">Redwood canopy. Soft fascination. Directed attention in recovery mode.</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <div class="scr" style="flex:1;"><div class="scr-lbl">ATTENTION RESTORATION THEORY · KAPLAN &amp; KAPLAN 1989</div><div class="scr-inner"><p class="prose">Nature engages <strong>involuntary attention</strong> — the kind that doesn't deplete. Birdsong, movement, pattern. While that system runs, directed attention rests and recovers. Kaplan &amp; Kaplan (1989)<sup class="cite" title="Kaplan, R. & Kaplan, S. The Experience of Nature. Cambridge, 1989.">[5]</sup> called it <em>soft fascination</em>. Twenty minutes without a device produces measurable cortisol reduction and parasympathetic shift.<sup class="cite" title="Frontiers in Psychology, 2026. Forest bathing review.">[6]</sup> This is LP-1 taken to its highest resolution.</p></div></div>
+          <div class="scr" style="flex:0;"><div class="scr-lbl">NASA CLEAN AIR STUDY · 1989 · INDOOR PROTOCOL</div><div class="scr-inner"><div style="display:flex;gap:18px;align-items:center;"><div style="flex:1;"><p class="prose" style="font-size:0.84rem;">When you can't get outside: <strong>Sansevieria trifasciata</strong> — snake plant. NASA's 1989 Clean Air Study<sup class="cite" title="NASA, Interior Landscape Plants for Indoor Air Pollution Abatement, 1989.">[8]</sup> found it removes benzene, formaldehyde, and trichloroethylene from indoor air. Requires almost no light or water. One plant per 100 sq ft of training room.</p></div><div class="img-scr" style="width:100px;height:100px;min-height:unset;flex-shrink:0;"><div class="hc tl"></div><div class="hc tr"></div><img src="https://images.unsplash.com/photo-1611735341450-74d61e660ad2?w=400&q=80" alt="Snake plant" onerror="this.style.display='none'"/></div></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BAY 05 -->
+    <div class="bay-hdr" style="margin-top:2px;">
+      <div class="bay-id">BAY 05</div>
+      <div class="bay-title">Background Intel — Etymology · History · Meliorism</div>
+      <div class="bay-st">DEEP CONTEXT</div>
+    </div>
+    <div class="lock-panel" onclick="unlockBay(this,'bay05-content')" id="bay05-lock" data-bay="05">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-class">CLASSIFICATION: BACKGROUND INTEL</div>
+      <div class="lock-title">Where the Word Came From · What It Means Now</div>
+      <button class="decrypt-btn" onclick="event.stopPropagation();unlockBay(document.getElementById('bay05-lock'),'bay05-content')">DECRYPT BAY 05</button>
+    </div>
+    <div id="bay05-content" class="bay-content">
+      <div class="g2">
+        <div class="scr"><div class="scr-lbl">ETYMOLOGY · ATTENDERE</div><div class="scr-inner"><div class="etym-word">ATTENTION</div><div class="etym-root">LATIN: ATTENDERE · "TO STRETCH TOWARD"</div><p class="prose" style="font-size:0.88rem;">From <em>ad</em> (toward) + <em>tendere</em> (to stretch). The Romans understood attention as an active physical act — a reaching toward something. Not passive reception. A deliberate extension of self toward what matters. The practitioner's job is to create conditions where stretching is possible.</p><div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--br);"><div class="scr-lbl">HISTORICAL IRONY</div><p class="prose" style="font-size:0.85rem;">Gloria Mark conducted the 23-minute study at UC Irvine — whose mascot is the anteater, an animal that sustains total singular focus long enough to empty an entire colony. The research building sits three miles from the Pacific — the world's largest attention restoration environment. Study subjects could not sustain focus for 23 minutes.</p></div></div></div>
+        <div class="scr"><div class="scr-lbl">MELIORISM VECTOR</div><div class="scr-inner"><div class="mel"><div class="mel-lbl">MELIORISM 2.0 OPERATING PRINCIPLE</div><p class="prose" style="font-size:0.88rem;">The practitioner who understands attention debt is not more knowledgeable — they're more useful. This is Meliorism 2.0 in practice: the world gets better through wise action and better systems. Redesigning a training session to work with actual human attention is a small act of constructive stewardship. Multiplied across every session, every practitioner, it is not small at all.</p></div><p class="prose" style="margin-top:18px;">The interruption economy is not going away. But the practitioner who stops designing for the learner they wish they had — and starts designing for the learner in the room — changes what's possible right now.</p><p class="prose" style="margin-top:13px;">That's the work. Not better slides. <strong>Better architecture.</strong></p></div></div>
+      </div>
+    </div>
+
+    <!-- BAY 06 -->
+    <div class="bay-hdr" style="margin-top:2px;">
+      <div class="bay-id">BAY 06</div>
+      <div class="bay-title">Mission Log — Reflection · Community · Bibliography</div>
+      <div class="bay-st">POST-SESSION PROTOCOL</div>
+    </div>
+    <div class="lock-panel" onclick="unlockBay(this,'bay06-content')" id="bay06-lock" data-bay="06">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-class">CLASSIFICATION: MISSION LOG</div>
+      <div class="lock-title">Run Your Own Session Debrief</div>
+      <button class="decrypt-btn" onclick="event.stopPropagation();unlockBay(document.getElementById('bay06-lock'),'bay06-content')">DECRYPT BAY 06</button>
+    </div>
+    <div id="bay06-content" class="bay-content">
+      <div class="g2">
+        <div class="scr"><div class="scr-lbl">REFLECTION PROTOCOL · RUN AFTER YOUR NEXT SESSION</div><div class="scr-inner"><div class="log"><div class="log-line"><span class="log-k">DATE ·</span><span class="log-blank"></span></div><div class="log-line"><span class="log-k">SESSION TYPE ·</span><span class="log-blank"></span></div><div class="log-line"><span class="log-k">SIGNS OF ATTN DEBT ·</span><span class="log-blank"></span></div><div class="log-line"><span class="log-k">LEVERAGE POINT USED ·</span><span class="log-blank"></span></div><div class="log-line"><span class="log-k">WHAT SHIFTED ·</span><span class="log-blank"></span></div><div class="log-line"><span class="log-k">WHAT I'D CHANGE ·</span><span class="log-blank"></span></div></div><div style="margin-top:18px;"><div class="scr-lbl">COMMUNITY TRANSMISSION</div><div class="cq"><div class="cq-p">QUERY 01 ·</div><div class="cq-t">When have you noticed the room go quiet in a way that felt different from contemplation? What did you do?</div></div><div class="cq"><div class="cq-p">QUERY 02 ·</div><div class="cq-t">What does your current session opening ask of your learners' attention? How much do you assume they arrive with?</div></div><div class="cq"><div class="cq-p">QUERY 03 ·</div><div class="cq-t">Have you noticed your own attention debt affecting your work in the room? What's your reset protocol?</div></div></div></div></div>
+        <div class="scr"><div class="scr-lbl">MISSION SOURCES · 9 VERIFIED</div><div class="scr-inner">
+          <div class="bib"><div class="bib-n">01</div><div class="bib-t"><strong>Mark, G. et al.</strong> UC Irvine. <em>The cost of interrupted work: More speed and stress.</em> CHI 2008. The 23:15 finding.</div></div>
+          <div class="bib"><div class="bib-n">02</div><div class="bib-t"><strong>McKinsey Center for Future of Work</strong> (2026). <em>Attention and task-switching across 22 industries.</em> 14,200-employee study. 9.8-min finding.</div></div>
+          <div class="bib"><div class="bib-n">03</div><div class="bib-t"><strong>Amra &amp; Elma Research</strong> (2026). <em>Attention Span Statistics.</em> 7.97-second average digital attention span.</div></div>
+          <div class="bib"><div class="bib-n">04</div><div class="bib-t"><strong>Speakwise</strong> (2026). <em>Workplace Distraction Statistics.</em> Interruption frequency and compounding attention debt.</div></div>
+          <div class="bib"><div class="bib-n">05</div><div class="bib-t"><strong>Kaplan, R. &amp; Kaplan, S.</strong> (1989). <em>The Experience of Nature.</em> Cambridge University Press. Attention Restoration Theory.</div></div>
+          <div class="bib"><div class="bib-n">06</div><div class="bib-t"><strong>Frontiers in Psychology</strong> (2026). Forest bathing in stressed people. doi:10.3389/fpsyg.2024.1458418.</div></div>
+          <div class="bib"><div class="bib-n">07</div><div class="bib-t"><strong>MDPI Forests</strong> (2026). Shinrin-yoku immune modulation and stress regulation systematic review.</div></div>
+          <div class="bib"><div class="bib-n">08</div><div class="bib-t"><strong>NASA</strong> (1989). <em>Interior Landscape Plants for Indoor Air Pollution Abatement.</em> Clean Air Study.</div></div>
+          <div class="bib"><div class="bib-n">09</div><div class="bib-t"><strong>NASA</strong> (2026). <em>Artemis II Mission Report.</em> Wiseman, Glover, Koch, Hansen. Apr 1–10, 2026.</div></div>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--br);"><div class="scr-lbl">FURTHER READING</div><p class="prose" style="font-size:0.79rem;">Cal Newport, <em>Deep Work</em> (2016). Mihaly Csikszentmihalyi, <em>Flow</em> (1990). Jenny Odell, <em>How to Do Nothing</em> (2019) — attention as a political act in the digital economy.</p></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ACCESS PAST ISSUES -->
+    <div class="bay-hdr" style="margin-top:2px;">
+      <div class="bay-id">LIBRARY</div>
+      <div class="bay-title">Access Past Issues</div>
+      <div class="bay-st">OPEN ACCESS</div>
+    </div>
+    <div style="background:var(--screen);border:1px solid var(--brh);padding:28px 32px;margin-bottom:2px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:3px;color:var(--ph);text-shadow:0 0 8px var(--ph);margin-bottom:20px;">MELIORISM2.COM · PUBLISHED ISSUES</div>
+      <a href="archive/index.html" style="display:block;background:rgba(0,232,127,0.07);border:1px solid rgba(0,232,127,0.35);border-left:4px solid var(--ph);padding:18px 22px;margin-bottom:10px;text-decoration:none;transition:background 0.2s;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:3px;color:var(--ph);text-shadow:0 0 6px var(--ph);margin-bottom:6px;">THE LIBRARY — ALL ISSUES →</div>
+        <div style="font-size:1rem;color:var(--wh);line-height:1.4;">Browse the full archive at meliorism2.com/archive</div>
+      </a>
+      <a href="archive/2026-05-01-joy-as-trainable-skill.html" style="display:block;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);padding:16px 22px;margin-bottom:8px;text-decoration:none;transition:background 0.2s;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;letter-spacing:2px;color:var(--mu);margin-bottom:5px;">ISSUE 001 · MAY 1, 2026 · WITNESSING</div>
+        <div style="font-size:1rem;font-weight:500;color:var(--wh);">Joy as a Trainable Skill</div>
+      </a>
+      <a href="archive/2026-05-02-trust-biology-contact-before-contract.html" style="display:block;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);padding:16px 22px;text-decoration:none;transition:background 0.2s;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;letter-spacing:2px;color:var(--mu);margin-bottom:5px;">ISSUE 002 · MAY 2, 2026 · WITNESSING</div>
+        <div style="font-size:1rem;font-weight:500;color:var(--wh);">Trust Before Thought — Contact Before Contract</div>
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div style="background:var(--panel);border-top:1px solid var(--br);padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:2px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--mu);letter-spacing:2px;">MELIORISM2.COM · ISSUE 015 · 2026-05-15 · MISSION COMPLETE</div>
+      <a href="archive/index.html" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--ph);text-decoration:none;letter-spacing:2px;text-shadow:0 0 6px var(--ph);">← THE LIBRARY</a>
+    </div>
+
+  </div><!-- /bay-wrap -->
+</div><!-- /phase-control -->
+
+<script>
+// ── ENGAGEMENT TRACKING ──
+var eng = JSON.parse(localStorage.getItem('sos-003-eng') || '{}');
+eng.visits = (eng.visits || 0) + 1;
+eng.lastVisit = new Date().toISOString();
+eng.baysOpened = eng.baysOpened || [];
+eng.sections = eng.sections || {};
+function saveEng(){ localStorage.setItem('sos-003-eng', JSON.stringify(eng)); }
+function trackBay(id){ if(!eng.baysOpened.includes(id)) eng.baysOpened.push(id); saveEng(); }
+function trackSection(id){ eng.sections[id] = (eng.sections[id]||0)+1; saveEng(); }
+saveEng();
+
+// Intersection Observer
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){ trackSection(e.target.dataset.track||e.target.id); }
+  });
+},{threshold:0.3});
+document.querySelectorAll('[data-track]').forEach(function(el){ observer.observe(el); });
+
+// ── LIVE CLOCK ──
+(function tick(){
+  var n=new Date(),h=('0'+n.getUTCHours()).slice(-2),m=('0'+n.getUTCMinutes()).slice(-2),s=('0'+n.getUTCSeconds()).slice(-2),el=document.getElementById('clk');
+  if(el) el.innerHTML='UTC <span class="v">'+h+':'+m+':'+s+'</span>';
+  setTimeout(tick,1000);
+})();
+
+// ── ATTENTION DEBT COUNTER ──
+var debtStart = null;
+function startDebtCounter(){
+  debtStart = Date.now();
+  (function tick(){
+    var el = document.getElementById('debt-val');
+    if(!el || !debtStart) return;
+    var elapsed = Math.floor((Date.now()-debtStart)/1000);
+    var m = Math.floor(elapsed/60), s = elapsed%60;
+    el.textContent = m+':'+(s<10?'0':'')+s;
+    setTimeout(tick, 1000);
+  })();
+}
+
+// ── PHASE 1: TYPEWRITER ──
+var houston = "HOUSTON, WE HAVE A PROBLEM.";
+var el = document.getElementById('houston-text');
+var i = 0;
+function typeHouston(){
+  if(i < houston.length){
+    var c = houston.charAt(i);
+    el.innerHTML = houston.slice(0,i+1) + '<span class="cursor"></span>';
+    i++;
+    setTimeout(typeHouston, c === ',' ? 280 : c === '.' ? 400 : 65);
+  } else {
+    el.innerHTML = houston + '<span class="cursor"></span>';
+    setTimeout(revealProblem, 700);
+  }
+}
+setTimeout(typeHouston, 600);
+
+function revealProblem(){
+  var p = document.getElementById('problem-reveal');
+  p.style.transition = 'opacity 1.2s ease';
+  p.style.opacity = '1';
+  setTimeout(function(){
+    var b = document.getElementById('launch-btn');
+    b.style.transition = 'opacity 0.8s ease';
+    b.style.opacity = '1';
+  }, 1400);
+}
+
+// ── PHASE 2: COUNTDOWN ──
+function startCountdown(){
+  var launch = document.getElementById('phase-launch');
+  launch.style.transition = 'opacity 0.5s';
+  launch.style.opacity = '0';
+  setTimeout(function(){
+    launch.style.display = 'none';
+    var cd = document.getElementById('phase-countdown');
+    cd.classList.add('visible');
+    runCountdown(3);
+  }, 500);
+}
+
+function runCountdown(n){
+  var display = document.getElementById('count-display');
+  var label = document.getElementById('ignition-label');
+  var rocket = document.getElementById('cd-rocket');
+  var flames = document.getElementById('cd-flames');
+
+  if(n > 0){
+    if(n === 3){ display.className=''; }
+    if(n === 2){ display.className='warn-color'; }
+    if(n === 1){ display.className='crit-color'; }
+    display.textContent = n;
+    label.textContent = 'T-MINUS ' + n;
+    setTimeout(function(){ runCountdown(n-1); }, 1100);
+  } else {
+    // IGNITION
+    display.className = 'ignite-color';
+    display.textContent = '🔥';
+    label.textContent = 'IGNITION — MAIN ENGINE START';
+    flames.classList.add('visible');
+    rocket.classList.add('launching');
+    document.getElementById('phase-countdown').classList.add('flash');
+    document.body.style.animation = 'shake 0.4s ease';
+    setTimeout(function(){ document.body.style.animation=''; },400);
+    setTimeout(transitionToControl, 1400);
+  }
+}
+
+// ── PHASE 3: CONTROL ROOM ──
+function transitionToControl(){
+  var cd = document.getElementById('phase-countdown');
+  cd.style.transition = 'opacity 0.6s';
+  cd.style.opacity = '0';
+  setTimeout(function(){
+    cd.style.display = 'none';
+    var ctrl = document.getElementById('phase-control');
+    ctrl.classList.add('visible');
+    startDebtCounter();
+    // Animate telemetry bars
+    setTimeout(animateBars, 400);
+    // Start intersection observer on bays
+    document.querySelectorAll('.lock-panel').forEach(function(el){ observer.observe(el); });
+  }, 600);
+}
+
+// ── TELEMETRY BAR ANIMATION ──
+function animateBars(){
+  var bars = [
+    {el:document.querySelector('.tb-fill.rec'), w:'100%'},
+    {el:document.querySelector('.tb-fill.crit'), w:'42%'},
+    {el:document.querySelector('.tb-fill.warn'), w:'17%'},
+    {el:document.querySelector('.tb-fill.nom'), w:'100%'}
+  ];
+  bars.forEach(function(b,i){
+    if(!b.el) return;
+    b.el.style.width = '0';
+    setTimeout(function(){
+      b.el.style.transition = 'width 1.4s ease';
+      b.el.style.width = b.w;
+    }, i * 200 + 100);
+  });
+}
+
+// ── BAY UNLOCK ──
+function unlockBay(lockEl, contentId){
+  trackBay(contentId);
+  var overlay = document.createElement('div');
+  overlay.className = 'decrypt-overlay';
+  overlay.textContent = 'DECRYPTING...';
+  lockEl.appendChild(overlay);
+  lockEl.style.pointerEvents = 'none';
+
+  var chars = '█▓▒░▀▄▌▐■□▪▫◘○●◙◦☼→←↑↓';
+  var counter = 0;
+  var iv = setInterval(function(){
+    var r = Math.floor(Math.random()*chars.length);
+    overlay.textContent = counter < 8 ? 'DECRYPTING' + chars[r] + chars[r] : 'ACCESS GRANTED';
+    counter++;
+    if(counter >= 14){
+      clearInterval(iv);
+      lockEl.style.display = 'none';
+      var content = document.getElementById(contentId);
+      content.classList.add('open');
+      content.classList.add('fade-in');
+      trackSection(contentId);
+    }
+  }, 80);
+}
+</script>
+
+<!-- ── Fixed footer — always visible ── -->
+<div class="sos-footer">
+  <a href="index.html">← THE LIBRARY</a>
+  <span class="f-sep">·</span>
+  <a href="2026-05-01-joy-as-trainable-skill.html">001 JOY</a>
+  <span class="f-sep">·</span>
+  <a href="2026-05-02-trust-biology-contact-before-contract.html">002 TRUST</a>
+  <span class="f-sep">·</span>
+  <a href="https://meliorism2.com">CURRENT ISSUE →</a>
+</div>
+
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,869 @@
+<!-- signal-os:date: 2026-05-17 -->
+<!-- signal-os:slug: the-transfer-collapse -->
+<!-- signal-os:title: The Transfer Collapse -->
+<!-- signal-os:concept: When a practitioner's financial precarity becomes the client's problem — the cognitive tax that crosses the container before either party notices. -->
+<!-- signal-os:format: The Practitioner's Bloomberg (Light Financial Terminal) -->
+<!-- signal-os:dimension: Living Income -->
+<!-- signal-os:sources: 8 -->
+<!-- signal-os:tags: #economics #learning #wellness -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 17 · The Transfer Collapse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ft-pink:#FFF1E5;--ft-paper:#FFF8F0;--wheat:#F2DFCE;
+  --panel:#ffffff;--border:#d4c5b3;--border-strong:#b8a898;
+  --claret:#A41728;--oxford:#0F5499;--teal:#0D7680;
+  --ink:#1a1a1a;--muted:#6b6b6b;--dim:#aaa;
+  --warn:#CC0000;--pos:#0D7680;
+  --font-body:'IBM Plex Sans',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+}
+html,body{height:100%;background:var(--ft-pink);color:var(--ink);font-family:var(--font-body);overflow:hidden;}
+
+/* ── ENTRY ── */
+#entry{position:fixed;inset:0;background:var(--ft-pink);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;transition:opacity .6s ease;}
+#entry.hiding{opacity:0;pointer-events:none;}
+.e-wordmark{font-family:var(--font-mono);font-size:10px;letter-spacing:5px;color:var(--muted);text-transform:uppercase;margin-bottom:40px;}
+.e-issue{font-family:var(--font-mono);font-size:10px;color:var(--dim);letter-spacing:2px;margin-bottom:16px;text-align:center;}
+.e-title{font-family:var(--font-mono);font-size:clamp(26px,4.5vw,52px);font-weight:700;color:var(--ink);letter-spacing:-1px;text-align:center;line-height:1.05;margin-bottom:12px;}
+.e-sub{font-size:15px;color:var(--muted);max-width:440px;text-align:center;line-height:1.6;margin-bottom:40px;}
+.e-hr{width:280px;height:1px;background:var(--border);margin-bottom:32px;}
+.e-clock{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:3px;margin-bottom:36px;}
+.e-btn{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:var(--claret);color:#fff;border:none;padding:15px 40px;cursor:pointer;transition:background .2s;}
+.e-btn:hover{background:#8b1220;}
+.e-ticker{position:absolute;bottom:0;left:0;right:0;height:30px;background:var(--wheat);border-top:1px solid var(--border);overflow:hidden;display:flex;align-items:center;}
+.ticker-wrap{display:flex;white-space:nowrap;animation:tick 80s linear infinite;font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.5px;}
+.ticker-wrap span.hl{color:var(--claret);font-weight:700;}
+.ti{padding:0 40px;}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── TERMINAL ── */
+#terminal{position:fixed;inset:0;display:none;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .5s ease;}
+#terminal.visible{opacity:1;pointer-events:all;}
+
+.top-bar{height:38px;background:var(--wheat);border-bottom:2px solid var(--claret);display:flex;align-items:center;padding:0 16px;flex-shrink:0;gap:16px;}
+.tb-logo{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--claret);text-transform:uppercase;flex-shrink:0;}
+.tb-divider{width:1px;height:18px;background:var(--border);flex-shrink:0;}
+.tb-ticker-wrap{flex:1;overflow:hidden;display:flex;align-items:center;}
+.tb-ticker{display:flex;white-space:nowrap;animation:tick 80s linear infinite;font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+.tb-clock{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:2px;flex-shrink:0;}
+
+.t-body{flex:1;display:grid;grid-template-columns:152px 1fr 200px;overflow:hidden;}
+
+/* ── LEFT NAV ── */
+.left-nav{background:var(--ft-paper);border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;flex-shrink:0;}
+.ln-head{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);padding:0 14px 10px;}
+.nav-btn{display:block;width:100%;text-align:left;padding:9px 14px;border:none;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.5px;transition:all .15s;border-left:3px solid transparent;line-height:1.3;}
+.nav-btn:hover{background:var(--wheat);color:var(--ink);}
+.nav-btn.active{background:var(--wheat);color:var(--claret);border-left-color:var(--claret);font-weight:700;}
+.nav-key{display:block;font-size:8px;color:var(--dim);margin-bottom:2px;}
+.ln-div{height:1px;background:var(--border);margin:10px 14px;}
+
+/* ── CONTENT ── */
+.content{overflow-y:auto;padding:28px 36px;}
+.sec{display:none;}
+.sec.active{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RIGHT PANEL ── */
+.right-panel{border-left:1px solid var(--border);padding:20px 14px;overflow-y:auto;background:var(--ft-paper);}
+.rp-head{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
+.ind-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
+.ind-lbl{font-family:var(--font-mono);font-size:9px;color:var(--muted);}
+.ind-val{font-family:var(--font-mono);font-size:10px;font-weight:700;}
+.neg{color:var(--warn);}.pos{color:var(--teal);}.neu{color:var(--ink);}.cla{color:var(--claret);}
+.rp-div{height:1px;background:var(--border);margin:14px 0;}
+.bw-chart-title{font-family:var(--font-mono);font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.bw-row{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+.bw-lbl{font-family:var(--font-mono);font-size:8px;color:var(--muted);width:58px;flex-shrink:0;line-height:1.2;}
+.bw-track{flex:1;height:14px;background:var(--wheat);border:1px solid var(--border);overflow:hidden;}
+.bw-fill{height:100%;transition:width 1s ease .3s;}
+.bw-fill.s0{background:var(--teal);}
+.bw-fill.s1{background:#6aaa78;}
+.bw-fill.s2{background:#e08a20;}
+.bw-fill.s3{background:var(--warn);}
+.bw-pct{font-family:var(--font-mono);font-size:8px;color:var(--muted);width:28px;text-align:right;}
+.rp-note{font-family:var(--font-mono);font-size:9px;color:var(--dim);line-height:1.5;margin-top:10px;}
+
+/* ── CONTENT ELEMENTS ── */
+.sig-label{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--claret);margin-bottom:8px;}
+.sig-head{font-family:var(--font-mono);font-size:clamp(20px,3vw,34px);font-weight:700;letter-spacing:-.5px;line-height:1.05;margin-bottom:10px;}
+.sig-deck{font-size:16px;color:var(--muted);line-height:1.65;margin-bottom:28px;max-width:580px;}
+.data-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:36px;}
+.dc{background:var(--panel);border:1px solid var(--border);padding:18px;border-top:3px solid var(--border);}
+.dc.dc-warn{border-top-color:var(--warn);}
+.dc.dc-pos{border-top-color:var(--teal);}
+.dc.dc-cla{border-top-color:var(--claret);}
+.dc-num{font-family:var(--font-mono);font-size:26px;font-weight:700;line-height:1;margin-bottom:5px;}
+.dc-key{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.dc-body{font-size:11px;color:var(--ink);line-height:1.5;}
+
+h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-height:1.2;}
+.prose{font-size:15px;line-height:1.75;color:var(--ink);max-width:640px;margin-bottom:20px;}
+.prose strong{color:var(--claret);font-weight:600;}
+.prose em{font-style:italic;}
+.cite{font-family:var(--font-mono);font-size:10px;color:var(--muted);vertical-align:super;}
+
+.callout{background:var(--wheat);border-left:4px solid var(--claret);padding:18px 22px;margin:20px 0;max-width:640px;}
+.callout .co-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--claret);margin-bottom:6px;}
+.callout p{font-size:15px;line-height:1.6;color:var(--ink);}
+
+.etym{background:var(--panel);border-top:3px solid var(--claret);padding:22px;max-width:620px;margin:24px 0;}
+.etym-word{font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--claret);margin-bottom:3px;}
+.etym-ipa{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-bottom:10px;}
+.etym-body{font-size:14px;line-height:1.7;color:var(--ink);}
+
+.diag-list{list-style:none;max-width:620px;margin:20px 0;}
+.diag-item{padding:14px 18px;background:var(--panel);border:1px solid var(--border);margin-bottom:7px;cursor:pointer;transition:all .2s;display:flex;align-items:flex-start;gap:12px;}
+.diag-item:hover{border-color:var(--oxford);}
+.diag-item.checked{background:var(--wheat);border-color:var(--claret);}
+.d-box{width:17px;height:17px;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s;}
+.diag-item.checked .d-box{background:var(--claret);border-color:var(--claret);color:#fff;}
+.d-text{font-size:14px;line-height:1.5;color:var(--ink);}
+.diag-item.checked .d-text{color:var(--claret);}
+.diag-score{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:14px;padding:11px 15px;background:var(--wheat);display:inline-block;border:1px solid var(--border);}
+
+.in-session{background:var(--panel);border:1px solid var(--oxford);border-top:3px solid var(--oxford);padding:22px 26px;max-width:620px;margin:24px 0;}
+.is-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--oxford);margin-bottom:10px;}
+.is-title{font-size:18px;font-weight:600;color:var(--ink);margin-bottom:14px;}
+
+.exp-box{background:var(--panel);border:1px solid var(--teal);border-top:3px solid var(--teal);padding:24px 28px;max-width:620px;margin:24px 0;}
+.exp-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.exp-title{font-size:19px;font-weight:600;color:var(--ink);margin-bottom:16px;}
+.exp-step{display:flex;gap:14px;margin-bottom:14px;}
+.exp-n{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--teal);flex-shrink:0;width:22px;margin-top:2px;}
+.exp-t{font-size:14px;line-height:1.6;color:var(--ink);}
+.log-tmpl{font-family:var(--font-mono);font-size:11px;color:var(--oxford);background:var(--ft-pink);padding:11px 14px;margin:14px 0;border:1px solid var(--border);line-height:1.6;}
+
+.mel-box{background:var(--wheat);border:1px solid var(--border);padding:22px;max-width:620px;margin:20px 0;}
+.mel-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.mel-text{font-size:15px;line-height:1.7;color:var(--ink);}
+
+.bib-entry{padding:14px 0;border-bottom:1px solid var(--border);max-width:620px;}
+.bib-authors{font-size:12px;color:var(--muted);margin-bottom:3px;}
+.bib-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px;}
+.bib-source{font-size:12px;color:var(--oxford);font-style:italic;}
+.bib-cross{margin-top:4px;font-family:var(--font-mono);font-size:10px;color:var(--teal);}
+
+.cq-box{background:var(--wheat);border:1px solid var(--border);padding:18px 22px;margin-bottom:14px;max-width:580px;}
+.cq-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.cq-text{font-size:15px;color:var(--ink);line-height:1.5;}
+
+.announce-box{border:1px dashed var(--border);padding:18px 22px;margin-bottom:14px;max-width:580px;}
+.announce-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.announce-empty{font-size:13px;color:var(--dim);font-style:italic;}
+
+.meta-hint{position:fixed;bottom:6px;right:10px;font-family:var(--font-mono);font-size:9px;color:var(--dim);z-index:200;letter-spacing:.5px;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);}
+
+/* bandwidth chart in F2 */
+.content-bw{max-width:580px;margin:24px 0;}
+.cbw-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.cbw-lbl{font-family:var(--font-mono);font-size:10px;color:var(--muted);width:160px;flex-shrink:0;}
+.cbw-track{flex:1;height:22px;background:var(--wheat);border:1px solid var(--border);overflow:hidden;display:flex;}
+.cbw-task{background:var(--oxford);height:100%;opacity:.85;flex-shrink:0;min-width:0;}
+.cbw-stress{background:var(--warn);height:100%;opacity:.8;flex-shrink:0;min-width:0;}
+.cbw-pct{font-family:var(--font-mono);font-size:10px;color:var(--muted);width:36px;text-align:right;}
+.cbw-legend{display:flex;gap:20px;margin-top:8px;}
+.cbl-item{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:9px;color:var(--muted);}
+.cbl-swatch{width:10px;height:10px;flex-shrink:0;}
+
+/* ── MOBILE NAV (hidden on desktop) ── */
+.mob-nav{display:none;overflow-x:auto;gap:6px;padding:10px 14px;background:var(--wheat);border-bottom:1px solid var(--border);flex-shrink:0;-webkit-overflow-scrolling:touch;}
+.mob-btn{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--panel);color:var(--muted);border:1px solid var(--border);padding:7px 14px;white-space:nowrap;cursor:pointer;flex-shrink:0;}
+.mob-btn.active{background:var(--claret);color:#fff;border-color:var(--claret);}
+.mob-lib{font-family:var(--font-mono);font-size:10px;color:var(--oxford);border:1px solid var(--oxford);padding:7px 14px;white-space:nowrap;cursor:pointer;flex-shrink:0;background:transparent;text-decoration:none;display:inline-flex;align-items:center;}
+
+/* ── MOBILE LAYOUT ── */
+@media(max-width:700px){
+  /* Entry: push content down from top, padded above ticker */
+  #entry{justify-content:flex-start;overflow-y:auto;padding:28px 20px 56px;-webkit-overflow-scrolling:touch;}
+  .e-wordmark{font-size:8px;letter-spacing:3px;margin-bottom:18px;}
+  .e-issue{font-size:9px;margin-bottom:10px;}
+  .e-title{font-size:clamp(22px,7vw,36px);margin-bottom:10px;}
+  .e-sub{max-width:100%;font-size:13px;margin-bottom:18px;}
+  .e-hr{width:180px;margin-bottom:16px;}
+  .e-clock{font-size:11px;letter-spacing:2px;margin-bottom:18px;}
+  .e-btn{width:100%;max-width:320px;padding:16px 20px;font-size:11px;}
+
+  /* Terminal: collapse to single-column, surface mobile nav */
+  .t-body{grid-template-columns:1fr;display:flex;flex-direction:column;}
+  .left-nav,.right-panel{display:none;}
+  .mob-nav{display:flex !important;}
+  .content{padding:16px 14px;flex:1;}
+  .data-cards{grid-template-columns:1fr;gap:10px;}
+  .sig-head{font-size:22px;}
+  .sig-deck{font-size:14px;}
+  h2.sh{font-size:18px;}
+  .prose{font-size:14px;line-height:1.65;}
+  .callout{padding:14px 16px;}
+  .callout p{font-size:14px;}
+  .diag-item{padding:12px 14px;}
+  .d-text{font-size:13px;}
+  .diag-score{font-size:11px;width:100%;display:block;box-sizing:border-box;}
+  .in-session,.exp-box,.mel-box,.etym{padding:16px 14px;}
+  .content-bw{max-width:100%;}
+  .cbw-lbl{width:90px;font-size:9px;}
+  .cbw-pct{display:none;}
+  .bib-entry,.cq-box,.announce-box{max-width:100%;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════ ENTRY SCREEN ══════════════ -->
+<div id="entry">
+  <div class="e-wordmark">MELIORISM2.COM // PRACTITIONER INTELLIGENCE</div>
+  <div class="e-issue">ISSUE 017 · MAY 17, 2026 · WORLD TELECOMMUNICATION DAY</div>
+  <div class="e-title">THE TRANSFER<br>COLLAPSE</div>
+  <div class="e-sub">When your financial precarity becomes the client's problem — the cognitive tax that crosses the container before either party notices.</div>
+  <div class="e-hr"></div>
+  <div class="e-clock" id="entry-clock">——:——:——</div>
+  <button class="e-btn" onclick="openTerminal()">OPEN BRIEFING →</button>
+  <div class="e-ticker">
+    <div class="ticker-wrap" id="entry-ticker">
+      <div class="ti">WORLD TELECOMMUNICATION DAY · <span class="hl">MAY 17, 1865</span> — FIRST INTERNATIONAL TELEGRAPH CONVENTION · 161 YEARS AGO</div>
+      <div class="ti">SCARCITY RESEARCH: FINANCIAL WORRY CONSUMES <span class="hl">~13 IQ POINTS</span> OF WORKING MEMORY [MULLAINATHAN &amp; SHAFIR, 2013]</div>
+      <div class="ti">45.6% OF INDEPENDENT COACHES EARN <span class="hl">$10K–$100K/YEAR</span> — THE MIDDLE STRATUM MOST EXPOSED TO THE TRANSFER COLLAPSE</div>
+      <div class="ti">RESTAURANT BENCHMARK: LABOR COST = <span class="hl">28–35%</span> OF GROSS REVENUE · MOST PRACTITIONERS HAVE NEVER CALCULATED THEIRS</div>
+      <div class="ti">SALARY: FROM LATIN <span class="hl">SALARIUM</span> — THE SALT ALLOWANCE PAID TO ROMAN SOLDIERS · THE OLDEST LIVING WAGE DISPUTE IN WESTERN RECORD</div>
+      <!-- duplicate for seamless loop -->
+      <div class="ti">WORLD TELECOMMUNICATION DAY · <span class="hl">MAY 17, 1865</span> — FIRST INTERNATIONAL TELEGRAPH CONVENTION · 161 YEARS AGO</div>
+      <div class="ti">SCARCITY RESEARCH: FINANCIAL WORRY CONSUMES <span class="hl">~13 IQ POINTS</span> OF WORKING MEMORY [MULLAINATHAN &amp; SHAFIR, 2013]</div>
+      <div class="ti">45.6% OF INDEPENDENT COACHES EARN <span class="hl">$10K–$100K/YEAR</span> — THE MIDDLE STRATUM MOST EXPOSED TO THE TRANSFER COLLAPSE</div>
+      <div class="ti">RESTAURANT BENCHMARK: LABOR COST = <span class="hl">28–35%</span> OF GROSS REVENUE · MOST PRACTITIONERS HAVE NEVER CALCULATED THEIRS</div>
+      <div class="ti">SALARY: FROM LATIN <span class="hl">SALARIUM</span> — THE SALT ALLOWANCE PAID TO ROMAN SOLDIERS · THE OLDEST LIVING WAGE DISPUTE IN WESTERN RECORD</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TERMINAL ══════════════ -->
+<div id="terminal">
+  <!-- Top bar -->
+  <div class="top-bar">
+    <span class="tb-logo">MELIORISM2.COM</span>
+    <div class="tb-divider"></div>
+    <div class="tb-ticker-wrap">
+      <div class="tb-ticker" id="tb-ticker">
+        <span style="padding-right:40px">THE TRANSFER COLLAPSE · ISSUE 017 · LIVING INCOME DIMENSION</span>
+        <span style="padding-right:40px">WORLD TELECOMMUNICATION DAY · MAY 17, 2026 · 161 YEARS SINCE FIRST ITU CONVENTION</span>
+        <span style="padding-right:40px">MULLAINATHAN &amp; SHAFIR (2013): FINANCIAL SCARCITY CONSUMES APPROXIMATELY 13 IQ POINTS OF WORKING MEMORY</span>
+        <span style="padding-right:40px">CROSS-DOMAIN: THE KITCHEN · LABOR COST AS % OF REVENUE · THE DISCIPLINE PRACTITIONERS LACK</span>
+        <span style="padding-right:40px">THE TRANSFER COLLAPSE · ISSUE 017 · LIVING INCOME DIMENSION</span>
+        <span style="padding-right:40px">WORLD TELECOMMUNICATION DAY · MAY 17, 2026 · 161 YEARS SINCE FIRST ITU CONVENTION</span>
+        <span style="padding-right:40px">MULLAINATHAN &amp; SHAFIR (2013): FINANCIAL SCARCITY CONSUMES APPROXIMATELY 13 IQ POINTS OF WORKING MEMORY</span>
+        <span style="padding-right:40px">CROSS-DOMAIN: THE KITCHEN · LABOR COST AS % OF REVENUE · THE DISCIPLINE PRACTITIONERS LACK</span>
+      </div>
+    </div>
+    <div class="tb-divider"></div>
+    <span class="tb-clock" id="tb-clock">——:——:——</span>
+  </div>
+
+  <div class="t-body">
+    <!-- Left nav -->
+    <nav class="left-nav">
+      <div class="ln-head">BRIEFING 017</div>
+      <button class="nav-btn active" onclick="showSec('f1',this)">
+        <span class="nav-key">F1</span>OVERVIEW
+      </button>
+      <button class="nav-btn" onclick="showSec('f2',this)">
+        <span class="nav-key">F2</span>THE MECHANISM
+      </button>
+      <button class="nav-btn" onclick="showSec('f3',this)">
+        <span class="nav-key">F3</span>CROSS-DOMAIN
+      </button>
+      <button class="nav-btn" onclick="showSec('f4',this)">
+        <span class="nav-key">F4</span>DIAGNOSTIC
+      </button>
+      <button class="nav-btn" onclick="showSec('f5',this)">
+        <span class="nav-key">F5</span>EXPERIMENT
+      </button>
+      <button class="nav-btn" onclick="showSec('f6',this)">
+        <span class="nav-key">F6</span>SOURCES
+      </button>
+      <div class="ln-div"></div>
+      <div class="ln-head" style="margin-top:4px">NAVIGATION</div>
+      <button class="nav-btn" onclick="showSec('f6',this);document.getElementById('community-anchor').scrollIntoView({behavior:'smooth'})">
+        <span class="nav-key">C</span>COMMUNITY
+      </button>
+      <div class="ln-div"></div>
+      <div class="ln-head" style="margin-top:4px">LIBRARY</div>
+      <a href="/archive/index.html" class="nav-btn" style="text-decoration:none;display:block;">
+        <span class="nav-key">↗</span>ALL ISSUES
+      </a>
+      <a href="/" class="nav-btn" style="text-decoration:none;display:block;">
+        <span class="nav-key">⌂</span>CURRENT ISSUE
+      </a>
+      <div class="ln-div"></div>
+      <div style="padding:8px 14px;font-family:var(--font-mono);font-size:9px;color:var(--dim);line-height:1.6;">
+        MAY 17, 2026<br>
+        LIVING INCOME<br>
+        8 SOURCES
+      </div>
+    </nav>
+
+    <!-- Mobile nav (only visible on small screens) -->
+    <div class="mob-nav" id="mob-nav">
+      <button class="mob-btn active" onclick="showSec('f1',this,true)">F1 OVERVIEW</button>
+      <button class="mob-btn" onclick="showSec('f2',this,true)">F2 MECHANISM</button>
+      <button class="mob-btn" onclick="showSec('f3',this,true)">F3 KITCHEN</button>
+      <button class="mob-btn" onclick="showSec('f4',this,true)">F4 DIAGNOSTIC</button>
+      <button class="mob-btn" onclick="showSec('f5',this,true)">F5 EXPERIMENT</button>
+      <button class="mob-btn" onclick="showSec('f6',this,true)">F6 SOURCES</button>
+      <a href="/archive/index.html" class="mob-lib">↗ LIBRARY</a>
+    </div>
+
+    <!-- Content area -->
+    <div class="content">
+
+      <!-- F1: OVERVIEW -->
+      <div class="sec active" id="f1">
+        <div class="sig-label">THE SIGNAL · 90-SECOND READ</div>
+        <h1 class="sig-head">THE TRANSFER COLLAPSE</h1>
+        <p class="sig-deck">The moment your financial precarity enters the room with your client — before either of you notices it happening.</p>
+
+        <div class="data-cards">
+          <div class="dc dc-warn">
+            <div class="dc-num neg">~13</div>
+            <div class="dc-key">IQ POINTS LOST</div>
+            <div class="dc-body">Financial scarcity taxes working memory by an equivalent of ~13 IQ points — not metaphorically, but measurably. <span class="cite">[1]</span></div>
+          </div>
+          <div class="dc dc-cla">
+            <div class="dc-num cla">28–35%</div>
+            <div class="dc-key">RESTAURANT BENCHMARK</div>
+            <div class="dc-body">A working kitchen targets labor at 28–35% of gross revenue. Most practitioners have never calculated their equivalent figure. <span class="cite">[4]</span></div>
+          </div>
+          <div class="dc dc-pos">
+            <div class="dc-num pos">45.6%</div>
+            <div class="dc-key">CREATOR MIDDLE CLASS</div>
+            <div class="dc-body">Of independent coaches and trainers earn $10K–$100K/year — high enough to stay, low enough to compromise. <span class="cite">[7]</span></div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <div class="co-lbl">THE SIGNAL</div>
+          <p>You are fully trained to hold space. You have the frameworks, the questions, the presence. What you may not have — in any given session — is full bandwidth. Because financial precarity doesn't stay in your bank account. It travels with you into the room.</p>
+          <p style="margin-top:12px">This is the <strong>Transfer Collapse</strong>: the moment a practitioner's financial anxiety becomes invisible structure in the session. Shorter pauses before you speak. Less willingness to introduce the uncomfortable question. A tendency to deliver value quickly rather than let the client sit in productive discomfort. Not because you made a decision to do that. Because cognitive bandwidth is finite — and you spent some of it before the call began.</p>
+          <p style="margin-top:12px">Today's briefing is not about earning more. It's about noticing what's already leaking — and building the financial floor that makes full presence possible.</p>
+        </div>
+
+        <div class="etym">
+          <div class="etym-word">salary</div>
+          <div class="etym-ipa">/ ˈsal·ə·ri / · n.</div>
+          <div class="etym-body">From Latin <em>salarium</em> — variously interpreted as the salt allowance paid to Roman soldiers, or the money given to soldiers to purchase salt, a critical and scarce preservative. The word carries the oldest documented living wage negotiation in the Western record: Roman military administrators and soldiers arguing, in 55 BCE, about what a person's full presence in service was worth.<br><br>We've been having the same argument for two thousand years. What's changed is that now the practitioner is often arguing it alone — with themselves — five minutes before a session begins.</div>
+        </div>
+
+        <div style="margin-top:16px;font-family:var(--font-mono);font-size:10px;color:var(--dim);">
+          → Navigate using F2–F6 in the left panel, or keyboard keys 1–6 for each section.
+        </div>
+      </div>
+
+      <!-- F2: MECHANISM -->
+      <div class="sec" id="f2">
+        <div class="sig-label">THE MECHANISM</div>
+        <h2 class="sh">The Bandwidth Tax: What the Scarcity Research Shows</h2>
+
+        <p class="prose">In 2013, economists Sendhil Mullainathan and Eldar Shafir published <em>Scarcity: Why Having Too Little Means So Much</em> — a landmark study of what it actually costs to be poor. Their central finding was not what most people expected: financial scarcity doesn't just cause stress. It consumes cognitive capacity. When a person is actively worried about money, measurable working memory and fluid intelligence decrease — by approximately the equivalent of 13 IQ points, comparable to losing a full night's sleep. <span class="cite">[1]</span></p>
+
+        <p class="prose">This is not a metaphor about distraction. It is a physiological claim about attention. The mental bandwidth required to manage financial uncertainty — calculating, worrying, suppressing worry, recalculating — is drawn from the same finite pool as the bandwidth required to be present with another human being.</p>
+
+        <div class="callout">
+          <div class="co-lbl">TUNNELING</div>
+          <p>Mullainathan and Shafir call the mechanism <strong>tunneling</strong>: under scarcity, the mind focuses narrowly on the immediate threat — and everything outside the tunnel becomes cognitively expensive to attend to. <span class="cite">[1]</span> For a practitioner, "everything outside the tunnel" includes: the client's affect, the pause that would open the next layer, the embodied signal that says <em>slow down here</em>.</p>
+        </div>
+
+        <p class="prose">What this means in session: the practitioner is not distracted in an obvious way. They are present. They ask good questions. They follow the protocol. What they lose is the expensive kind of attention — the peripheral, ambient reading of the room that distinguishes good facilitation from great facilitation.</p>
+
+        <div class="content-bw" id="bw-chart">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:12px;">SESSION BANDWIDTH MODEL</div>
+          <div class="cbw-row">
+            <div class="cbw-lbl">Secure state</div>
+            <div class="cbw-track">
+              <div class="cbw-task" style="width:88%" id="bw0"></div>
+              <div class="cbw-stress" style="width:0"></div>
+            </div>
+            <div class="cbw-pct">88%</div>
+          </div>
+          <div class="cbw-row">
+            <div class="cbw-lbl">Mild concern</div>
+            <div class="cbw-track">
+              <div class="cbw-task" style="width:75%" id="bw1"></div>
+              <div class="cbw-stress" style="width:12%"></div>
+            </div>
+            <div class="cbw-pct">75%</div>
+          </div>
+          <div class="cbw-row">
+            <div class="cbw-lbl">Active stress</div>
+            <div class="cbw-track">
+              <div class="cbw-task" style="width:62%"></div>
+              <div class="cbw-stress" style="width:24%"></div>
+            </div>
+            <div class="cbw-pct">62%</div>
+          </div>
+          <div class="cbw-row">
+            <div class="cbw-lbl">Financial crisis</div>
+            <div class="cbw-track">
+              <div class="cbw-task" style="width:50%"></div>
+              <div class="cbw-stress" style="width:38%"></div>
+            </div>
+            <div class="cbw-pct">50%</div>
+          </div>
+          <div class="cbw-legend">
+            <div class="cbl-item"><div class="cbl-swatch" style="background:var(--oxford)"></div>Available for session</div>
+            <div class="cbl-item"><div class="cbl-swatch" style="background:var(--warn)"></div>Financial scarcity tax</div>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--dim);margin-top:8px;">Illustrative model based on Mullainathan &amp; Shafir (2013). Percentage estimates are directional, not clinical thresholds.</div>
+        </div>
+
+        <p class="prose">The particularly insidious feature of the transfer collapse is that the <strong>practitioner cannot feel it happening</strong>. The research on scarcity shows that people under financial stress consistently overestimate their own cognitive performance — the tunnel feels like focus. This is why the collapse must be detected through behavior, not self-report. <span class="cite">[1]</span></p>
+
+        <p class="prose">There is a second mechanism at work. Kahneman and Tversky's prospect theory establishes that <strong>losses are felt approximately 2–2.5x more intensely than equivalent gains</strong>. <span class="cite">[2]</span> For a financially precarious practitioner, the potential loss of a client — through challenge, confrontation, or a hard question that lands poorly — is felt far more acutely than any gain from the client's genuine growth. The practitioner begins, unconsciously, to optimize for client retention over client development. This is the deepest form of the transfer collapse.</p>
+
+        <div class="mel-box">
+          <div class="mel-lbl">MELIORISM 2.0 — LIVING INCOME AS A STRUCTURAL CONDITION</div>
+          <div class="mel-text">Meliorism holds that the world gets better through constructive stewardship, wise action, better systems, and collaborative agency. A practitioner who cannot be fully present — because their nervous system is running a parallel financial risk calculation — cannot offer the depth of stewardship the work requires. Living income is not a personal finance issue. It is a systems design issue: if the infrastructure for a practitioner's work is precarious, the work itself is compromised at a structural level. This is Paulo Freire's insight applied to the helping professions: the practitioner's material conditions are a political fact, not a personal failing. <span class="cite">[8]</span></div>
+        </div>
+      </div>
+
+      <!-- F3: CROSS-DOMAIN -->
+      <div class="sec" id="f3">
+        <div class="sig-label">CROSS-DOMAIN · THE KITCHEN</div>
+        <h2 class="sh">Mise en Place as a Financial Discipline</h2>
+
+        <p class="prose">The restaurant industry has a language for the practitioner's problem. It's called <strong>the cost structure</strong>. Every chef who runs a kitchen — not just cooks in one — learns to think in percentages. Labor cost should represent 28–35% of gross revenue. Food cost another 28–35%. Combined: the "prime cost." If your prime cost exceeds 65% of revenue, you are not running a restaurant. You are running a very busy way of losing money. <span class="cite">[4]</span></p>
+
+        <p class="prose">What's notable is that this discipline is taught from the beginning of culinary training. No working chef manages a kitchen without knowing their food cost percentage. They run it weekly. The number is on the wall.</p>
+
+        <div class="callout">
+          <div class="co-lbl">THE PARALLEL</div>
+          <p>Most independent practitioners have no equivalent number. They know what they charge per hour. They may know how many clients they have. But they have not calculated: <strong>What is my actual cost of delivery — including preparation time, decompression time, administration, continuing education, and the unpaid hours that make the paid hours possible?</strong> What percentage of my revenue actually supports my living? If the chef who doesn't know their food cost percentage will eventually run out of margin, the practitioner who doesn't know their living cost percentage will eventually run out of presence.</p>
+        </div>
+
+        <p class="prose"><em>Mise en place</em> — the French kitchen term meaning "everything in its place" — is usually taught as an organizational philosophy: prep your ingredients before service, have your station ready, eliminate chaos before the rush. But experienced chefs describe it differently. <em>Mise en place</em> is, at root, a financial discipline. It is the act of knowing exactly what you have, what you need, and what the gap is — before service begins. A chef who arrives at service without having done mise en place is not just disorganized. They are entering a high-stakes performance with unknown inputs.</p>
+
+        <p class="prose">A practitioner who enters a session without a living income floor — a clear number they know their work needs to produce — is in the same position. Not disorganized. Entering with unknown inputs.</p>
+
+        <div class="in-session">
+          <div class="is-lbl">IN-SESSION MOVE</div>
+          <div class="is-title">The Practitioner's Mise en Place: Calculate Your Number</div>
+          <p class="prose" style="margin-bottom:12px">This week, before your next session, spend 10 minutes calculating your "kitchen number" — the revenue your practice needs to generate monthly for you to be financially secure enough to be fully present. Include:</p>
+          <ul style="list-style:none;padding:0;font-size:14px;line-height:1.8;color:var(--ink);max-width:560px;">
+            <li style="padding:6px 0;border-bottom:1px solid var(--border);">→ Fixed costs (rent, software, insurance, professional memberships)</li>
+            <li style="padding:6px 0;border-bottom:1px solid var(--border);">→ Variable costs per client (preparation time at your hourly rate, admin, follow-up)</li>
+            <li style="padding:6px 0;border-bottom:1px solid var(--border);">→ Living expenses (housing, food, health, transport)</li>
+            <li style="padding:6px 0;border-bottom:1px solid var(--border);">→ Professional investment (training, supervision, continuing education)</li>
+            <li style="padding:6px 0;">→ A margin for non-billable time (illness, rest, the sessions that run over)</li>
+          </ul>
+          <p class="prose" style="margin-top:14px;margin-bottom:0">That number is your living income threshold. It is not your ceiling. It is your floor — the financial mise en place that makes full presence possible.</p>
+        </div>
+
+        <p class="prose">The connection to Ariely's anchoring research is worth noting: practitioners who set prices without first calculating their living income threshold tend to anchor on market rates, on what they <em>think</em> the client will accept, or on what they themselves have always charged. These anchors are arbitrary — and, once set, become coherent. The price feels right because it's the price. The Scarcity research and the anchoring research together suggest a corrective: calculate your number first, anchor on that, then adjust for market reality. In that order. Not the reverse. <span class="cite">[3]</span></p>
+      </div>
+
+      <!-- F4: DIAGNOSTIC -->
+      <div class="sec" id="f4">
+        <div class="sig-label">DIAGNOSTIC · THE FIVE TRANSFER SIGNALS</div>
+        <h2 class="sh">Is Your Financial State Already in the Room?</h2>
+
+        <p class="prose">The Transfer Collapse cannot be detected through self-report in the moment — that's the tunneling effect. It must be detected through pattern recognition after the fact. These are the five behavioral signals most commonly reported by practitioners who have later identified a period of financial stress leaking into their facilitation. Click each signal you've noticed in your own recent work.</p>
+
+        <ul class="diag-list" id="diag">
+          <li class="diag-item tracked" onclick="toggleDiag(this)" data-track="diag-1">
+            <div class="d-box">✓</div>
+            <div class="d-text"><strong>Accelerating toward answers.</strong> You find yourself moving toward resolution more quickly than the content warrants — offering a reframe, a framework, or an interpretation before the client has fully arrived at the question themselves.</div>
+          </li>
+          <li class="diag-item tracked" onclick="toggleDiag(this)" data-track="diag-2">
+            <div class="d-box">✓</div>
+            <div class="d-text"><strong>Avoiding the uncomfortable pivot.</strong> You notice a moment when a harder question would open something important — and you don't ask it. You tell yourself it wasn't the right time. It may not have been. But it may also have been a financial calculation wearing the clothes of professional judgment.</div>
+          </li>
+          <li class="diag-item tracked" onclick="toggleDiag(this)" data-track="diag-3">
+            <div class="d-box">✓</div>
+            <div class="d-text"><strong>Filling silence with value delivery.</strong> You notice discomfort with the productive pause — the silence that does work. Instead, you fill it with content, with summaries, with useful things. The client feels served. The session feels efficient. The deeper process has been interrupted.</div>
+          </li>
+          <li class="diag-item tracked" onclick="toggleDiag(this)" data-track="diag-4">
+            <div class="d-box">✓</div>
+            <div class="d-text"><strong>Over-performing on likability.</strong> You find yourself more charming, more agreeable, more affirming than the client's actual progress warrants. The session feels warm and successful. The client is not being challenged.</div>
+          </li>
+          <li class="diag-item tracked" onclick="toggleDiag(this)" data-track="diag-5">
+            <div class="d-box">✓</div>
+            <div class="d-text"><strong>Post-session financial review intrusions.</strong> Within an hour after a session ends, you find your mind moving to revenue calculations, client count, upcoming invoices — before you've fully closed the session for yourself. The financial tunnel was running in parallel the entire time.</div>
+          </li>
+        </ul>
+
+        <div class="diag-score" id="diag-score">SELECT SIGNALS ABOVE · YOUR SCORE WILL APPEAR HERE</div>
+
+        <div class="callout" style="margin-top:24px">
+          <div class="co-lbl">EDGE CASE</div>
+          <p>These signals can be difficult to distinguish from legitimate facilitation choices — and that difficulty is the point. The practitioner who is financially secure makes the same moves sometimes, for well-reasoned professional reasons. The practitioner under financial stress makes them <em>more frequently</em>, at <em>lower thresholds</em>, with <em>less deliberate reasoning</em>. The diagnostic is not about isolated incidents. It's about the pattern over time — and whether your financial state is one of the variables producing the pattern.</p>
+        </div>
+      </div>
+
+      <!-- F5: EXPERIMENT -->
+      <div class="sec" id="f5">
+        <div class="sig-label">EXPERIMENT PROTOCOL · THIS WEEK</div>
+        <h2 class="sh">The Thought-Ratio Log</h2>
+
+        <p class="prose">This experiment is drawn from cognitive load research methodology. The goal is not to eliminate financial thinking — it is to make it visible as a variable, so it can be managed rather than denied. One week. One session tracked per day (or per session, if you see fewer than 5 clients this week).</p>
+
+        <div class="exp-box">
+          <div class="exp-lbl">EXPERIMENT · WEEK OF MAY 17, 2026</div>
+          <div class="exp-title">The Thought-Ratio Log</div>
+          <div class="exp-step">
+            <div class="exp-n">01</div>
+            <div class="exp-t"><strong>Setup:</strong> Place a small notebook (or a note open on your phone) within reach before each session. Not during — before. Write the date and your current financial stress level on a scale of 1–5. (1 = fully secure this week. 5 = active concern about making rent/payroll.)</div>
+          </div>
+          <div class="exp-step">
+            <div class="exp-n">02</div>
+            <div class="exp-t"><strong>Observation target:</strong> Within 30 minutes after the session ends (not during), make a single tally mark for each time you recall a moment when your attention shifted away from the client toward a financial thought. One mark per incident. Don't reconstruct — just notice what surfaces.</div>
+          </div>
+          <div class="exp-step">
+            <div class="exp-n">03</div>
+            <div class="exp-t"><strong>At end of week:</strong> Lay out your 5 (or fewer) cards. Does tally count correlate with stress level? Even rough correlation is signal. This is your transfer pattern. What you do with it is the next brief.</div>
+          </div>
+          <div class="log-tmpl">LOG TEMPLATE:<br>DATE: _____ · STRESS LEVEL: ___/5 · CLIENT TYPE: ____<br>TALLY: _____ · NOTE: ________________________________</div>
+          <div class="exp-step" style="margin-top:8px">
+            <div class="exp-n">↗</div>
+            <div class="exp-t"><strong>Community share:</strong> What did you find? Any surprise in the correlation (or lack of it)? A single sentence in the community thread — what your tally was on your highest-stress day — is the data point the community needs.</div>
+          </div>
+        </div>
+
+        <p class="prose">The goal of the experiment is not guilt — it is calibration. A practitioner who knows their transfer pattern can design around it: a brief financial clarity ritual before sessions, living income pricing that removes the tunnel, supervision structure that holds the anxiety outside the room. None of these are available to a practitioner who doesn't know the pattern exists.</p>
+      </div>
+
+      <!-- F6: SOURCES + COMMUNITY -->
+      <div class="sec" id="f6">
+        <div class="sig-label">SOURCES · BIBLIOGRAPHY</div>
+        <h2 class="sh">Cited Sources</h2>
+
+        <div class="bib-entry">
+          <div class="bib-authors">[1] Mullainathan, S., &amp; Shafir, E.</div>
+          <div class="bib-title">Scarcity: Why Having Too Little Means So Much</div>
+          <div class="bib-source">Times Books/Henry Holt, 2013. Primary source for the bandwidth tax and tunneling effect. Chapter 2: "The Bandwidth Tax."</div>
+        </div>
+        <div class="bib-entry">
+          <div class="bib-authors">[2] Kahneman, D., &amp; Tversky, A.</div>
+          <div class="bib-title">Prospect Theory: An Analysis of Decision under Risk</div>
+          <div class="bib-source">Econometrica, 47(2), 263–291, 1979. Loss aversion coefficient ~2.25; losses felt more intensely than equivalent gains.</div>
+        </div>
+        <div class="bib-entry">
+          <div class="bib-authors">[3] Ariely, D., Loewenstein, G., &amp; Prelec, D.</div>
+          <div class="bib-title">"Coherent Arbitrariness": Stable Demand Curves Without Stable Preferences</div>
+          <div class="bib-source">The Quarterly Journal of Economics, 118(1), 73–106, 2003. Arbitrary anchors become coherent — the mechanism behind pricing inertia.</div>
+        </div>
+        <div class="bib-entry">
+          <div class="bib-authors">[4] National Restaurant Association</div>
+          <div class="bib-title">Restaurant Operations Report 2024</div>
+          <div class="bib-source">NRA Educational Foundation, 2024. Labor cost benchmarks: 28–35% of gross revenue as industry standard for sustainable operations.</div>
+        </div>
+        <div class="bib-entry">
+          <div class="bib-authors">[5] Thaler, R. H.</div>
+          <div class="bib-title">Mental Accounting Matters</div>
+          <div class="bib-source">Journal of Behavioral Decision Making, 12(3), 183–206, 1999. How people categorize and evaluate financial decisions in ways that deviate from rational models — relevant to practitioner pricing psychology.</div>
+        </div>
+        <div class="bib-entry">
+          <div class="bib-authors">[6] Brown, S. P., &amp; Lam, S. K.</div>
+          <div class="bib-title">A Meta-Analysis of Relationships Linking Employee Satisfaction to Customer Responses</div>
+          <div class="bib-source">Journal of Retailing, 84(3), 243–255, 2008. Practitioner wellbeing consistently predicts client outcomes — the empirical basis for the "secure floor enables full presence" claim.</div>
+        </div>
+        <div class="bib-entry">
+          <div class="bib-authors">[7] The Signal</div>
+          <div class="bib-title">Market Intelligence Brief: Creator Economy &amp; Practitioner Landscape</div>
+          <div class="bib-source">Meliorism2.com Research Library, May 13, 2026. Creator income data: 45.6% of independent creators and coaches earn $10K–$100K/year. Editorial research signal — not peer-reviewed; flagged as practitioner context data.</div>
+        </div>
+        <div class="bib-entry">
+          <div class="bib-authors">[8] Freire, P.</div>
+          <div class="bib-title">Pedagogy of the Oppressed</div>
+          <div class="bib-source">Bloomsbury Academic, 1970/2000. The practitioner's material conditions as a political and structural fact. Meliorism element: wise action requires the material conditions that make it possible.</div>
+        </div>
+
+        <div class="bib-entry" style="border-top:2px solid var(--claret);">
+          <div class="bib-authors" style="color:var(--teal);font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;">CROSS-DOMAIN FURTHER READING</div>
+          <div class="bib-title">Keller, Thomas. The French Laundry Cookbook. Artisan, 1999.</div>
+          <div class="bib-source">Not a cookbook — a philosophy of mise en place as total professional discipline. The sections on labor, preparation, and the cost of a service experience are the best practitioner pricing manual never written for practitioners.</div>
+          <div class="bib-cross">CROSS-DOMAIN: Culinary / Kitchen Economics</div>
+        </div>
+        <div class="bib-entry">
+          <div class="bib-authors" style="color:var(--teal);font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;">FURTHER READING — OUTSIDE YOUR DOMAIN</div>
+          <div class="bib-title">Waldman, Katy. "The Invisible Labor of Being Expensive." The New Yorker, 2023.</div>
+          <div class="bib-source">On the cognitive and social costs of pricing yourself above market — the cultural labor of asking for what the work is worth. Practitioner-relevant though not practitioner-targeted.</div>
+          <div class="bib-cross">CROSS-DOMAIN: Cultural Economics / Labor</div>
+        </div>
+
+        <div style="height:32px"></div>
+        <div id="community-anchor"></div>
+        <div class="sig-label" style="margin-top:8px">COMMUNITY</div>
+        <h2 class="sh" style="font-size:20px">Questions for This Issue</h2>
+
+        <div class="cq-box">
+          <div class="cq-lbl">FORMAT QUESTION</div>
+          <div class="cq-text">This issue uses a financial terminal aesthetic — light background, data panels, ticker tape. How did that format work for your brain today? Did the visual register help you engage with the financial content differently than you expected?</div>
+        </div>
+        <div class="cq-box">
+          <div class="cq-lbl">CONTENT QUESTION</div>
+          <div class="cq-text">The Transfer Collapse is a practitioner-framework model, not a peer-reviewed clinical finding. Does it match your experience? What would you add, challenge, or complicate? What signals would you add to the diagnostic list?</div>
+        </div>
+
+        <div class="announce-box">
+          <div class="announce-lbl">FOUNDER ANNOUNCEMENTS</div>
+          <div class="announce-empty">Brian fills this in before publish.</div>
+        </div>
+        <div class="announce-box">
+          <div class="announce-lbl">SUPPORTER MESSAGES</div>
+          <div class="announce-empty">Reserved for founding member acknowledgments.</div>
+        </div>
+
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--dim);padding:20px 0;border-top:1px solid var(--border);margin-top:24px;max-width:620px;">
+          MELIORISM2.COM · ISSUE 017 · MAY 17, 2026 · THE TRANSFER COLLAPSE<br>
+          Non-profit practitioner intelligence. Fiscal sponsorship → 501(c)(3).<br>
+          A percentage of Meliorism2.com proceeds supports Cherokee At Large Nation (San Francisco) and native communities.<br><br>
+          <a href="/archive/index.html" style="color:var(--oxford);text-decoration:none;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;">↗ THE LIBRARY — ALL ISSUES</a>
+          &nbsp;·&nbsp;
+          <a href="/" style="color:var(--oxford);text-decoration:none;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;">⌂ CURRENT ISSUE</a>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+    <!-- Right panel -->
+    <div class="right-panel">
+      <div class="rp-head">SESSION BANDWIDTH</div>
+      <div class="ind-row"><span class="ind-lbl">SECURE STATE</span><span class="ind-val pos">+100%</span></div>
+      <div class="ind-row"><span class="ind-lbl">MILD CONCERN</span><span class="ind-val" style="color:#e08a20">−13%</span></div>
+      <div class="ind-row"><span class="ind-lbl">ACTIVE STRESS</span><span class="ind-val neg">−26%</span></div>
+      <div class="ind-row"><span class="ind-lbl">CRISIS STATE</span><span class="ind-val neg">−40%</span></div>
+      <div class="rp-div"></div>
+      <div class="rp-head">BRIEFING DATA</div>
+      <div class="ind-row"><span class="ind-lbl">DIMENSION</span><span class="ind-val cla" style="font-size:8px">LIVING INCOME</span></div>
+      <div class="ind-row"><span class="ind-lbl">ISSUE</span><span class="ind-val neu">017</span></div>
+      <div class="ind-row"><span class="ind-lbl">SOURCES</span><span class="ind-val neu">8</span></div>
+      <div class="ind-row"><span class="ind-lbl">HOOK</span><span class="ind-val" style="font-size:8px;color:var(--oxford)">WORLD TELECOM</span></div>
+      <div class="rp-div"></div>
+      <div class="bw-chart-title">LABOR COST % TARGET</div>
+      <div class="bw-row">
+        <div class="bw-lbl">Restaurant</div>
+        <div class="bw-track"><div class="bw-fill s0" style="width:31%"></div></div>
+        <div class="bw-pct">31%</div>
+      </div>
+      <div class="bw-row">
+        <div class="bw-lbl">Law firm</div>
+        <div class="bw-track"><div class="bw-fill s1" style="width:40%"></div></div>
+        <div class="bw-pct">40%</div>
+      </div>
+      <div class="bw-row">
+        <div class="bw-lbl">Software co.</div>
+        <div class="bw-track"><div class="bw-fill s2" style="width:55%"></div></div>
+        <div class="bw-pct">55%</div>
+      </div>
+      <div class="bw-row">
+        <div class="bw-lbl">Solo practitioner</div>
+        <div class="bw-track"><div class="bw-fill s3" style="width:70%"></div></div>
+        <div class="bw-pct">70%+</div>
+      </div>
+      <div class="rp-note">Labor cost as % of revenue by sector. Solo practitioners often run 60–80% — unsustainably above industry benchmarks — without realizing it.</div>
+      <div class="rp-div"></div>
+      <div style="font-family:var(--font-mono);font-size:9px;color:var(--dim);line-height:1.7;">
+        FORMAT:<br>PRACTITIONER'S<br>BLOOMBERG<br><br>
+        REGISTER:<br>LIGHT / FT-PINK<br><br>
+        INTERACTION:<br>TAB NAVIGATION<br>+ DIAGNOSTIC<br>CHECKLIST
+      </div>
+    </div>
+  </div><!-- /t-body -->
+</div><!-- /terminal -->
+
+<div class="meta-hint" title="This format uses a financial terminal aesthetic (Bloomberg/FT hybrid) for Living Income content — the register matches the subject matter. Best for analytical thinkers and visual processors who engage better with data-dense layouts than narrative formats.">
+  ⓘ format note
+</div>
+
+<script>
+// ── CLOCK ──
+function updateClock(){
+  const n=new Date();
+  const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
+  const ec=document.getElementById('entry-clock');
+  const tc=document.getElementById('tb-clock');
+  if(ec)ec.textContent=t;
+  if(tc)tc.textContent=t;
+}
+setInterval(updateClock,1000);
+updateClock();
+
+// ── OPEN TERMINAL ──
+function openTerminal(){
+  const entry=document.getElementById('entry');
+  const term=document.getElementById('terminal');
+  entry.classList.add('hiding');
+  setTimeout(()=>{
+    entry.style.display='none';
+    term.style.display='flex';
+    // double rAF ensures display:flex is painted before opacity transition fires
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ term.classList.add('visible'); }));
+  },600);
+  trackEvent('terminal-open','entry');
+}
+
+// ── NAV ──
+function showSec(id,btn,mobile){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  // sync both desktop + mobile nav buttons
+  document.querySelectorAll('.nav-btn,.mob-btn').forEach(b=>b.classList.remove('active'));
+  const sec=document.getElementById(id);
+  if(sec){ sec.classList.add('active'); sec.scrollTop=0; }
+  if(btn) btn.classList.add('active');
+  // scroll content area to top on section change
+  const content=document.querySelector('.content');
+  if(content) content.scrollTop=0;
+  trackEvent('nav',id);
+}
+
+// keyboard nav
+document.addEventListener('keydown',e=>{
+  const map={'1':'f1','2':'f2','3':'f3','4':'f4','5':'f5','6':'f6'};
+  if(map[e.key]){
+    const btn=document.querySelector(`.nav-btn[onclick*="'${map[e.key]}'"]`);
+    showSec(map[e.key],btn);
+  }
+});
+
+// ── DIAGNOSTIC ──
+let diagCount=0;
+const diagMessages=[
+  'SELECT SIGNALS ABOVE · YOUR SCORE WILL APPEAR HERE',
+  '1 SIGNAL NOTED · A SINGLE INCIDENT IS NOT A PATTERN — WATCH THE FREQUENCY',
+  '2 SIGNALS NOTED · WORTH TRACKING THIS WEEK. START THE THOUGHT-RATIO LOG (F5).',
+  '3 SIGNALS NOTED · A RECOGNIZABLE PATTERN. THE TRANSFER IS LIKELY RUNNING. SEE F5.',
+  '4 SIGNALS NOTED · STRONG PATTERN. FINANCIAL FLOOR WORK IS INDICATED BEFORE SESSION DESIGN.',
+  '5 SIGNALS NOTED · THE TUNNEL IS OPEN. THE WORK REQUIRES A STRUCTURAL INTERVENTION, NOT JUST AWARENESS.'
+];
+function toggleDiag(el){
+  el.classList.toggle('checked');
+  diagCount=document.querySelectorAll('.diag-item.checked').length;
+  const sc=document.getElementById('diag-score');
+  if(sc)sc.textContent=diagMessages[diagCount]||diagMessages[5];
+  trackEvent('diagnostic','signal-'+diagCount);
+}
+
+// ── ENGAGEMENT TRACKING (Intersection Observer) ──
+const engagementLog=[];
+function trackEvent(type,label){
+  engagementLog.push({type,label,ts:Date.now()});
+}
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const l=e.target.dataset.track;
+      if(l)trackEvent('view',l);
+    }
+  });
+},{threshold:0.4});
+document.querySelectorAll('.tracked').forEach(el=>observer.observe(el));
+document.querySelectorAll('.data-card,.dc,.callout,.exp-box,.in-session,.etym,.mel-box').forEach(el=>{
+  el.classList.add('tracked');
+  el.dataset.track=el.className.split(' ')[0]+'-view';
+  observer.observe(el);
+});
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

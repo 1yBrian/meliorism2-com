@@ -1,0 +1,818 @@
+<!-- signal-os:date: 2026-05-08 -->
+<!-- signal-os:slug: occams-razor -->
+<!-- signal-os:title: Occam's Razor -->
+<!-- signal-os:concept: A Franciscan friar from Surrey invented the most useful and most misused thinking tool in the practitioner's kit. Simplest is often right. And sometimes it's catastrophically wrong. Knowing which is the skill. -->
+<!-- signal-os:format: Watchmaker's Bench -->
+<!-- signal-os:dimension: Brave Spaces -->
+<!-- signal-os:sources: 10 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 008 · Occam's Razor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300;1,9..144,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --wood:      #6B4226;
+  --wood-l:    #8A5534;
+  --wood-d:    #3D2010;
+  --brass:     #B5813A;
+  --brass-l:   #D4A855;
+  --paper:     #F4ECCF;
+  --paper-l:   #FAF6EA;
+  --aged:      #EDE0BA;
+  --ink:       #1C1008;
+  --ink-mid:   rgba(28,16,8,0.62);
+  --ink-dim:   rgba(28,16,8,0.35);
+  --red:       #8B0000;
+  --red-f:     rgba(139,0,0,0.08);
+  --green-f:   rgba(52,100,48,0.08);
+  --metal:     #7A7A72;
+  --velvet:    #1A1008;
+  --border:    rgba(28,16,8,0.12);
+}
+
+html,body{height:100%;background:var(--wood-d);color:var(--ink);overflow:hidden;
+  font-family:'DM Sans',sans-serif;}
+
+/* ── Status bar ── */
+.sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:32px;
+  background:var(--wood-d);border-bottom:1px solid rgba(181,129,58,0.2);
+  display:flex;align-items:center;padding:0 18px;gap:12px;
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;}
+.sb-logo{color:var(--brass-l);text-decoration:none;font-weight:500;letter-spacing:4px;}
+.sb-pipe{color:rgba(181,129,58,0.22);}
+.sb-meta{color:rgba(242,234,211,0.42);}
+.sb-r{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.sb-clock{color:rgba(242,234,211,0.3);font-size:10px;}
+.sb-lib{color:var(--brass);text-decoration:none;font-size:10px;
+  border:1px solid rgba(181,129,58,0.3);padding:2px 8px;transition:all 0.2s;}
+.sb-lib:hover{border-color:var(--brass-l);color:var(--brass-l);}
+
+/* ═══════════════════════════════════════
+   ENTRY — The bench before work begins
+═══════════════════════════════════════ */
+#entry{
+  position:fixed;inset:0;top:32px;z-index:800;
+  background:var(--wood);
+  display:grid;grid-template-columns:1fr 1fr;
+  overflow:hidden;transition:opacity 0.7s ease;
+}
+
+/* Left: manuscript display — no external image dependency */
+.entry-left{
+  position:relative;overflow:hidden;
+  background:var(--wood-d);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0;
+}
+/* Parchment texture behind the manuscript */
+.manuscript-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 80% at 40% 30%, rgba(212,168,85,0.08) 0%, transparent 70%),
+    repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(181,129,58,0.04) 28px,rgba(181,129,58,0.04) 29px),
+    var(--wood-d);
+}
+/* The illuminated manuscript panel */
+.manuscript{
+  position:relative;z-index:2;
+  margin:40px 36px 40px 44px;
+  background:rgba(244,236,207,0.06);
+  border:1px solid rgba(181,129,58,0.18);
+  border-left:4px solid rgba(181,129,58,0.35);
+  padding:36px 32px 32px;
+  display:flex;flex-direction:column;gap:18px;
+}
+.ms-issue{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;
+  color:var(--brass);opacity:0.7;}
+.ms-initial{font-family:'Fraunces',serif;font-size:80px;font-weight:700;
+  color:rgba(181,129,58,0.22);line-height:1;float:left;margin-right:10px;
+  margin-top:-8px;font-style:italic;}
+.ms-latin{font-family:'Fraunces',serif;font-size:clamp(22px,3.5vw,32px);
+  font-style:italic;font-weight:300;color:rgba(244,236,207,0.82);
+  line-height:1.4;margin-bottom:6px;}
+.ms-translation{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;
+  color:rgba(181,129,58,0.75);line-height:1.7;border-top:1px solid rgba(181,129,58,0.18);
+  padding-top:14px;}
+.ms-attribution{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:rgba(244,236,207,0.35);margin-top:8px;}
+/* Decorative ruled lines below manuscript */
+.ms-rules{position:absolute;bottom:0;left:0;right:0;height:60px;
+  background:repeating-linear-gradient(0deg,transparent,transparent 14px,rgba(181,129,58,0.06) 14px,rgba(181,129,58,0.06) 15px);}
+
+/* Right: the bench intro */
+.entry-right{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:60px 52px;background:var(--paper);
+  position:relative;
+}
+.entry-right::before{
+  content:'';position:absolute;inset:0;opacity:0.035;
+  background:repeating-linear-gradient(
+    91deg,transparent,transparent 3px,var(--wood) 3px,var(--wood) 4px
+  );pointer-events:none;
+}
+.e-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;
+  color:var(--brass);margin-bottom:20px;}
+.e-title{font-family:'Fraunces',serif;font-size:clamp(52px,7vw,90px);
+  font-weight:700;line-height:0.92;color:var(--ink);margin-bottom:10px;}
+.e-title em{color:var(--red);font-style:normal;}
+.e-sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:var(--ink-dim);margin-bottom:28px;}
+.e-brief{font-family:'Fraunces',serif;font-size:16px;font-style:italic;
+  color:var(--ink-mid);line-height:1.8;margin-bottom:14px;
+  border-left:2px solid var(--red);padding-left:16px;}
+.e-fact{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;
+  color:var(--ink-dim);margin-bottom:34px;line-height:1.9;padding-left:18px;}
+.e-btn{display:inline-block;background:var(--ink);color:var(--paper);
+  border:none;padding:14px 32px;font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:3px;cursor:pointer;
+  transition:all 0.2s;align-self:flex-start;}
+.e-btn:hover{background:var(--red);letter-spacing:4px;}
+
+/* ═══════════════════════════════════════
+   BENCH — the working surface
+═══════════════════════════════════════ */
+#bench{
+  display:none;opacity:0;position:fixed;inset:0;top:32px;
+  transition:opacity 0.6s ease;overflow:hidden;
+  grid-template-columns:1fr 360px;
+  grid-template-rows:1fr;
+}
+
+/* Wood surface — the actual bench */
+.bench-surface{
+  position:relative;overflow-y:auto;overflow-x:hidden;
+  /* Layered wood grain: radial warmth + cross-grain lines + long-grain lines */
+  background:
+    radial-gradient(ellipse 90% 60% at 30% 70%, rgba(120,70,30,0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 90% at 70% 20%, rgba(90,50,20,0.35) 0%, transparent 60%),
+    repeating-linear-gradient(
+      88deg,
+      transparent 0px,transparent 8px,
+      rgba(0,0,0,0.025) 8px,rgba(0,0,0,0.025) 9px,
+      transparent 9px,transparent 18px,
+      rgba(255,255,255,0.015) 18px,rgba(255,255,255,0.015) 19px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,transparent 60px,
+      rgba(0,0,0,0.02) 60px,rgba(0,0,0,0.02) 61px
+    ),
+    #6B4226;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:32px 36px 80px;
+}
+
+/* ─── Component grid ─── */
+.components{
+  display:grid;
+  grid-template-columns: 2fr 1.4fr 1.2fr;
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas:
+    "signal  signal  friar"
+    "main    contre  friar"
+    "main    nature  gear"
+    "story   bib     gear";
+  gap:18px;width:100%;
+}
+
+/* ─── Base component: object on a surface ─── */
+.comp{
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:transform 0.18s ease, box-shadow 0.18s ease;
+  padding:16px 18px;
+}
+/* Physical shadow — objects sitting on wood */
+.comp{
+  box-shadow:
+    3px 6px 18px rgba(0,0,0,0.40),
+    1px 2px 4px rgba(0,0,0,0.25),
+    0 0 0 1px rgba(0,0,0,0.08);
+}
+.comp:hover{
+  transform:translateY(-3px) scale(1.015);
+  box-shadow:
+    5px 12px 28px rgba(0,0,0,0.50),
+    2px 4px 8px rgba(0,0,0,0.30);
+  z-index:10;
+}
+.comp.active{
+  outline:2px solid var(--red);outline-offset:2px;
+  transform:translateY(-2px) scale(1.01);
+  z-index:10;
+}
+
+/* ─── Area assignments ─── */
+.comp-signal {grid-area:signal;}
+.comp-main   {grid-area:main;min-height:200px;}
+.comp-contre {grid-area:contre;}
+.comp-nature {grid-area:nature;}
+.comp-story  {grid-area:story;}
+.comp-bib    {grid-area:bib;}
+.comp-friar  {grid-area:friar;min-height:280px;padding:0;overflow:hidden;}
+.comp-gear   {grid-area:gear;}
+
+/* ─── Each component has its own material identity ─── */
+
+/* Signal → cream telegram strip, pinned at two corners */
+.comp-signal{
+  background:var(--paper-l);
+  transform:rotate(-0.6deg);
+}
+.comp-signal::before,.comp-signal::after{
+  content:'●';position:absolute;color:rgba(181,129,58,0.5);font-size:10px;top:6px;
+}
+.comp-signal::before{left:10px;}
+.comp-signal::after{right:10px;}
+
+/* Main → open reference manual / notebook, slight lift */
+.comp-main{
+  background:linear-gradient(to right, rgba(80,50,20,0.12) 0px, rgba(80,50,20,0.04) 18px, var(--paper) 18px);
+  border-left:5px solid rgba(80,50,20,0.30);
+  transform:rotate(1deg);
+}
+
+/* Contre → red field notebook */
+.comp-contre{
+  background:var(--paper);
+  border-top:4px solid var(--red);
+  border-left:none;
+  transform:rotate(-1.4deg);
+}
+/* Spiral binding dots on top edge */
+.comp-contre::before{
+  content:'';position:absolute;top:-2px;left:0;right:0;height:4px;
+  background:repeating-linear-gradient(90deg,
+    transparent 0px,transparent 10px,
+    rgba(139,0,0,0.6) 10px,rgba(139,0,0,0.6) 18px
+  );
+}
+
+/* Nature → pale green journal page */
+.comp-nature{
+  background:linear-gradient(135deg, #EEF5E6 0%, #EAF0DC 100%);
+  border-left:3px solid rgba(60,110,50,0.35);
+  transform:rotate(0.9deg);
+}
+
+/* Story → manila folder */
+.comp-story{
+  background:var(--aged);
+  transform:rotate(-0.8deg);
+  padding-top:28px;
+}
+/* Folder tab */
+.comp-story::before{
+  content:'CASE FILE';position:absolute;top:0;left:0;
+  background:rgba(180,155,80,0.35);
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:var(--ink-mid);padding:4px 12px;
+  border-right:1px solid rgba(0,0,0,0.1);
+}
+
+/* Bib → stack of index cards (layered shadow) */
+.comp-bib{
+  background:var(--paper-l);
+  transform:rotate(0.6deg);
+  box-shadow:
+    3px 6px 18px rgba(0,0,0,0.40),
+    1px 2px 4px rgba(0,0,0,0.25),
+    4px 8px 0 -1px #EDE0BA,
+    5px 10px 12px rgba(0,0,0,0.25),
+    8px 14px 0 -2px #E5D5A8,
+    9px 16px 10px rgba(0,0,0,0.18);
+}
+
+/* Friar → photo in a frame (church image or portrait) */
+.comp-friar{
+  background:var(--wood-d);
+  transform:rotate(-1.8deg);
+  border:8px solid #4A3020;
+  box-shadow:
+    4px 8px 24px rgba(0,0,0,0.55),
+    2px 4px 6px rgba(0,0,0,0.35),
+    0 0 0 1px rgba(181,129,58,0.15);
+}
+/* Thumbtack */
+.comp-friar::after{
+  content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);
+  width:12px;height:12px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #D4A855, #8B6020);
+  box-shadow:0 2px 4px rgba(0,0,0,0.5);z-index:5;
+}
+.friar-photo{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  filter:sepia(0.3) contrast(1.08) brightness(0.92);
+  display:block;
+}
+.friar-caption-inner{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(10,5,0,0.88));
+  padding:28px 14px 14px;
+}
+.fc-name{font-family:'Fraunces',serif;font-size:14px;font-weight:500;
+  color:var(--paper);margin-bottom:2px;font-style:italic;}
+.fc-detail{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;
+  color:var(--brass-l);line-height:1.7;opacity:0.85;}
+
+/* Gear → velvet watchmaker's pad, center of attention */
+.comp-gear{
+  background:radial-gradient(ellipse at 50% 40%, #2A1A0A 0%, var(--velvet) 100%);
+  border:1px solid rgba(181,129,58,0.2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;transform:rotate(0.4deg);
+  padding:22px;
+}
+
+/* ─── Component labels / type ─── */
+.comp-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
+  color:var(--brass);margin-bottom:5px;text-transform:uppercase;}
+.comp-contre .comp-label{color:var(--red);}
+.comp-nature .comp-label{color:rgba(60,110,50,0.75);}
+.comp-story .comp-label{color:var(--ink-mid);}
+.comp-gear .comp-label{color:var(--brass-l);letter-spacing:4px;font-size:10px;}
+.comp-title{font-family:'Fraunces',serif;font-size:14px;font-weight:500;color:var(--ink);line-height:1.3;}
+.comp-gear .comp-title{color:var(--brass);font-size:13px;text-align:center;}
+.comp-teaser{font-size:12px;color:var(--ink-mid);line-height:1.5;margin-top:5px;}
+.comp-corner{position:absolute;bottom:8px;right:10px;font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:1px;color:var(--ink-dim);}
+
+/* Gear animation */
+.gear-wrap{position:relative;width:88px;height:88px;}
+.gear-svg{animation:spin 12s linear infinite;filter:drop-shadow(0 0 6px rgba(181,129,58,0.4));}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+/* Counter-rotation for second gear */
+.gear-svg-2{animation:spin-r 8s linear infinite;filter:drop-shadow(0 0 4px rgba(181,129,58,0.25));}
+@keyframes spin-r{from{transform:rotate(0deg);}to{transform:rotate(-360deg);}}
+.tick-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:var(--brass);opacity:0.7;text-align:center;}
+
+/* ── Content panel — right ── */
+.content-panel{
+  background:var(--aged);border-left:1px solid rgba(181,129,58,0.18);
+  overflow-y:auto;padding:32px 28px 80px;
+}
+.cp-code{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
+  color:var(--brass);margin-bottom:10px;}
+.cp-title{font-family:'Fraunces',serif;font-size:26px;font-weight:700;
+  color:var(--ink);line-height:1.15;margin-bottom:6px;}
+.cp-byline{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:var(--ink-dim);margin-bottom:24px;padding-bottom:16px;
+  border-bottom:1px solid var(--border);}
+.cp-body{font-family:'Fraunces',serif;font-size:14px;line-height:1.85;color:var(--ink);}
+.cp-body p{margin-bottom:16px;}
+.cp-body h3{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--red);margin:22px 0 10px;}
+.cp-body strong{font-weight:700;}
+.cp-body em{font-style:italic;}
+.cp-body blockquote{border-left:2px solid var(--brass);padding:12px 16px;
+  background:rgba(181,129,58,0.06);margin:18px 0;font-style:italic;font-size:15px;}
+.cp-body .cite{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-mid);
+  border-left:2px solid var(--border);padding:6px 12px;margin:8px 0;line-height:1.6;}
+.cp-body .cite em{font-style:italic;}
+.cp-body .contrast-box{
+  background:rgba(139,0,0,0.05);border:1px solid rgba(139,0,0,0.18);
+  padding:18px 20px;margin:18px 0;border-left:3px solid var(--red);
+}
+.cp-body .contrast-box h4{font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:3px;color:var(--red);margin-bottom:10px;}
+.panel-img{width:100%;height:160px;object-fit:cover;margin:16px 0;
+  filter:sepia(0.2) contrast(1.05);border:1px solid rgba(181,129,58,0.2);}
+.panel-img-cap{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;
+  color:var(--ink-dim);margin-top:-12px;margin-bottom:16px;text-align:right;}
+
+/* Signal strip */
+.signal-strip{
+  background:var(--ink);color:var(--paper);
+  padding:10px 20px;margin:-32px -28px 24px;
+  display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+}
+.ss-l{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
+  color:var(--brass);white-space:nowrap;}
+.ss-t{font-family:'Fraunces',serif;font-size:14px;font-style:italic;
+  color:rgba(242,234,211,0.88);line-height:1.55;}
+
+/* Mobile */
+@media(max-width:768px){
+  #entry{grid-template-columns:1fr;overflow-y:auto;padding-bottom:80px;}
+  .entry-left{min-height:240px;flex-shrink:0;}
+  .manuscript{margin:24px 20px;}
+  .entry-right{padding:32px 24px 40px;}
+  #bench{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow-y:auto;}
+  .bench-surface{order:1;padding:16px 12px;max-height:45vh;overflow-y:auto;padding-bottom:80px;}
+  .components{grid-template-columns:1fr 1fr;grid-template-areas:"signal signal""main contre""nature story""bib bib""friar friar""gear gear";gap:12px;max-width:100%;}
+  .comp-friar{min-height:200px;transform:none;}
+  .comp-main,.comp-contre,.comp-nature,.comp-story,.comp-bib,.comp-signal,.comp-gear{transform:none;}
+  .content-panel{order:2;overflow-y:auto;padding-bottom:80px;}
+}
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a class="sb-logo" href="/">MELIORISM2.COM</a>
+  <span class="sb-pipe">|</span>
+  <span class="sb-meta">ISSUE 008</span>
+  <span class="sb-pipe">|</span>
+  <span class="sb-meta">OCCAM'S RAZOR</span>
+  <div class="sb-r">
+    <span class="sb-clock" id="sbclock">--:--:--</span>
+    <a class="sb-lib" href="../archive/index.html">LIBRARY</a>
+  </div>
+</div>
+
+<!-- ══ ENTRY ══ -->
+<section id="entry">
+
+  <div class="entry-left">
+    <div class="manuscript-bg"></div>
+    <div class="manuscript">
+      <div class="ms-issue">MELIORISM2.COM · 008 · OCCAM'S RAZOR · 2026-05-08</div>
+      <div>
+        <span class="ms-initial">N</span>
+        <div class="ms-latin">"umquam ponenda est pluralitas sine necessitate."</div>
+      </div>
+      <div class="ms-translation">
+        Never multiply entities beyond necessity.<br>
+        — William of Ockham, Franciscan friar<br>
+        Ockham, Surrey, England · c. 1320 AD
+      </div>
+      <div class="ms-attribution">
+        BORN: c. 1287 · OCKHAM, SURREY<br>
+        EXCOMMUNICATED: 1328 · AVIGNON<br>
+        FLED TO MUNICH, BAVARIA<br>
+        DIED: c. 1347 · BLACK DEATH<br>
+        RAZOR: STILL CUTTING
+      </div>
+    </div>
+    <div class="ms-rules"></div>
+  </div>
+
+  <div class="entry-right">
+    <div class="e-label">ISSUE 008 · BRAVE SPACES · WATCHMAKER'S BENCH</div>
+    <h1 class="e-title">Occam's<br><em>Razor.</em></h1>
+    <div class="e-sub">MELIORISM2.COM · MAY 2026 · WILLIAM OF OCKHAM, SURREY</div>
+    <p class="e-brief">A friar from a Surrey village of 200 people coined the most useful thinking tool in your kit — and also the most dangerous one. It cuts cleanly. It also cuts the wrong thing more often than you think.</p>
+    <div class="e-fact">
+      ORIGIN: Ockham, Surrey, England (pop. ≈ 200)<br>
+      TOOL: Parsimony — cut explanations, not complexity<br>
+      FAILURE MODE: Boeing 737 MAX · Yellowstone wolves<br>
+      CONTRAST: Cynefin, Systems Thinking, Evolution
+    </div>
+    <button class="e-btn" onclick="openBench()">TAKE UP THE RAZOR &nbsp;→</button>
+  </div>
+
+</section>
+
+<!-- ══ BENCH ══ -->
+<div id="bench">
+
+  <div class="bench-surface">
+    <div class="components">
+
+      <!-- Signal — cream strip pinned at corners -->
+      <div class="comp comp-signal active" onclick="selectComp(this,'signal')" data-sos-section="comp-signal">
+        <div class="comp-label">90-Second Signal</div>
+        <div class="comp-title">The Razor — and When It Cuts Wrong</div>
+        <div class="comp-teaser">The simplest explanation is usually right. In complex systems, it's often catastrophically wrong. Knowing the difference is the practitioner's edge.</div>
+        <div class="comp-corner">OPEN →</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <!-- Main — open reference manual -->
+      <div class="comp comp-main" onclick="selectComp(this,'main')" data-sos-section="comp-main">
+        <div class="comp-label">The Mechanism</div>
+        <div class="comp-title">Why It Works — and the Exact Conditions Where It Doesn't</div>
+        <div class="comp-teaser">The razor is a prior probability tool, not a truth tool. Bayes explains why it's right most of the time. Complexity science explains the rest.</div>
+        <div class="comp-corner">OPEN →</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <!-- Contre — red notebook, top border -->
+      <div class="comp comp-contre" onclick="selectComp(this,'contre')" data-sos-section="comp-contre">
+        <div class="comp-label">⚑ When Simpler Is Wrong</div>
+        <div class="comp-title">Holism, Systems Thinking & the Razor's Blind Spot</div>
+        <div class="comp-teaser">The wolves, the 737 MAX, the practitioner equivalent. What happens when we amputate complexity that wasn't excess.</div>
+        <div class="comp-corner">OPEN →</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <!-- Nature — green journal -->
+      <div class="comp comp-nature" onclick="selectComp(this,'nature')" data-sos-section="comp-nature">
+        <div class="comp-label">In Nature</div>
+        <div class="comp-title">Evolution Is the Anti-Razor</div>
+        <div class="comp-teaser">Natural selection preserves redundancy and apparent excess — because the environment that will demand it doesn't exist yet.</div>
+        <div class="comp-corner">OPEN →</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <!-- Story — manila folder -->
+      <div class="comp comp-story" onclick="selectComp(this,'story')" data-sos-section="comp-story">
+        <div class="comp-label">The Story</div>
+        <div class="comp-title">A Friar From Surrey Excommunicated for Thinking Clearly</div>
+        <div class="comp-teaser">Ockham used his razor on Church metaphysics. The Pope summoned him to Avignon. He fled to Munich and kept writing.</div>
+        <div class="comp-corner">OPEN →</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <!-- Bib — stack of cards -->
+      <div class="comp comp-bib" onclick="selectComp(this,'bib')" data-sos-section="comp-bib">
+        <div class="comp-label">Research Archive</div>
+        <div class="comp-title">10 Sources · Academic + Real World</div>
+        <div class="comp-teaser">From Ockham's Summa Logicae to Snowden's Cynefin. Plus the 7-day experiment.</div>
+        <div class="comp-corner">OPEN →</div>
+        <span class="sos-read-dot"></span>
+      </div>
+
+      <!-- Friar — photo frame, thumbtack, church image via Unsplash -->
+      <div class="comp comp-friar" onclick="selectComp(this,'story')" data-sos-section="comp-friarimg">
+        <img class="friar-photo"
+          src="https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=480&q=80"
+          alt="English countryside church, similar to All Saints, Ockham, Surrey"
+          onerror="this.style.display='none'">
+        <div class="friar-caption-inner">
+          <div class="fc-name">Ockham, Surrey</div>
+          <div class="fc-detail">All Saints Church · Est. 12th century<br>William's home village · Pop. ≈ 200</div>
+        </div>
+        <span class="sos-read-dot" style="position:absolute;bottom:60px;right:14px;"></span>
+      </div>
+
+      <!-- Gear — velvet pad, live escapement -->
+      <div class="comp comp-gear" data-sos-section="comp-gear">
+        <div class="comp-label">ESCAPEMENT</div>
+        <!-- Two interlocked gears -->
+        <div style="position:relative;width:100px;height:72px;">
+          <svg class="gear-svg" style="position:absolute;left:0;top:0;" viewBox="0 0 60 60" width="60" height="60">
+            <g transform="translate(30,30)">
+              <circle r="22" fill="none" stroke="rgba(181,129,58,0.15)" stroke-width="1"/>
+              <circle r="13" fill="none" stroke="rgba(181,129,58,0.25)" stroke-width="1"/>
+              <circle r="3" fill="#B5813A" opacity="0.5"/>
+              <g stroke="#B5813A" stroke-width="1.5" fill="none">
+                <line x1="0" y1="-22" x2="0" y2="-28"/>
+                <line x1="11" y1="-19" x2="13.5" y2="-23.4"/>
+                <line x1="19" y1="-11" x2="23.4" y2="-13.5"/>
+                <line x1="22" y1="0" x2="28" y2="0"/>
+                <line x1="19" y1="11" x2="23.4" y2="13.5"/>
+                <line x1="11" y1="19" x2="13.5" y2="23.4"/>
+                <line x1="0" y1="22" x2="0" y2="28"/>
+                <line x1="-11" y1="19" x2="-13.5" y2="23.4"/>
+                <line x1="-19" y1="11" x2="-23.4" y2="13.5"/>
+                <line x1="-22" y1="0" x2="-28" y2="0"/>
+                <line x1="-19" y1="-11" x2="-23.4" y2="-13.5"/>
+                <line x1="-11" y1="-19" x2="-13.5" y2="-23.4"/>
+              </g>
+              <line id="gearhand" x1="0" y1="0" x2="0" y2="-16" stroke="#D4A855" stroke-width="1.5" stroke-linecap="round"/>
+            </g>
+          </svg>
+          <svg class="gear-svg-2" style="position:absolute;right:0;top:10px;" viewBox="0 0 44 44" width="44" height="44">
+            <g transform="translate(22,22)">
+              <circle r="16" fill="none" stroke="rgba(181,129,58,0.12)" stroke-width="1"/>
+              <circle r="9" fill="none" stroke="rgba(181,129,58,0.2)" stroke-width="1"/>
+              <circle r="2" fill="#B5813A" opacity="0.4"/>
+              <g stroke="rgba(181,129,58,0.6)" stroke-width="1.2" fill="none">
+                <line x1="0" y1="-16" x2="0" y2="-20"/>
+                <line x1="8" y1="-13.9" x2="10" y2="-17.3"/>
+                <line x1="13.9" y1="-8" x2="17.3" y2="-10"/>
+                <line x1="16" y1="0" x2="20" y2="0"/>
+                <line x1="13.9" y1="8" x2="17.3" y2="10"/>
+                <line x1="8" y1="13.9" x2="10" y2="17.3"/>
+                <line x1="0" y1="16" x2="0" y2="20"/>
+                <line x1="-8" y1="13.9" x2="-10" y2="17.3"/>
+                <line x1="-13.9" y1="8" x2="-17.3" y2="10"/>
+                <line x1="-16" y1="0" x2="-20" y2="0"/>
+                <line x1="-13.9" y1="-8" x2="-17.3" y2="-10"/>
+                <line x1="-8" y1="-13.9" x2="-10" y2="-17.3"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="comp-title">The Mechanism</div>
+        <div class="tick-label" id="tick-time">--:--:--</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Content panel -->
+  <div class="content-panel" id="content-panel"></div>
+
+</div>
+
+<script>
+const CONTENT = {
+
+signal:`
+<div class="signal-strip">
+  <span class="ss-l">90-SECOND SIGNAL</span>
+  <span class="ss-t">The razor is a prior-probability shortcut, not a truth-finding tool. In low-complexity, high-precedent domains it's almost always right. In complex adaptive systems — organisations, ecosystems, human behaviour — it systematically removes the interactions that generate the phenomenon you're trying to explain. The skill is recognising which domain you're in before you cut.</span>
+</div>
+<div class="cp-code">ISSUE 008 · OCCAM'S RAZOR · BRAVE SPACES</div>
+<h2 class="cp-title">The Razor — and When It Cuts Wrong</h2>
+<div class="cp-byline">90-SECOND SIGNAL · EDITORIAL</div>
+<div class="cp-body">
+<p>William of Ockham did not say "the simplest explanation is usually correct." That is a 20th-century paraphrase. What he wrote — in Latin, in the 1320s, in a Franciscan monastery — was: <em>never multiply entities beyond what is necessary to explain the phenomenon.</em></p>
+<p>The distinction matters. He wasn't saying simple = true. He was saying: don't add explanatory machinery you don't need. It's a constraint on theorising — not a claim about reality.</p>
+<p>The practitioner version: when a client isn't changing, what's the simplest explanation that fits all the evidence? Usually it's Kegan's competing commitment — an identity-level protection, not resistance. <em>That</em> is the Razor working correctly: cutting "they're resistant" to find the simpler, more complete explanation underneath.</p>
+<p>But open the <strong>⚑ When Simpler Is Wrong</strong> component. The Razor's failure modes are where the real practitioner edge lives.</p>
+</div>`,
+
+main:`
+<div class="cp-code">THE MECHANISM</div>
+<h2 class="cp-title">Why It Works — and the Exact Conditions Where It Fails</h2>
+<div class="cp-byline">MELIORISM2.COM 008 · MECHANISM</div>
+<div class="cp-body">
+<h3>The Bayesian Foundation</h3>
+<p>The Razor works because of prior probability, not elegance. Given two hypotheses that both explain the same evidence, the simpler one tends to be true more often — because more complex hypotheses require more specific conditions to simultaneously hold. Complexity compounds improbability.</p>
+<p>This is Bayesian: the simpler hypothesis generally has a higher prior. So, absent other information, it's the better bet.</p>
+<h3>The Three Conditions It Requires</h3>
+<p><strong>1. You have identified all relevant entities.</strong> If you haven't, the "simplest" explanation using your incomplete inventory is simple because it's wrong.</p>
+<p><strong>2. The phenomenon has a single proximate cause.</strong> If multiple interacting factors produce it, any single-cause explanation is simpler than reality and therefore inaccurate.</p>
+<p><strong>3. You're in a domain with precedent.</strong> The razor is a prior-probability tool. In genuinely novel situations, there is no prior. The tool has no purchase.</p>
+<h3>The In-Session Move</h3>
+<p>Before applying the razor to a client diagnosis, ask: <em>"Have I identified all relevant actors? Is there a single cause, or is this emergent from interactions?"</em> If you can't answer yes to both, the razor is the wrong tool.</p>
+<blockquote>"Everything should be made as simple as possible, but not simpler." — Often attributed to Einstein. He probably didn't say it. But it's a better version of the Razor than the popular one.</blockquote>
+</div>`,
+
+contre:`
+<div class="cp-code">⚑ CONTRAST — WHEN SIMPLER IS WRONG</div>
+<h2 class="cp-title">The Razor's Blind Spot: Holism and Systems Thinking</h2>
+<div class="cp-byline">MELIORISM2.COM 008 · THE CONTRAST THAT CHANGES HOW YOU USE THE TOOL</div>
+<div class="cp-body">
+<p>The Razor has produced some of the worst decisions in the history of complex systems — not because it was applied incompetently, but because it was applied <em>correctly</em> to the wrong domain. Three cases.</p>
+
+<div class="contrast-box">
+<h4>CASE 1: THE WOLVES OF YELLOWSTONE</h4>
+<p>In the 1920s, wolves were exterminated from Yellowstone. Simple explanation for why: wolves kill livestock. Simplest intervention: remove wolves. The Razor cuts.</p>
+<p>Result: elk populations exploded, overgrazing stripped riverbanks, rivers changed course, beaver populations collapsed. The wolves weren't a single cause in a linear system — they were a keystone node in a complex adaptive system. When they were reintroduced in 1995, the rivers literally changed course back. Ecologists called it a <em>trophic cascade</em>. The Razor had removed what looked like excess. It wasn't.</p>
+</div>
+
+<div class="contrast-box">
+<h4>CASE 2: BOEING 737 MAX</h4>
+<p>The MCAS system that caused two crashes was designed as a simple solution to a complex problem: new engines changed the aircraft's handling. Simple fix — a software patch — layered onto existing systems rather than redesigning the underlying complexity. The simplification removed the redundancy that high-stakes systems require. 346 people died.</p>
+</div>
+
+<div class="contrast-box">
+<h4>CASE 3: THE PRACTITIONER EQUIVALENT</h4>
+<p>A trainer attributes low engagement to "low motivation" — the simplest explanation. The intervention: more inspiring content and higher energy delivery.</p>
+<p>Actual cause: insufficient psychological safety. Participants are protecting status in front of peers. The "motivation" explanation is simpler. The safety explanation requires attending to relationships, power dynamics, seating, facilitation style, and incentive structure simultaneously. The Razor produced the wrong diagnosis.</p>
+</div>
+
+<h3>Cynefin: The Domain-Classification Answer</h3>
+<p>Dave Snowden's Cynefin framework (2007) gives the decision rule: categorise the domain first, then choose the tool. In <em>simple</em> and <em>complicated</em> domains, Occam's Razor is appropriate. In <em>complex</em> and <em>chaotic</em> domains, it actively misleads — cause and effect are only visible in retrospect and never proportional.</p>
+<p>Most practitioner work happens in complex domains. The Razor is a visitor's tool there.</p>
+<div class="cite">Snowden, D.J. & Boone, M.E. (2007). "A leader's framework for decision making." <em>Harvard Business Review, 85(11)</em>, 68–76.</div>
+</div>`,
+
+nature:`
+<div class="cp-code">IN NATURE</div>
+<h2 class="cp-title">Evolution Is the Anti-Razor</h2>
+<div class="cp-byline">MELIORISM2.COM 008 · NATURE</div>
+<div class="cp-body">
+<p>If Occam's Razor were a design principle, evolution would be its rejection. Natural selection preserves apparent redundancy, inefficiency, and complexity — because the environment that will select against them doesn't exist yet.</p>
+<p>The human appendix was called vestigial for over a century. It turns out to be a reservoir for gut microbiome recovery after illness. The "excess" was a safety system for an emergency that doesn't announce itself in advance.</p>
+<p>The vertebrate eye has a blind spot where the optic nerve exits — an apparent inefficiency. But the brain fills it in using surrounding data. The "flaw" is doing computational work invisible at the structural level.</p>
+<p>The lesson: <strong>complexity that looks like excess is often latent capacity.</strong> Evolution preserves what the current environment doesn't demand — because the environment changes.</p>
+<h3>Nature Invitation</h3>
+<p style="font-style:italic;padding:14px 16px;background:rgba(60,110,50,0.06);border-left:2px solid rgba(60,110,50,0.3);line-height:1.8;">Find a hedgerow, a patch of scrub, or an untended garden this week. Look at what appears redundant — dead wood, tangled stems, apparent disorder. Note three things that look purposeless. Then search each one: what does it shelter, feed, support, or protect? The anti-Razor in action.</p>
+</div>`,
+
+story:`
+<div class="cp-code">THE STORY</div>
+<h2 class="cp-title">A Friar Excommunicated for Thinking Clearly</h2>
+<div class="cp-byline">MELIORISM2.COM 008 · HISTORY · OCKHAM, SURREY, ENGLAND</div>
+<div class="cp-body">
+<p>The village of Ockham in Surrey has a population of roughly 200 people. It has a 12th-century church, a manor house, and a pub. It produced one of the most cited thinkers in Western philosophy — and he spent most of his adult life threatened, tried, and exiled for the work that made him famous.</p>
+<p>William entered the Franciscan order as a young man and studied at Oxford. His philosophical work applied his razor not to science — that came later, with Newton and Darwin — but to theology. He argued that many of the Church's metaphysical claims introduced entities that were unnecessary to explain the phenomena.</p>
+<p>Pope John XXII summoned him to Avignon in 1324 to answer charges of heresy. He spent four years under investigation. In 1328, before a verdict, he fled — to the court of Ludwig IV of Bavaria, who was himself in conflict with the papacy. Ockham reportedly said to Ludwig: <em>"You defend me with your sword and I will defend you with my pen."</em></p>
+<p>He was excommunicated. He kept writing. He died in Munich around 1347, likely of the Black Death, still under excommunication.</p>
+<p>He never returned to Ockham. The village still has the church. His razor is everywhere.</p>
+<blockquote>"Plurality must never be posited without necessity." — Applied to 14th-century Church doctrine, this was a direct intellectual challenge to institutional power. The razor cuts both ways.</blockquote>
+<h3>Etymology</h3>
+<p>"Razor" as a philosophical term was coined by later thinkers, not Ockham. The metaphor: a blade that shaves away excess theoretical entities. The term "Ockham's Razor" appears to have entered common use in the 19th century — nearly 500 years after his death. He never knew he had one.</p>
+</div>`,
+
+bib:`
+<div class="cp-code">RESEARCH ARCHIVE · 10 SOURCES</div>
+<h2 class="cp-title">Academic + Real World Tracks</h2>
+<div class="cp-byline">MELIORISM2.COM 008 · BIBLIOGRAPHY</div>
+<div class="cp-body">
+<h3>Academic Track</h3>
+<div class="cite">1. Ockham, W. (c. 1323). <em>Summa Logicae.</em> The primary source. The razor lives in Part I. Available via Internet Archive.</div>
+<div class="cite">2. Jefferys, W.H. & Berger, J.O. (1992). "Ockham's Razor and Bayesian Analysis." <em>American Scientist, 80(1)</em>, 64–72. The formal Bayesian proof for why simpler hypotheses have higher prior probability.</div>
+<div class="cite">3. Snowden, D.J. & Boone, M.E. (2007). "A leader's framework for decision making." <em>Harvard Business Review, 85(11)</em>, 68–76. Cynefin — when to use the razor and when to put it down.</div>
+<div class="cite">4. Kauffman, S. (1993). <em>The Origins of Order.</em> Oxford University Press. Complexity science's answer to reductionism.</div>
+<div class="cite">5. Ripple, W.J. & Beschta, R.L. (2012). "Trophic cascades in Yellowstone." <em>Biological Conservation, 145(1)</em>, 205–213. The wolf reintroduction study.</div>
+<h3>Real World Track</h3>
+<div class="cite">6. Kegan, R. & Lahey, L.L. (2009). <em>Immunity to Change.</em> HBR Press. Most behaviour change failure is structural, not motivational. The Razor points at the wrong level.</div>
+<div class="cite">7. Domingos, P. (2015). <em>The Master Algorithm.</em> Basic Books. Machine learning's relationship with Occam's Razor — when simplicity is a virtue in model-building.</div>
+<div class="cite">8. Robison, P. (2021). <em>Flying Blind: The 737 MAX Tragedy.</em> Doubleday. The Boeing case — simplification in the wrong place.</div>
+<div class="cite">9. Teresi, D. (1992). "The Razor's Edge." <em>The Sciences.</em> How the Razor moved from theology to science — Newton, Lavoisier, Darwin each used it differently.</div>
+<div class="cite">10. Baker, A. (2022). "Simplicity." <em>Stanford Encyclopedia of Philosophy.</em> The philosophical taxonomy: syntactic, ontological, elegance-based, and probabilistic parsimony — they're not the same thing.</div>
+<h3>Cross-Domain Further Reading</h3>
+<div class="cite">Taleb, N.N. (2007). <em>The Black Swan.</em> Random House. Why simple models systematically fail to predict rare, high-impact events.</div>
+<h3>The 7-Day Experiment</h3>
+<p style="font-family:'DM Mono',monospace;font-size:11px;line-height:1.7;margin:16px 0;padding:14px;background:rgba(28,16,8,0.04);border:1px solid var(--border);">Each day this week: apply the razor deliberately to one situation (simplest explanation, act on it) — then note whether you were right. On Day 7, identify the pattern: in which domains was the razor reliable? In which did it cut wrong? This is your personal domain map.<br><br>Log format: <em>Domain · Razor explanation · What actually happened · Factors I'd initially ignored</em></p>
+<h3 style="margin-top:24px;">Community</h3>
+<p>Did the bench layout — choosing which piece to open — change how you explored this vs. a scroll? Which contrast case landed hardest: the wolves, the 737, or the practitioner version?</p>
+</div>`
+};
+
+function openBench(){
+  const e=document.getElementById('entry');
+  e.style.opacity='0';
+  track('entry-opened');
+  setTimeout(()=>{
+    e.style.display='none';
+    const b=document.getElementById('bench');
+    b.style.display='grid';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      b.style.opacity='1';
+      selectComp(document.querySelector('.comp-signal'),'signal');
+    }));
+  },550);
+}
+
+function selectComp(el,key){
+  if(!CONTENT[key])return;
+  document.querySelectorAll('.comp').forEach(c=>c.classList.remove('active'));
+  if(el)el.classList.add('active');
+  const panel=document.getElementById('content-panel');
+  panel.innerHTML=CONTENT[key];
+  panel.scrollTop=0;
+  track('comp-'+key);
+  markSeen(key);
+}
+
+// Gear hand tick
+let angle=0;
+function tickGear(){
+  angle=(angle+6)%360;
+  const hand=document.getElementById('gearhand');
+  if(hand){
+    const r=angle*Math.PI/180;
+    hand.setAttribute('x2',(16*Math.sin(r)).toFixed(2));
+    hand.setAttribute('y2',(-16*Math.cos(r)).toFixed(2));
+  }
+}
+setInterval(tickGear,1000);tickGear();
+
+function tick(){
+  const ts=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  const sb=document.getElementById('sbclock');if(sb)sb.textContent=ts;
+  const tt=document.getElementById('tick-time');if(tt)tt.textContent=ts;
+}
+setInterval(tick,1000);tick();
+
+const _seen=new Set();
+function track(ev){if(!_seen.has(ev)){_seen.add(ev);}}
+
+const SLUG='occams-razor';
+const KEY='sos-progress-'+SLUG;
+function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));}
+
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)track('visible-'+e.target.dataset.sosSection);});
+},{threshold:0.4});
+document.querySelectorAll('[data-sos-section]').forEach(el=>io.observe(el));
+
+// Web Speech
+let speaking=false;
+window._sosToggleListen=function(){
+  const btn=document.getElementById('sos-listen-btn');
+  if(speaking){window.speechSynthesis.cancel();speaking=false;
+    if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}return;}
+  const text=document.getElementById('content-panel').innerText.replace(/\s+/g,' ').slice(0,6000);
+  const u=new SpeechSynthesisUtterance(text);u.rate=0.92;
+  u.onend=()=>{speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+  window.speechSynthesis.speak(u);speaking=true;
+  if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+};
+
+// Toolbar
+(function(){
+  const bar=document.createElement('div');
+  bar.style.cssText='position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;';
+  bar.innerHTML=`
+    <a style="background:rgba(28,16,8,0.9);color:#D4A855;border:1px solid rgba(212,168,85,0.3);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;" href="../archive/index.html">← LIBRARY</a>
+    <div style="background:rgba(28,16,8,0.88);color:#80c060;border:1px solid rgba(120,190,80,0.25);border-radius:12px;padding:6px 12px;font-size:10px;letter-spacing:1.5px;font-family:monospace;" id="sos-prog-txt">TRACKING</div>
+    <button style="background:rgba(28,16,8,0.9);color:#F2EAD3;border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;cursor:pointer;font-family:monospace;" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+  `;
+  document.body.appendChild(bar);
+  function updateProg(){
+    const p=getProgress();const ct=Object.keys(p).length;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=ct>0?(ct>=6?'✓ COMPLETE':ct+'/6 OPENED'):'TRACKING';
+  }
+  setInterval(updateProg,2000);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust Before Thought — Meliorism2.com Exhibition 002</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond',serif}
+
+/* ── TOKENS ── */
+:root{
+  --cream:#f7f3ec;
+  --stone:#ede6d8;
+  --warm:#e0d5c0;
+  --marble:#f9f6f0;
+  --gold:#b8962e;
+  --gold-bright:#d4a830;
+  --gold-dark:#8a6e1c;
+  --text:#2a2218;
+  --text-mid:#5a4e3a;
+  --text-dim:#8a7a62;
+  --wall:#f0ead8;
+}
+
+/* ══════════════════════════════
+   SECTION SYSTEM
+══════════════════════════════ */
+.section{position:fixed;inset:0;opacity:0;pointer-events:none;transition:opacity 0.8s ease}
+.section.active{opacity:1;pointer-events:all}
+
+/* ══════════════════════════════
+   LOBBY — VIDEO ENTRY
+══════════════════════════════ */
+#lobby{background:#000;overflow:hidden}
+
+.video-bg{position:absolute;inset:0;overflow:hidden;z-index:0}
+.video-bg iframe{
+  position:absolute;top:50%;left:50%;
+  width:177.78vh;height:56.25vw;
+  min-width:100%;min-height:100%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;border:0;
+}
+
+.lobby-overlay{
+  position:absolute;inset:0;z-index:1;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;
+  padding-bottom:80px;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.05) 40%,
+    rgba(0,0,0,0.55) 75%,
+    rgba(0,0,0,0.75) 100%
+  );
+}
+
+.lobby-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;letter-spacing:6px;text-transform:uppercase;
+  color:rgba(255,255,255,0.55);margin-bottom:20px;text-align:center;
+}
+.lobby-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,8vw,6rem);font-weight:900;
+  color:#fff;line-height:0.95;text-align:center;
+  text-shadow:0 2px 40px rgba(0,0,0,0.4);
+  letter-spacing:-1px;margin-bottom:10px;
+}
+.lobby-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-style:italic;font-weight:300;
+  color:rgba(255,255,255,0.7);margin-bottom:48px;
+  letter-spacing:1px;
+}
+.lobby-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}
+
+.btn-enter{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.72rem;letter-spacing:4px;text-transform:uppercase;
+  background:rgba(184,150,46,0.92);color:#fff;border:none;
+  padding:16px 40px;cursor:pointer;
+  transition:all 0.2s;
+  clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+}
+.btn-enter:hover{background:rgba(212,168,48,1);transform:translateY(-2px)}
+
+.btn-music{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;
+  background:transparent;color:rgba(255,255,255,0.6);
+  border:1px solid rgba(255,255,255,0.25);
+  padding:14px 24px;cursor:pointer;transition:all 0.2s;
+}
+.btn-music:hover{color:#fff;border-color:rgba(255,255,255,0.6)}
+.btn-music.playing{color:#d4a830;border-color:#d4a830}
+
+/* ══════════════════════════════
+   MAP HALL
+══════════════════════════════ */
+#map-hall{
+  background:var(--cream);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.map-hall-inner{
+  width:100%;max-width:960px;
+  padding:32px 40px;
+  display:flex;flex-direction:column;align-items:center;
+}
+
+.map-masthead{
+  width:100%;display:flex;align-items:center;
+  justify-content:space-between;margin-bottom:28px;
+  padding-bottom:16px;border-bottom:1px solid var(--warm);
+}
+.map-logo{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;letter-spacing:5px;color:var(--gold);
+  text-decoration:none;
+}
+.map-issue{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.58rem;letter-spacing:2px;color:var(--text-dim);
+}
+
+.map-title-row{text-align:center;margin-bottom:32px}
+.map-exhibition-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gold-dark);display:block;margin-bottom:10px;
+}
+.map-h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,4vw,2.6rem);font-weight:700;
+  color:var(--text);line-height:1.1;
+}
+.map-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;font-style:italic;color:var(--text-dim);
+  margin-top:6px;
+}
+
+/* Floor plan */
+.floor-plan-wrap{
+  width:100%;max-width:820px;
+  background:var(--marble);
+  border:1px solid var(--warm);
+  padding:32px 32px 24px;
+  position:relative;
+}
+.floor-plan-wrap::before{
+  content:'EXHIBITION FLOOR PLAN';
+  position:absolute;top:12px;left:16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.45rem;letter-spacing:4px;color:var(--text-dim);opacity:0.5;
+}
+
+.floor-plan{
+  width:100%;display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+}
+
+/* You Are Here */
+.you-are-here-row{
+  grid-column:1/-1;
+  display:flex;justify-content:center;
+  padding:0 0 20px;
+  position:relative;
+}
+.you-are-here-row::after{
+  content:'';position:absolute;
+  bottom:0;left:50%;transform:translateX(-50%);
+  width:1px;height:20px;background:var(--gold);opacity:0.4;
+}
+.yah-box{
+  background:var(--gold);color:#fff;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.58rem;letter-spacing:3px;
+  padding:8px 20px;
+  clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+}
+
+/* Room cells */
+.room-cell{
+  border:1px solid var(--warm);
+  padding:22px 24px;
+  cursor:pointer;
+  position:relative;
+  transition:all 0.2s;
+  background:var(--marble);
+  text-decoration:none;display:block;
+}
+.room-cell:hover{background:var(--stone);border-color:var(--gold);}
+.room-cell:hover .room-arrow{color:var(--gold);}
+.room-cell.visited::after{
+  content:'✓';position:absolute;top:10px;right:12px;
+  font-size:0.65rem;color:var(--gold);opacity:0.5;
+}
+.room-connector{
+  grid-column:1/-1;
+  height:28px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.room-connector::before{
+  content:'';position:absolute;
+  top:0;bottom:0;left:50%;transform:translateX(-50%);
+  width:1px;background:var(--warm);
+}
+.room-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;letter-spacing:2px;color:var(--gold-dark);
+  margin-bottom:8px;display:block;
+}
+.room-name{
+  font-family:'Playfair Display',serif;
+  font-size:0.95rem;font-weight:700;
+  color:var(--text);margin-bottom:5px;line-height:1.2;
+}
+.room-hint{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.82rem;font-style:italic;color:var(--text-dim);
+  line-height:1.4;
+}
+.room-arrow{
+  position:absolute;bottom:14px;right:16px;
+  font-size:0.75rem;color:var(--text-dim);
+  transition:color 0.2s;
+}
+
+/* Bottom connector row */
+.archive-row{
+  grid-column:1/-1;
+  border:1px solid var(--warm);border-top:none;
+  padding:14px 20px;
+  text-align:center;
+  cursor:pointer;
+  background:var(--stone);
+  text-decoration:none;display:block;
+  transition:background 0.2s;
+}
+.archive-row:hover{background:var(--warm);}
+.archive-row span{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:3px;color:var(--text-dim);
+}
+
+/* ══════════════════════════════
+   GALLERY ROOMS
+══════════════════════════════ */
+.gallery-room{
+  background:var(--wall);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+
+.room-nav{
+  background:var(--marble);border-bottom:1px solid var(--warm);
+  padding:14px 32px;display:flex;
+  align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.room-nav-left,.room-nav-right{display:flex;align-items:center;gap:16px}
+.nav-btn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.58rem;letter-spacing:2px;
+  background:none;border:1px solid var(--warm);
+  color:var(--text-dim);padding:7px 14px;cursor:pointer;
+  transition:all 0.15s;text-decoration:none;display:inline-block;
+}
+.nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+.room-nav-title{
+  font-family:'Playfair Display',serif;
+  font-size:0.95rem;font-weight:700;color:var(--text);
+  text-align:center;
+}
+.room-nav-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.48rem;letter-spacing:2px;color:var(--text-dim);
+  text-align:center;margin-top:3px;
+}
+
+/* Room body: painting left, panel right */
+.room-body{
+  flex:1;display:flex;overflow:hidden;
+  position:relative;
+}
+
+/* Painting wall */
+.painting-wall{
+  flex:1;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px;
+  background:var(--wall);
+  position:relative;
+  cursor:pointer;
+  transition:background 0.3s;
+}
+.painting-wall:hover{background:var(--stone);}
+.painting-wall.panel-open{cursor:default;flex:0 0 40%;padding:24px;}
+
+/* Wainscoting effect */
+.painting-wall::before{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:80px;
+  border-top:2px solid var(--warm);
+  background:var(--marble);
+  z-index:0;
+}
+.painting-wall::after{
+  content:'';position:absolute;
+  bottom:76px;left:0;right:0;height:1px;
+  background:var(--warm);z-index:0;
+}
+
+/* The painting frame */
+.painting-frame{
+  position:relative;z-index:1;
+  /* Outer dark wood */
+  border:16px solid #8a7040;
+  /* Shadow on wall */
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.3),
+    inset 0 0 0 3px #6a5030,
+    8px 16px 48px rgba(0,0,0,0.22),
+    2px 4px 12px rgba(0,0,0,0.15);
+  background:#000;
+  transition:transform 0.2s,box-shadow 0.2s;
+  max-width:380px;width:100%;
+}
+.painting-wall:not(.panel-open) .painting-frame:hover{
+  transform:translateY(-4px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.4),
+    inset 0 0 0 3px #8a6838,
+    10px 24px 60px rgba(0,0,0,0.28),
+    4px 8px 20px rgba(0,0,0,0.2);
+}
+.painting-wall.panel-open .painting-frame{max-width:280px;}
+
+/* The canvas inside the frame */
+.painting-canvas{
+  aspect-ratio:3/4;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:32px 24px;
+  position:relative;overflow:hidden;
+}
+
+/* Unique paintings per room */
+#room-1 .painting-canvas{background:linear-gradient(160deg,#0c1e38 0%,#1a3660 40%,#0e2244 100%)}
+#room-2 .painting-canvas{background:linear-gradient(155deg,#1e1004 0%,#3a2010 40%,#281408 100%)}
+#room-3 .painting-canvas{background:linear-gradient(165deg,#160824 0%,#301060 40%,#1e0840 100%)}
+#room-4 .painting-canvas{background:linear-gradient(160deg,#1e0404 0%,#3c0c0c 40%,#280606 100%)}
+#room-5 .painting-canvas{background:linear-gradient(158deg,#1a1404 0%,#342810 40%,#221a06 100%)}
+#room-6 .painting-canvas{background:linear-gradient(162deg,#041408 0%,#0c2c14 40%,#061a0a 100%)}
+
+/* Painting texture overlay */
+.painting-canvas::after{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    45deg,transparent 0px,transparent 3px,
+    rgba(255,255,255,0.01) 3px,rgba(255,255,255,0.01) 4px
+  );
+  pointer-events:none;
+}
+
+/* Canvas number watermark */
+.canvas-num{
+  position:absolute;bottom:-10px;right:4px;
+  font-family:'Playfair Display',serif;
+  font-size:9rem;font-weight:900;
+  color:rgba(255,255,255,0.04);
+  line-height:1;pointer-events:none;user-select:none;
+}
+
+/* Canvas text */
+.canvas-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;letter-spacing:5px;text-transform:uppercase;
+  color:rgba(255,255,255,0.35);margin-bottom:20px;position:relative;z-index:1;
+}
+.canvas-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:700;
+  color:rgba(255,255,255,0.88);line-height:1.2;
+  text-align:center;max-width:220px;margin:0 auto;
+  position:relative;z-index:1;
+}
+.canvas-rule{
+  width:32px;height:1px;background:rgba(184,150,46,0.5);
+  margin:18px auto 0;position:relative;z-index:1;
+}
+
+/* Click hint */
+.painting-click-hint{
+  position:absolute;bottom:28px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.52rem;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);z-index:2;
+  transition:opacity 0.3s;
+}
+.painting-wall.panel-open .painting-click-hint{opacity:0;pointer-events:none}
+
+/* Placard below frame on wall */
+.painting-placard{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--marble);border:1px solid var(--warm);
+  padding:7px 18px;z-index:2;text-align:center;
+  white-space:nowrap;
+}
+.placard-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.48rem;letter-spacing:2px;color:var(--gold-dark);
+  display:block;margin-bottom:2px;
+}
+.placard-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.78rem;font-style:italic;color:var(--text-mid);
+}
+
+/* Content panel slides in from right */
+.content-panel{
+  width:0;flex-shrink:0;
+  background:var(--marble);
+  border-left:1px solid var(--warm);
+  overflow-y:auto;overflow-x:hidden;
+  transition:width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.content-panel.open{width:60%;}
+.panel-inner{
+  padding:40px 44px 60px;
+  min-width:480px;
+}
+
+.panel-close{
+  display:flex;justify-content:flex-end;margin-bottom:28px;
+}
+.panel-close-btn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:2px;
+  background:none;border:1px solid var(--warm);
+  color:var(--text-dim);padding:6px 14px;cursor:pointer;
+  transition:all 0.15s;
+}
+.panel-close-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Panel content typography */
+.panel-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.52rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold-dark);margin-bottom:14px;display:block;
+}
+.panel-h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.4rem,2.8vw,2rem);font-weight:700;
+  color:var(--text);line-height:1.1;margin-bottom:16px;
+}
+.panel-intro{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.08rem;font-weight:300;font-style:italic;
+  color:var(--text-mid);line-height:1.75;margin-bottom:28px;
+  border-bottom:1px solid var(--warm);padding-bottom:24px;
+}
+.panel-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;line-height:1.85;color:var(--text-mid);
+  margin-bottom:16px;
+}
+.panel-body em{font-style:italic;color:var(--text);}
+.panel-body strong{font-weight:600;color:var(--text);}
+.panel-callout{
+  border-left:3px solid var(--gold);
+  padding:16px 20px;margin:20px 0;
+  background:rgba(184,150,46,0.05);
+}
+.panel-callout-title{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;
+}
+.panel-callout-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.92rem;line-height:1.7;color:var(--text-mid);
+  font-style:italic;
+}
+.panel-section{
+  margin-top:24px;padding-top:20px;border-top:1px solid var(--warm);
+}
+.panel-section-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:10px;display:block;
+}
+.artifact-block{
+  background:var(--stone);border:1px solid var(--warm);
+  padding:16px 18px;margin:12px 0;
+}
+.artifact-block-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem;letter-spacing:2px;color:var(--gold-dark);
+  border-bottom:1px solid var(--warm);padding-bottom:8px;margin-bottom:10px;
+}
+.artifact-block-title{
+  font-family:'Playfair Display',serif;
+  font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:8px;
+}
+.artifact-block-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.9rem;line-height:1.75;color:var(--text-mid);
+}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.chip{
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;
+  border:1px solid var(--warm);padding:3px 9px;color:var(--text-dim);
+  background:var(--marble);
+}
+.layers-stack{margin:12px 0;}
+.layer-item{padding:14px 0;border-bottom:1px solid var(--warm);}
+.layer-item:last-child{border-bottom:none}
+.layer-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:4px;
+}
+.layer-title{
+  font-family:'Playfair Display',serif;
+  font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:6px;
+}
+.layer-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.9rem;line-height:1.75;color:var(--text-mid);
+}
+
+/* ══════════════════════════════
+   EXPERIMENT ROOM
+══════════════════════════════ */
+#room-7{background:var(--cream);}
+#room-7 .painting-wall{background:var(--cream);}
+#room-7 .painting-canvas{
+  background:linear-gradient(162deg,#101808 0%,#1c2e10 40%,#0c1808 100%);
+}
+#room-7 .painting-wall::before{background:var(--stone);}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:800px){
+  .content-panel.open{width:100%;position:absolute;inset:0;z-index:10;}
+  .painting-wall.panel-open{display:none;}
+  .floor-plan{grid-template-columns:1fr;}
+  .room-connector{display:none;}
+  .floor-plan-wrap{padding:20px;}
+}
+@media(max-width:500px){
+  .lobby-title{font-size:2.6rem;}
+  .panel-inner{padding:24px 20px 40px;min-width:unset;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 1 — LOBBY (Video + Music + Enter)
+══════════════════════════════════════════════ -->
+<section id="lobby" class="section active">
+
+  <!-- Background: Louvre walkthrough video, muted autoplay -->
+  <div class="video-bg">
+    <iframe id="louvre-iframe"
+      src="https://www.youtube.com/embed/dHViKO9DrDA?autoplay=1&mute=1&loop=1&playlist=dHViKO9DrDA&controls=0&showinfo=0&rel=0&playsinline=1&enablejsapi=1"
+      allow="autoplay; fullscreen" frameborder="0" title="Museum walkthrough">
+    </iframe>
+  </div>
+
+  <!-- Classical music — multi-source with JS fallback chain -->
+  <audio id="music-audio" loop preload="none">
+    <!-- Source 1: Musopen / Internet Archive — Bach Air on G String -->
+    <source src="https://archive.org/download/aironthegstring_201911/aironthegstring_201911.mp3" type="audio/mpeg">
+    <!-- Source 2: Wikimedia Commons — Bach Cello Suite No.1 Prelude (public domain) -->
+    <source src="https://upload.wikimedia.org/wikipedia/commons/6/65/GoldbergVariations_MehmetOkonsar-1of3_Var1to10.ogg" type="audio/ogg">
+  </audio>
+
+  <div class="lobby-overlay">
+    <p class="lobby-eyebrow">Meliorism2.com &nbsp;·&nbsp; Exhibition No. 002 &nbsp;·&nbsp; Withness</p>
+    <h1 class="lobby-title">Trust Before<br>Thought</h1>
+    <p class="lobby-sub">The Biology of Contact</p>
+    <div class="lobby-actions">
+      <button class="btn-enter" onclick="enterGallery()">Enter the Exhibition &nbsp;→</button>
+      <button class="btn-music" id="btn-music" onclick="toggleMusic()">♫ &nbsp;Play Music</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 2 — MAP HALL
+══════════════════════════════════════════════ -->
+<section id="map-hall" class="section">
+  <div class="map-hall-inner">
+
+    <div class="map-masthead">
+      <a class="map-logo" href="archive/index.html">MELIORISM2.COM</a>
+      <span class="map-issue">Issue 002 &nbsp;·&nbsp; May 2, 2026</span>
+    </div>
+
+    <div class="map-title-row">
+      <span class="map-exhibition-label">Exhibition No. 002</span>
+      <h1 class="map-h1">Trust Before Thought</h1>
+      <p class="map-sub">The Biology of Contact &nbsp;·&nbsp; Six Galleries</p>
+    </div>
+
+    <div class="floor-plan-wrap" style="padding:16px 8px 16px;">
+<svg viewBox="0 0 780 568" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:780px;display:block;margin:0 auto">
+<defs>
+  <clipPath id="clip1">
+    <rect x="11" y="29" width="256" height="79"/>
+  </clipPath>
+  <clipPath id="clip2">
+    <rect x="513" y="29" width="256" height="79"/>
+  </clipPath>
+  <clipPath id="clip3">
+    <rect x="11" y="199" width="256" height="79"/>
+  </clipPath>
+  <clipPath id="clip4">
+    <rect x="513" y="199" width="256" height="79"/>
+  </clipPath>
+  <clipPath id="clip5">
+    <rect x="11" y="369" width="256" height="79"/>
+  </clipPath>
+  <clipPath id="clip6">
+    <rect x="513" y="369" width="256" height="79"/>
+  </clipPath>
+  <linearGradient id="fadeImg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000" stop-opacity="0.45"/>
+  </linearGradient>
+</defs>
+
+<rect x="0" y="0" width="780" height="568" fill="#f7f3ec"/>
+
+<text x="390" y="17" text-anchor="middle"
+  style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:5px;fill:#8a7a62;opacity:0.6">
+  EXHIBITION FLOOR PLAN  ·  TRUST BEFORE THOUGHT
+</text>
+
+<rect x="272" y="28" width="236" height="472"
+  fill="#ede6d8" stroke="#b8a882" stroke-width="0.75"/>
+<circle cx="390" cy="94" r="5" fill="#f7f3ec" stroke="#b8a882" stroke-width="0.75"/>
+<circle cx="390" cy="264" r="5" fill="#f7f3ec" stroke="#b8a882" stroke-width="0.75"/>
+<circle cx="390" cy="434" r="5" fill="#f7f3ec" stroke="#b8a882" stroke-width="0.75"/>
+<text x="390" y="256" text-anchor="middle"
+  style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:4px;fill:#8a7a62;opacity:0.5">MAIN</text>
+<text x="390" y="272" text-anchor="middle"
+  style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:4px;fill:#8a7a62;opacity:0.5">HALL</text>
+
+<!-- Gallery I -->
+<a onclick="goToRoom(1);return false;" href="#" style="cursor:pointer">
+<g class="fp-gal" onmouseenter="this.querySelector('.fp-bg').setAttribute('fill','#f0e8d8');this.querySelector('.fp-lb').setAttribute('fill','#d5c9b2')"
+   onmouseleave="this.querySelector('.fp-bg').setAttribute('fill','#f9f6f0');this.querySelector('.fp-lb').setAttribute('fill','#e8dece')">
+  <rect x="10" y="28" width="258" height="132" fill="#f9f6f0" stroke="#b8a882" stroke-width="1.25" class="fp-bg"/>
+  <image href="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=260&h=80&fit=crop&auto=format&q=75" x="11" y="29" width="256" height="79"
+    preserveAspectRatio="xMidYMid slice" clip-path="url(#clip1)"/>
+  <rect x="11" y="86" width="256" height="22" fill="url(#fadeImg)" opacity="0.5"/>
+  <rect x="10" y="108" width="258" height="52" fill="#e8dece" stroke="none" class="fp-lb"/>
+  <line x1="10" y1="108" x2="268" y2="108" stroke="#b8a882" stroke-width="0.75"/>
+  <text x="18" y="119"
+    style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:3px;fill:#8a7a62">GALLERY I</text>
+  <text x="18" y="134"
+    style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;fill:#2a2218">The Biology</text>
+  <rect x="266" y="76" width="5" height="36" fill="#ede6d8" stroke="none"/>
+</g></a>
+
+<!-- Gallery II -->
+<a onclick="goToRoom(2);return false;" href="#" style="cursor:pointer">
+<g class="fp-gal" onmouseenter="this.querySelector('.fp-bg').setAttribute('fill','#f0e8d8');this.querySelector('.fp-lb').setAttribute('fill','#d5c9b2')"
+   onmouseleave="this.querySelector('.fp-bg').setAttribute('fill','#f9f6f0');this.querySelector('.fp-lb').setAttribute('fill','#e8dece')">
+  <rect x="512" y="28" width="258" height="132" fill="#f9f6f0" stroke="#b8a882" stroke-width="1.25" class="fp-bg"/>
+  <image href="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=260&h=80&fit=crop&auto=format&q=75" x="513" y="29" width="256" height="79"
+    preserveAspectRatio="xMidYMid slice" clip-path="url(#clip2)"/>
+  <rect x="513" y="86" width="256" height="22" fill="url(#fadeImg)" opacity="0.5"/>
+  <rect x="512" y="108" width="258" height="52" fill="#e8dece" stroke="none" class="fp-lb"/>
+  <line x1="512" y1="108" x2="770" y2="108" stroke="#b8a882" stroke-width="0.75"/>
+  <text x="520" y="119"
+    style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:3px;fill:#8a7a62">GALLERY II</text>
+  <text x="520" y="134"
+    style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;fill:#2a2218">The Evidence</text>
+  <rect x="510" y="76" width="5" height="36" fill="#ede6d8" stroke="none"/>
+</g></a>
+
+<!-- Gallery III -->
+<a onclick="goToRoom(3);return false;" href="#" style="cursor:pointer">
+<g class="fp-gal" onmouseenter="this.querySelector('.fp-bg').setAttribute('fill','#f0e8d8');this.querySelector('.fp-lb').setAttribute('fill','#d5c9b2')"
+   onmouseleave="this.querySelector('.fp-bg').setAttribute('fill','#f9f6f0');this.querySelector('.fp-lb').setAttribute('fill','#e8dece')">
+  <rect x="10" y="198" width="258" height="132" fill="#f9f6f0" stroke="#b8a882" stroke-width="1.25" class="fp-bg"/>
+  <image href="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=260&h=80&fit=crop&auto=format&q=75" x="11" y="199" width="256" height="79"
+    preserveAspectRatio="xMidYMid slice" clip-path="url(#clip3)"/>
+  <rect x="11" y="256" width="256" height="22" fill="url(#fadeImg)" opacity="0.5"/>
+  <rect x="10" y="278" width="258" height="52" fill="#e8dece" stroke="none" class="fp-lb"/>
+  <line x1="10" y1="278" x2="268" y2="278" stroke="#b8a882" stroke-width="0.75"/>
+  <text x="18" y="289"
+    style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:3px;fill:#8a7a62">GALLERY III</text>
+  <text x="18" y="304"
+    style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;fill:#2a2218">The Concept</text>
+  <rect x="266" y="246" width="5" height="36" fill="#ede6d8" stroke="none"/>
+</g></a>
+
+<!-- Gallery IV -->
+<a onclick="goToRoom(4);return false;" href="#" style="cursor:pointer">
+<g class="fp-gal" onmouseenter="this.querySelector('.fp-bg').setAttribute('fill','#f0e8d8');this.querySelector('.fp-lb').setAttribute('fill','#d5c9b2')"
+   onmouseleave="this.querySelector('.fp-bg').setAttribute('fill','#f9f6f0');this.querySelector('.fp-lb').setAttribute('fill','#e8dece')">
+  <rect x="512" y="198" width="258" height="132" fill="#f9f6f0" stroke="#b8a882" stroke-width="1.25" class="fp-bg"/>
+  <image href="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=260&h=80&fit=crop&auto=format&q=75" x="513" y="199" width="256" height="79"
+    preserveAspectRatio="xMidYMid slice" clip-path="url(#clip4)"/>
+  <rect x="513" y="256" width="256" height="22" fill="url(#fadeImg)" opacity="0.5"/>
+  <rect x="512" y="278" width="258" height="52" fill="#e8dece" stroke="none" class="fp-lb"/>
+  <line x1="512" y1="278" x2="770" y2="278" stroke="#b8a882" stroke-width="0.75"/>
+  <text x="520" y="289"
+    style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:3px;fill:#8a7a62">GALLERY IV</text>
+  <text x="520" y="304"
+    style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;fill:#2a2218">The Complications</text>
+  <rect x="510" y="246" width="5" height="36" fill="#ede6d8" stroke="none"/>
+</g></a>
+
+<!-- Gallery V -->
+<a onclick="goToRoom(5);return false;" href="#" style="cursor:pointer">
+<g class="fp-gal" onmouseenter="this.querySelector('.fp-bg').setAttribute('fill','#f0e8d8');this.querySelector('.fp-lb').setAttribute('fill','#d5c9b2')"
+   onmouseleave="this.querySelector('.fp-bg').setAttribute('fill','#f9f6f0');this.querySelector('.fp-lb').setAttribute('fill','#e8dece')">
+  <rect x="10" y="368" width="258" height="132" fill="#f9f6f0" stroke="#b8a882" stroke-width="1.25" class="fp-bg"/>
+  <image href="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=260&h=80&fit=crop&auto=format&q=75" x="11" y="369" width="256" height="79"
+    preserveAspectRatio="xMidYMid slice" clip-path="url(#clip5)"/>
+  <rect x="11" y="426" width="256" height="22" fill="url(#fadeImg)" opacity="0.5"/>
+  <rect x="10" y="448" width="258" height="52" fill="#e8dece" stroke="none" class="fp-lb"/>
+  <line x1="10" y1="448" x2="268" y2="448" stroke="#b8a882" stroke-width="0.75"/>
+  <text x="18" y="459"
+    style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:3px;fill:#8a7a62">GALLERY V</text>
+  <text x="18" y="474"
+    style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;fill:#2a2218">The Words</text>
+  <rect x="266" y="416" width="5" height="36" fill="#ede6d8" stroke="none"/>
+</g></a>
+
+<!-- Gallery VI -->
+<a onclick="goToRoom(6);return false;" href="#" style="cursor:pointer">
+<g class="fp-gal" onmouseenter="this.querySelector('.fp-bg').setAttribute('fill','#f0e8d8');this.querySelector('.fp-lb').setAttribute('fill','#d5c9b2')"
+   onmouseleave="this.querySelector('.fp-bg').setAttribute('fill','#f9f6f0');this.querySelector('.fp-lb').setAttribute('fill','#e8dece')">
+  <rect x="512" y="368" width="258" height="132" fill="#f9f6f0" stroke="#b8a882" stroke-width="1.25" class="fp-bg"/>
+  <image href="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=260&h=80&fit=crop&auto=format&q=75" x="513" y="369" width="256" height="79"
+    preserveAspectRatio="xMidYMid slice" clip-path="url(#clip6)"/>
+  <rect x="513" y="426" width="256" height="22" fill="url(#fadeImg)" opacity="0.5"/>
+  <rect x="512" y="448" width="258" height="52" fill="#e8dece" stroke="none" class="fp-lb"/>
+  <line x1="512" y1="448" x2="770" y2="448" stroke="#b8a882" stroke-width="0.75"/>
+  <text x="520" y="459"
+    style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:3px;fill:#8a7a62">GALLERY VI</text>
+  <text x="520" y="474"
+    style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;fill:#2a2218">The Practice</text>
+  <rect x="510" y="416" width="5" height="36" fill="#ede6d8" stroke="none"/>
+</g></a>
+
+<line x1="390" y1="500" x2="390" y2="512"
+  stroke="#b8962e" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+<polygon points="390,504 383,514 397,514"
+  fill="#b8962e" opacity="0.75"/>
+<rect x="285" y="516" width="210" height="28" fill="#b8962e"/>
+<text x="390" y="534" text-anchor="middle"
+  style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:3px;fill:#fff">▲  YOU ARE HERE  ▲</text>
+<a href="archive/index.html">
+<text x="390" y="562" text-anchor="middle"
+  style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:3px;fill:#8a7a62;text-decoration:underline;cursor:pointer">
+  THE LIBRARY  ·  ALL EXHIBITIONS  →
+</text></a>
+
+</svg>
+    </div><!-- /floor-plan-wrap -->
+
+  </div><!-- /map-hall-inner -->
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ROOMS 1–6
+══════════════════════════════════════════════ -->
+
+<!-- ROOM 1: THE BIOLOGY -->
+<section id="room-1" class="section gallery-room">
+  <nav class="room-nav">
+    <div class="room-nav-left">
+      <button class="nav-btn" onclick="goToMap()">← Map</button>
+    </div>
+    <div>
+      <div class="room-nav-title">Gallery I &nbsp;·&nbsp; The Biology</div>
+      <div class="room-nav-sub">1 of 6 &nbsp;·&nbsp; Click the painting to read</div>
+    </div>
+    <div class="room-nav-right">
+      <button class="nav-btn" onclick="goToRoom(2)">Gallery II →</button>
+    </div>
+  </nav>
+  <div class="room-body">
+    <div class="painting-wall" id="wall-1" onclick="openPanel(1)">
+      <div class="painting-frame">
+        <div class="painting-canvas">
+          <div class="canvas-num">01</div>
+          <span class="canvas-label">The Phenomenon</span>
+          <h2 class="canvas-title">Trust is a state, not a decision</h2>
+          <div class="canvas-rule"></div>
+        </div>
+      </div>
+      <div class="painting-placard">
+        <span class="placard-label">Exhibit 01 · Gallery I</span>
+        <span class="placard-title">The Phenomenon</span>
+      </div>
+      <div class="painting-click-hint">Click to examine this work</div>
+    </div>
+    <div class="content-panel" id="panel-1">
+      <div class="panel-inner">
+        <div class="panel-close"><button class="panel-close-btn" onclick="closePanel(1)">Close ✕</button></div>
+        <span class="panel-eyebrow">Exhibition 002 &nbsp;·&nbsp; Gallery I &nbsp;·&nbsp; The Phenomenon</span>
+        <h1 class="panel-h1">Trust is a state,<br>not a decision</h1>
+        <p class="panel-intro">We treat trust as a judgment — a considered conclusion reached after evaluating evidence. The neuroscience disagrees entirely.</p>
+        <p class="panel-body">Trust is a <em>physiological state</em> that precedes cognition. The autonomic nervous system assesses safety through cues it processes faster than conscious awareness — tone of voice, facial micro-expressions, postural mirroring, respiratory rate, eye contact duration.</p>
+        <p class="panel-body">By the time the prefrontal cortex forms the thought "I think I can trust this person," the amygdala has already issued its verdict, cortisol has already adjusted, and the body is already behaving accordingly.</p>
+        <p class="panel-body">Stephen Porges calls this process <em>neuroception</em> — the nervous system's continuous, subconscious scan of the environment for safety or threat. It runs beneath perception. Everyone in the room is doing it, always, including your clients.</p>
+        <div class="panel-callout">
+          <div class="panel-callout-title">Neuroception precedes perception.</div>
+          <div class="panel-callout-body">The assessment of safety is subcortical — it happens in the brainstem and limbic system before the cortex can form an opinion. <em>The room is already reading you before you say hello.</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOM 2: THE EVIDENCE -->
+<section id="room-2" class="section gallery-room">
+  <nav class="room-nav">
+    <div class="room-nav-left">
+      <button class="nav-btn" onclick="goToRoom(1)">← Gallery I</button>
+      <button class="nav-btn" onclick="goToMap()">Map</button>
+    </div>
+    <div>
+      <div class="room-nav-title">Gallery II &nbsp;·&nbsp; The Evidence</div>
+      <div class="room-nav-sub">2 of 6 &nbsp;·&nbsp; Click the painting to read</div>
+    </div>
+    <div class="room-nav-right">
+      <button class="nav-btn" onclick="goToRoom(3)">Gallery III →</button>
+    </div>
+  </nav>
+  <div class="room-body">
+    <div class="painting-wall" id="wall-2" onclick="openPanel(2)">
+      <div class="painting-frame">
+        <div class="painting-canvas">
+          <div class="canvas-num">02</div>
+          <span class="canvas-label">The Research Archive</span>
+          <h2 class="canvas-title">Three discoveries that changed the map</h2>
+          <div class="canvas-rule"></div>
+        </div>
+      </div>
+      <div class="painting-placard">
+        <span class="placard-label">Exhibit 02 · Gallery II</span>
+        <span class="placard-title">The Research Archive</span>
+      </div>
+      <div class="painting-click-hint">Click to examine this work</div>
+    </div>
+    <div class="content-panel" id="panel-2">
+      <div class="panel-inner">
+        <div class="panel-close"><button class="panel-close-btn" onclick="closePanel(2)">Close ✕</button></div>
+        <span class="panel-eyebrow">Exhibition 002 &nbsp;·&nbsp; Gallery II &nbsp;·&nbsp; The Research Archive</span>
+        <h1 class="panel-h1">Three discoveries<br>that changed the map</h1>
+        <p class="panel-intro">Mirror neurons, oxytocin, and polyvagal theory. Three separate research programs that converged on the same conclusion: trust is biology, not judgment.</p>
+        <div class="artifact-block">
+          <div class="artifact-block-label">Artifact I &nbsp;·&nbsp; Mirror Neurons &nbsp;·&nbsp; Parma, 1992</div>
+          <div class="artifact-block-title">Giacomo Rizzolatti &amp; The Accidental Discovery</div>
+          <div class="artifact-block-body">Neurons fired not only when a monkey performed an action — but when it <em>observed</em> another doing the same. The same cell. When you witness someone trust, something in you rehearses trusting. The practitioner who is genuinely present activates something real in the client's nervous system.</div>
+          <div class="chips">
+            <span class="chip">University of Parma · 1992</span>
+            <span class="chip">Replicated in humans via fMRI</span>
+            <span class="chip">Rizzolatti et al., TINS 1996</span>
+          </div>
+        </div>
+        <div class="artifact-block">
+          <div class="artifact-block-label">Artifact II &nbsp;·&nbsp; Oxytocin &nbsp;·&nbsp; Claremont, 2004</div>
+          <div class="artifact-block-title">Paul Zak &amp; The Trust Molecule</div>
+          <div class="artifact-block-body">Oxytocin — the neuropeptide released during closeness — is also released during positive social interactions characterized by trust. Participants who received intranasal oxytocin transferred significantly more money to strangers. <em>Trust has a biochemistry. Eye contact, warmth, and genuine attention are oxytocin triggers.</em></div>
+          <div class="chips">
+            <span class="chip">Kosfeld et al., Nature 2005</span>
+            <span class="chip">Oxytocin → ↑ trust</span>
+          </div>
+        </div>
+        <div class="artifact-block">
+          <div class="artifact-block-label">Artifact III &nbsp;·&nbsp; Polyvagal Theory &nbsp;·&nbsp; 1994</div>
+          <div class="artifact-block-title">Stephen Porges &amp; The Safety Hierarchy</div>
+          <div class="artifact-block-body">The autonomic nervous system has three hierarchical states. The social engagement system — the part of us that can connect, trust, and learn — is only fully available in the <em>ventral vagal</em> state. Safety is not a nicety. It is a prerequisite.</div>
+          <div class="chips">
+            <span class="chip">3 ANS states · hierarchical</span>
+            <span class="chip">Porges, Norton 2011</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOM 3: THE CONCEPT -->
+<section id="room-3" class="section gallery-room">
+  <nav class="room-nav">
+    <div class="room-nav-left">
+      <button class="nav-btn" onclick="goToRoom(2)">← Gallery II</button>
+      <button class="nav-btn" onclick="goToMap()">Map</button>
+    </div>
+    <div>
+      <div class="room-nav-title">Gallery III &nbsp;·&nbsp; The Concept</div>
+      <div class="room-nav-sub">3 of 6 &nbsp;·&nbsp; Click the painting to read</div>
+    </div>
+    <div class="room-nav-right">
+      <button class="nav-btn" onclick="goToRoom(4)">Gallery IV →</button>
+    </div>
+  </nav>
+  <div class="room-body">
+    <div class="painting-wall" id="wall-3" onclick="openPanel(3)">
+      <div class="painting-frame">
+        <div class="painting-canvas">
+          <div class="canvas-num">03</div>
+          <span class="canvas-label">Named Concept</span>
+          <h2 class="canvas-title">The Contact Before the Contract</h2>
+          <div class="canvas-rule"></div>
+        </div>
+      </div>
+      <div class="painting-placard">
+        <span class="placard-label">Exhibit 03 · Gallery III</span>
+        <span class="placard-title">Named Concept</span>
+      </div>
+      <div class="painting-click-hint">Click to examine this work</div>
+    </div>
+    <div class="content-panel" id="panel-3">
+      <div class="panel-inner">
+        <div class="panel-close"><button class="panel-close-btn" onclick="closePanel(3)">Close ✕</button></div>
+        <span class="panel-eyebrow">Exhibition 002 &nbsp;·&nbsp; Gallery III &nbsp;·&nbsp; Named Concept</span>
+        <h1 class="panel-h1">The Contact Before<br>the Contract</h1>
+        <p class="panel-intro">Trust is established physiologically — through mirroring, safety signals, and neurochemistry — before any explicit agreement is possible.</p>
+        <div class="layers-stack">
+          <div class="layer-item">
+            <div class="layer-label">Layer 1 — What It Is</div>
+            <div class="layer-title">The body negotiates before the mind agrees</div>
+            <div class="layer-body">Every interaction carries a pre-verbal negotiation. Before content, before credentials — nervous systems exchange signals. Tone, pace, breath, posture. These determine whether the social engagement system opens or closes. <em>The contact happens before the contract. You cannot skip to the contract.</em></div>
+          </div>
+          <div class="layer-item">
+            <div class="layer-label">Layer 2 — The Mechanism</div>
+            <div class="layer-title">Mirror neurons, oxytocin, and the neuroception loop</div>
+            <div class="layer-body">When a practitioner enters a room in a regulated state, they broadcast safety signals the client's nervous system reads automatically. This is not rapport as performance. It is <em>co-regulation</em> — one nervous system directly influencing another.</div>
+          </div>
+          <div class="layer-item">
+            <div class="layer-label">Layer 3 — In Session Today</div>
+            <div class="layer-title">Regulate yourself first. The room follows.</div>
+            <div class="layer-body"><em>Before the client speaks, be someone their nervous system can relax around.</em> Take 90 seconds before the session. Settle your own nervous system. What you bring into the room is the first piece of content. Make it count.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOM 4: EDGE CASE -->
+<section id="room-4" class="section gallery-room">
+  <nav class="room-nav">
+    <div class="room-nav-left">
+      <button class="nav-btn" onclick="goToRoom(3)">← Gallery III</button>
+      <button class="nav-btn" onclick="goToMap()">Map</button>
+    </div>
+    <div>
+      <div class="room-nav-title">Gallery IV &nbsp;·&nbsp; The Complications</div>
+      <div class="room-nav-sub">4 of 6 &nbsp;·&nbsp; Click the painting to read</div>
+    </div>
+    <div class="room-nav-right">
+      <button class="nav-btn" onclick="goToRoom(5)">Gallery V →</button>
+    </div>
+  </nav>
+  <div class="room-body">
+    <div class="painting-wall" id="wall-4" onclick="openPanel(4)">
+      <div class="painting-frame">
+        <div class="painting-canvas">
+          <div class="canvas-num">04</div>
+          <span class="canvas-label">Edge Case</span>
+          <h2 class="canvas-title">Where This Gets Complicated</h2>
+          <div class="canvas-rule"></div>
+        </div>
+      </div>
+      <div class="painting-placard">
+        <span class="placard-label">Exhibit 04 · Gallery IV</span>
+        <span class="placard-title">The Edge Case</span>
+      </div>
+      <div class="painting-click-hint">Click to examine this work</div>
+    </div>
+    <div class="content-panel" id="panel-4">
+      <div class="panel-inner">
+        <div class="panel-close"><button class="panel-close-btn" onclick="closePanel(4)">Close ✕</button></div>
+        <span class="panel-eyebrow">Exhibition 002 &nbsp;·&nbsp; Gallery IV &nbsp;·&nbsp; Edge Case</span>
+        <h1 class="panel-h1">Where This Gets<br>Complicated</h1>
+        <p class="panel-intro">The biology of trust can be exploited. Charisma is morally neutral. The nervous system cannot distinguish a trustworthy person from a skilled performer.</p>
+        <p class="panel-body">Manipulators, cult leaders, and high-functioning narcissists are often extraordinarily good at creating the physiological conditions for trust. The nervous system cannot distinguish between a genuinely trustworthy person and a skilled performer of trustworthiness.</p>
+        <p class="panel-body">The Contact Before the Contract is a description of how trust is established, not a guarantee that it should be. The practitioner's ethical obligation is not just to create the conditions for trust — it is to be worthy of it.</p>
+        <div class="panel-callout">
+          <div class="panel-callout-title">The biology gets you in the door.</div>
+          <div class="panel-callout-body">What you do with it is character.</div>
+        </div>
+        <p class="panel-body">In session: watch for clients who extend trust very rapidly and broadly — this may signal a nervous system trained to seek safety in anyone who broadcasts it. This is information about their history, not evidence of your skill.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOM 5: ETYMOLOGY -->
+<section id="room-5" class="section gallery-room">
+  <nav class="room-nav">
+    <div class="room-nav-left">
+      <button class="nav-btn" onclick="goToRoom(4)">← Gallery IV</button>
+      <button class="nav-btn" onclick="goToMap()">Map</button>
+    </div>
+    <div>
+      <div class="room-nav-title">Gallery V &nbsp;·&nbsp; The Words</div>
+      <div class="room-nav-sub">5 of 6 &nbsp;·&nbsp; Click the painting to read</div>
+    </div>
+    <div class="room-nav-right">
+      <button class="nav-btn" onclick="goToRoom(6)">Gallery VI →</button>
+    </div>
+  </nav>
+  <div class="room-body">
+    <div class="painting-wall" id="wall-5" onclick="openPanel(5)">
+      <div class="painting-frame">
+        <div class="painting-canvas">
+          <div class="canvas-num">05</div>
+          <span class="canvas-label">Etymology &amp; History</span>
+          <h2 class="canvas-title">All financial vocabulary is borrowed from biology</h2>
+          <div class="canvas-rule"></div>
+        </div>
+      </div>
+      <div class="painting-placard">
+        <span class="placard-label">Exhibit 05 · Gallery V</span>
+        <span class="placard-title">Etymology &amp; History</span>
+      </div>
+      <div class="painting-click-hint">Click to examine this work</div>
+    </div>
+    <div class="content-panel" id="panel-5">
+      <div class="panel-inner">
+        <div class="panel-close"><button class="panel-close-btn" onclick="closePanel(5)">Close ✕</button></div>
+        <span class="panel-eyebrow">Exhibition 002 &nbsp;·&nbsp; Gallery V &nbsp;·&nbsp; Etymology</span>
+        <h1 class="panel-h1">Trust · Credit · Confidence —<br>Borrowed Biology</h1>
+        <p class="panel-intro">Every word in the vocabulary of economic trust originally meant: <em>I believe this person's nervous system is safe.</em></p>
+        <p class="panel-body"><strong>"Trust"</strong> comes from Old Norse <em>traust</em> — confidence, help, support. Proto-Germanic <em>*traustaz</em>, meaning firm, solid. The word means the ground won't move.</p>
+        <p class="panel-body"><strong>"Credit"</strong> comes from Latin <em>credo</em> — I believe. <strong>"Confidence"</strong> from Latin <em>con + fidere</em> — with faith. <strong>"Fidelity"</strong> from <em>fides</em> — faith. The economy runs on words that originally meant body-level safety.</p>
+        <p class="panel-body">The workers who marched on May 1, 1886 were demanding something also pre-cognitive: the right to a body that was not chronically in threat response. The eight-hour workday was a claim about nervous system regulation. Time to sleep. Time to breathe. They knew it before the vocabulary existed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOM 6: MELIORISM -->
+<section id="room-6" class="section gallery-room">
+  <nav class="room-nav">
+    <div class="room-nav-left">
+      <button class="nav-btn" onclick="goToRoom(5)">← Gallery V</button>
+      <button class="nav-btn" onclick="goToMap()">Map</button>
+    </div>
+    <div>
+      <div class="room-nav-title">Gallery VI &nbsp;·&nbsp; The Practice</div>
+      <div class="room-nav-sub">6 of 6 &nbsp;·&nbsp; Click the painting to read</div>
+    </div>
+    <div class="room-nav-right">
+      <button class="nav-btn" onclick="goToMap()">Back to Map</button>
+    </div>
+  </nav>
+  <div class="room-body">
+    <div class="painting-wall" id="wall-6" onclick="openPanel(6)">
+      <div class="painting-frame">
+        <div class="painting-canvas">
+          <div class="canvas-num">06</div>
+          <span class="canvas-label">Meliorism</span>
+          <h2 class="canvas-title">The room that feels safe is a better system</h2>
+          <div class="canvas-rule"></div>
+        </div>
+      </div>
+      <div class="painting-placard">
+        <span class="placard-label">Exhibit 06 · Gallery VI</span>
+        <span class="placard-title">Meliorism</span>
+      </div>
+      <div class="painting-click-hint">Click to examine this work</div>
+    </div>
+    <div class="content-panel" id="panel-6">
+      <div class="panel-inner">
+        <div class="panel-close"><button class="panel-close-btn" onclick="closePanel(6)">Close ✕</button></div>
+        <span class="panel-eyebrow">Exhibition 002 &nbsp;·&nbsp; Gallery VI &nbsp;·&nbsp; Meliorism</span>
+        <h1 class="panel-h1">The Room That Feels Safe<br>Is a Better System</h1>
+        <p class="panel-intro">The world gets better through constructive stewardship, wise action, better systems, and collaborative agency. The biology of trust adds a foundation layer.</p>
+        <p class="panel-body">None of those things are fully accessible to a nervous system in threat response. A practitioner who understands co-regulation is not performing warmth. They are doing systems work — deliberately creating conditions in which another human being can access their own capacity for growth, change, and agency.</p>
+        <p class="panel-body"><em>The room that feels safe is a better system.</em> The session where a client's nervous system relaxes is a session where more becomes possible. The practitioner who can regulate themselves under pressure is not just more effective. They are, in a precise and literal sense, making the world more able to improve.</p>
+        <div class="panel-section">
+          <span class="panel-section-label">Experiment Protocol · This Week</span>
+          <p class="panel-body"><strong>The 90-Second Regulation:</strong> Before your next session, take 90 seconds alone. Three slow breaths. Notice where tension is sitting. Release it. Set one intention: <em>"I am going to be someone their nervous system can relax around."</em></p>
+          <p class="panel-body">Observe: Does the energy in the first five minutes feel different? Does the client seem to settle faster? What does the room give back?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ── State ────────────────────────────────────
+var currentSection = 'lobby';
+var musicPlaying = false;
+var music = document.getElementById('music-audio');
+if (music) music.volume = 0.35;
+
+// ── Navigation ───────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(function(s) {
+    s.classList.remove('active');
+  });
+  var el = document.getElementById(id);
+  if (el) {
+    el.classList.add('active');
+    currentSection = id;
+  }
+}
+
+function enterGallery() {
+  // Start music on user interaction
+  startMusic();
+  showSection('map-hall');
+}
+
+function goToMap() {
+  showSection('map-hall');
+}
+
+function goToRoom(n) {
+  // Close any open panels first
+  for (var i = 1; i <= 6; i++) {
+    closePanel(i);
+  }
+  showSection('room-' + n);
+  // Mark visited
+  var cells = document.querySelectorAll('.room-cell');
+  if (cells[n-1]) cells[n-1].classList.add('visited');
+}
+
+// ── Music ────────────────────────────────────
+// ── Music fallback chain ─────────────────────────────────────────────
+var MUSIC_SOURCES = [
+  'https://archive.org/download/aironthegstring_201911/aironthegstring_201911.mp3',
+  'https://upload.wikimedia.org/wikipedia/commons/6/65/GoldbergVariations_MehmetOkonsar-1of3_Var1to10.ogg',
+  'https://upload.wikimedia.org/wikipedia/commons/4/47/Johann_Sebastian_Bach_-_Toccata_and_Fugue_in_D_minor_BWV_565_-_Toccata.ogg',
+];
+var musicSourceIdx = 0;
+
+if (music) {
+  music.addEventListener('error', function(e) {
+    console.warn('[Signal-OS music] Source failed:', music.src, e);
+    musicSourceIdx++;
+    if (musicSourceIdx < MUSIC_SOURCES.length) {
+      console.log('[Signal-OS music] Trying fallback:', MUSIC_SOURCES[musicSourceIdx]);
+      music.src = MUSIC_SOURCES[musicSourceIdx];
+      music.load();
+      if (musicPlaying) music.play().catch(function(){});
+    } else {
+      console.warn('[Signal-OS music] All sources failed.');
+      var btn = document.getElementById('btn-music');
+      if (btn) { btn.textContent = '♫  Music N/A'; btn.style.opacity = '0.35'; }
+    }
+  });
+}
+
+function startMusic() {
+  if (!musicPlaying && music) {
+    // Ensure we're trying the current source
+    if (music.src !== MUSIC_SOURCES[musicSourceIdx]) {
+      music.src = MUSIC_SOURCES[musicSourceIdx];
+      music.load();
+    }
+    var playPromise = music.play();
+    if (playPromise !== undefined) {
+      playPromise.then(function() {
+        musicPlaying = true;
+        var btn = document.getElementById('btn-music');
+        if (btn) { btn.classList.add('playing'); btn.textContent = '♫  Music On'; }
+      }).catch(function(e) {
+        console.warn('[Signal-OS music] play() blocked:', e.message);
+        // Browser blocked autoplay — let manual click still work
+        var btn = document.getElementById('btn-music');
+        if (btn) { btn.textContent = '♫  Click to Play'; }
+      });
+    }
+  }
+}
+
+function toggleMusic() {
+  if (!music) return;
+  if (!musicPlaying) {
+    startMusic();
+  } else {
+    music.pause();
+    musicPlaying = false;
+    var btn = document.getElementById('btn-music');
+    if (btn) { btn.classList.remove('playing'); btn.textContent = '♫  Play Music'; }
+  }
+}
+
+// ── Panel ────────────────────────────────────
+function openPanel(n) {
+  var wall = document.getElementById('wall-' + n);
+  var panel = document.getElementById('panel-' + n);
+  if (!wall || !panel) return;
+  wall.classList.add('panel-open');
+  wall.onclick = null; // disable click to re-open
+  panel.classList.add('open');
+}
+
+function closePanel(n) {
+  var wall = document.getElementById('wall-' + n);
+  var panel = document.getElementById('panel-' + n);
+  if (!wall || !panel) return;
+  wall.classList.remove('panel-open');
+  wall.onclick = function() { openPanel(n); };
+  panel.classList.remove('open');
+}
+
+// ── Keyboard navigation ──────────────────────
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (currentSection.startsWith('room-')) {
+      var n = parseInt(currentSection.replace('room-',''));
+      closePanel(n);
+    }
+  }
+  if (e.key === 'ArrowLeft' && currentSection.startsWith('room-')) {
+    var n = parseInt(currentSection.replace('room-',''));
+    if (n > 1) goToRoom(n - 1);
+    else goToMap();
+  }
+  if (e.key === 'ArrowRight' && currentSection.startsWith('room-')) {
+    var n = parseInt(currentSection.replace('room-',''));
+    if (n < 6) goToRoom(n + 1);
+    else goToMap();
+  }
+  if (e.key === 'm' || e.key === 'M') {
+    if (currentSection !== 'lobby') goToMap();
+  }
+});
+
+// Prevent room-cell default link behavior
+document.querySelectorAll('.room-cell').forEach(function(cell) {
+  cell.addEventListener('click', function(e) {
+    e.preventDefault();
+  });
+});
+</script>
+</body>
+</html>

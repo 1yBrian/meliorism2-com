@@ -1,0 +1,651 @@
+<!-- signal-os:date: 2026-05-03 -->
+<!-- signal-os:slug: first-principles -->
+<!-- signal-os:title: First Principles -->
+<!-- signal-os:concept: Most training is designed by analogy. First principles asks: what actually causes a skill to form in a human nervous system? The answer dismantles the training industry's founding assumption. -->
+<!-- signal-os:format: Exploded Schematic -->
+<!-- signal-os:dimension: Witnessing Authentic Humanity -->
+<!-- signal-os:sources: 10 -->
+<!-- signal-os:tags: #reasoning #cognition #learning -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 3 · First Principles</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#05080F;--grid:rgba(40,120,200,0.07);--line:rgba(80,160,240,0.25);
+  --line-h:rgba(80,160,240,0.6);--cyan:#3CF4FF;--cyanf:rgba(60,244,255,0.5);
+  --white:#E8EFF8;--muted:rgba(232,239,248,0.5);--dim:rgba(232,239,248,0.3);
+  --amber:#FFB940;--amberf:rgba(255,185,64,0.4);--red:#FF4060;
+  --surface:rgba(255,255,255,0.03);--border:rgba(80,160,240,0.15);
+}
+html,body{height:100%;background:var(--bg);color:var(--white);font-family:'Space Mono',monospace;overflow:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:40px 40px;}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:200px 200px;opacity:0.6;}
+.sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;background:rgba(5,8,15,0.92);
+  border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:14px;}
+.sb-logo{font-family:'Syne',sans-serif;font-size:0.68rem;letter-spacing:5px;font-weight:800;
+  color:var(--cyan);text-decoration:none;text-shadow:0 0 12px var(--cyanf);}
+.sb-sep{width:1px;height:14px;background:var(--line);}
+.sb-label{font-size:0.58rem;letter-spacing:2.5px;color:var(--muted);flex:1;}
+.sb-clock{font-size:0.58rem;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);}
+#entry{position:fixed;inset:0;top:36px;z-index:800;display:grid;grid-template-columns:1fr 1fr;
+  background:var(--bg);transition:opacity 0.9s ease;}
+#entry.hidden{opacity:0;pointer-events:none;}
+.entry-schematic{position:relative;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;border-right:1px solid var(--line);}
+.entry-brief{display:flex;flex-direction:column;justify-content:center;padding:60px 50px;position:relative;}
+.entry-brief::before,.entry-brief::after{content:'';position:absolute;width:20px;height:20px;
+  border-color:var(--line-h);border-style:solid;}
+.entry-brief::before{top:20px;left:20px;border-width:1px 0 0 1px;}
+.entry-brief::after{bottom:20px;right:20px;border-width:0 1px 1px 0;}
+.eb-tag{font-size:0.58rem;letter-spacing:4px;color:var(--cyan);text-shadow:0 0 10px var(--cyanf);margin-bottom:20px;}
+.eb-num{font-size:0.62rem;letter-spacing:3px;color:var(--dim);margin-bottom:8px;}
+.eb-title{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,4vw,4rem);font-weight:800;
+  line-height:1.05;color:var(--white);margin-bottom:24px;}
+.eb-title span{color:var(--cyan);text-shadow:0 0 20px var(--cyanf);}
+.eb-concept{font-size:0.8rem;line-height:1.7;color:var(--muted);max-width:400px;margin-bottom:36px;}
+.eb-stats{display:flex;gap:30px;margin-bottom:40px;}
+.eb-stat{display:flex;flex-direction:column;gap:3px;}
+.eb-stat-val{font-size:1.2rem;font-weight:700;color:var(--amber);text-shadow:0 0 12px var(--amberf);}
+.eb-stat-lbl{font-size:0.55rem;letter-spacing:2.5px;color:var(--dim);}
+.entry-btn{display:inline-flex;align-items:center;gap:12px;background:transparent;
+  border:1px solid var(--cyan);color:var(--cyan);padding:14px 28px;
+  font-family:'Space Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:3px;
+  cursor:pointer;width:fit-content;text-shadow:0 0 10px var(--cyanf);
+  box-shadow:0 0 20px rgba(60,244,255,0.1),inset 0 0 20px rgba(60,244,255,0.03);
+  transition:box-shadow 0.3s,background 0.3s;}
+.entry-btn:hover{background:rgba(60,244,255,0.07);box-shadow:0 0 40px rgba(60,244,255,0.2),inset 0 0 30px rgba(60,244,255,0.06);}
+#main-panel{position:fixed;inset:0;top:36px;display:none;opacity:0;transition:opacity 0.6s ease;overflow:hidden;}
+#main-panel.visible{display:flex;opacity:1;}
+.mp-layout{display:grid;grid-template-columns:280px 1fr;width:100%;height:100%;}
+.comp-sidebar{border-right:1px solid var(--line);background:rgba(5,8,15,0.6);overflow-y:auto;padding:20px 0;}
+.comp-sidebar::-webkit-scrollbar{width:3px;}
+.comp-sidebar::-webkit-scrollbar-thumb{background:var(--line);}
+.cs-header{padding:0 20px 16px;border-bottom:1px solid var(--border);margin-bottom:8px;}
+.cs-title{font-size:0.58rem;letter-spacing:4px;color:var(--cyan);text-shadow:0 0 10px var(--cyanf);}
+.comp-item{display:flex;align-items:flex-start;gap:12px;padding:14px 20px;cursor:pointer;
+  border-bottom:1px solid var(--border);transition:background 0.2s;position:relative;}
+.comp-item:hover,.comp-item.active{background:rgba(60,244,255,0.04);}
+.comp-item.active .ci-num{color:var(--cyan);text-shadow:0 0 8px var(--cyanf);}
+.comp-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:var(--cyan);box-shadow:0 0 8px var(--cyanf);}
+.ci-num{font-size:0.6rem;letter-spacing:2px;color:var(--dim);padding-top:2px;flex-shrink:0;transition:color 0.2s;}
+.ci-label{font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:600;color:var(--white);margin-bottom:2px;}
+.ci-sub{font-size:0.58rem;letter-spacing:1.5px;color:var(--dim);}
+.content-area{overflow-y:auto;padding:0 0 80px;}
+.content-area::-webkit-scrollbar{width:4px;}
+.content-area::-webkit-scrollbar-thumb{background:var(--line);}
+.section-panel{min-height:100vh;padding:50px 60px;border-bottom:1px solid var(--border);display:none;}
+.section-panel.active{display:block;}
+.sec-eyebrow{font-size:0.58rem;letter-spacing:4px;color:var(--cyan);text-shadow:0 0 10px var(--cyanf);margin-bottom:10px;}
+.sec-title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,2.5vw,2.4rem);font-weight:800;
+  color:var(--white);line-height:1.1;margin-bottom:6px;}
+.sec-sub{font-size:0.72rem;color:var(--muted);letter-spacing:1px;margin-bottom:40px;
+  padding-bottom:24px;border-bottom:1px solid var(--border);}
+.sec-body{font-size:0.82rem;line-height:1.85;color:var(--muted);max-width:680px;margin-bottom:30px;}
+.sec-body strong{color:var(--white);font-weight:700;}
+.sec-body em{color:var(--amber);font-style:normal;}
+.cite{font-size:0.75rem;color:var(--white);border-left:3px solid var(--cyan);
+  padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;}
+.pull-quote{margin:36px 0;padding:28px 32px;border:1px solid var(--line);
+  background:rgba(60,244,255,0.03);position:relative;}
+.pull-quote::before{content:'//';position:absolute;top:12px;left:14px;
+  font-size:0.7rem;color:var(--cyan);opacity:0.4;}
+.pq-text{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:600;
+  color:var(--white);line-height:1.5;margin-bottom:10px;}
+.pq-attr{font-size:0.6rem;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);}
+.data-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:30px 0;}
+.data-box{padding:20px 18px;border:1px solid var(--line);background:rgba(255,255,255,0.02);}
+.db-val{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;
+  color:var(--amber);text-shadow:0 0 14px var(--amberf);margin-bottom:6px;}
+.db-lbl{font-size:0.58rem;letter-spacing:2.5px;color:var(--dim);}
+.wall-moment{width:100%;background:rgba(60,244,255,0.02);border:1px solid var(--line);
+  padding:40px;margin:40px 0;position:relative;overflow:hidden;}
+.wall-moment::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(60,244,255,0.04),transparent);}
+.wm-label{font-size:0.58rem;letter-spacing:4px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);
+  margin-bottom:16px;position:relative;}
+.wm-title{font-family:'Syne',sans-serif;font-size:clamp(1rem,2vw,1.5rem);font-weight:800;
+  color:var(--white);margin-bottom:24px;position:relative;}
+.decomp-tree{font-size:0.72rem;line-height:2.2;position:relative;}
+.dt-root{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;
+  color:var(--cyan);text-shadow:0 0 12px var(--cyanf);letter-spacing:2px;}
+.dt-branch{padding-left:32px;position:relative;color:var(--white);}
+.dt-branch::before{content:'├──';position:absolute;left:0;color:var(--line-h);font-size:0.65rem;}
+.dt-branch:last-child::before{content:'└──';}
+.dt-leaf{padding-left:64px;position:relative;color:var(--muted);font-size:0.68rem;}
+.dt-leaf::before{content:'└─';position:absolute;left:32px;color:var(--line);font-size:0.65rem;}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);margin:30px 0;}
+.cg-header{padding:12px 20px;background:rgba(60,244,255,0.06);
+  font-size:0.6rem;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);
+  border-bottom:1px solid var(--line);}
+.cg-header:first-child{border-right:1px solid var(--line);}
+.cg-cell{padding:14px 20px;font-size:0.76rem;line-height:1.6;color:var(--muted);border-bottom:1px solid var(--border);}
+.cg-cell:nth-child(odd){border-right:1px solid var(--border);}
+.cg-cell.highlight{color:var(--white);}
+.meliorist-frame{margin:36px 0;padding:28px 32px;border-left:3px solid var(--amber);background:rgba(255,185,64,0.03);}
+.mf-label{font-size:0.58rem;letter-spacing:4px;color:var(--amber);text-shadow:0 0 10px var(--amberf);margin-bottom:12px;}
+.mf-text{font-size:0.82rem;line-height:1.8;color:var(--muted);}
+.mf-text strong{color:var(--amber);}
+.bib-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:0.7rem;line-height:1.6;color:var(--dim);}
+.bib-item strong{color:var(--muted);}
+.bib-item a{color:var(--cyan);text-decoration:none;opacity:0.8;}
+.bib-item a:hover{opacity:1;}
+.nature-card{margin:36px 0;padding:24px 28px;border:1px solid rgba(40,200,80,0.2);background:rgba(40,200,80,0.02);}
+.nc-label{font-size:0.58rem;letter-spacing:4px;color:rgba(100,220,100,0.7);margin-bottom:10px;}
+.nc-text{font-size:0.78rem;line-height:1.75;color:var(--muted);}
+.sec-nav{display:flex;gap:12px;margin-top:50px;padding-top:24px;border-top:1px solid var(--border);}
+.sec-nav-btn{background:transparent;border:1px solid var(--line);color:var(--cyan);padding:10px 22px;
+  font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:2px;cursor:pointer;
+  transition:background 0.2s,box-shadow 0.2s;text-shadow:0 0 8px var(--cyanf);}
+.sec-nav-btn:hover{background:rgba(60,244,255,0.06);box-shadow:0 0 16px rgba(60,244,255,0.1);}
+.sec-nav-btn.next{margin-left:auto;}
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;
+  background:rgba(5,8,15,0.95);border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;gap:22px;font-size:0.62rem;letter-spacing:2px;}
+.footer-bar a{color:var(--cyan);text-decoration:none;text-shadow:0 0 8px var(--cyanf);}
+.footer-sep{color:var(--line-h);}
+@keyframes pulse-dot{0%,100%{opacity:0.3;}50%{opacity:1;}}
+@media(max-width:768px){
+  #entry{grid-template-columns:1fr;overflow-y:auto;align-items:flex-start;}
+  .entry-schematic{height:240px;border-right:none;border-bottom:1px solid var(--line);}
+  .entry-brief{padding:32px 24px 80px;}
+  .mp-layout{grid-template-columns:1fr;grid-template-rows:auto 1fr;}
+  .comp-sidebar{border-right:none;border-bottom:1px solid var(--line);max-height:160px;
+    overflow-x:auto;overflow-y:hidden;display:flex;flex-direction:row;padding:0;}
+  .cs-header{display:none;}
+  .comp-item{flex-direction:column;min-width:110px;border-bottom:none;border-right:1px solid var(--border);padding:10px 12px;}
+  .section-panel{padding:28px 20px 80px;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div class="sb-sep"></div>
+  <div class="sb-label">EXPLODED SCHEMATIC · WITNESSING · ISSUE 003</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<div id="entry">
+  <div class="entry-schematic">
+    <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" style="width:90%;max-width:460px;">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <g opacity="0.12" stroke="#3CF4FF" stroke-width="0.5">
+        <line x1="0" y1="60" x2="500" y2="60"/><line x1="0" y1="120" x2="500" y2="120"/>
+        <line x1="0" y1="180" x2="500" y2="180"/><line x1="0" y1="240" x2="500" y2="240"/>
+        <line x1="0" y1="300" x2="500" y2="300"/><line x1="0" y1="360" x2="500" y2="360"/>
+        <line x1="100" y1="0" x2="100" y2="400"/><line x1="200" y1="0" x2="200" y2="400"/>
+        <line x1="300" y1="0" x2="300" y2="400"/><line x1="400" y1="0" x2="400" y2="400"/>
+      </g>
+      <!-- Root node -->
+      <rect x="170" y="18" width="160" height="44" rx="2" fill="none" stroke="#3CF4FF" stroke-width="1.5" filter="url(#glow)"/>
+      <text x="250" y="36" text-anchor="middle" font-family="'Space Mono',monospace" font-size="9" fill="#3CF4FF" letter-spacing="2">SKILL FORMATION</text>
+      <text x="250" y="52" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7" fill="rgba(60,244,255,0.6)" letter-spacing="1">FIRST PRINCIPLES</text>
+      <!-- Trunk -->
+      <line x1="250" y1="62" x2="250" y2="88" stroke="#3CF4FF" stroke-width="1" opacity="0.5"/>
+      <!-- Branch horizontal -->
+      <line x1="100" y1="88" x2="400" y2="88" stroke="#3CF4FF" stroke-width="0.8" opacity="0.35"/>
+      <!-- Branch drops -->
+      <line x1="100" y1="88" x2="100" y2="108" stroke="#3CF4FF" stroke-width="0.8" opacity="0.35"/>
+      <line x1="250" y1="88" x2="250" y2="108" stroke="#3CF4FF" stroke-width="0.8" opacity="0.35"/>
+      <line x1="400" y1="88" x2="400" y2="108" stroke="#3CF4FF" stroke-width="0.8" opacity="0.35"/>
+      <!-- Level 2 boxes -->
+      <rect x="30" y="108" width="140" height="38" rx="2" fill="rgba(60,244,255,0.04)" stroke="rgba(60,244,255,0.3)" stroke-width="1"/>
+      <text x="100" y="124" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7.5" fill="#E8EFF8" letter-spacing="1">DESIRABLE</text>
+      <text x="100" y="138" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7.5" fill="#E8EFF8" letter-spacing="1">DIFFICULTY</text>
+      <rect x="175" y="108" width="150" height="38" rx="2" fill="rgba(255,185,64,0.07)" stroke="rgba(255,185,64,0.4)" stroke-width="1"/>
+      <text x="250" y="124" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7.5" fill="#FFB940" letter-spacing="1">ENCODING vs</text>
+      <text x="250" y="138" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7.5" fill="#FFB940" letter-spacing="1">RETRIEVAL</text>
+      <rect x="330" y="108" width="140" height="38" rx="2" fill="rgba(60,244,255,0.04)" stroke="rgba(60,244,255,0.3)" stroke-width="1"/>
+      <text x="400" y="124" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7.5" fill="#E8EFF8" letter-spacing="1">TRANSFER</text>
+      <text x="400" y="138" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7.5" fill="#E8EFF8" letter-spacing="1">CONDITIONS</text>
+      <!-- Level 3 drops -->
+      <line x1="65" y1="146" x2="65" y2="174" stroke="#3CF4FF" stroke-width="0.5" opacity="0.25"/>
+      <line x1="135" y1="146" x2="135" y2="174" stroke="#3CF4FF" stroke-width="0.5" opacity="0.25"/>
+      <line x1="365" y1="146" x2="365" y2="174" stroke="#3CF4FF" stroke-width="0.5" opacity="0.25"/>
+      <line x1="435" y1="146" x2="435" y2="174" stroke="#3CF4FF" stroke-width="0.5" opacity="0.25"/>
+      <!-- Level 3 boxes -->
+      <rect x="30" y="174" width="70" height="28" rx="1" fill="none" stroke="rgba(60,244,255,0.2)" stroke-width="0.8"/>
+      <text x="65" y="185" text-anchor="middle" font-family="'Space Mono',monospace" font-size="6.5" fill="rgba(232,239,248,0.5)" letter-spacing="0.5">SPACING</text>
+      <text x="65" y="196" text-anchor="middle" font-family="'Space Mono',monospace" font-size="6.5" fill="rgba(232,239,248,0.5)" letter-spacing="0.5">EFFECT</text>
+      <rect x="100" y="174" width="70" height="28" rx="1" fill="none" stroke="rgba(60,244,255,0.2)" stroke-width="0.8"/>
+      <text x="135" y="185" text-anchor="middle" font-family="'Space Mono',monospace" font-size="6.5" fill="rgba(232,239,248,0.5)" letter-spacing="0.5">RETRIEVAL</text>
+      <text x="135" y="196" text-anchor="middle" font-family="'Space Mono',monospace" font-size="6.5" fill="rgba(232,239,248,0.5)" letter-spacing="0.5">PRACTICE</text>
+      <rect x="330" y="174" width="70" height="28" rx="1" fill="none" stroke="rgba(60,244,255,0.2)" stroke-width="0.8"/>
+      <text x="365" y="185" text-anchor="middle" font-family="'Space Mono',monospace" font-size="6.5" fill="rgba(232,239,248,0.5)" letter-spacing="0.5">CONTEXT</text>
+      <text x="365" y="196" text-anchor="middle" font-family="'Space Mono',monospace" font-size="6.5" fill="rgba(232,239,248,0.5)" letter-spacing="0.5">MATCH</text>
+      <rect x="400" y="174" width="70" height="28" rx="1" fill="none" stroke="rgba(60,244,255,0.2)" stroke-width="0.8"/>
+      <text x="435" y="185" text-anchor="middle" font-family="'Space Mono',monospace" font-size="6.5" fill="rgba(232,239,248,0.5)" letter-spacing="0.5">INTERLEAVE</text>
+      <text x="435" y="196" text-anchor="middle" font-family="'Space Mono',monospace" font-size="6.5" fill="rgba(232,239,248,0.5)" letter-spacing="0.5">VARIATION</text>
+      <!-- Red assumption box -->
+      <line x1="250" y1="146" x2="250" y2="226" stroke="rgba(255,64,96,0.45)" stroke-width="0.8" stroke-dasharray="4,3"/>
+      <rect x="150" y="226" width="200" height="44" rx="2" fill="rgba(255,64,96,0.06)" stroke="rgba(255,64,96,0.4)" stroke-width="1.2"/>
+      <text x="250" y="244" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7.5" fill="#FF4060" letter-spacing="1">TRAINING INDUSTRY</text>
+      <text x="250" y="259" text-anchor="middle" font-family="'Space Mono',monospace" font-size="7" fill="rgba(255,64,96,0.7)" letter-spacing="0.5">FOUNDING ASSUMPTION ✗</text>
+      <line x1="155" y1="230" x2="345" y2="266" stroke="rgba(255,64,96,0.2)" stroke-width="0.8" stroke-dasharray="3,4"/>
+      <!-- Pulsing hotspots -->
+      <circle cx="100" cy="88" r="4" fill="none" stroke="#3CF4FF" opacity="0" style="animation:pulse-dot 2s 1.5s infinite;"/>
+      <circle cx="250" cy="146" r="4" fill="none" stroke="#FFB940" opacity="0" style="animation:pulse-dot 2.2s 2s infinite;"/>
+      <circle cx="400" cy="88" r="4" fill="none" stroke="#3CF4FF" opacity="0" style="animation:pulse-dot 1.8s 1.8s infinite;"/>
+      <!-- Annotations -->
+      <text x="250" y="300" text-anchor="middle" font-family="'Space Mono',monospace" font-size="6" fill="rgba(232,239,248,0.2)" letter-spacing="2">MELIORISM2.COM · ISSUE 003 · 2026-05-03</text>
+      <!-- Corner marks -->
+      <g stroke="rgba(60,244,255,0.2)" stroke-width="0.8" fill="none">
+        <path d="M10,10 L10,20 M10,10 L20,10"/>
+        <path d="M490,10 L490,20 M490,10 L480,10"/>
+        <path d="M10,390 L10,380 M10,390 L20,390"/>
+        <path d="M490,390 L490,380 M490,390 L480,390"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="entry-brief">
+    <div class="eb-tag">WITNESSING AUTHENTIC HUMANITY</div>
+    <div class="eb-num">ISSUE 003 · 2026-05-03</div>
+    <div class="eb-title">First<br><span>Principles</span></div>
+    <div class="eb-concept">Most training is designed by analogy — we copy what looked professional, what we experienced, what got applause. First principles asks a different question: <strong>what actually causes a skill to form in a human nervous system?</strong> The answer is not what the industry assumed.</div>
+    <div class="eb-stats">
+      <div class="eb-stat"><div class="eb-stat-val">10</div><div class="eb-stat-lbl">SOURCES</div></div>
+      <div class="eb-stat"><div class="eb-stat-val">7</div><div class="eb-stat-lbl">COMPONENTS</div></div>
+      <div class="eb-stat"><div class="eb-stat-val">1</div><div class="eb-stat-lbl">ASSUMPTION DISMANTLED</div></div>
+    </div>
+    <button class="entry-btn" onclick="openMain()">OPEN SCHEMATIC →</button>
+  </div>
+</div>
+
+<div id="main-panel">
+  <div class="mp-layout">
+    <div class="comp-sidebar">
+      <div class="cs-header"><div class="cs-title">COMPONENTS</div></div>
+      <div class="comp-item active" data-target="s-orient" onclick="showSection('s-orient',this)">
+        <div class="ci-num">00</div>
+        <div class="ci-body"><div class="ci-label">Orientation</div><div class="ci-sub">THE QUESTION</div></div>
+      </div>
+      <div class="comp-item" data-target="s-analogy" onclick="showSection('s-analogy',this)">
+        <div class="ci-num">01</div>
+        <div class="ci-body"><div class="ci-label">The Analogy Problem</div><div class="ci-sub">WHY TRAINING FAILS</div></div>
+      </div>
+      <div class="comp-item" data-target="s-difficulty" onclick="showSection('s-difficulty',this)">
+        <div class="ci-num">02</div>
+        <div class="ci-body"><div class="ci-label">Desirable Difficulty</div><div class="ci-sub">BJORK · BJORK</div></div>
+      </div>
+      <div class="comp-item" data-target="s-metamorphosis" onclick="showSection('s-metamorphosis',this)">
+        <div class="ci-num">03</div>
+        <div class="ci-body"><div class="ci-label">The Metamorphosis</div><div class="ci-sub">WHAT SURVIVES LIQUEFACTION</div></div>
+      </div>
+      <div class="comp-item" data-target="s-spacex" onclick="showSection('s-spacex',this)">
+        <div class="ci-num">04</div>
+        <div class="ci-body"><div class="ci-label">SpaceX Inversion</div><div class="ci-sub">MUSK · ESCOFFIER · FREEDIVERS</div></div>
+      </div>
+      <div class="comp-item" data-target="s-meliorist" onclick="showSection('s-meliorist',this)">
+        <div class="ci-num">05</div>
+        <div class="ci-body"><div class="ci-label">Meliorist Frame</div><div class="ci-sub">WHAT THIS MAKES POSSIBLE</div></div>
+      </div>
+      <div class="comp-item" data-target="s-field" onclick="showSection('s-field',this)">
+        <div class="ci-num">06</div>
+        <div class="ci-body"><div class="ci-label">Field Work + Sources</div><div class="ci-sub">BIBLIOGRAPHY</div></div>
+      </div>
+    </div>
+
+    <div class="content-area" id="content-area">
+
+      <div class="section-panel active" id="s-orient" data-section="orientation">
+        <div class="sec-eyebrow">COMPONENT 00</div>
+        <div class="sec-title">The Question<br>No One Asks</div>
+        <div class="sec-sub">The founding assumption · Where professional training went wrong</div>
+        <div class="sec-body">There is a question that sits under every training program ever designed. It is almost never spoken aloud, because everyone in the room assumes the answer is obvious.<br><br><strong>The question is: what actually causes a skill to form in a human nervous system?</strong><br><br>The training industry's implicit answer: exposure. Information. Practice. Feedback. Repetition. If the slide deck is clear and the exercises are engaging and the room is comfortable, learning happens. This is the founding assumption — inherited from how schools work, from how professional training was designed in the 1960s, from what practitioners experienced in their own formation. It is design by analogy.</div>
+        <div class="pull-quote">
+          <div class="pq-text">"The conditions that make learning feel easy are almost never the conditions that make learning stick."</div>
+          <div class="pq-attr">Robert A. Bjork · UCLA Memory Lab · Psychological Science in the Public Interest</div>
+        </div>
+        <div class="sec-body">Bjork's research — and the converging work of a dozen other cognitive scientists — shows something practitioners rarely hear: <em>the conditions that produce comfortable, fluent, confident practice are largely the conditions that produce forgetting.</em> Not retention. Not transfer. Forgetting.<br><br>This is not a minor calibration. It is a structural problem. The training industry optimized for learner satisfaction — and learner satisfaction runs almost inversely to learning.</div>
+        <div class="data-row">
+          <div class="data-box"><div class="db-val">~10%</div><div class="db-lbl">TRAINING THAT TRANSFERS TO JOB</div></div>
+          <div class="data-box"><div class="db-val">70%</div><div class="db-lbl">FORGOTTEN IN 24 HRS WITHOUT RETRIEVAL</div></div>
+          <div class="data-box"><div class="db-val">2–6×</div><div class="db-lbl">RETENTION BOOST FROM SPACED RETRIEVAL</div></div>
+        </div>
+        <span class="cite">Salas et al. (2012) Psychological Science in the Public Interest · Ebbinghaus (1885) Über das Gedächtnis · Bjork &amp; Bjork (2011) "Making Things Hard on Yourself, But in a Good Way."</span>
+        <div class="sec-nav">
+          <button class="sec-nav-btn next" onclick="showSection('s-analogy',document.querySelector('[data-target=s-analogy]'))">NEXT: THE ANALOGY PROBLEM →</button>
+        </div>
+      </div>
+
+      <div class="section-panel" id="s-analogy" data-section="analogy_problem">
+        <div class="sec-eyebrow">COMPONENT 01</div>
+        <div class="sec-title">The Analogy<br>Problem</div>
+        <div class="sec-sub">Why copying what worked on you doesn't work on others</div>
+        <div class="sec-body">Elon Musk describes first-principles thinking as the antidote to analogy reasoning. When SpaceX needed rocket fuel, the industry answer was: buy from existing suppliers at the going rate. The first-principles answer was: what is rocket fuel made of? Liquid oxygen. Methane. Carbon. Hydrogen. What does each cost on the commodity market?<br><br><strong>They built the fuel for roughly 2% of the industry price.</strong><br><br>The fuel they had been quoted was not the cost of fuel. It was the cost of analogy — the accumulated markup of assuming the existing supply chain was a given.</div>
+        <div class="wall-moment">
+          <div class="wm-label">DECOMPOSITION — TRAINING BY ANALOGY VS. FIRST PRINCIPLES</div>
+          <div class="wm-title">What You're Actually Buying When You Design by Analogy</div>
+          <div class="decomp-tree" style="padding:20px 0;">
+            <div class="dt-root">TRAINING PROGRAM (analogy design)</div>
+            <div class="dt-branch">Slide deck inherited from prior engagement</div>
+            <div class="dt-leaf">Accumulated delivery habits from own formation</div>
+            <div class="dt-leaf">Industry norms that pre-date neuroscience research</div>
+            <div class="dt-branch">Exercises that feel engaging in the room</div>
+            <div class="dt-leaf">Optimized for completion, not encoding</div>
+            <div class="dt-leaf">No retrieval architecture — learner is passive receiver</div>
+            <div class="dt-branch">Comfortable pace and fluent presentation</div>
+            <div class="dt-leaf">Fluency = illusion of learning (Bjork, 1994)</div>
+            <div class="dt-leaf">High satisfaction scores · Low transfer rates</div>
+            <div class="dt-branch" style="color:var(--red);">RESULT: 90% waste · 10% transfer</div>
+          </div>
+        </div>
+        <div class="sec-body">Auguste Escoffier reduced French cuisine to five mother sauces — not because French cooking <em>was</em> five sauces, but because five structural principles could generate all of them. A practitioner who knows the five first principles can improvise in any kitchen. <strong>A practitioner who knows a hundred recipes is helpless the moment an ingredient is missing.</strong></div>
+        <span class="cite">Musk, E. (2012) Foundation interview. · Escoffier, A. (1903) Le Guide Culinaire. · Baldwin &amp; Ford (1988) "Transfer of Training." Personnel Psychology.</span>
+        <div class="sec-nav">
+          <button class="sec-nav-btn" onclick="showSection('s-orient',document.querySelector('[data-target=s-orient]'))">← ORIENTATION</button>
+          <button class="sec-nav-btn next" onclick="showSection('s-difficulty',document.querySelector('[data-target=s-difficulty]'))">NEXT: DESIRABLE DIFFICULTY →</button>
+        </div>
+      </div>
+
+      <div class="section-panel" id="s-difficulty" data-section="desirable_difficulty">
+        <div class="sec-eyebrow">COMPONENT 02</div>
+        <div class="sec-title">Desirable<br>Difficulty</div>
+        <div class="sec-sub">Robert A. Bjork + Elizabeth Bjork · UCLA Memory Lab</div>
+        <div class="sec-body">Robert and Elizabeth Bjork's concept of <strong>desirable difficulties</strong> is the most important research finding most practitioners have never heard.<br><br>The finding: introducing certain difficulties into the learning process — difficulties that slow acquisition, increase error rates, and make practice feel harder — produces dramatically better long-term retention and transfer. The difficulties are "desirable" because they activate encoding and retrieval processes that massed, fluent practice does not.</div>
+        <div class="comp-grid">
+          <div class="cg-header">UNDESIRABLE PRACTICE</div>
+          <div class="cg-header">DESIRABLE DIFFICULTY</div>
+          <div class="cg-cell">Massed practice (same skill, repeated in one session)</div>
+          <div class="cg-cell highlight">Spaced practice (same skill across sessions, with gaps)</div>
+          <div class="cg-cell">Blocked practice (all reps of A, then all reps of B)</div>
+          <div class="cg-cell highlight">Interleaved practice (A, B, C, A, C, B — mixed)</div>
+          <div class="cg-cell">Re-reading / re-exposing to material</div>
+          <div class="cg-cell highlight">Retrieval practice (testing, recall, generation)</div>
+          <div class="cg-cell">Immediate corrective feedback after every attempt</div>
+          <div class="cg-cell highlight">Delayed feedback (after attempt set, not each attempt)</div>
+          <div class="cg-cell">Training in one consistent context</div>
+          <div class="cg-cell highlight">Varied contexts, varied surface features</div>
+        </div>
+        <div class="sec-body">The paradox Bjork keeps returning to: <em>learners rate their own learning more highly after easier practice conditions.</em> They feel more confident. They score better on immediate tests. They perform worse months later in real conditions.<br><br><strong>The training industry is optimizing for the wrong signal. Learner satisfaction is a measure of comfort. It is not a measure of learning.</strong></div>
+        <span class="cite">Bjork, R.A. &amp; Bjork, E.L. (2011) "Making Things Hard on Yourself, But in a Good Way." In Psychology and the Real World. Worth Publishers. · Kornell, N. &amp; Bjork, R.A. (2008) Psychological Science.</span>
+        <div class="pull-quote">
+          <div class="pq-text">"Current performance is a very poor index of learning."</div>
+          <div class="pq-attr">Robert A. Bjork · Psychological Science in the Public Interest · 2013</div>
+        </div>
+        <div class="sec-nav">
+          <button class="sec-nav-btn" onclick="showSection('s-analogy',document.querySelector('[data-target=s-analogy]'))">← ANALOGY PROBLEM</button>
+          <button class="sec-nav-btn next" onclick="showSection('s-metamorphosis',document.querySelector('[data-target=s-metamorphosis]'))">NEXT: THE METAMORPHOSIS →</button>
+        </div>
+      </div>
+
+      <div class="section-panel" id="s-metamorphosis" data-section="metamorphosis">
+        <div class="sec-eyebrow">COMPONENT 03</div>
+        <div class="sec-title">What Survives<br>Liquefaction</div>
+        <div class="sec-sub">Insect neuroscience · Memory · Identity</div>
+        <div class="sec-body">A monarch butterfly inside a chrysalis does not simply rearrange. It largely dissolves. The caterpillar's body — its muscles, most of its organs, much of its nervous system — breaks down into cellular soup. A biological liquid with no discernible structure.<br><br>Researchers at Georgetown University trained tobacco hornworm caterpillars to avoid a particular smell by pairing it with mild electric shock. Then they let the caterpillars pupate and emerge as moths.<br><br><strong>The moths still avoided the smell.</strong></div>
+        <div class="pull-quote">
+          <div class="pq-text">"Associative memory formed in the larva can survive metamorphosis, despite the fact that much of the nervous system is completely reorganized."</div>
+          <div class="pq-attr">Blackiston, Casey &amp; Weir (2008) · PLoS ONE · Georgetown University</div>
+        </div>
+        <div class="sec-body">Memory is not stored in cells. It is stored in — and survives — <em>patterns of connectivity.</em> The specific neurons die or are replaced. The architecture of their relationship persists. This is why trauma survives, why childhood fears survive, and why skills that were encoded under conditions of genuine difficulty are more durable than skills that were merely reviewed.<br><br><strong>The first-principles question: are you building connectivity patterns, or creating a temporary sensation of familiarity?</strong></div>
+        <span class="cite">Blackiston, D.J., Casey, E.S., &amp; Weir, M.R. (2008) "Retention of Memory Through Metamorphosis." PLoS ONE 3(3): e1882.</span>
+        <div class="nature-card">
+          <div class="nc-label">NATURE INVITATION</div>
+          <div class="nc-text">Before your next session: find a chrysalis if you can, or observe a creature mid-transition. Notice what you assume is being preserved. Ask the metamorphosis question: what in this transformation could survive complete dissolution? The same question applies to every skill you're trying to build in another person.</div>
+        </div>
+        <div class="sec-nav">
+          <button class="sec-nav-btn" onclick="showSection('s-difficulty',document.querySelector('[data-target=s-difficulty]'))">← DESIRABLE DIFFICULTY</button>
+          <button class="sec-nav-btn next" onclick="showSection('s-spacex',document.querySelector('[data-target=s-spacex]'))">NEXT: SPACEX INVERSION →</button>
+        </div>
+      </div>
+
+      <div class="section-panel" id="s-spacex" data-section="spacex_inversion">
+        <div class="sec-eyebrow">COMPONENT 04</div>
+        <div class="sec-title">The Inversion<br>Principle</div>
+        <div class="sec-sub">SpaceX · Escoffier · Freediving · Three domains, one mechanism</div>
+        <div class="sec-body">The freediver William Trubridge doesn't train by swimming longer distances. He trains by learning to tolerate — and then embrace — the mammalian dive reflex: the involuntary physiological cascade that begins when the face enters cold water. Heart rate drops. Peripheral blood vessels constrict. Oxygen routes to the brain and heart.<br><br>Most swimmers treat this reflex as an obstacle. Trubridge reversed the question: <strong>what if the reflex is not a constraint but a capability?</strong> Can I train to trigger it earlier, deeper, on demand?<br><br>He descended 244 meters on a single breath in 2016. The reflex he trained into was the one everyone else was training around.</div>
+        <div class="wall-moment">
+          <div class="wm-label">WALL MOMENT — THE INVERSION STRUCTURE</div>
+          <div class="wm-title">Three Domains. One First Principle: Invert the Constraint.</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:20px;position:relative;">
+            <div style="background:var(--bg);padding:24px 20px;">
+              <div style="font-size:0.58rem;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);margin-bottom:10px;">SPACEX</div>
+              <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:10px;line-height:1.3;">Rocket fuel can't be cheap</div>
+              <div style="font-size:0.68rem;color:var(--muted);line-height:1.7;margin-bottom:14px;">Industry assumption: fuel cost is a given. Inverted: what <em>is</em> fuel? Liquid oxygen, methane, commodity elements. Build from atoms. Cost: ~2% of industry price.</div>
+              <div style="font-size:0.62rem;letter-spacing:2px;color:var(--amber);text-shadow:0 0 8px var(--amberf);">THE PRICE WAS THE ANALOGY</div>
+            </div>
+            <div style="background:var(--bg);padding:24px 20px;">
+              <div style="font-size:0.58rem;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);margin-bottom:10px;">ESCOFFIER</div>
+              <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:10px;line-height:1.3;">French cooking is hundreds of recipes</div>
+              <div style="font-size:0.68rem;color:var(--muted);line-height:1.7;margin-bottom:14px;">Inverted: what are recipes made of? Structure. Ratio. Five structural rules generate all others. Principles beat recipes in any kitchen.</div>
+              <div style="font-size:0.62rem;letter-spacing:2px;color:var(--amber);text-shadow:0 0 8px var(--amberf);">THE RECIPE WAS THE ANALOGY</div>
+            </div>
+            <div style="background:var(--bg);padding:24px 20px;">
+              <div style="font-size:0.58rem;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);margin-bottom:10px;">FREEDIVING</div>
+              <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:10px;line-height:1.3;">The dive reflex is the limit</div>
+              <div style="font-size:0.68rem;color:var(--muted);line-height:1.7;margin-bottom:14px;">Inverted: what if the reflex is the capability? Trubridge descended 244m on one breath by training the response everyone else was suppressing.</div>
+              <div style="font-size:0.62rem;letter-spacing:2px;color:var(--amber);text-shadow:0 0 8px var(--amberf);">THE REFLEX WAS THE TOOL</div>
+            </div>
+          </div>
+          <div style="padding:18px 20px 0;font-size:0.7rem;color:var(--dim);line-height:1.6;">
+            The practitioner's inversion: <strong style="color:var(--white);">learner resistance is not an obstacle to change. It is diagnostic information about the competing commitment that is doing the resisting.</strong> The immunity to change (Kegan &amp; Lahey, 2001) lives below conscious intention, in the body, protecting something real.
+          </div>
+        </div>
+        <span class="cite">Trubridge, W. (2016) NF 244m World Record, Dean's Blue Hole. · Kegan &amp; Lahey (2001) Harvard Business Review. · Escoffier, A. (1903) Le Guide Culinaire.</span>
+        <div class="sec-nav">
+          <button class="sec-nav-btn" onclick="showSection('s-metamorphosis',document.querySelector('[data-target=s-metamorphosis]'))">← THE METAMORPHOSIS</button>
+          <button class="sec-nav-btn next" onclick="showSection('s-meliorist',document.querySelector('[data-target=s-meliorist]'))">NEXT: MELIORIST FRAME →</button>
+        </div>
+      </div>
+
+      <div class="section-panel" id="s-meliorist" data-section="meliorist_frame">
+        <div class="sec-eyebrow">COMPONENT 05</div>
+        <div class="sec-title">What This<br>Makes Possible</div>
+        <div class="sec-sub">Meliorist Frame · Wisdom W · Constructive Stewardship</div>
+        <div class="meliorist-frame">
+          <div class="mf-label">MELIORIST W · WISDOM</div>
+          <div class="mf-text"><strong>The Michelangelo principle:</strong> the sculptor doesn't install the figure — he removes what isn't the figure. The marble already contains it. First-principles design works the same way. The practitioner who knows what actually causes skill formation doesn't add more content, more slides, more exercises. They remove the conditions that block formation and install the conditions that create it.<br><br>This is constructive stewardship: you don't own the learning. You steward the conditions.</div>
+        </div>
+        <div class="sec-body">The Kegan-Lahey immunity to change map is the practitioner's most powerful first-principles tool. It doesn't ask: why is this learner failing to change? It asks: <strong>what is the competing commitment that makes not changing necessary?</strong><br><br>People don't resist change because they're lazy. They resist change because a second commitment — almost always unspoken, often unrecognized — is protecting a deep assumption about who they are and what will happen to them if they change.<br><br><em>The first-principles move: stop prescribing behavior and start mapping the architecture underneath it.</em></div>
+        <div class="sec-body">The economic consequence is direct. The practitioner who builds skills that transfer — rather than skills that feel good in the workshop — creates measurable economic value. Their clients' teams actually improve. Referrals come from outcomes, not rapport.<br><br><strong>First-principles design is not just better pedagogy. It is a better business model.</strong> The training industry's 90% waste rate is a revenue opportunity for the practitioner willing to be different.</div>
+        <span class="cite">Kegan, R. &amp; Lahey, L. (2001) "The Real Reason People Won't Change." Harvard Business Review. · Kegan, R. &amp; Lahey, L. (2009) Immunity to Change. HBR Press.</span>
+        <div class="sec-nav">
+          <button class="sec-nav-btn" onclick="showSection('s-spacex',document.querySelector('[data-target=s-spacex]'))">← INVERSION PRINCIPLE</button>
+          <button class="sec-nav-btn next" onclick="showSection('s-field',document.querySelector('[data-target=s-field]'))">NEXT: FIELD WORK →</button>
+        </div>
+      </div>
+
+      <div class="section-panel" id="s-field" data-section="field_bibliography">
+        <div class="sec-eyebrow">COMPONENT 06</div>
+        <div class="sec-title">Field Work +<br>Sources</div>
+        <div class="sec-sub">Take this into your next session · Full bibliography</div>
+        <div class="sec-body"><strong>Three experiments for your next program:</strong><br><br><strong>1. Retrieval audit.</strong> Take one module you regularly deliver. Remove the review slide. Replace it with a blank-page recall prompt: "Write down the three most important things from the last hour without looking at your notes." Watch what learners can't retrieve. That's what didn't encode.<br><br><strong>2. Context variability.</strong> Deliver the same skill practice in three different physical configurations over three sessions. Standing. Sitting in pairs. Walking. The learner who practices only in chairs will struggle when they're on their feet.<br><br><strong>3. Immunity map.</strong> Ask one learner who is stuck: "What are you committed to that makes staying stuck necessary?" Listen for the competing commitment. The answer is almost always about identity, not ability.</div>
+        <div style="padding-top:24px;border-top:1px solid var(--border);margin-top:20px;">
+          <div class="sec-eyebrow" style="margin-bottom:16px;">BIBLIOGRAPHY</div>
+          <div class="bib-item"><strong>Bjork, R.A. &amp; Bjork, E.L. (2011)</strong> "Making Things Hard on Yourself, But in a Good Way." In Psychology and the Real World. Worth Publishers.</div>
+          <div class="bib-item"><strong>Blackiston, D.J., Casey, E.S., &amp; Weir, M.R. (2008)</strong> "Retention of Memory Through Metamorphosis." PLoS ONE 3(3): e1882. <a href="https://doi.org/10.1371/journal.pone.0001882" target="_blank">doi.org/10.1371/journal.pone.0001882</a></div>
+          <div class="bib-item"><strong>Kegan, R. &amp; Lahey, L. (2001)</strong> "The Real Reason People Won't Change." Harvard Business Review, November 2001.</div>
+          <div class="bib-item"><strong>Kegan, R. &amp; Lahey, L. (2009)</strong> Immunity to Change. Harvard Business Review Press.</div>
+          <div class="bib-item"><strong>Salas, E. et al. (2012)</strong> "The Science of Training and Development in Organizations." Psychological Science in the Public Interest 13(2), 74–101.</div>
+          <div class="bib-item"><strong>Kornell, N. &amp; Bjork, R.A. (2008)</strong> "Learning Concepts and Categories." Psychological Science 19(6), 585–592.</div>
+          <div class="bib-item"><strong>Baldwin, T.T. &amp; Ford, J.K. (1988)</strong> "Transfer of Training." Personnel Psychology 41(1), 63–105.</div>
+          <div class="bib-item"><strong>Musk, E. (2012)</strong> Interview with Foundation on First Principles Reasoning.</div>
+          <div class="bib-item"><strong>Escoffier, A. (1903)</strong> Le Guide Culinaire. Flammarion.</div>
+          <div class="bib-item"><strong>Ebbinghaus, H. (1885/1913)</strong> Über das Gedächtnis. Teachers College, Columbia University.</div>
+          <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
+            <div class="sec-eyebrow" style="margin-bottom:12px;">FURTHER READING — CROSS-DOMAIN</div>
+            <div class="sec-body"><strong>Systems:</strong> Senge, P. (1990) The Fifth Discipline — retrieval architecture in organizational learning.<br><br><strong>Medicine:</strong> Ericsson, K.A. (2016) Peak — deliberate practice as desirable difficulty in clinical training.<br><br><strong>Ecology:</strong> Maturana &amp; Varela (1987) The Tree of Knowledge — autopoiesis as first-principles model of form through environmental perturbation.<br><br><strong>Indigenous Knowledge:</strong> Cajete, G. (1994) Look to the Mountain — Native American pedagogy as retrieval-based, context-varied, community-embedded learning design. Predates Bjork by ten thousand years.</div>
+          </div>
+        </div>
+        <div class="sec-nav">
+          <button class="sec-nav-btn" onclick="showSection('s-meliorist',document.querySelector('[data-target=s-meliorist]'))">← MELIORIST FRAME</button>
+          <button class="sec-nav-btn next" onclick="showSection('s-orient',document.querySelector('[data-target=s-orient]'))">↺ RESTART FROM COMPONENT 00</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--cyan);text-shadow:0 0 8px var(--cyanf)">003 FIRST PRINCIPLES ← CURRENT</span>
+</div>
+
+<script>
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()].map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+  track('click','open_schematic_btn');
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='flex';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },900);
+}
+
+function showSection(id,menuItem){
+  document.querySelectorAll('.section-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.comp-item').forEach(i=>i.classList.remove('active'));
+  const target=document.getElementById(id);
+  if(target){target.classList.add('active');track('view',id);}
+  if(menuItem)menuItem.classList.add('active');
+  const ca=document.getElementById('content-area');if(ca)ca.scrollTop=0;
+}
+
+function track(event,label,extra){
+  console.log('[signal-os]',event,label,extra||'');
+}
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){track('view',e.target.dataset.section||e.target.id||'unknown');}
+  });
+},{threshold:0.3});
+document.querySelectorAll('.section-panel').forEach(el=>observer.observe(el));
+
+document.querySelectorAll('.pull-quote').forEach((el,i)=>{
+  const pqObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){track('view','pull_quote_'+i);pqObs.unobserve(e.target);}});
+  },{threshold:0.5});pqObs.observe(el);
+});
+
+document.querySelectorAll('.wall-moment').forEach((el,i)=>{
+  const wmObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){track('view','wall_moment_'+i);wmObs.unobserve(e.target);}});
+  },{threshold:0.3});wmObs.observe(el);
+});
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,834 @@
+<!-- signal-os:date: 2026-05-13 -->
+<!-- signal-os:slug: how-to-get-lucky -->
+<!-- signal-os:title: How to Get Lucky -->
+<!-- signal-os:concept: The number 13 has been feared for 700 years. Taylor Swift writes it on her hand before every show. Richard Wiseman spent 10 years studying 400 lucky people. The finding: luck is not found. It is chosen. And the choosing is a skill. -->
+<!-- signal-os:format: The Oracle Room -->
+<!-- signal-os:dimension: Witnessing Authentic Humanity -->
+<!-- signal-os:sources: 10 -->
+<!-- signal-os:tags: #luck-and-agency #behavior-change #wellness -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 13 · How to Get Lucky</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0E0518;
+  --surface:#16082A;
+  --gold:#D4AF37;
+  --goldf:rgba(212,175,55,0.4);
+  --goldl:rgba(212,175,55,0.15);
+  --cream:#F0E6CC;
+  --creamf:rgba(240,230,204,0.6);
+  --dim:rgba(240,230,204,0.35);
+  --amethyst:#7B4FA6;
+  --amef:rgba(123,79,166,0.4);
+  --rose:#C96B8A;
+  --border:rgba(212,175,55,0.12);
+  --border-h:rgba(212,175,55,0.3);
+  --line:rgba(212,175,55,0.2);
+}
+html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'Space Grotesk',sans-serif;overflow:hidden;}
+
+/* Stars background */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 120% 80% at 50% -10%,rgba(123,79,166,0.15),transparent 60%),
+             radial-gradient(ellipse 80% 60% at 80% 100%,rgba(212,175,55,0.06),transparent 50%),
+             radial-gradient(ellipse 60% 40% at 10% 80%,rgba(201,107,138,0.06),transparent 50%);
+}
+
+/* ── Status bar ── */
+.sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;
+  background:rgba(14,5,24,0.95);border-bottom:1px solid var(--border-h);
+  display:flex;align-items:center;padding:0 20px;gap:14px;}
+.sb-logo{font-family:'Playfair Display',serif;font-size:0.72rem;letter-spacing:4px;font-weight:700;
+  font-style:italic;color:var(--gold);text-decoration:none;text-shadow:0 0 16px var(--goldf);}
+.sb-sep{width:1px;height:14px;background:var(--border-h);}
+.sb-label{font-size:0.58rem;letter-spacing:2.5px;color:var(--dim);flex:1;}
+.sb-clock{font-size:0.58rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 8px var(--goldf);}
+
+/* ── Entry screen ── */
+#entry{
+  position:fixed;inset:0;top:36px;z-index:800;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);
+  transition:opacity 1s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-inner{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  position:relative;z-index:2;
+  padding:40px;
+}
+
+/* The big 13 */
+.big-13{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(8rem,18vw,16rem);
+  font-weight:900;
+  line-height:1;
+  color:transparent;
+  -webkit-text-stroke:1px var(--gold);
+  text-shadow:0 0 60px rgba(212,175,55,0.2),0 0 120px rgba(212,175,55,0.1);
+  cursor:pointer;
+  user-select:none;
+  transition:transform 0.4s ease, text-shadow 0.4s ease, -webkit-text-stroke 0.4s ease;
+  position:relative;
+  animation:breathe 4s ease-in-out infinite;
+}
+.big-13:hover{
+  -webkit-text-stroke:1.5px var(--gold);
+  text-shadow:0 0 80px rgba(212,175,55,0.5),0 0 160px rgba(212,175,55,0.2);
+  transform:scale(1.03);
+}
+.big-13.claimed{
+  color:var(--gold);
+  -webkit-text-stroke:0;
+  text-shadow:0 0 40px var(--goldf),0 0 80px rgba(212,175,55,0.3),0 0 160px rgba(212,175,55,0.1);
+  animation:none;
+  transform:scale(0.9);
+}
+@keyframes breathe{
+  0%,100%{text-shadow:0 0 40px rgba(212,175,55,0.15),0 0 80px rgba(212,175,55,0.08);}
+  50%{text-shadow:0 0 70px rgba(212,175,55,0.35),0 0 140px rgba(212,175,55,0.15);}
+}
+
+.entry-prompt{
+  font-size:0.72rem;letter-spacing:3px;color:var(--dim);
+  margin-bottom:16px;text-transform:uppercase;
+}
+.entry-title{
+  font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2.2rem);
+  font-weight:400;font-style:italic;color:var(--cream);
+  margin:16px 0 8px;
+  text-shadow:0 0 30px rgba(240,230,204,0.1);
+}
+.entry-sub{
+  font-size:0.78rem;color:var(--dim);letter-spacing:0.5px;
+  max-width:420px;line-height:1.7;margin-bottom:28px;
+}
+.entry-instruct{
+  font-size:0.62rem;letter-spacing:3px;color:var(--gold);
+  text-shadow:0 0 10px var(--goldf);
+  animation:pulse-instruct 2s ease-in-out infinite;
+}
+@keyframes pulse-instruct{0%,100%{opacity:0.6;}50%{opacity:1;}}
+
+/* Orbiting stars around the 13 */
+.star-field{position:absolute;width:500px;height:500px;pointer-events:none;}
+.star{position:absolute;width:3px;height:3px;background:var(--gold);border-radius:50%;
+  box-shadow:0 0 6px var(--goldf);opacity:0;}
+@keyframes orbit{
+  0%{opacity:0;}10%{opacity:0.8;}90%{opacity:0.8;}100%{opacity:0;transform:rotate(360deg) translateX(200px);}
+}
+
+/* ── Main panel ── */
+#main-panel{
+  position:fixed;inset:0;top:36px;
+  display:none;opacity:0;
+  transition:opacity 0.8s ease;
+  overflow:hidden;
+}
+#main-panel.visible{display:flex;opacity:1;flex-direction:column;}
+
+/* Card spread — the tarot layout */
+.card-spread{
+  flex:0 0 auto;
+  display:flex;
+  align-items:flex-end;
+  padding:0 40px;
+  gap:12px;
+  height:180px;
+  border-bottom:1px solid var(--border);
+  background:rgba(14,5,24,0.8);
+  overflow-x:auto;
+}
+.card-spread::-webkit-scrollbar{height:3px;}
+.card-spread::-webkit-scrollbar-thumb{background:var(--border-h);}
+
+.oracle-card{
+  flex-shrink:0;
+  width:110px;height:140px;
+  border:1px solid var(--border-h);
+  background:var(--surface);
+  cursor:pointer;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;
+  padding:14px 10px;
+  position:relative;
+  transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+  transform:translateY(20px);
+}
+.oracle-card:hover{
+  transform:translateY(0);
+  border-color:var(--gold);
+  box-shadow:0 0 20px rgba(212,175,55,0.1);
+}
+.oracle-card.active{
+  transform:translateY(-8px);
+  border-color:var(--gold);
+  box-shadow:0 0 30px rgba(212,175,55,0.2),inset 0 0 30px rgba(212,175,55,0.04);
+}
+.card-num{
+  position:absolute;top:10px;left:0;right:0;
+  text-align:center;
+  font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;
+  color:var(--gold);text-shadow:0 0 14px var(--goldf);
+  opacity:0.4;
+}
+.oracle-card.active .card-num{opacity:1;}
+.card-symbol{font-size:1.4rem;margin-bottom:8px;opacity:0.6;}
+.oracle-card.active .card-symbol{opacity:1;}
+.card-title{
+  font-size:0.58rem;letter-spacing:1.5px;color:var(--creamf);
+  text-align:center;line-height:1.4;
+}
+.oracle-card.active .card-title{color:var(--cream);}
+.card-active-bar{
+  position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--gold);box-shadow:0 0 8px var(--goldf);
+  opacity:0;
+}
+.oracle-card.active .card-active-bar{opacity:1;}
+
+/* Content pane */
+.oracle-content{
+  flex:1;
+  overflow-y:auto;
+  padding:0 0 80px;
+}
+.oracle-content::-webkit-scrollbar{width:3px;}
+.oracle-content::-webkit-scrollbar-thumb{background:var(--border-h);}
+
+.reading-panel{
+  min-height:100%;
+  padding:50px 60px;
+  display:none;
+}
+.reading-panel.active{display:block;}
+
+/* Section typography */
+.rp-eyebrow{font-size:0.58rem;letter-spacing:4px;color:var(--gold);
+  text-shadow:0 0 10px var(--goldf);margin-bottom:12px;}
+.rp-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);
+  font-weight:700;color:var(--cream);line-height:1.1;margin-bottom:8px;}
+.rp-title em{color:var(--gold);font-style:italic;}
+.rp-sub{font-size:0.72rem;color:var(--dim);letter-spacing:0.5px;
+  margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.rp-body{font-size:0.84rem;line-height:1.9;color:var(--creamf);
+  max-width:680px;margin-bottom:28px;}
+.rp-body strong{color:var(--cream);font-weight:600;}
+.rp-body em{color:var(--gold);font-style:normal;}
+.cite{font-size:0.75rem;color:var(--cream);border-left:3px solid var(--gold);
+  padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;text-shadow:0 0 8px rgba(212,175,55,0.08);}
+
+.pull-quote{
+  margin:36px 0;padding:32px 36px;
+  border:1px solid var(--border-h);
+  background:linear-gradient(135deg,rgba(212,175,55,0.04),rgba(123,79,166,0.04));
+  position:relative;
+}
+.pull-quote::before{
+  content:'\201C';
+  font-family:'Playfair Display',serif;font-size:5rem;
+  color:var(--gold);opacity:0.15;
+  position:absolute;top:-10px;left:20px;
+  line-height:1;
+}
+.pq-text{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;
+  color:var(--cream);line-height:1.6;margin-bottom:12px;position:relative;}
+.pq-attr{font-size:0.6rem;letter-spacing:2px;color:var(--gold);
+  text-shadow:0 0 8px var(--goldf);}
+
+/* Data display */
+.data-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px;margin:28px 0;}
+.data-box{padding:20px 18px;border:1px solid var(--border-h);
+  background:rgba(212,175,55,0.03);position:relative;}
+.data-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);opacity:0.4;}
+.db-val{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;
+  color:var(--gold);text-shadow:0 0 14px var(--goldf);margin-bottom:5px;}
+.db-lbl{font-size:0.58rem;letter-spacing:2px;color:var(--dim);}
+
+/* Wall moment */
+.wall-moment{
+  width:100%;margin:40px 0;
+  background:linear-gradient(135deg,rgba(123,79,166,0.08),rgba(14,5,24,0.6),rgba(212,175,55,0.06));
+  border:1px solid var(--border-h);
+  padding:50px 40px;
+  position:relative;overflow:hidden;
+}
+.wall-moment::after{
+  content:'13';
+  font-family:'Playfair Display',serif;font-size:20rem;font-weight:900;
+  color:transparent;-webkit-text-stroke:1px rgba(212,175,55,0.06);
+  position:absolute;right:-40px;bottom:-60px;
+  line-height:1;pointer-events:none;
+  text-shadow:0 0 80px rgba(212,175,55,0.05);
+}
+.wm-label{font-size:0.58rem;letter-spacing:4px;color:var(--gold);
+  text-shadow:0 0 8px var(--goldf);margin-bottom:14px;position:relative;}
+.wm-title{font-family:'Playfair Display',serif;font-size:clamp(1rem,2vw,1.5rem);
+  font-weight:700;color:var(--cream);margin-bottom:28px;position:relative;}
+
+/* Taylor Swift 13 timeline */
+.ts-items{display:flex;flex-direction:column;gap:0;position:relative;max-width:600px;}
+.ts-items::before{
+  content:'';position:absolute;left:18px;top:8px;bottom:8px;
+  width:1px;background:linear-gradient(to bottom,var(--gold),var(--amethyst),transparent);
+  opacity:0.4;
+}
+.ts-item{display:flex;gap:20px;align-items:flex-start;padding:14px 0;}
+.ts-dot{
+  flex-shrink:0;width:36px;height:36px;border-radius:50%;
+  border:1px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:0.75rem;font-weight:700;
+  color:var(--gold);text-shadow:0 0 8px var(--goldf);
+  background:rgba(212,175,55,0.06);
+  position:relative;z-index:1;
+}
+.ts-text{font-size:0.78rem;line-height:1.6;color:var(--creamf);padding-top:8px;}
+.ts-text strong{color:var(--cream);}
+
+/* Wiseman grid */
+.wiseman-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--border-h);
+  border:1px solid var(--border-h);
+  margin:28px 0;
+}
+.wg-cell{
+  background:var(--bg);padding:24px 22px;
+}
+.wg-num{
+  font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;
+  color:var(--gold);text-shadow:0 0 12px var(--goldf);
+  margin-bottom:8px;
+}
+.wg-title{font-weight:600;color:var(--cream);font-size:0.84rem;margin-bottom:6px;}
+.wg-desc{font-size:0.74rem;color:var(--creamf);line-height:1.65;}
+
+/* Meliorist frame */
+.meliorist-frame{
+  margin:36px 0;padding:28px 32px;
+  border-left:3px solid var(--rose);
+  background:rgba(201,107,138,0.04);
+}
+.mf-label{font-size:0.58rem;letter-spacing:4px;color:var(--rose);margin-bottom:12px;}
+.mf-text{font-size:0.84rem;line-height:1.85;color:var(--creamf);}
+.mf-text strong{color:var(--cream);}
+
+/* Birthday note */
+.birthday-note{
+  margin:36px 0;padding:32px 36px;
+  border:1px solid var(--border-h);
+  background:linear-gradient(135deg,rgba(212,175,55,0.06),rgba(123,79,166,0.04));
+  text-align:center;
+}
+.bn-13{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;
+  color:var(--gold);text-shadow:0 0 20px var(--goldf);margin-bottom:8px;}
+.bn-text{font-family:'Playfair Display',serif;font-style:italic;
+  font-size:0.96rem;color:var(--cream);line-height:1.7;}
+
+/* Bibliography */
+.bib-item{padding:12px 0;border-bottom:1px solid var(--border);
+  font-size:0.7rem;line-height:1.6;color:var(--dim);}
+.bib-item strong{color:var(--creamf);}
+.bib-item a{color:var(--gold);text-decoration:none;opacity:0.8;}
+.bib-item a:hover{opacity:1;}
+
+/* Nav */
+.rp-nav{display:flex;gap:12px;margin-top:50px;padding-top:24px;
+  border-top:1px solid var(--border);}
+.nav-btn{background:transparent;border:1px solid var(--border-h);color:var(--gold);
+  padding:10px 22px;font-family:'Space Grotesk',sans-serif;font-size:0.65rem;
+  letter-spacing:2px;cursor:pointer;transition:background 0.2s,box-shadow 0.2s;
+  text-shadow:0 0 8px var(--goldf);}
+.nav-btn:hover{background:rgba(212,175,55,0.06);box-shadow:0 0 16px rgba(212,175,55,0.1);}
+.nav-btn.next{margin-left:auto;}
+
+/* Footer */
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;
+  background:rgba(14,5,24,0.96);border-top:1px solid var(--border-h);
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  font-size:0.62rem;letter-spacing:2px;}
+.footer-bar a{color:var(--gold);text-decoration:none;text-shadow:0 0 8px var(--goldf);}
+.footer-sep{color:var(--border-h);}
+
+/* Mobile */
+@media(max-width:768px){
+  #entry{align-items:flex-start;overflow-y:auto;}
+  .entry-inner{padding:40px 24px 80px;}
+  .big-13{font-size:clamp(6rem,30vw,10rem);}
+  .card-spread{padding:0 16px;height:160px;}
+  .oracle-card{width:90px;height:120px;}
+  .reading-panel{padding:28px 20px 80px;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a href="/" class="sb-logo">Meliorism2.com</a>
+  <div class="sb-sep"></div>
+  <div class="sb-label">THE ORACLE ROOM · WITNESSING · ISSUE 013</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<div id="entry">
+  <div class="entry-inner">
+    <div class="entry-prompt">Touch to claim it</div>
+
+    <div class="big-13" id="thirteen" onclick="claimThirteen()">13</div>
+
+    <div class="entry-title">How to Get Lucky</div>
+    <div class="entry-sub">The number 13 has been feared for 700 years. Taylor Swift writes it on her hand before every show. Richard Wiseman spent 10 years studying 400 people. The real word is not luck — it's <strong>pluck</strong>: the energy to make good things happen. And it is a skill.</div>
+    <div class="entry-instruct">↑ CLAIM THE NUMBER TO ENTER ↑</div>
+  </div>
+</div>
+
+<div id="main-panel">
+  <!-- Card spread across top -->
+  <div class="card-spread">
+    <div class="oracle-card active" onclick="showReading('r-myth',this)">
+      <div class="card-num">I</div>
+      <div class="card-symbol">⚔</div>
+      <div class="card-title">THE MYTH</div>
+      <div class="card-active-bar"></div>
+    </div>
+    <div class="oracle-card" onclick="showReading('r-swift',this)">
+      <div class="card-num">II</div>
+      <div class="card-symbol">✦</div>
+      <div class="card-title">THE CLAIM</div>
+      <div class="card-active-bar"></div>
+    </div>
+    <div class="oracle-card" onclick="showReading('r-wiseman',this)">
+      <div class="card-num">III</div>
+      <div class="card-symbol">◎</div>
+      <div class="card-title">THE RESEARCH</div>
+      <div class="card-active-bar"></div>
+    </div>
+    <div class="oracle-card" onclick="showReading('r-apophenia',this)">
+      <div class="card-num">IV</div>
+      <div class="card-symbol">⊛</div>
+      <div class="card-title">THE PATTERN</div>
+      <div class="card-active-bar"></div>
+    </div>
+    <div class="oracle-card" onclick="showReading('r-expectancy',this)">
+      <div class="card-num">V</div>
+      <div class="card-symbol">▲</div>
+      <div class="card-title">THE EFFECT</div>
+      <div class="card-active-bar"></div>
+    </div>
+    <div class="oracle-card" onclick="showReading('r-meliorist',this)">
+      <div class="card-num">VI</div>
+      <div class="card-symbol">◈</div>
+      <div class="card-title">PLUCK NOT LUCK</div>
+      <div class="card-active-bar"></div>
+    </div>
+    <div class="oracle-card" onclick="showReading('r-field',this)">
+      <div class="card-num">VII</div>
+      <div class="card-symbol">✧</div>
+      <div class="card-title">SOURCES</div>
+      <div class="card-active-bar"></div>
+    </div>
+  </div>
+
+  <!-- Content pane -->
+  <div class="oracle-content" id="oracle-content">
+
+    <!-- I: The Myth -->
+    <div class="reading-panel active" id="r-myth" data-section="the_myth">
+      <div class="rp-eyebrow">CARD I · THE MYTH</div>
+      <div class="rp-title">700 Years of<br><em>Fear</em></div>
+      <div class="rp-sub">Triskaidekaphobia · The construction of an unlucky number</div>
+
+      <div class="rp-body">On Friday, October 13, 1307, King Philip IV of France ordered the arrest of every Knight Templar in the kingdom simultaneously. Hundreds were taken before dawn. The charges: heresy, sodomy, idolatry. The real reason: Philip owed them an enormous debt and wanted it cancelled.<br><br>Whether this event gave birth to the superstition around Friday the 13th is disputed by historians. What is not disputed: the number 13 has occupied an outsized place in Western fear for centuries, and the mechanisms that produced that fear are the same mechanisms that make it invisible.</div>
+
+      <div class="data-row">
+        <div class="data-box"><div class="db-val">13%</div><div class="db-lbl">OF AMERICANS AFRAID TO TRAVEL ON FRIDAY 13TH</div></div>
+        <div class="data-box"><div class="db-val">80%</div><div class="db-lbl">OF HIGH-RISES THAT SKIP THE 13TH FLOOR</div></div>
+        <div class="data-box"><div class="db-val">$800M</div><div class="db-lbl">EST. ANNUAL U.S. ECONOMIC LOSS FROM FRIDAY THE 13TH AVOIDANCE</div></div>
+      </div>
+      <span class="cite">Scanlon, T.J. et al. (1993) "Is Friday the 13th Bad for Your Health?" British Medical Journal 307:1584–1586. · Dossey, D. (1992) Holiday Folklore, Phobias and Fun. Outcomes Unlimited Press.</span>
+
+      <div class="rp-body">The word for the fear is <em>triskaidekaphobia</em> — from the Greek treiskaideka (thirteen) and phobos (fear). It entered formal psychological literature in the early 20th century, which tells you something: the fear is real enough in its effects to require a clinical name, but recent enough in its codification to be understood as culturally constructed.<br><br>What cultures outside the Western European tradition fear instead of 13: in East Asia, the number 4 (tetraphobia — because four sounds like "death" in Chinese, Japanese, and Korean). The number doing the haunting is arbitrary. <strong>The haunting is not.</strong></div>
+
+      <div class="pull-quote">
+        <div class="pq-text">"Superstitions are the religion of feeble minds." But the feeble mind is not the one that fears — it is the one that forgets it chose the frame.</div>
+        <div class="pq-attr">Edmund Burke · Reflections on the Revolution in France · 1790 (paraphrased)</div>
+      </div>
+
+      <div class="rp-body">This is the first-principles observation about superstition: a number has no intrinsic luck. A day has no intrinsic fate. What the number carries is the accumulated weight of collective attention — all the people who looked for confirmation that it was unlucky, and found it, because that is what human attention does.<br><br>The same mechanism — in the opposite direction — is available to anyone willing to use it.</div>
+      <span class="cite">Vyse, S.A. (1997) Believing in Magic: The Psychology of Superstition. Oxford University Press. · Risen, J.L. (2016) "Believing What We Do Not Believe." Psychological Review 123(2), 182–207.</span>
+
+      <div class="rp-nav">
+        <button class="nav-btn next" onclick="showReading('r-swift',document.querySelectorAll('.oracle-card')[1])">NEXT: THE CLAIM →</button>
+      </div>
+    </div>
+
+    <!-- II: Taylor Swift -->
+    <div class="reading-panel" id="r-swift" data-section="taylor_swift">
+      <div class="rp-eyebrow">CARD II · THE CLAIM</div>
+      <div class="rp-title">What Taylor<br><em>Knows</em></div>
+      <div class="rp-sub">Thirteen as a chosen frame · The evidence she carries on her hand</div>
+
+      <div class="rp-body">Taylor Swift was born on December 13, 1989. She turned 13 on a Friday the 13th. Her first album went gold in 13 weeks. She won her first Grammy seated in the 13th row. Before every show — for over a decade — she writes the number 13 on her left hand in marker. She has said this is not superstition. It is a <em>claim</em>.<br><br>"Anything that's ever been good in my life has had the number 13 in it. I was born on the 13th. I turned 13 on Friday the 13th. Every time I've won a Grammy I've had seat number 13. It's just a good omen for me."</div>
+
+      <div class="wall-moment">
+        <div class="wm-label">THE THIRTEEN TIMELINE · TAYLOR SWIFT</div>
+        <div class="wm-title">A Decade of Claimed Luck</div>
+        <div class="ts-items">
+          <div class="ts-item">
+            <div class="ts-dot">13</div>
+            <div class="ts-text"><strong>December 13, 1989</strong> — Born in West Reading, Pennsylvania. The number arrives uninvited.</div>
+          </div>
+          <div class="ts-item">
+            <div class="ts-dot">13</div>
+            <div class="ts-text"><strong>2002</strong> — Turns 13 on Friday the 13th. The coincidence is noticed. A frame begins forming.</div>
+          </div>
+          <div class="ts-item">
+            <div class="ts-dot">13</div>
+            <div class="ts-text"><strong>2006</strong> — Debut album goes gold in exactly <strong>13 weeks</strong>. Confirmation arrives on schedule.</div>
+          </div>
+          <div class="ts-item">
+            <div class="ts-dot">13</div>
+            <div class="ts-text"><strong>2009–2024</strong> — Every pre-show ritual: hand marked 13. The claim becomes physical practice. Hundreds of shows.</div>
+          </div>
+          <div class="ts-item">
+            <div class="ts-dot">13</div>
+            <div class="ts-text"><strong>Eras Tour, 2023</strong> — Every night, the number on the hand, visible to 70,000 people at a time. Lucky by design.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rp-body">The cognitive science here is not mysticism. It is attention management. Swift made a decision — before she had the vocabulary for what she was doing — to <em>recruit confirmation bias in her own favor.</em><br><br>When you claim a frame and hold it consistently, you begin selectively noticing evidence that supports it. You attribute good outcomes to the frame. You discount bad outcomes as noise. This is exactly what unlucky people do with bad frames — they notice every small misfortune, attribute it to their nature, and discount their wins.<br><br><strong>Lucky people are running the same cognitive program. They just loaded a different dataset.</strong></div>
+      <span class="cite">Swift, T. (2009) Interview with Rolling Stone. · Gilovich, T. (1991) How We Know What Isn't So. Free Press. · Kahneman, D. (2011) Thinking, Fast and Slow. Farrar, Straus and Giroux.</span>
+
+      <div class="rp-nav">
+        <button class="nav-btn" onclick="showReading('r-myth',document.querySelectorAll('.oracle-card')[0])">← THE MYTH</button>
+        <button class="nav-btn next" onclick="showReading('r-wiseman',document.querySelectorAll('.oracle-card')[2])">NEXT: THE RESEARCH →</button>
+      </div>
+    </div>
+
+    <!-- III: Wiseman -->
+    <div class="reading-panel" id="r-wiseman" data-section="wiseman_research">
+      <div class="rp-eyebrow">CARD III · THE RESEARCH</div>
+      <div class="rp-title">The Luck<br><em>Laboratory</em></div>
+      <div class="rp-sub">Richard Wiseman · University of Hertfordshire · 10 years, 400 subjects</div>
+
+      <div class="rp-body">Richard Wiseman is a psychologist who spent a decade studying luck. Not in the abstract — empirically, with 400 self-described lucky and unlucky people, tracking their actual outcomes and behaviors across 10 years.<br><br>His finding is one of the most practically useful things ever published in applied psychology:<br><br><strong>Lucky and unlucky people experience roughly the same number of random events. What differs is what they do with them.</strong></div>
+
+      <div class="wiseman-grid">
+        <div class="wg-cell">
+          <div class="wg-num">01</div>
+          <div class="wg-title">Notice Chance Opportunities</div>
+          <div class="wg-desc">Lucky people are more relaxed and open. Unlucky people are tense, focused, anxious. The anxious mind misses peripheral information — including the opportunities that appear in the margins of attention. Wiseman's classic test: planted a £5 note outside the building. Lucky people spotted it almost universally. Unlucky people walked past it.</div>
+        </div>
+        <div class="wg-cell">
+          <div class="wg-num">02</div>
+          <div class="wg-title">Listen to Lucky Hunches</div>
+          <div class="wg-desc">Lucky people trust intuition and act on it. Unlucky people second-guess. Intuition is pattern recognition — the accumulated processing of experience that has not yet surfaced as a named thought. Dismissing it is not rational. It is waste.</div>
+        </div>
+        <div class="wg-cell">
+          <div class="wg-num">03</div>
+          <div class="wg-title">Expect Good Fortune</div>
+          <div class="wg-desc">Expectancy shapes behavior. Lucky people expect things to work out and therefore persist, engage more people, try more approaches. Unlucky people expect failure and therefore protect themselves from further failure by attempting less. The prediction is self-fulfilling in both directions.</div>
+        </div>
+        <div class="wg-cell">
+          <div class="wg-num">04</div>
+          <div class="wg-title">Turn Bad Luck to Good</div>
+          <div class="wg-desc">When things go wrong, lucky people find the silver lining, learn the lesson, and avoid rumination. Unlucky people catastrophize, generalize ("this always happens to me"), and stay in the wound. This is not optimism — it is a processing strategy. Trainable.</div>
+        </div>
+      </div>
+
+      <span class="cite">Wiseman, R. (2003) The Luck Factor. Miramax Books. · Wiseman, R. (2003) "The Luck Factor." Skeptical Inquirer 27(3). · Wiseman, R. (1997-2007) Luck Project research data, University of Hertfordshire.</span>
+
+      <div class="pull-quote">
+        <div class="pq-text">"I've discovered that chance opportunities, lucky breaks and being in the right place at the right time are greatly increased by personality."</div>
+        <div class="pq-attr">Richard Wiseman · The Luck Factor · 2003</div>
+      </div>
+
+      <div class="rp-nav">
+        <button class="nav-btn" onclick="showReading('r-swift',document.querySelectorAll('.oracle-card')[1])">← THE CLAIM</button>
+        <button class="nav-btn next" onclick="showReading('r-apophenia',document.querySelectorAll('.oracle-card')[3])">NEXT: THE PATTERN →</button>
+      </div>
+    </div>
+
+    <!-- IV: Apophenia -->
+    <div class="reading-panel" id="r-apophenia" data-section="apophenia">
+      <div class="rp-eyebrow">CARD IV · THE PATTERN</div>
+      <div class="rp-title">The Machine<br><em>That Sees</em></div>
+      <div class="rp-sub">Apophenia · Confirmation bias · The architecture of meaning</div>
+
+      <div class="rp-body">Klaus Conrad coined the word <em>apophenia</em> in 1958, originally to describe the early psychotic experience of seeing meaningful connections between unrelated events. The term has since migrated into cognitive science to describe a universal human tendency: <strong>our brains are meaning-making machines that cannot be turned off.</strong><br><br>We see faces in clouds. We hear voices in noise. We find patterns in random sequences. This is not a malfunction — it is the system working exactly as designed. A brain that is slow to detect patterns dies. A brain that is fast at detecting patterns sometimes sees patterns that aren't there. This is the tradeoff evolution made.</div>
+
+      <div class="rp-body">The confirmation bias operates on top of this. Once we have a belief — "I am unlucky" or "13 is my number" — we process incoming information asymmetrically. We weight confirming evidence heavily. We discount disconfirming evidence. We remember the hits and forget the misses.<br><br>Daniel Kahneman's work documents this across dozens of domains. The bias is nearly automatic — System 1 processing, fast and invisible. <em>The question is not whether you are subject to it. You are. The question is which direction you want it to run.</em></div>
+      <span class="cite">Conrad, K. (1958) Die beginnende Schizophrenie. Thieme. · Kahneman, D. (2011) Thinking, Fast and Slow. Farrar, Straus and Giroux. · Nickerson, R.S. (1998) "Confirmation Bias." Review of General Psychology 2(2), 175–220.</span>
+
+      <div class="pull-quote">
+        <div class="pq-text">"It is the mind that maketh good or ill, that maketh wretch or happy, rich or poor."</div>
+        <div class="pq-attr">Edmund Spenser · The Faerie Queene · 1590 · He had no neuroscience, just observation.</div>
+      </div>
+
+      <div class="rp-body">The practitioner implication: your learners are running the same machine. The person who has decided they are bad at public speaking will encode every stumble as confirmation and dismiss every success as a fluke. <strong>Changing performance without changing the frame is trying to change the output without touching the source code.</strong><br><br>The immunity to change (Kegan &amp; Lahey) lives here. The competing commitment is almost always a belief about what the person is — and beliefs are patterns the apophenia machine has consolidated into identity.</div>
+
+      <div class="rp-nav">
+        <button class="nav-btn" onclick="showReading('r-wiseman',document.querySelectorAll('.oracle-card')[2])">← THE RESEARCH</button>
+        <button class="nav-btn next" onclick="showReading('r-expectancy',document.querySelectorAll('.oracle-card')[4])">NEXT: THE EFFECT →</button>
+      </div>
+    </div>
+
+    <!-- V: Expectancy -->
+    <div class="reading-panel" id="r-expectancy" data-section="expectancy">
+      <div class="rp-eyebrow">CARD V · THE EFFECT</div>
+      <div class="rp-title">The Pygmalion<br><em>Mechanism</em></div>
+      <div class="rp-sub">Expectancy · Self-fulfilling prophecy · Rosenthal &amp; Jacobson · 1968</div>
+
+      <div class="rp-body">In 1968, Robert Rosenthal and Lenore Jacobson told elementary school teachers that certain students — randomly selected, unknown to the teachers — had been identified by testing as likely to show exceptional intellectual growth that year. They called it the "Harvard Test of Inflected Acquisition." The test was fabricated.<br><br>At the end of the year, the students who had been randomly labeled as "bloomers" had gained significantly more IQ points than the control group. <strong>The teacher's expectation, communicated through thousands of subtle behavioral cues, had shaped the child's actual cognitive performance.</strong></div>
+
+      <span class="cite">Rosenthal, R. &amp; Jacobson, L. (1968) Pygmalion in the Classroom. Holt, Rinehart &amp; Winston. · Rosenthal, R. (1994) "Interpersonal Expectancy Effects." Psychological Science 5(3), 176–185.</span>
+
+      <div class="rp-body">Robert Merton named the broader phenomenon in 1948: the self-fulfilling prophecy. A belief that is false in origin can become true in outcome by shaping the behavior that produces the outcome. This operates at the individual level (what you believe about your own luck), the interpersonal level (what a teacher believes about a student), and the institutional level (what a culture believes about a number).<br><br>The mechanism is not magic. It is <em>behavior change mediated by expectation.</em> When you expect good fortune, you act with more openness, take more shots, recover faster from setbacks. The world responds to a different set of behaviors than it would have otherwise. The prophecy fulfills itself not through cosmic intervention but through the cascade of decisions made by a person who believes they are lucky.</div>
+
+      <div class="rp-body"><strong>Taylor Swift writes 13 on her hand because it changes how she walks on stage.</strong> The number is not causing the luck. The belief is causing the behavior that produces the outcomes she calls lucky.</div>
+
+      <div class="rp-nav">
+        <button class="nav-btn" onclick="showReading('r-apophenia',document.querySelectorAll('.oracle-card')[3])">← THE PATTERN</button>
+        <button class="nav-btn next" onclick="showReading('r-meliorist',document.querySelectorAll('.oracle-card')[5])">NEXT: THE SKILL →</button>
+      </div>
+    </div>
+
+    <!-- VI: Meliorist Frame -->
+    <div class="reading-panel" id="r-meliorist" data-section="meliorist_frame">
+      <div class="rp-eyebrow">CARD VI · THE SKILL</div>
+      <div class="rp-title">Pluck,<br><em>Not Luck</em></div>
+      <div class="rp-sub">Meliorist Frame · Wonder W · Bern Moses · The energy to make good things happen</div>
+
+      <div class="birthday-note">
+        <div class="bn-13">13</div>
+        <div class="bn-text">Issue 013 · May 13, 2026 · Published on the birthday of Meliorism2.com's Editorial Director.<br>Happy birthday, Brian. A mentor named it right: not luck — <em>pluck</em>. The number is yours. The energy already is.</div>
+      </div>
+
+      <div class="meliorist-frame">
+        <div class="mf-label">MELIORIST W · WONDER</div>
+        <div class="mf-text">A mentor named it better: not <strong>luck</strong> — <strong>pluck</strong>. The energy to make good things happen.<br><br>The word is worth tracing. Pluck originally meant the heart, liver, and lungs — the vital organs pulled from an animal at butchering. By 1824, it had come to mean courage and spirit, because courage was believed to live there. It is a body word. The energy lives in the organs, not the mind.<br><br>Meliorism 2.0 holds that the world gets better through constructive stewardship, wise action, better systems, and collaborative agency. Notice what is not on that list: passive hope. Pluck is not hope. It is <strong>the active energy of a person who has decided to steward their own attention toward what is possible.</strong><br><br>Luck is received. Pluck is generated. Wiseman's four habits are not luck habits — they are pluck habits: notice, trust, expect, recover. Each one requires action, not waiting.</div>
+      </div>
+
+      <div class="rp-body">Wiseman's four luck skills are directly teachable. They are not personality traits that some people have and others don't. They are habits of attention and interpretation that can be trained — with the same mechanisms that work on any cognitive skill. Spaced practice. Retrieval. Context variation. Feedback.<br><br>The immunity to change frame applies here too. Many people resist claiming lucky frames because a competing commitment is protecting a deep assumption: that they are the kind of person bad things happen to. That identity has a function. It protects against the disappointment of hoping and failing. <strong>The first-principles move is to name the competing commitment, not argue against it.</strong><br><br>What would you have to believe about the world for choosing luck to be safe?</div>
+
+      <div class="rp-body">For practitioners, the application is direct: the learner in front of you has a frame about what they're capable of. That frame is not a personality. It is a pattern consolidated by the apophenia machine over years of selective evidence-gathering. Changing the behavior without touching the frame produces temporary results. <em>Touching the frame is the work.</em></div>
+
+      <div class="rp-nav">
+        <button class="nav-btn" onclick="showReading('r-expectancy',document.querySelectorAll('.oracle-card')[4])">← THE EFFECT</button>
+        <button class="nav-btn next" onclick="showReading('r-field',document.querySelectorAll('.oracle-card')[6])">NEXT: SOURCES →</button>
+      </div>
+    </div>
+
+    <!-- VII: Field Work + Sources -->
+    <div class="reading-panel" id="r-field" data-section="field_bibliography">
+      <div class="rp-eyebrow">CARD VII · SOURCES</div>
+      <div class="rp-title">Field Work +<br><em>Bibliography</em></div>
+      <div class="rp-sub">Three practices · Full sources · Cross-domain further reading</div>
+
+      <div class="rp-body"><strong>The word before the practices:</strong><br><br><em>Pluck</em> (n.) — Old English <em>pluccian</em>, to pull. By the 18th century: the heart, liver, and lungs of an animal, named for the act of removing them. By 1824: courage, spirit, determination — because those qualities were thought to live in the organs. It is a body word. The courage that makes good things happen is not located in willpower or mindset. It lives where your pulse does.<br><br>When Bern Moses said "pluck not luck," he was naming the difference between fortune as something received and fortune as something generated. Wiseman's lucky people are not lucky. They are <em>plucky</em> — active, open, expectant, resilient. The word was there all along.</div>
+      <div class="rp-body"><strong>Three experiments for the next 30 days:</strong><br><br><strong>1. Claim a number.</strong> Pick one — any number. Decide it's yours. Write it somewhere you'll see it. Spend 30 days noticing every time it shows up in your favor. At the end of the month, you'll have a file of evidence. That file is real. The mechanism that built it is what matters.<br><br><strong>2. The Wiseman relaxation test.</strong> Before your next high-stakes session, spend 5 minutes actively relaxing — not psyching up. Wiseman's research shows that lucky people are more open and relaxed, which makes them better at noticing peripheral opportunity. Anxious focus narrows the field. Open attention widens it.<br><br><strong>3. Run an immunity map on a "stuck" belief.</strong> Take one belief you hold about your own limitations. Ask: what am I committed to that makes believing this necessary? What deep assumption would I have to abandon if I stopped believing it? The competing commitment will surface. Name it. You don't have to fight it — just make it visible.</div>
+
+      <div style="padding-top:28px;border-top:1px solid var(--border);margin-top:28px;">
+        <div class="rp-eyebrow" style="margin-bottom:16px;">BIBLIOGRAPHY</div>
+        <div class="bib-item"><strong>Wiseman, R. (2003)</strong> The Luck Factor: Changing Your Luck, Changing Your Life. Miramax Books.</div>
+        <div class="bib-item"><strong>Rosenthal, R. &amp; Jacobson, L. (1968)</strong> Pygmalion in the Classroom: Teacher Expectation and Pupils' Intellectual Development. Holt, Rinehart &amp; Winston.</div>
+        <div class="bib-item"><strong>Kahneman, D. (2011)</strong> Thinking, Fast and Slow. Farrar, Straus and Giroux.</div>
+        <div class="bib-item"><strong>Merton, R.K. (1948)</strong> "The Self-Fulfilling Prophecy." The Antioch Review 8(2), 193–210.</div>
+        <div class="bib-item"><strong>Kegan, R. &amp; Lahey, L. (2009)</strong> Immunity to Change. Harvard Business Review Press.</div>
+        <div class="bib-item"><strong>Nickerson, R.S. (1998)</strong> "Confirmation Bias: A Ubiquitous Phenomenon in Many Guises." Review of General Psychology 2(2), 175–220.</div>
+        <div class="bib-item"><strong>Risen, J.L. (2016)</strong> "Believing What We Do Not Believe: Acquiescence to Superstitious Beliefs and Other Powerful Intuitions." Psychological Review 123(2), 182–207.</div>
+        <div class="bib-item"><strong>Vyse, S.A. (1997)</strong> Believing in Magic: The Psychology of Superstition. Oxford University Press.</div>
+        <div class="bib-item"><strong>Scanlon, T.J. et al. (1993)</strong> "Is Friday the 13th Bad for Your Health?" British Medical Journal 307:1584–1586.</div>
+        <div class="bib-item"><strong>Conrad, K. (1958)</strong> Die beginnende Schizophrenie. Thieme. (Origin of the term apophenia.)</div>
+        <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
+          <div class="rp-eyebrow" style="margin-bottom:12px;">FURTHER READING — CROSS-DOMAIN</div>
+          <div class="rp-body"><strong>Philosophy:</strong> William James (1897) The Will to Believe — the pragmatist argument that choosing a belief which enables better action is not irrational, it is adaptive.<br><br><strong>Neuroscience:</strong> Crum, A. &amp; Langer, E. (2007) "Mind-Set Matters." Psychological Science — hotel workers who were told their work was good exercise became measurably healthier without changing behavior.<br><br><strong>Indigenous knowledge:</strong> Many Pacific navigation traditions treat the relationship between navigator and ocean as reciprocal — the ocean teaches those who come ready to receive. This is a luck frame baked into epistemology.<br><br><strong>Performance:</strong> Bandura, A. (1997) Self-Efficacy: The Exercise of Control — the most rigorous account of how belief in capability produces capability.</div>
+        </div>
+      </div>
+      <div class="rp-nav">
+        <button class="nav-btn" onclick="showReading('r-meliorist',document.querySelectorAll('.oracle-card')[5])">← THE SKILL</button>
+        <button class="nav-btn next" onclick="showReading('r-myth',document.querySelectorAll('.oracle-card')[0])">↺ RESTART FROM CARD I</button>
+      </div>
+    </div>
+
+  </div><!-- /oracle-content -->
+</div><!-- /main-panel -->
+
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--gold);text-shadow:0 0 8px var(--goldf)">013 HOW TO GET LUCKY ← CURRENT</span>
+</div>
+
+<script>
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()].map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+function claimThirteen(){
+  const el=document.getElementById('thirteen');
+  if(el.classList.contains('claimed'))return;
+  el.classList.add('claimed');
+  el.textContent='13';
+  track('click','claim_thirteen');
+
+  // Brief pause then transition
+  setTimeout(()=>{
+    const entry=document.getElementById('entry');
+    const panel=document.getElementById('main-panel');
+    entry.classList.add('hidden');
+    setTimeout(()=>{
+      entry.style.display='none';
+      panel.style.display='flex';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        panel.classList.add('visible');
+      }));
+    },1000);
+  },600);
+}
+
+function showReading(id,card){
+  document.querySelectorAll('.reading-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.oracle-card').forEach(c=>c.classList.remove('active'));
+  const panel=document.getElementById(id);
+  if(panel){panel.classList.add('active');track('view',id);}
+  if(card)card.classList.add('active');
+  const oc=document.getElementById('oracle-content');if(oc)oc.scrollTop=0;
+}
+
+function track(event,label,extra){
+  console.log('[signal-os]',event,label,extra||'');
+}
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){track('view',e.target.dataset.section||e.target.id||'unknown');}
+  });
+},{threshold:0.3});
+document.querySelectorAll('.reading-panel').forEach(el=>observer.observe(el));
+
+document.querySelectorAll('.pull-quote').forEach((el,i)=>{
+  const o=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){track('view','pq_'+i);o.unobserve(e.target);}});
+  },{threshold:0.5});o.observe(el);
+});
+
+document.querySelectorAll('.wall-moment,.wiseman-grid').forEach((el,i)=>{
+  const o=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){track('view','wall_'+i);o.unobserve(e.target);}});
+  },{threshold:0.3});o.observe(el);
+});
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

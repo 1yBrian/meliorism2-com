@@ -1,0 +1,799 @@
+<!-- signal-os:date: 2026-05-16 -->
+<!-- signal-os:slug: the-stimulated-emission-problem -->
+<!-- signal-os:title: The Stimulated Emission Problem -->
+<!-- signal-os:concept: Facilitators are not transmitters. They are pumps. The laser teaches the mechanism: insight isn't installed — it's stimulated from what learners already carry. The gap between Einstein's theory (1917) and Maiman's working laser (1960) was a conditions problem. So is yours. -->
+<!-- signal-os:format: Three-Station Laboratory -->
+<!-- signal-os:dimension: Brave Spaces -->
+<!-- signal-os:sources: 12 -->
+<!-- signal-os:tags: #attention #cognition #behavior-change -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 16 · The Stimulated Emission Problem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --lab:#F4F4F0;
+  --white:#FFFFFF;
+  --ink:#1A1F2C;
+  --dim:rgba(26,31,44,0.55);
+  --faint:rgba(26,31,44,0.22);
+  --blue:#2A6DB5;
+  --blue-g:rgba(42,109,181,0.1);
+  --blue-glow:0 0 14px rgba(42,109,181,0.45);
+  --amber:#C17F24;
+  --amber-g:rgba(193,127,36,0.1);
+  --amber-glow:0 0 14px rgba(193,127,36,0.5);
+  --violet:#5E3F8F;
+  --violet-g:rgba(94,63,143,0.1);
+  --violet-glow:0 0 14px rgba(94,63,143,0.45);
+  --border:rgba(26,31,44,0.12);
+  --forest:#2D6A4F;
+  --forest-g:rgba(45,106,79,0.1);
+  --forest-glow:0 0 14px rgba(45,106,79,0.45);
+}
+html,body{height:100%;background:var(--lab);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;font-size:16px;line-height:1.6;}
+body{overflow:hidden;}
+
+/* Status bar */
+.sb{position:fixed;top:0;left:0;right:0;z-index:200;height:32px;background:var(--ink);display:flex;align-items:center;padding:0 16px;gap:10px;}
+.sb-logo{font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:700;color:var(--lab);text-decoration:none;letter-spacing:0.1em;}
+.sb-pipe{color:rgba(255,255,255,0.2);}
+.sb-meta{font-size:10px;color:rgba(255,255,255,0.4);}
+.sb-r{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.sb-clock{font-size:10px;color:rgba(255,255,255,0.35);font-variant-numeric:tabular-nums;}
+.sb-lib{font-size:10px;font-weight:600;color:rgba(255,255,255,0.7);text-decoration:none;border:1px solid rgba(255,255,255,0.2);padding:2px 9px;transition:all 0.15s;}
+.sb-lib:hover{background:rgba(255,255,255,0.1);}
+
+/* Entry */
+#entry{position:fixed;inset:0;padding-top:32px;z-index:100;background:var(--lab);display:flex;align-items:center;justify-content:center;transition:opacity 0.6s ease;}
+#entry.gone{opacity:0;pointer-events:none;}
+.e-wrap{width:min(560px,calc(100% - 48px));display:flex;flex-direction:column;}
+.e-eye{font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+.e-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(32px,5.5vw,52px);font-weight:300;line-height:1.1;color:var(--ink);margin-bottom:8px;}
+.e-issue{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);text-shadow:var(--blue-glow);margin-bottom:20px;}
+.e-lead{font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:300;line-height:1.7;color:var(--dim);border-left:3px solid var(--blue);padding-left:16px;margin-bottom:28px;}
+.e-status{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.e-s-row{display:flex;align-items:center;gap:12px;}
+.e-s-label{font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);width:130px;flex-shrink:0;}
+.e-s-bar{flex:1;height:4px;background:var(--border);position:relative;overflow:hidden;}
+.e-s-fill{position:absolute;left:0;top:0;height:100%;width:0;transition:width 1.4s ease;}
+.e-s-fill.blue{background:var(--blue);box-shadow:var(--blue-glow);}
+.e-s-fill.amber{background:var(--amber);box-shadow:var(--amber-glow);}
+.e-s-fill.violet{background:var(--violet);box-shadow:var(--violet-glow);}
+.e-s-val{font-size:9px;font-weight:600;color:var(--dim);width:32px;text-align:right;}
+.e-cta{align-self:flex-start;background:var(--ink);color:var(--lab);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:12px 28px;border:none;cursor:pointer;transition:background 0.2s;margin-top:4px;}
+.e-cta:hover{background:var(--blue);}
+.e-hint{margin-top:14px;font-size:9px;color:var(--faint);line-height:1.6;}
+.e-signal{background:var(--blue-g);border:1px solid var(--blue);padding:16px 18px;margin-bottom:20px;}
+.e-signal-label{font-size:8px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+.e-signal-body{font-size:13px;line-height:1.7;color:var(--dim);}
+
+/* Main */
+#main{display:none;position:fixed;inset:0;padding-top:32px;}
+
+/* Overview */
+#overview{position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity 0.4s ease;}
+#overview.gone{opacity:0;pointer-events:none;}
+
+/* Laser wall */
+.laser-wall{flex-shrink:0;height:112px;width:100%;background:var(--ink);position:relative;overflow:hidden;display:flex;align-items:center;padding:0 24px;}
+.lw-corner{font-size:8px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);position:absolute;top:8px;left:14px;}
+.lw-year{font-family:'Fraunces',Georgia,serif;font-size:12px;font-weight:300;color:rgba(255,255,255,0.3);white-space:nowrap;flex-shrink:0;}
+.lw-track{flex:1;height:2px;background:rgba(255,255,255,0.06);margin:0 16px;position:relative;}
+.lw-beam{position:absolute;left:-60%;top:50%;transform:translateY(-50%);height:2px;width:55%;background:linear-gradient(90deg,transparent,var(--blue),rgba(42,109,181,0.3));box-shadow:0 0 8px 2px rgba(42,109,181,0.55);animation:beam 2.8s ease-in-out infinite;}
+@keyframes beam{0%{left:-60%;opacity:0;}18%{opacity:1;}82%{opacity:1;}100%{left:100%;opacity:0;}}
+.lw-node{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:1.5px solid;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;background:var(--ink);z-index:2;}
+.lw-node.blue{left:calc(22% - 15px);border-color:var(--blue);color:var(--blue);box-shadow:var(--blue-glow);}
+.lw-node.amber{left:calc(50% - 15px);border-color:var(--amber);color:var(--amber);box-shadow:var(--amber-glow);}
+.lw-node.violet{left:calc(78% - 15px);border-color:var(--violet);color:var(--violet);box-shadow:var(--violet-glow);}
+.lw-nlabel{position:absolute;top:calc(100% + 5px);left:50%;transform:translateX(-50%);font-size:7px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.25);white-space:nowrap;}
+.lw-caption{position:absolute;bottom:8px;right:14px;font-size:8px;color:rgba(255,255,255,0.18);letter-spacing:0.1em;text-transform:uppercase;}
+.lw-output{flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);text-shadow:var(--blue-glow);}
+
+/* Station grid */
+.station-grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);}
+.s-card{padding:28px 26px 24px;border-right:1px solid var(--border);cursor:pointer;transition:background 0.2s;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.s-card:last-child{border-right:none;}
+.s-card:hover{background:rgba(26,31,44,0.025);}
+.s-accent{position:absolute;top:0;left:0;width:3px;height:100%;}
+.s-accent.blue{background:var(--blue);}
+.s-accent.amber{background:var(--amber);}
+.s-accent.violet{background:var(--violet);}
+.s-num{font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);margin-bottom:7px;}
+.s-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(18px,2.2vw,26px);font-weight:400;line-height:1.2;color:var(--ink);margin-bottom:5px;}
+.s-sub{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px;}
+.s-sub.blue{color:var(--blue);text-shadow:var(--blue-glow);}
+.s-sub.amber{color:var(--amber);text-shadow:var(--amber-glow);}
+.s-sub.violet{color:var(--violet);text-shadow:var(--violet-glow);}
+.s-preview{font-size:13px;line-height:1.65;color:var(--dim);flex:1;}
+.s-enter{margin-top:18px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.s-enter.blue{color:var(--blue);}
+.s-enter.amber{color:var(--amber);}
+.s-enter.violet{color:var(--violet);}
+
+/* Lab detail */
+#lab{position:absolute;inset:0;display:none;}
+.lab-inner{height:100%;display:grid;grid-template-columns:192px 1fr;grid-template-rows:46px 1fr;}
+.lab-hdr{grid-column:1/-1;display:flex;align-items:center;padding:0 18px;gap:14px;background:var(--white);border-bottom:1px solid var(--border);}
+.lab-back{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);cursor:pointer;padding:5px 10px;border:1px solid var(--border);transition:all 0.15s;background:none;}
+.lab-back:hover{border-color:var(--ink);color:var(--ink);}
+.lab-htitle{font-family:'Fraunces',Georgia,serif;font-size:15px;font-weight:400;color:var(--ink);}
+.lab-hdim{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);padding:3px 9px;border:1px solid var(--border);}
+.lab-side{border-right:1px solid var(--border);display:flex;flex-direction:column;padding:18px 0;background:var(--white);overflow-y:auto;}
+.ls-btn{padding:13px 16px;cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:background 0.15s;border-left:3px solid transparent;background:none;border-top:none;border-right:none;border-bottom:none;text-align:left;width:100%;}
+.ls-btn:hover{background:rgba(26,31,44,0.03);}
+.ls-btn.on.blue{border-left-color:var(--blue);background:var(--blue-g);}
+.ls-btn.on.amber{border-left-color:var(--amber);background:var(--amber-g);}
+.ls-btn.on.violet{border-left-color:var(--violet);background:var(--violet-g);}
+.ls-btn.on.forest{border-left-color:var(--forest);background:var(--forest-g);}
+.vb.forest{border-left-color:var(--forest);}
+.dp-n.forest{color:var(--forest);text-shadow:0 0 22px rgba(45,106,79,0.65);}
+.pane-badge.forest{background:var(--forest-g);color:var(--forest);border:1px solid var(--forest);}
+.ls-num{font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);}
+.ls-name{font-size:12px;font-weight:600;color:var(--ink);}
+.ls-status{font-size:9px;color:var(--dim);margin-top:1px;}
+.lab-scroll{overflow-y:auto;padding-bottom:80px;}
+.s-pane{display:none;padding:30px 36px;}
+.s-pane.on{display:block;}
+
+/* Content */
+.pane-eye{font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);margin-bottom:5px;}
+.pane-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(26px,3.2vw,40px);font-weight:300;line-height:1.15;color:var(--ink);margin-bottom:5px;}
+.pane-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;margin-bottom:22px;}
+.pane-badge.blue{background:var(--blue-g);color:var(--blue);border:1px solid var(--blue);}
+.pane-badge.amber{background:var(--amber-g);color:var(--amber);border:1px solid var(--amber);}
+.pane-badge.violet{background:var(--violet-g);color:var(--violet);border:1px solid var(--violet);}
+.pane-lead{font-family:'Fraunces',Georgia,serif;font-size:17px;font-weight:300;font-style:italic;line-height:1.68;color:var(--dim);margin-bottom:28px;}
+.dp{background:var(--ink);color:var(--lab);padding:22px 24px;margin-bottom:24px;}
+.dp-lbl{font-size:8px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:8px;}
+.dp-n{font-family:'Fraunces',Georgia,serif;font-size:clamp(40px,5.5vw,60px);font-weight:300;line-height:1;}
+.dp-n.blue{color:var(--blue);text-shadow:0 0 22px rgba(42,109,181,0.65);}
+.dp-n.amber{color:var(--amber);text-shadow:0 0 22px rgba(193,127,36,0.65);}
+.dp-n.violet{color:var(--violet);text-shadow:0 0 22px rgba(94,63,143,0.65);}
+.dp-desc{font-size:12px;color:rgba(255,255,255,0.45);line-height:1.55;margin-top:6px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+.vb{background:var(--white);padding:18px 20px;border-left:3px solid;}
+.vb.blue{border-left-color:var(--blue);}
+.vb.amber{border-left-color:var(--amber);}
+.vb.violet{border-left-color:var(--violet);}
+.vb-voice{font-size:8px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--faint);margin-bottom:6px;}
+.vb-body{font-size:13px;line-height:1.72;color:var(--dim);}
+.vb-body p{margin-bottom:11px;}.vb-body p:last-child{margin-bottom:0;}
+.cite{font-size:0.74rem;color:var(--text);border-left:3px solid var(--blue);padding:10px 14px;margin:10px 0 22px;display:block;letter-spacing:0.3px;line-height:1.65;}
+.divider{width:100%;height:1px;background:var(--border);margin:26px 0;}
+.h2{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:400;color:var(--ink);margin-bottom:12px;}
+.pp{font-size:14px;line-height:1.78;color:var(--dim);margin-bottom:14px;}
+.pq{font-family:'Fraunces',Georgia,serif;font-size:clamp(17px,2.3vw,22px);font-weight:300;font-style:italic;line-height:1.5;color:var(--ink);padding:18px 0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin:26px 0;}
+.pq-attr{font-family:'Instrument Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-top:9px;}
+.src-footer{padding:32px 36px 20px;background:var(--white);border-top:1px solid var(--border);margin-top:32px;}
+.sf-title{font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+.src-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.src-item{font-size:11px;line-height:1.6;color:var(--dim);}
+.src-item a{color:var(--blue);text-decoration:none;}
+.src-item a:hover{text-decoration:underline;}
+
+/* Mobile */
+@media(max-width:768px){
+  .station-grid{grid-template-columns:1fr;}
+  .s-card{border-right:none;border-bottom:1px solid var(--border);}
+  .lab-inner{grid-template-columns:1fr;grid-template-rows:46px 52px 1fr;}
+  .lab-side{flex-direction:row;padding:6px 10px;gap:6px;overflow-x:auto;overflow-y:visible;border-right:none;border-bottom:1px solid var(--border);}
+  .ls-btn{min-width:110px;border-left:none;border-bottom:3px solid transparent;padding:7px 10px;}
+  .ls-btn.on.blue{border-bottom-color:var(--blue);border-left-color:transparent;}
+  .ls-btn.on.amber{border-bottom-color:var(--amber);border-left-color:transparent;}
+  .ls-btn.on.violet{border-bottom-color:var(--violet);border-left-color:transparent;}
+  .ls-btn.on.forest{border-bottom-color:var(--forest);border-left-color:transparent;}
+  .lab-scroll{overflow-y:auto;padding-bottom:80px;}
+  .two-col{grid-template-columns:1fr;}
+  .s-pane{padding:18px 16px;}
+  .laser-wall{height:80px;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<nav class="sb">
+  <a href="/" class="sb-logo">SIGNAL·OS</a>
+  <span class="sb-pipe">|</span>
+  <span class="sb-meta">ISSUE 016</span>
+  <div class="sb-r">
+    <span class="sb-clock" id="clock">--:--:--</span>
+    <a href="/archive/" class="sb-lib">Library</a>
+  </div>
+</nav>
+
+<div id="entry">
+  <div class="e-wrap">
+    <div class="e-eye">Meliorism2.com · Issue 16 · Brave Spaces</div>
+    <h1 class="e-title">The Stimulated Emission Problem</h1>
+    <div class="e-issue">Three-Station Laboratory · 12 Sources</div>
+    <p class="e-lead">Einstein described the mechanism in 1917. Nobody built a working laser until 1960. The 43-year gap was not a knowledge problem. It was a conditions problem. So is yours.</p>
+    <div class="e-status">
+      <div class="e-s-row">
+        <span class="e-s-label">Population Inversion</span>
+        <div class="e-s-bar"><div class="e-s-fill blue" id="fill1"></div></div>
+        <span class="e-s-val" id="val1">0%</span>
+      </div>
+      <div class="e-s-row">
+        <span class="e-s-label">Calibrated Pump</span>
+        <div class="e-s-bar"><div class="e-s-fill amber" id="fill2"></div></div>
+        <span class="e-s-val" id="val2">0%</span>
+      </div>
+      <div class="e-s-row">
+        <span class="e-s-label">Optical Cavity</span>
+        <div class="e-s-bar"><div class="e-s-fill violet" id="fill3"></div></div>
+        <span class="e-s-val" id="val3">0%</span>
+      </div>
+    </div>
+    <div class="e-signal">
+      <div class="e-signal-label">The 90-Second Signal</div>
+      <p class="e-signal-body">Facilitators pump. They do not transmit. The laser proves it: Einstein described stimulated emission in 1917, but nobody built a working laser for 43 years — not because the theory was wrong, but because the conditions weren't assembled. Your room has the same problem. Most facilitation fails at population inversion (the room is at ground state), miscalibrates the pump (wrong frequency for this group), or skips the cavity (no container to build coherence). Three stations. One mechanism. Your job is conditions, not content.</p>
+    </div>
+    <button class="e-cta" onclick="initLab()">Enter Laboratory</button>
+    <p class="e-hint">Three stations · Origins · Field Work (story, industry, nature). Enter any station or start from the overview.</p>
+  </div>
+</div>
+
+<div id="main">
+
+  <div id="overview">
+    <div class="laser-wall">
+      <span class="lw-corner">Stimulated Emission · Einstein 1917 → Maiman 1960</span>
+      <span class="lw-year">Ground State</span>
+      <div class="lw-track">
+        <div class="lw-beam"></div>
+        <div class="lw-node blue">↑N<span class="lw-nlabel">Pop. Inversion</span></div>
+        <div class="lw-node amber">⊕<span class="lw-nlabel">Pump</span></div>
+        <div class="lw-node violet">⟷<span class="lw-nlabel">Cavity</span></div>
+      </div>
+      <span class="lw-output">COHERENT BEAM →</span>
+      <span class="lw-caption">LASER · Light Amplification by Stimulated Emission of Radiation</span>
+    </div>
+    <div class="station-grid">
+      <div class="s-card" onclick="openStation('s1');track('open-s1')">
+        <div class="s-accent blue"></div>
+        <div class="s-num">Station 01 · Population Inversion</div>
+        <h2 class="s-name">You Can't Energize What Hasn't Been Raised</h2>
+        <div class="s-sub blue">Population Dynamics</div>
+        <p class="s-preview">More atoms must occupy the excited state than ground state before stimulated emission can cascade. In a room, more activation must exist than torpor before new insight can propagate. Most facilitators pump before inverting.</p>
+        <div class="s-enter blue">Enter Station <span>→</span></div>
+      </div>
+      <div class="s-card" onclick="openStation('s2');track('open-s2')">
+        <div class="s-accent amber"></div>
+        <div class="s-num">Station 02 · Calibrated Pump</div>
+        <h2 class="s-name">The Energy Source Must Match the Medium</h2>
+        <div class="s-sub amber">Frequency Matching</div>
+        <p class="s-preview">A pump at the wrong frequency wastes energy and produces no light. Facilitation methods tuned to the wrong group — wrong history, wrong readiness, wrong fear — produce the same result: heat without coherence.</p>
+        <div class="s-enter amber">Enter Station <span>→</span></div>
+      </div>
+      <div class="s-card" onclick="openStation('s3');track('open-s3')">
+        <div class="s-accent violet"></div>
+        <div class="s-num">Station 03 · Optical Cavity</div>
+        <h2 class="s-name">Coherence Requires Boundaries and Resonance</h2>
+        <div class="s-sub violet">Container Design</div>
+        <p class="s-preview">Two mirrors trap light, forcing it back through the excited medium. Each pass stimulates more emission. Coherence builds. Without the cavity, energy scatters. Structure is not constraint. Structure is the mechanism.</p>
+        <div class="s-enter violet">Enter Station <span>→</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="lab">
+    <div class="lab-inner">
+      <div class="lab-hdr">
+        <button class="lab-back" onclick="closeStation()">← Overview</button>
+        <span class="lab-htitle" id="lab-htitle">The Stimulated Emission Problem</span>
+        <span class="lab-hdim">Brave Spaces · Issue 016</span>
+      </div>
+      <div class="lab-side">
+        <button class="ls-btn on blue" id="nav-s1" onclick="switchStation('s1')">
+          <span class="ls-num">Station 01</span>
+          <span class="ls-name">Population Inversion</span>
+          <span class="ls-status" id="st1">Active</span>
+        </button>
+        <button class="ls-btn amber" id="nav-s2" onclick="switchStation('s2')">
+          <span class="ls-num">Station 02</span>
+          <span class="ls-name">Calibrated Pump</span>
+          <span class="ls-status" id="st2">—</span>
+        </button>
+        <button class="ls-btn violet" id="nav-s3" onclick="switchStation('s3')">
+          <span class="ls-num">Station 03</span>
+          <span class="ls-name">Optical Cavity</span>
+          <span class="ls-status" id="st3">—</span>
+        </button>
+        <button class="ls-btn" id="nav-s4" onclick="switchStation('s4')" style="border-left-color:var(--faint);">
+          <span class="ls-num">Origins</span>
+          <span class="ls-name">Etymology · Place · Sources</span>
+          <span class="ls-status" id="st4">—</span>
+        </button>
+        <button class="ls-btn forest" id="nav-s5" onclick="switchStation('s5')">
+          <span class="ls-num">Field Work</span>
+          <span class="ls-name">Story · Industry · Nature</span>
+          <span class="ls-status" id="st5">—</span>
+        </button>
+      </div>
+      <div class="lab-scroll" id="lab-scroll">
+
+        <!-- Station 01 -->
+        <div class="s-pane on" id="s1">
+          <div class="pane-eye">Station 01 · Population Inversion</div>
+          <h1 class="pane-title">You Can't Energize What Hasn't Been Raised</h1>
+          <span class="pane-badge blue">Population Dynamics</span>
+          <p class="pane-lead">In a laser, population inversion means more atoms occupy the excited state than ground state. Only then can one photon stimulate a cascade of identical photons — coherent light. Without inversion, stimulation produces nothing but noise.</p>
+          <div class="dp">
+            <div class="dp-lbl">The Conditions Gap</div>
+            <div class="dp-n blue">43 years</div>
+            <div class="dp-desc">Einstein described stimulated emission in 1917. Theodore Maiman built the first working laser in 1960. The theory was complete. The conditions were not. Nothing about this was a knowledge problem.</div>
+          </div>
+          <div class="two-col">
+            <div class="vb blue">
+              <div class="vb-voice">The Researcher · Condensed Matter Physicist</div>
+              <div class="vb-body">
+                <p>Population inversion is a non-equilibrium state. In thermal equilibrium, more atoms sit in the ground state — Boltzmann's law, and it explains why matter does not spontaneously lase. To create population inversion, you must pump energy into the system faster than it decays back to equilibrium.</p>
+                <p>The precision matters: you cannot trigger coherent stimulated emission from a ground-state medium. The laser does not add new photons. It stimulates release of energy the atoms already hold.</p>
+                <div class="cite">Einstein, A. (1917). Zur Quantentheorie der Strahlung. Physikalische Zeitschrift, 18, 121–128.</div>
+              </div>
+            </div>
+            <div class="vb blue">
+              <div class="vb-voice">The Practitioner · Group Process Consultant</div>
+              <div class="vb-body">
+                <p>Most training programs fail at population inversion. The facilitator arrives ready to stimulate insight, but the room is at ground state: people are distracted, defended, categorizing the experience as something they have to sit through. The energy state is wrong for emission.</p>
+                <p>Before any insight can cascade, the population must be inverted: more curiosity than defensiveness, more activation than torpor. This is not icebreakers. This is a technical precondition.</p>
+                <div class="cite">Kegan, R. &amp; Lahey, L.L. (2009). Immunity to Change. Harvard Business Press.</div>
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h2 class="h2">Vygotsky's Zone and the Inversion Problem</h2>
+          <p class="pp">Lev Vygotsky's Zone of Proximal Development (1978) is usually taught as a teaching tool: meet learners where they are, then stretch. But it's also a population inversion map. The ZPD describes the exact range in which stimulated learning can cascade — above the known, below the incomprehensible. Working below produces boredom (ground state). Working above produces anxiety. The optimal zone for learning is the optimal zone for lasing: slightly above equilibrium, ready to emit.</p>
+          <div class="cite">Vygotsky, L.S. (1978). Mind in Society. Harvard University Press.</div>
+          <div class="pq">
+            "Tell me and I forget. Teach me and I remember. Involve me and I learn."
+            <div class="pq-attr">Benjamin Franklin — the earliest practitioner description of the inversion problem</div>
+          </div>
+          <div class="divider"></div>
+          <h2 class="h2">The Meliorist Voice · W: Wisdom</h2>
+          <p class="pp">The insight here is subtractive, not additive. The room doesn't need more facilitation techniques. It needs removal of conditions holding people at ground state: ambiguity about why they're there, distrust of intent, recent organizational turbulence making readiness inaccessible. Population inversion is created by removing obstacles to readiness, not by installing readiness. Subtract before you add.</p>
+          <div class="divider"></div>
+          <h2 class="h2">The Random Voice · Master Glassblower</h2>
+          <p class="pp">The first laser used a synthetic ruby rod — chromium-doped corundum — machined to optical precision. The glassblower's art is medium preparation: removing impurities, creating uniformity, making the material capable of carrying coherent light. Before the physicist can work, the glassblower must work. In facilitation, the medium is the people. Population inversion begins with medium preparation: Who is in this room? What impurities must be surfaced before the room can carry coherent learning?</p>
+        </div>
+
+        <!-- Station 02 -->
+        <div class="s-pane" id="s2">
+          <div class="pane-eye">Station 02 · Calibrated Pump</div>
+          <h1 class="pane-title">The Energy Source Must Match the Medium</h1>
+          <span class="pane-badge amber">Frequency Matching</span>
+          <p class="pane-lead">A laser pump operates at a specific frequency — the wavelength the lasing medium can absorb. Mismatch the frequency and the medium cannot absorb the energy. The pump fires. The medium sits inert. Good intentions at the wrong frequency produce no light.</p>
+          <div class="dp">
+            <div class="dp-lbl">Absorption Specificity</div>
+            <div class="dp-n amber">532 nm</div>
+            <div class="dp-desc">The frequency at which a ruby laser pumps its chromium ions. Off by even a few nanometers and absorption drops to near zero. Facilitation methods are specific in the same way — just almost never mapped with this precision.</div>
+          </div>
+          <div class="two-col">
+            <div class="vb amber">
+              <div class="vb-voice">The Practitioner · Organizational Psychologist</div>
+              <div class="vb-body">
+                <p>Amy Edmondson's psychological safety research (1999) is frequently deployed as a blanket mandate: "create a safe space." But the original research is more specific. Psychological safety is team-specific, history-specific, and leader-behavior-specific. It cannot be installed by declaration.</p>
+                <p>The pump must be calibrated to the medium. A high-performing competitive team requires a different pump than a demoralized team in crisis. Same technique, wrong frequency: no absorption, no emission, no learning.</p>
+                <div class="cite">Edmondson, A.C. (1999). Psychological safety and learning behavior in work teams. Administrative Science Quarterly, 44(2), 350–383.</div>
+              </div>
+            </div>
+            <div class="vb amber">
+              <div class="vb-voice">The Iconoclast · Provocateur</div>
+              <div class="vb-body">
+                <p>"Brave spaces" and "safe spaces" are both marketing terms until they describe a specific calibration for a specific room. The problem with contemporary brave space discourse is that it treats frequency matching as a moral stance — you're either brave enough or you're not.</p>
+                <p>The laser doesn't care about your values. It cares about frequency. A practitioner who cannot calibrate their pump to the medium isn't failing morally. They're failing technically. Technical failures require technical diagnosis, not better intentions.</p>
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h2 class="h2">Argyris and the Double-Loop Problem</h2>
+          <p class="pp">Chris Argyris (1977) described two kinds of organizational learning. Single-loop learning adjusts behavior within existing assumptions — it fires the pump harder. Double-loop learning questions the assumptions themselves — it asks whether the pump is calibrated to the right frequency. Most facilitation programs operate in single-loop: more engagement techniques, better icebreakers, stronger protocols. The calibration question is the double-loop question. It is also the rarer one.</p>
+          <div class="cite">Argyris, C. (1977). Double loop learning in organizations. Harvard Business Review, 55(5), 115–125.</div>
+          <div class="pq">
+            "The gap between knowledge and learning is always a conditions problem, never a content problem."
+            <div class="pq-attr">Meliorism2.com · Issue 016</div>
+          </div>
+          <div class="divider"></div>
+          <h2 class="h2">The Transfer Problem as Calibration Failure</h2>
+          <p class="pp">The training transfer literature consistently finds that 10–40% of learning transfers to the job. The calibration hypothesis: most transfer failure is not about the quality of the learning event. It's about frequency mismatch between what was learned and what the work environment can absorb. The workplace is a medium with its own absorption frequency — determined by management behavior, peer norms, performance systems, and time pressure. A training intervention calibrated to individual motivation may produce zero transfer because the organizational medium cannot absorb at that frequency.</p>
+          <div class="cite">Wyrostek, M., Gordon, T., &amp; Huckabee, M. (2012). Transfer of Training. ASTD Research.</div>
+        </div>
+
+        <!-- Station 03 -->
+        <div class="s-pane" id="s3">
+          <div class="pane-eye">Station 03 · Optical Cavity</div>
+          <h1 class="pane-title">Coherence Requires Boundaries and Resonance</h1>
+          <span class="pane-badge violet">Container Design</span>
+          <p class="pane-lead">Two mirrors face each other across the lasing medium. Light bounces. Each pass stimulates more emission. The gain builds until the beam emerges coherent and directional. The cavity is not a constraint on the laser. It is the laser.</p>
+          <div class="dp">
+            <div class="dp-lbl">Coherence Amplification</div>
+            <div class="dp-n violet">10⁶×</div>
+            <div class="dp-desc">The amplification of a well-designed optical cavity vs. spontaneous emission. Same atoms, same pump, same medium. Only the container changes. This is what coherence does.</div>
+          </div>
+          <div class="two-col">
+            <div class="vb violet">
+              <div class="vb-voice">The Researcher · Evolutionary Biologist</div>
+              <div class="vb-body">
+                <p>Eusocial species produce collective intelligence that massively exceeds individual capacity. But they require a specific container: a nest with defined boundaries, role structures, and communication protocols. Remove the nest and the colony collapses into individual insects.</p>
+                <p>The nest is the optical cavity. Group intelligence requires structural containment not because it suppresses individuals but because it enables the resonance that amplifies individual contributions into something coherent. Structure is the mechanism of emergence.</p>
+              </div>
+            </div>
+            <div class="vb violet">
+              <div class="vb-voice">The Practitioner · Master Facilitator</div>
+              <div class="vb-body">
+                <p>Every brave space framework that works has a container: agreements, norms, facilitated call-backs, structured time. The container is not theater — it is technical. It forces the group's thinking to pass through the medium repeatedly, stimulating more emission with each pass.</p>
+                <p>A group asked to explore a difficult truth once produces one pass. A group with a structured process for returning to that truth across multiple sessions produces coherence. The cavity makes the difference. Build the mirrors first.</p>
+                <div class="cite">Edmondson, A.C. (1999). Psychological safety and learning behavior in work teams. Administrative Science Quarterly, 44(2), 350–383.</div>
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h2 class="h2">Immunity to Change: Kegan's Cavity</h2>
+          <p class="pp">Kegan and Lahey's Immunity to Change process works because it is an optical cavity. The commitments, competing commitments, big assumptions, and behavioral tests are mirrors — they force participants to return repeatedly to the same territory, each pass stimulating deeper recognition. A single session doesn't produce coherence. The structured return does. Most training programs have no cavity. They fire once and hope for coherence. They produce heat, not light.</p>
+          <div class="cite">Kegan, R. &amp; Lahey, L.L. (2009). Immunity to Change. Harvard Business Press.</div>
+          <div class="pq">
+            "You must have chaos within you to give birth to a dancing star."
+            <div class="pq-attr">Friedrich Nietzsche — on the conditions required before coherence can emerge</div>
+          </div>
+          <div class="divider"></div>
+          <h2 class="h2">Freire and the Boundary Paradox</h2>
+          <p class="pp">Paulo Freire (1968) argued that authentic liberation requires dialogue — mutual, horizontal, trust-based. The caveat rarely taught: dialogue without structure produces cacophony. The teacher-student relationship Freire critiques is not structure itself — it is a specific kind of structure that prevents resonance. Boundaries do not prevent freedom. They are the precondition of it. A laser without mirrors is just a light source. A group without container is just a meeting.</p>
+          <div class="cite">Freire, P. (1968). Pedagogy of the Oppressed. Herder and Herder, New York.</div>
+          <div class="divider"></div>
+          <div class="vb violet">
+            <div class="vb-voice">The Meliorist Voice · W: Wisdom</div>
+            <div class="vb-body">
+              <p>The laser's message to practitioners is not "add more energy." It is "build better conditions." The 43-year gap between Einstein's insight and Maiman's device was not lack of effort. Researchers tried. They pumped. They built. The conditions were not yet assembled.</p>
+              <p>Wisdom here is structural humility: knowing your role is conditions designer, not content installer. The question is not "how do I get insight into them?" The question is "what conditions allow their insight to emerge?" Your job is population inversion, calibrated pump, and cavity design. In that order.</p>
+            </div>
+          </div>
+          <div class="src-footer">
+            <div class="sf-title">Sources · Issue 016</div>
+            <ul class="src-list">
+              <li class="src-item">Einstein, A. (1917). Zur Quantentheorie der Strahlung. <em>Physikalische Zeitschrift</em>, 18, 121–128.</li>
+              <li class="src-item">Maiman, T.H. (1960). Stimulated optical radiation in ruby. <em>Nature</em>, 187(4736), 493–494. <a href="https://doi.org/10.1038/187493a0" target="_blank">doi:10.1038/187493a0</a></li>
+              <li class="src-item">Vygotsky, L.S. (1978). <em>Mind in Society</em>. Harvard University Press.</li>
+              <li class="src-item">Edmondson, A.C. (1999). Psychological safety and learning behavior in work teams. <em>Administrative Science Quarterly</em>, 44(2), 350–383.</li>
+              <li class="src-item">Kegan, R. &amp; Lahey, L.L. (2009). <em>Immunity to Change</em>. Harvard Business Press.</li>
+              <li class="src-item">Argyris, C. (1977). Double loop learning in organizations. <em>Harvard Business Review</em>, 55(5), 115–125.</li>
+              <li class="src-item">Wyrostek, M., Gordon, T., &amp; Huckabee, M. (2012). <em>Transfer of Training</em>. ASTD Research.</li>
+              <li class="src-item">Freire, P. (1968). <em>Pedagogy of the Oppressed</em>. Herder and Herder, New York.</li>
+              <li class="src-item">Csikszentmihalyi, M. (1990). <em>Flow: The Psychology of Optimal Experience</em>. Harper &amp; Row.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Origins: Etymology · Place · Editor's Note · Nature · Sources -->
+        <div class="s-pane" id="s4">
+          <div class="pane-eye">Origins · Place · Further Reading</div>
+          <h1 class="pane-title">Where the Words and the Work Come From</h1>
+          <span class="pane-badge" style="background:rgba(26,31,44,0.06);color:var(--ink);border:1px solid var(--border);">Etymology · Geography · Sources</span>
+
+          <div class="divider"></div>
+          <h2 class="h2">From the Editor</h2>
+          <div class="vb" style="border-left-color:var(--ink);">
+            <div class="vb-voice">Brian Oney · Executive Director, Meliorism2.com</div>
+            <div class="vb-body">
+              <p>"Between stimulus and response there is a space. In that space is our power to choose our response. In our response lies our growth and our freedom." — Viktor Frankl</p>
+              <p>That space Frankl describes is what the laser calls the cavity. Every brave space practitioner is building a cavity — whether they name it that or not. The question this issue keeps asking: are you building it with intention, or are you hoping the energy will cohere on its own? It won't. It never does. Not in physics. Not in rooms.</p>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <h2 class="h2">Etymology</h2>
+          <div class="two-col">
+            <div class="vb" style="border-left-color:var(--blue);">
+              <div class="vb-voice">LASER</div>
+              <div class="vb-body">
+                <p><strong>L.A.S.E.R.</strong> — acronym coined by physicist Gordon Gould in a notarized laboratory notebook, November 1957: <em>Light Amplification by Stimulated Emission of Radiation</em>. Gould was a Columbia graduate student at the time. He notarized the notebook to establish intellectual priority — a precaution that later proved insufficient; he spent decades in patent disputes over the device he named.</p>
+                <p>The word "laser" entered common use in 1960 after Theodore Maiman built the first working device. Prior to Gould's coinage, the theoretical mechanism was called "optical maser" — microwave amplification extended to light frequencies.</p>
+              </div>
+            </div>
+            <div class="vb" style="border-left-color:var(--amber);">
+              <div class="vb-voice">STIMULATE</div>
+              <div class="vb-body">
+                <p>From Latin <em>stimulare</em>: to goad, to prick with a sharp point. The root is <em>stimulus</em> — a pointed stick used to drive cattle. The word carried connotations of external force applied to produce motion.</p>
+                <p>Einstein's use is precise and ironic: stimulated emission is not force applied to an inert medium. It is resonance triggering the release of energy the atom already holds. The stimulus does not create the response — it calls it forth. This distinction is the entire issue.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <h2 class="h2">Place: Hughes Research Laboratories, Malibu</h2>
+          <div class="dp">
+            <div class="dp-lbl">The Location</div>
+            <div class="dp-n blue" style="font-size:clamp(22px,3vw,32px);line-height:1.3;">301 N. Sepulveda Blvd<br>Malibu, California</div>
+            <div class="dp-desc" style="margin-top:12px;">May 16, 1960. Theodore Maiman aimed a xenon flash lamp at a synthetic ruby rod the size of a fingertip. The rod emitted a pulse of coherent red light at 694 nanometers. The lab windows overlooked the Pacific Ocean. Nobody in the building fully understood yet what they had built, or what it would become. Maiman submitted his findings to <em>Physical Review Letters</em>, which rejected the paper as insufficiently interesting. <em>Nature</em> published it within weeks.</div>
+          </div>
+          <p class="pp">Hughes Research Laboratories still operates at the same Malibu address. The building where the first laser fired is unremarkable from the outside. There is no plaque. The Pacific is still visible from the upper floors.</p>
+
+          <div class="divider"></div>
+          <h2 class="h2">Nature Analog: The Aurora Borealis</h2>
+          <div class="vb" style="border-left-color:var(--violet);">
+            <div class="vb-voice">The Random Voice · Master Glassblower — Extended Observation</div>
+            <div class="vb-body">
+              <p>The aurora borealis is stimulated emission at planetary scale. Solar wind — charged particles — excites atoms in the upper atmosphere to higher energy states (population inversion, planetary edition). As those atoms decay back to ground state, they emit photons at specific wavelengths: green at 557nm (oxygen), red at 630nm (oxygen at higher altitude), blue-violet at 427nm (nitrogen). The colors are not mixed — they are the fingerprints of specific atomic transitions.</p>
+              <p>The Earth's magnetic field is the optical cavity. It channels the solar wind into the polar regions, concentrating the excitation energy into the medium where emission can be most visible. Without the cavity — the field — the energy would scatter uniformly and produce no display.</p>
+              <p>Every brave space is an aurora: solar energy (the facilitator's intentional input) exciting a medium (the room) held in a cavity (the agreements and structure) into coherent, visible light (the conversation that could not have happened anywhere else). The aurora doesn't apologize for needing the field to work. Neither should your brave space need one.</p>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <h2 class="h2">Annotated Bibliography</h2>
+          <ul class="src-list">
+            <li class="src-item"><strong>[1]</strong> Einstein, A. (1917). Zur Quantentheorie der Strahlung. <em>Physikalische Zeitschrift</em>, 18, 121–128. — The theoretical foundation. Einstein derived the mathematical relationship between absorption, spontaneous emission, and stimulated emission purely from thermodynamic equilibrium arguments. He did not believe a device could be built from it. The paper sat largely unnoticed for a decade.</li>
+            <li class="src-item"><strong>[2]</strong> Maiman, T.H. (1960). Stimulated optical radiation in ruby. <em>Nature</em>, 187(4736), 493–494. <a href="https://doi.org/10.1038/187493a0" target="_blank">doi:10.1038/187493a0</a> — One of the most consequential two-page papers in physics. Read it for the understated confidence of a researcher who knows exactly what he has done and is explaining it to people who do not yet.</li>
+            <li class="src-item"><strong>[3]</strong> Vygotsky, L.S. (1978). <em>Mind in Society</em>. Harvard University Press. — The ZPD chapter is the population inversion map for educators. Vygotsky is describing the exact energy state in which stimulated learning can cascade. Required reading alongside Kegan; they are describing the same zone from different decades and disciplines.</li>
+            <li class="src-item"><strong>[4]</strong> Edmondson, A.C. (1999). Psychological safety and learning behavior in work teams. <em>Administrative Science Quarterly</em>, 44(2), 350–383. — The original research, not the popularized version. Read the methodology section: Edmondson measures psychological safety at the team level, not the individual. This precision is the calibration point — why generic "safe space" mandates fail where specific team-level interventions succeed.</li>
+            <li class="src-item"><strong>[5]</strong> Kegan, R. &amp; Lahey, L.L. (2009). <em>Immunity to Change</em>. Harvard Business Press. — The most useful single framework for understanding why people who want to change don't. The four-column process is an optical cavity: it forces participants to pass through the same territory repeatedly until the gain builds. Read Chapter 2 for the cavity design principles.</li>
+            <li class="src-item"><strong>[6]</strong> Argyris, C. (1977). Double loop learning in organizations. <em>Harvard Business Review</em>, 55(5), 115–125. — The calibration question in article form. Single-loop vs. double-loop is the difference between turning up the pump power and asking whether the frequency is right. Still the clearest explanation of why smart organizations keep producing the same failures.</li>
+            <li class="src-item"><strong>[7]</strong> Wyrostek, M., Gordon, T., &amp; Huckabee, M. (2012). <em>Transfer of Training</em>. ASTD Research. — The transfer literature in summary form. The 10–40% transfer statistic is here. Use it to anchor the calibration problem: most training isn't bad design, it's wrong frequency for the organizational medium.</li>
+            <li class="src-item"><strong>[8]</strong> Freire, P. (1968). <em>Pedagogy of the Oppressed</em>. Herder and Herder. — Read this alongside Edmondson. Freire describes why certain classroom structures prevent resonance; Edmondson describes what resonance looks like when it's present. Together they are the complete cavity theory.</li>
+            <li class="src-item"><strong>[9]</strong> Csikszentmihalyi, M. (1990). <em>Flow: The Psychology of Optimal Experience</em>. Harper &amp; Row. — The ZPD and population inversion converge here: flow is what coherent learning emission looks like from the inside. The conditions for flow and the conditions for lasing are the same list with different vocabulary.</li>
+          </ul>
+
+          <div class="divider"></div>
+          <h2 class="h2">Cross-Domain Further Reading</h2>
+          <ul class="src-list">
+            <li class="src-item"><strong>On containers and coherence:</strong> Atul Gawande, <em>The Checklist Manifesto</em> (2009) — the optical cavity as professional protocol. Gawande's aviation checklists are mirrors: they force the team's attention back through the same territory on every flight, building coherence against the entropy of familiarity.</li>
+            <li class="src-item"><strong>On calibrated pumps:</strong> Daniel Coyle, <em>The Culture Code</em> (2018) — three chapters on what distinguishes high-performing group cultures. Coyle's "belonging cues" are frequency-matching signals: small, specific behaviors that tell a medium its pump is tuned correctly.</li>
+            <li class="src-item"><strong>On population inversion:</strong> Robert Kegan, <em>In Over Our Heads</em> (1994) — the developmental map of adult consciousness that explains why people at different stages of development respond to radically different pumps. Understanding where your room is developmentally is understanding what state you're pumping into.</li>
+          </ul>
+        </div>
+
+        <!-- Field Work: Story · Cross-Industry · Nature Invitation · Meliorism -->
+        <div class="s-pane" id="s5">
+          <div class="pane-eye">Field Work</div>
+          <h1 class="pane-title">Out of the Lab</h1>
+          <span class="pane-badge forest">Story · Industry · Nature · Meliorism</span>
+
+          <h2 class="h2">The Story to Share</h2>
+          <div class="pq" style="border-color:var(--forest);">"The cavity is not a constraint on the laser. It is the laser."<div class="pq-attr">Meliorism2.com · Issue 016 — the one line to carry out of this lab</div></div>
+
+          <div class="vb forest">
+            <div class="vb-voice">The Narrative · What Happened</div>
+            <div class="vb-body">
+              <p>In November 1957, a Columbia graduate student named Gordon Gould sat down in a Brooklyn candy store and wrote the word <em>LASER</em> for the first time — Light Amplification by Stimulated Emission of Radiation. He notarized the notebook at a notary public's office to establish intellectual priority. He was twenty-seven. He was convinced he had just named the future.</p>
+              <p>He was right, and it cost him everything. Gould didn't apply for a patent immediately — he believed, incorrectly, that he needed a working prototype first. His advisor Charles Townes filed separately. The patent disputes that followed consumed the next thirty years of Gould's professional life. He won, eventually, in 1977 — but only a partial claim, and only after the devices he'd named had already reshaped surgery, manufacturing, and global communications.</p>
+              <p>Theodore Maiman fired the first working laser on May 16, 1960, in a lab in Malibu overlooking the Pacific. The ruby rod was the size of a fingertip. He submitted the paper to <em>Physical Review Letters</em>. They rejected it as "not interesting enough." <em>Nature</em> published it within weeks. The laser Maiman fired is now in the Smithsonian. The paper that described it was turned away at the door.</p>
+              <p>The mechanism was always there — Einstein had written the theory in 1917. The 43-year gap was not ignorance. It was the absence of the right conditions, in the right order, assembled by someone willing to do the unglamorous work of preparation before the light could emerge.</p>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <h2 class="h2">Across Industries — Where the Mechanism Shows Up</h2>
+          <p class="pp">The stimulated emission model — population inversion, calibrated pump, coherent cavity — is not a metaphor borrowed from physics. It is a mechanism that appears in any system where conditions must be assembled before output can emerge. Here is where it is visibly at work in industries your clients lead.</p>
+
+          <div class="dp" style="margin-bottom:20px;">
+            <div class="dp-lbl">Construction — Grade Laser ROI</div>
+            <div class="dp-n forest">2–4 hrs</div>
+            <div class="dp-desc">Saved per crew per day on site layout when laser levels replace manual grade stakes. At $85/hr per worker across a 4-person crew, that's $680–$1,360 daily. The laser doesn't work faster than a transit. It eliminates the population inversion problem: every worker knowing exactly where the reference line is, simultaneously, without recalibration. The cavity is the job site; the pump is the laser line; inversion is the moment everyone reads the same datum. Documented ROI for a 3-crew operation: $180K–$360K/year in recovered labor time. The physics didn't change. The conditions for shared reference did.</div>
+          </div>
+
+          <div class="two-col">
+            <div class="vb forest">
+              <div class="vb-voice">Medicine · LASIK and Surgical Precision</div>
+              <div class="vb-body">
+                <p>Excimer lasers reshape corneas at 193nm with sub-micron precision — a tolerance impossible with any mechanical instrument. The precision emerges from coherence: all photons at the same wavelength, the same phase, the same direction. Scattered light (incoherent) would damage surrounding tissue. Coherent light removes exactly what you aim at. The surgical equivalent in your training room: scattered feedback injures the learner. Coherent feedback — specific, calibrated to the individual's readiness state — reshapes.</p>
+              </div>
+            </div>
+            <div class="vb forest">
+              <div class="vb-voice">Archaeology · LiDAR and the Maya Cities</div>
+              <div class="vb-body">
+                <p>In 2018, laser-based LiDAR scanning revealed more than 60,000 previously unknown Maya structures beneath the jungle canopy of Guatemala — more archaeological discovery in a single survey than in a century of ground-level work. The laser didn't cut through the jungle. It measured the time light took to return from every surface. Coherent light, fired in controlled pulses, made the invisible visible. The training parallel: your room contains structures you cannot see because you're working at ground level. The right instrument, coherently applied, reveals what's always been there.</p>
+              </div>
+            </div>
+            <div class="vb forest">
+              <div class="vb-voice">Manufacturing · Laser Cutting vs. Mechanical</div>
+              <div class="vb-body">
+                <p>A mechanical saw blade cuts by applying force across a surface. A laser cuts by concentrating energy at a point. The kerf (the width of material removed) on a laser cut is 0.1–0.3mm; a saw blade removes 2–4mm. The laser doesn't overpower the material — it pumps it past its ablation threshold at a single point, leaving everything else intact. Facilitators who try to "cut through" resistance by applying more force produce a 4mm kerf. Facilitators who locate the precise threshold and apply energy there produce a 0.1mm kerf — the conversation opens without damaging the surrounding relationship.</p>
+              </div>
+            </div>
+            <div class="vb forest">
+              <div class="vb-voice">Communications · The Internet Runs on This</div>
+              <div class="vb-body">
+                <p>Every email you send, every video you stream, every financial transaction you make travels as laser pulses through fiber optic cables. Stimulated emission — the same mechanism Einstein described in 1917 — carries the global internet. The fiber is the cavity; the pump is the semiconductor laser at the transmission end; the signal is coherent light modulated at billions of cycles per second. The internet is not metaphorically related to stimulated emission. It is stimulated emission. The world's information infrastructure runs on conditions, not power.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <h2 class="h2">Nature Invitation — Go See It</h2>
+          <div class="vb forest" style="margin-bottom:24px;">
+            <div class="vb-voice">Where to Go · What to Look For · Tonight or This Weekend</div>
+            <div class="vb-body">
+              <p><strong>Aurora Borealis (September–March, above 50°N latitude):</strong> On a clear night, face the northern horizon between 10pm and 2am. Look for a faint greenish shimmer — it may look like light pollution at first. If it moves, it isn't. You are watching stimulated emission at planetary scale: solar wind exciting oxygen atoms to population inversion, emitting light at 557nm as they return to ground state. The green is not mixed — it is the exact signature of a single atomic transition. The cavity is Earth's magnetic field. The pump is the sun. The aurora is the coherent beam.</p>
+              <p><strong>Fireflies (June–July, eastern North America, grassy fields after dark):</strong> Each flash is bioluminescent stimulated emission — ATP molecules exciting luciferin, a precisely calibrated pump at the exact wavelength the receptor detects. The male flashes a species-specific pattern; the female responds from the grass with a timed reply. They are frequency-matching across a dark field. This is what a calibrated pump looks like in the wild: not broadcast energy, but the exact signal the medium is waiting to receive.</p>
+              <p><strong>Tidal pools (any rocky coast, 30 minutes before low tide):</strong> Bring a flashlight and look into the pools after dark. The bioluminescent dinoflagellates in disturbed water emit blue-green light when the water moves — stimulated by mechanical energy, emitting photons. Stir gently. The light you see is the population inversion releasing. The organism is doing exactly what the ruby rod did in Maiman's lab: holding stored energy until the right stimulus arrives, then emitting coherently. You can touch the mechanism.</p>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <h2 class="h2">The Meliorist Lens · W: Wisdom</h2>
+          <div class="vb forest">
+            <div class="vb-voice">Meliorism 2.0 — Constructive Stewardship Through Conditions</div>
+            <div class="vb-body">
+              <p>Meliorism holds that the world can be made better — not through more force, more content, or more motivation, but through better conditions, wiser action, and systems that enable coherence. The laser is the most precise physical demonstration of this principle that science has produced.</p>
+              <p>The 43-year gap between Einstein's theory and Maiman's laser was not a failure of ambition. It was a conditions problem. The theory was complete. The materials science was not. The precision machining was not. The knowledge of how to build a cavity that could hold coherence long enough for the beam to emerge was not. When those conditions assembled, the light followed immediately. Not gradually. Immediately.</p>
+              <p>This is the Meliorist's model for how durable change happens in training rooms, organizations, and communities: not installation of new content into passive recipients, but the assembly of conditions under which people's existing intelligence can become coherent. The facilitator's job — like the engineer's — is conditions, not content. When the conditions are right, the learning emerges from what people already carry. When they are wrong, no amount of content corrects it.</p>
+              <p>Ask of every system you advise: what is at ground state that needs inversion? What is the pump, and is it calibrated to this specific group's frequency? Where is the cavity — the container that lets coherence build rather than dissipate? These are not metaphors. They are the actual questions of constructive stewardship, dressed in the language of physics.</p>
+            </div>
+          </div>
+
+        </div><!-- s5 -->
+
+      </div><!-- lab-scroll -->
+    </div><!-- lab-inner -->
+  </div><!-- #lab -->
+
+</div><!-- #main -->
+
+<script>
+function track(e){if(typeof gtag!=='undefined')gtag('event',e,{event_category:'meliorism2.com',issue:'004'});console.log('[SOS-004]',e);}
+
+(function(){
+  var el=document.getElementById('clock');
+  function t(){var d=new Date();el.textContent=d.toLocaleTimeString('en-US',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+  t();setInterval(t,1000);
+})();
+
+window.addEventListener('load',function(){
+  var bars=[
+    {f:'fill1',v:'val1',n:73,d:300},
+    {f:'fill2',v:'val2',n:41,d:700},
+    {f:'fill3',v:'val3',n:12,d:1100}
+  ];
+  bars.forEach(function(b){
+    setTimeout(function(){
+      document.getElementById(b.f).style.width=b.n+'%';
+      var c=0;var iv=setInterval(function(){c=Math.min(c+2,b.n);document.getElementById(b.v).textContent=c+'%';if(c>=b.n)clearInterval(iv);},28);
+    },b.d);
+  });
+  track('entry-viewed');
+});
+
+function initLab(){
+  var en=document.getElementById('entry'),mn=document.getElementById('main');
+  en.classList.add('gone');
+  setTimeout(function(){en.style.display='none';mn.style.display='block';mn.style.opacity='0';setTimeout(function(){mn.style.transition='opacity 0.4s';mn.style.opacity='1';},10);},600);
+  track('lab-initialized');
+}
+
+function openStation(id){
+  var ov=document.getElementById('overview'),lb=document.getElementById('lab');
+  ov.classList.add('gone');
+  setTimeout(function(){ov.style.display='none';lb.style.display='block';switchStation(id);},400);
+}
+
+var COLORS={s1:'blue',s2:'amber',s3:'violet',s4:'',s5:'forest'};
+var TITLES={s1:'Population Inversion',s2:'Calibrated Pump',s3:'Optical Cavity',s4:'Origins · Place · Sources',s5:'Field Work · Story · Industry · Nature'};
+
+function switchStation(id){
+  document.querySelectorAll('.s-pane').forEach(function(p){p.classList.remove('on');});
+  var pane=document.getElementById(id);if(pane)pane.classList.add('on');
+  ['s1','s2','s3','s4','s5'].forEach(function(sid){
+    var btn=document.getElementById('nav-'+sid);
+    if(!btn)return;
+    btn.className='ls-btn'+(COLORS[sid]?' '+COLORS[sid]:'')+(sid===id?' on':'');
+  });
+  var labels={'s4':'Origins · Place · Sources','s5':'Field Work · Out of the Lab'};
+  document.getElementById('lab-htitle').textContent=labels[id]||('Station: '+TITLES[id]);
+  document.getElementById('lab-scroll').scrollTop=0;
+  track('station-'+id+'-viewed');
+}
+
+function closeStation(){
+  var ov=document.getElementById('overview'),lb=document.getElementById('lab');
+  lb.style.display='none';ov.style.display='flex';
+  setTimeout(function(){ov.classList.remove('gone');},10);
+  track('overview-returned');
+}
+
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)track('read-'+e.target.className.split(' ')[0]);});
+},{threshold:0.4});
+document.querySelectorAll('.vb,.dp,.pq').forEach(function(el){io.observe(el);});
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

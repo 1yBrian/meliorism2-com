@@ -1,0 +1,1307 @@
+<!-- signal-os:date: 2026-05-22 -->
+<!-- signal-os:slug: when-the-metric-becomes-the-target -->
+<!-- signal-os:title: When the Metric Becomes the Target -->
+<!-- signal-os:concept: Goodhart's Law — when a measure becomes a target, it ceases to be a good measure. The practitioner's trap: optimizing for scores instead of transformation. -->
+<!-- signal-os:format: The Data Broadcast -->
+<!-- signal-os:dimension: Living Income -->
+<!-- signal-os:sources: 8 -->
+<!-- signal-os:tags: #economics #decision-making #systems #behavior-change -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 022 · When the Metric Becomes the Target</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=PT+Mono&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+/* ── Variables ── */
+:root{
+  --bg:        #05080F;
+  --surface:   #0C1220;
+  --amber:     #E8A020;
+  --amber-f:   rgba(232,160,32,0.12);
+  --amber-glow:rgba(232,160,32,0.6);
+  --green:     #2ECC71;
+  --green-f:   rgba(46,204,113,0.12);
+  --red-tick:  #E74C3C;
+  --red-f:     rgba(231,76,60,0.12);
+  --text:      #D4CFC8;
+  --muted:     rgba(212,207,200,0.6);
+  --dim:       rgba(212,207,200,0.35);
+  --border:    rgba(232,160,32,0.18);
+  --border-h:  rgba(232,160,32,0.35);
+  --accent:    #E8A020;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'IBM Plex Sans Condensed',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  overflow:hidden;
+}
+
+/* ── Status Bar ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:34px;background:#000;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 16px;gap:12px;
+}
+.sb-logo{
+  font-family:'PT Mono',monospace;font-size:11px;font-weight:700;
+  letter-spacing:0.14em;color:var(--amber);text-decoration:none;
+  text-shadow:0 0 8px var(--amber-glow);
+}
+.sb-pipe{color:var(--dim);}
+.sb-meta{font-family:'PT Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:0.08em;}
+.sb-live{
+  display:flex;align-items:center;gap:6px;
+  font-family:'PT Mono',monospace;font-size:10px;color:var(--red-tick);letter-spacing:0.14em;
+}
+.sb-live-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--red-tick);
+  animation:blink 1.1s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.sb-r{margin-left:auto;display:flex;align-items:center;gap:12px;}
+.sb-clock{font-family:'PT Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:0.1em;}
+.sb-lib{
+  font-family:'PT Mono',monospace;font-size:10px;font-weight:700;
+  color:var(--amber);text-decoration:none;border:1px solid var(--border);
+  padding:3px 10px;letter-spacing:0.1em;transition:all 0.15s;
+  text-shadow:0 0 6px var(--amber-glow);
+}
+.sb-lib:hover{background:var(--amber-f);border-color:var(--border-h);}
+
+/* ── Entry Screen ── */
+#entry{
+  position:fixed;inset:0;z-index:800;top:34px;
+  background:var(--bg);
+  display:grid;
+  grid-template-columns:1fr 380px;
+  grid-template-rows:1fr;
+  overflow-y:auto;
+  padding-bottom:80px;
+  transition:opacity 0.7s ease;
+}
+
+/* Left: Ticker room */
+.e-left{
+  position:relative;
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding:0 0 48px 0;
+  overflow:hidden;
+  border-right:1px solid var(--border);
+}
+.e-left-scan{
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.18) 3px,
+    rgba(0,0,0,0.18) 4px
+  );
+  pointer-events:none;z-index:1;
+}
+.e-board-title{
+  padding:32px 40px 20px;
+  font-family:'PT Mono',monospace;font-size:10px;letter-spacing:0.22em;
+  color:var(--dim);text-transform:uppercase;position:relative;z-index:2;
+}
+.e-board-title span{color:var(--amber);text-shadow:0 0 8px var(--amber-glow);}
+
+/* Ticker streams */
+.ticker-stack{
+  display:flex;flex-direction:column;gap:0;
+  position:relative;z-index:2;
+}
+.ticker-row{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:11px 0;overflow:hidden;white-space:nowrap;
+  margin-bottom:-1px;
+}
+.ticker-row:nth-child(odd){background:var(--surface);}
+.ticker-inner{
+  display:inline-block;
+  animation:tickermove 22s linear infinite;
+  font-family:'PT Mono',monospace;font-size:13px;letter-spacing:0.06em;
+}
+.ticker-row:nth-child(2) .ticker-inner{animation-duration:30s;animation-delay:-8s;}
+.ticker-row:nth-child(3) .ticker-inner{animation-duration:18s;animation-delay:-4s;}
+.ticker-row:nth-child(4) .ticker-inner{animation-duration:26s;animation-delay:-12s;}
+.ticker-row:nth-child(5) .ticker-inner{animation-duration:34s;animation-delay:-2s;}
+@keyframes tickermove{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+.t-green{color:var(--green);text-shadow:0 0 6px rgba(46,204,113,0.5);}
+.t-red{color:var(--red-tick);text-shadow:0 0 6px rgba(231,76,60,0.5);}
+.t-amber{color:var(--amber);text-shadow:0 0 8px var(--amber-glow);}
+.t-dim{color:var(--dim);}
+
+.e-floor{
+  padding:32px 40px 0;position:relative;z-index:2;
+}
+.e-headline{
+  font-size:11px;font-weight:600;letter-spacing:0.22em;
+  color:var(--amber);text-shadow:0 0 8px var(--amber-glow);
+  text-transform:uppercase;margin-bottom:12px;
+  font-family:'PT Mono',monospace;
+}
+.e-anomaly{
+  font-size:clamp(14px,2vw,18px);font-weight:500;
+  color:var(--muted);line-height:1.65;max-width:560px;
+  margin-bottom:0;font-style:italic;
+}
+.e-anomaly strong{color:var(--text);}
+
+/* Right: monitor panel */
+.e-right{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:48px 32px;gap:24px;
+  background:var(--surface);
+  border-left:1px solid var(--border);
+}
+.e-monitor{
+  width:100%;max-width:300px;
+  border:2px solid var(--border);
+  background:#000;padding:32px 28px;
+  position:relative;
+}
+.e-monitor::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    0deg,transparent,transparent 2px,rgba(0,0,0,0.12) 2px,rgba(0,0,0,0.12) 3px
+  );pointer-events:none;
+}
+.e-monitor-corner{
+  position:absolute;top:8px;right:10px;
+  font-family:'PT Mono',monospace;font-size:9px;
+  color:var(--dim);letter-spacing:0.1em;
+}
+.e-mon-label{
+  font-family:'PT Mono',monospace;font-size:9px;letter-spacing:0.2em;
+  color:var(--dim);margin-bottom:20px;
+}
+.e-mon-date{
+  font-family:'PT Mono',monospace;font-size:28px;font-weight:700;
+  color:var(--amber);letter-spacing:0.04em;
+  text-shadow:0 0 18px var(--amber-glow);
+  line-height:1.1;margin-bottom:8px;
+}
+.e-mon-issue{
+  font-family:'PT Mono',monospace;font-size:11px;letter-spacing:0.16em;
+  color:var(--muted);margin-bottom:28px;
+}
+.e-mon-title{
+  font-size:22px;font-weight:700;line-height:1.2;
+  color:var(--text);margin-bottom:8px;letter-spacing:-0.01em;
+}
+.e-mon-sub{
+  font-family:'PT Mono',monospace;font-size:9px;letter-spacing:0.14em;
+  color:var(--dim);margin-bottom:28px;line-height:1.6;
+}
+.e-broadcast-indicator{
+  display:flex;align-items:center;gap:8px;margin-bottom:28px;
+  font-family:'PT Mono',monospace;font-size:10px;color:var(--red-tick);
+  letter-spacing:0.16em;
+}
+.e-bd{
+  width:8px;height:8px;border-radius:50%;background:var(--red-tick);
+  animation:blink 0.8s step-end infinite;
+}
+.e-btn{
+  width:100%;
+  background:var(--amber);color:#000;
+  font-family:'IBM Plex Sans Condensed',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:0.18em;
+  padding:14px 0;border:none;cursor:pointer;
+  text-transform:uppercase;
+  transition:all 0.2s;
+  box-shadow:0 0 20px rgba(232,160,32,0.3);
+}
+.e-btn:hover{
+  background:#fff;
+  box-shadow:0 0 32px rgba(232,160,32,0.6);
+}
+.e-disclaimer{
+  font-family:'PT Mono',monospace;font-size:9px;
+  color:var(--dim);text-align:center;letter-spacing:0.1em;
+  line-height:1.7;max-width:280px;
+}
+
+/* ── Main Panel ── */
+#main-panel{
+  position:fixed;inset:0;top:34px;z-index:700;
+  background:var(--bg);
+  display:none;
+  opacity:0;
+  transition:opacity 0.5s ease;
+  overflow-y:auto;
+  padding-bottom:80px;
+}
+
+/* ── Broadcast Header ── */
+.broadcast-header{
+  background:var(--surface);
+  border-bottom:2px solid var(--border);
+  padding:18px 32px;
+  display:flex;align-items:center;gap:24px;
+  flex-shrink:0;
+}
+.bh-badge{
+  font-family:'PT Mono',monospace;font-size:9px;letter-spacing:0.2em;
+  color:var(--amber);text-shadow:0 0 6px var(--amber-glow);
+  text-transform:uppercase;
+}
+.bh-title{
+  font-size:18px;font-weight:700;letter-spacing:-0.01em;color:var(--text);
+}
+.bh-dim{
+  font-family:'PT Mono',monospace;font-size:9px;letter-spacing:0.16em;
+  color:var(--dim);margin-left:auto;
+}
+
+/* ── Panel Grid — two-column broadcast layout ── */
+.panel-grid{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(0,1fr);
+  gap:0;
+  min-height:calc(100vh - 34px - 60px);
+}
+.panel-main{border-right:1px solid var(--border);}
+.panel-sidebar{background:var(--surface);}
+
+/* ── Section block ── */
+.section{
+  padding:40px 44px;
+  border-bottom:1px solid var(--border);
+}
+.section:last-child{border-bottom:none;}
+
+.signal-mark{
+  display:flex;align-items:center;gap:14px;margin-bottom:18px;
+}
+.signal-num{
+  font-family:'PT Mono',monospace;font-size:9px;letter-spacing:0.22em;
+  color:var(--dim);text-transform:uppercase;
+}
+.signal-tag{
+  font-family:'PT Mono',monospace;font-size:10px;letter-spacing:0.22em;
+  font-weight:700;color:var(--amber);text-shadow:0 0 8px var(--amber-glow);
+  text-transform:uppercase;
+}
+
+.section-title{
+  font-size:clamp(22px,3.5vw,32px);font-weight:700;letter-spacing:-0.02em;
+  color:var(--text);margin-bottom:20px;line-height:1.15;
+}
+.body-text{
+  font-size:17px;line-height:1.82;color:var(--text);font-weight:400;
+  max-width:72ch;
+}
+.body-text+.body-text{margin-top:14px;}
+.body-text strong{color:#fff;font-weight:600;}
+.body-text em{color:var(--amber);font-style:italic;}
+
+/* ── Citation ── */
+.cite{
+  font-size:0.74rem;color:var(--text);
+  border-left:3px solid var(--amber);
+  padding:10px 16px;
+  margin:10px 0 24px;
+  display:block;
+  letter-spacing:0.3px;
+  line-height:1.7;
+  font-family:'PT Mono',monospace;font-size:11px;
+  background:var(--amber-f);
+}
+
+/* ── Pull quote ── */
+.pull-quote{
+  font-size:clamp(18px,2.5vw,24px);font-weight:600;font-style:italic;
+  color:var(--amber);line-height:1.45;
+  border-left:4px solid var(--amber);
+  padding:18px 24px;margin:24px 0;
+  box-shadow:-4px 0 20px -4px var(--amber-glow);
+  text-shadow:0 0 24px rgba(232,160,32,0.2);
+  max-width:580px;
+}
+
+/* ── Etymology box ── */
+.etymology-box{
+  background:var(--surface);border:1px solid var(--border);
+  padding:22px 26px;margin:20px 0;max-width:520px;
+}
+.etym-word{
+  font-size:22px;font-weight:700;color:var(--text);
+  margin-bottom:4px;letter-spacing:-0.01em;
+}
+.etym-root{
+  font-family:'PT Mono',monospace;font-size:9px;letter-spacing:0.18em;
+  color:var(--amber);margin-bottom:12px;text-shadow:0 0 6px var(--amber-glow);
+  text-transform:uppercase;
+}
+.etym-body{font-size:15px;line-height:1.72;color:var(--muted);}
+
+/* ── Wall moment ── */
+.wall-section{
+  padding:0;border-bottom:2px solid var(--border);
+}
+.wall-header{
+  padding:24px 40px 18px;
+  border-bottom:1px solid var(--border);
+  background:rgba(0,0,0,0.4);
+  display:flex;align-items:baseline;gap:16px;
+}
+.wall-badge{
+  font-family:'PT Mono',monospace;font-size:9px;letter-spacing:0.22em;
+  color:var(--dim);text-transform:uppercase;
+}
+.wall-title{
+  font-size:20px;font-weight:700;color:var(--amber);
+  text-shadow:0 0 16px var(--amber-glow);letter-spacing:-0.01em;
+}
+.metrics-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-bottom:1px solid var(--border);
+}
+.metrics-col-head{
+  padding:16px 40px;
+  font-family:'PT Mono',monospace;font-size:10px;letter-spacing:0.22em;
+  text-transform:uppercase;font-weight:700;
+  border-bottom:2px solid;
+}
+.metrics-col-head.measure{
+  color:var(--green);border-color:var(--green);
+  text-shadow:0 0 8px rgba(46,204,113,0.5);
+  border-right:1px solid var(--border);
+  background:rgba(46,204,113,0.04);
+}
+.metrics-col-head.need{
+  color:var(--amber);border-color:var(--amber);
+  text-shadow:0 0 8px var(--amber-glow);
+  padding-left:40px;
+  background:rgba(232,160,32,0.04);
+}
+.metrics-row{
+  display:contents;
+}
+.metric-cell{
+  padding:18px 40px;
+  border-bottom:1px solid rgba(232,160,32,0.08);
+  font-size:16px;font-weight:600;line-height:1.35;
+}
+.metric-cell.measure{
+  color:var(--green);
+  text-shadow:0 0 8px rgba(46,204,113,0.3);
+  border-right:1px solid var(--border);
+  background:rgba(46,204,113,0.03);
+}
+.metric-cell.need{
+  color:var(--amber);
+  text-shadow:0 0 8px rgba(232,160,32,0.25);
+  background:rgba(232,160,32,0.03);
+}
+.metric-row-num{
+  font-family:'PT Mono',monospace;font-size:9px;
+  color:var(--dim);display:block;margin-bottom:4px;letter-spacing:0.12em;
+}
+
+/* ── Cobra effect box ── */
+.cobra-box{
+  background:rgba(231,76,60,0.07);
+  border:1px solid rgba(231,76,60,0.25);
+  border-left:4px solid var(--red-tick);
+  padding:24px 28px;margin:24px 0;max-width:68ch;
+}
+.cobra-head{
+  font-family:'PT Mono',monospace;font-size:10px;letter-spacing:0.18em;
+  color:var(--red-tick);margin-bottom:10px;text-transform:uppercase;
+  text-shadow:0 0 6px rgba(231,76,60,0.4);
+}
+.cobra-body{font-size:16px;line-height:1.75;color:var(--text);}
+
+/* ── Counter-moves list ── */
+.countermove{
+  padding:16px 0;border-bottom:1px solid rgba(232,160,32,0.08);
+  display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;
+}
+.countermove:last-child{border-bottom:none;}
+.cm-num{
+  font-family:'PT Mono',monospace;font-size:22px;font-weight:700;
+  color:var(--amber);text-shadow:0 0 14px var(--amber-glow);
+  line-height:1.1;
+}
+.cm-body{font-size:16px;line-height:1.72;color:var(--text);}
+.cm-body strong{color:#fff;font-weight:600;}
+
+/* ── Mechanism box ── */
+.mechanism-box{
+  background:var(--amber-f);
+  border:1px solid var(--border);
+  border-left:4px solid var(--amber);
+  padding:24px 28px;margin:24px 0;
+  box-shadow:-4px 0 20px -4px rgba(232,160,32,0.2);
+}
+.mech-head{
+  font-family:'PT Mono',monospace;font-size:10px;letter-spacing:0.18em;
+  color:var(--amber);margin-bottom:10px;text-transform:uppercase;
+  text-shadow:0 0 6px var(--amber-glow);
+}
+.mech-body{font-size:16px;line-height:1.75;color:var(--text);}
+.mech-body strong{color:#fff;font-weight:600;}
+
+/* ── Sidebar ── */
+.sidebar-block{
+  padding:28px 24px;border-bottom:1px solid var(--border);
+}
+.sidebar-block:last-child{border-bottom:none;}
+.sb-block-label{
+  font-family:'PT Mono',monospace;font-size:9px;letter-spacing:0.22em;
+  color:var(--amber);text-transform:uppercase;
+  text-shadow:0 0 6px var(--amber-glow);
+  margin-bottom:16px;
+}
+.stat-row{
+  margin-bottom:20px;
+}
+.stat-value{
+  font-family:'PT Mono',monospace;font-size:32px;font-weight:700;
+  line-height:1;color:var(--amber);
+  text-shadow:0 0 20px var(--amber-glow);
+  letter-spacing:-0.02em;
+}
+.stat-label{
+  font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4;
+}
+.stat-source{
+  font-family:'PT Mono',monospace;font-size:9px;color:var(--dim);
+  margin-top:4px;letter-spacing:0.06em;
+}
+.sidebar-note{
+  font-size:14px;line-height:1.7;color:var(--muted);
+}
+.sidebar-note+.sidebar-note{margin-top:12px;}
+
+/* ── Source list ── */
+.source-item{
+  padding:10px 0;border-bottom:1px solid rgba(232,160,32,0.07);
+  font-family:'PT Mono',monospace;font-size:11px;line-height:1.65;
+  color:var(--muted);letter-spacing:0.02em;
+}
+.source-item:last-child{border-bottom:none;}
+.source-num{color:var(--amber);text-shadow:0 0 6px var(--amber-glow);}
+
+/* ── Field work ── */
+.fieldwork-box{
+  background:var(--surface);border:1px solid var(--border);
+  padding:28px 32px;
+}
+.fw-head{
+  font-family:'PT Mono',monospace;font-size:10px;letter-spacing:0.2em;
+  color:var(--amber);margin-bottom:16px;text-transform:uppercase;
+  text-shadow:0 0 8px var(--amber-glow);
+}
+.fw-prompt{font-size:17px;line-height:1.78;color:var(--text);margin-bottom:20px;}
+.fw-steps{list-style:none;padding:0;}
+.fw-steps li{
+  padding:12px 0 12px 28px;border-bottom:1px solid rgba(232,160,32,0.08);
+  font-size:15px;line-height:1.65;color:var(--muted);position:relative;
+}
+.fw-steps li:last-child{border-bottom:none;}
+.fw-steps li::before{
+  content:'→';position:absolute;left:0;
+  color:var(--amber);text-shadow:0 0 8px var(--amber-glow);
+}
+
+/* ── Meliorist section ── */
+.meliorist-band{
+  background:rgba(232,160,32,0.05);
+  border-left:4px solid var(--amber);
+  padding:28px 32px;
+  box-shadow:-4px 0 24px -4px rgba(232,160,32,0.15);
+}
+.mel-badge{
+  font-family:'PT Mono',monospace;font-size:9px;letter-spacing:0.22em;
+  color:var(--amber);margin-bottom:12px;text-transform:uppercase;
+  text-shadow:0 0 8px var(--amber-glow);display:block;
+}
+.mel-title{
+  font-size:20px;font-weight:700;color:var(--text);
+  margin-bottom:14px;letter-spacing:-0.01em;line-height:1.2;
+}
+.mel-body{font-size:16px;line-height:1.78;color:var(--text);}
+.mel-body strong{color:#fff;font-weight:600;}
+
+/* ── Footer ── */
+.site-footer{
+  position:fixed;bottom:0;left:0;right:0;z-index:900;
+  height:42px;background:rgba(5,8,15,0.96);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:24px;
+}
+.site-footer a{
+  font-family:'PT Mono',monospace;font-size:10px;letter-spacing:0.14em;
+  color:var(--dim);text-decoration:none;transition:color 0.15s;
+}
+.site-footer a:hover{color:var(--amber);}
+.footer-sep{color:var(--dim);font-size:12px;}
+.footer-issue{
+  font-family:'PT Mono',monospace;font-size:10px;letter-spacing:0.14em;
+  color:var(--dim);
+}
+
+/* ── Mobile ── */
+@media(max-width:900px){
+  #entry{
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto;
+    overflow-y:auto;
+    padding-bottom:80px;
+  }
+  .e-left{
+    min-height:50vh;padding-bottom:32px;
+    border-right:none;border-bottom:1px solid var(--border);
+  }
+  .e-right{padding:36px 24px;}
+  .panel-grid{grid-template-columns:1fr;}
+  .panel-sidebar{border-top:2px solid var(--border);}
+  .section{padding:28px 20px;}
+  .wall-header{padding:18px 20px 14px;}
+  .metrics-col-head{padding:12px 20px;}
+  .metric-cell{padding:14px 20px;}
+  .meliorist-band{padding:24px 20px;}
+  #main-panel{overflow-y:auto;padding-bottom:80px;}
+}
+
+/* ── Section images ── */
+.section-img{width:100%;height:220px;object-fit:cover;display:block;opacity:0.72;filter:grayscale(25%) contrast(1.05);border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:24px 0;}
+.section-img-caption{font-family:'PT Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:0.08em;margin:-18px 0 24px;text-align:right;padding-right:4px;}
+
+/* ── Fly-in animation ── */
+@keyframes flyIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.fly-ready{opacity:0;transform:translateY(16px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.fly-ready.fly-visible{opacity:1;transform:translateY(0);}
+
+/* ── Click-to-reveal ── */
+.reveal-btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-family:'PT Mono',monospace;font-size:11px;letter-spacing:0.1em;color:var(--amber);border:1px solid var(--amber);padding:9px 16px;margin:16px 0 4px;background:transparent;transition:background 0.2s;}
+.reveal-btn:hover{background:var(--amber-f);}
+.reveal-btn .rb-arrow{transition:transform 0.3s;}
+.reveal-btn.open .rb-arrow{transform:rotate(90deg);}
+.reveal-body{display:none;animation:flyIn 0.4s ease forwards;}
+.reveal-body.open{display:block;}
+
+/* ── Typewriter pull quote ── */
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.pull-quote .tq-cursor{display:inline-block;width:2px;height:1em;background:var(--amber);margin-left:2px;vertical-align:middle;animation:blink 0.8s step-end infinite;}
+</style>
+</head>
+<body>
+
+<!-- ── Status Bar ── -->
+<div class="sb">
+  <a class="sb-logo" href="/">MELIORISM2.COM</a>
+  <span class="sb-pipe">|</span>
+  <span class="sb-meta">ISSUE 022</span>
+  <span class="sb-pipe">|</span>
+  <span class="sb-meta">22 MAY 2026</span>
+  <span class="sb-pipe">|</span>
+  <span class="sb-live"><span class="sb-live-dot"></span>BROADCAST LIVE</span>
+  <div class="sb-r">
+    <span class="sb-clock" id="sbclock">--:--:-- UTC</span>
+    <a class="sb-lib" href="../archive/index.html">LIBRARY</a>
+  </div>
+</div>
+
+<!-- ── ENTRY SCREEN ── -->
+<section id="entry" aria-label="Issue entry screen">
+
+  <!-- Left: Ticker Room -->
+  <div class="e-left">
+    <div class="e-left-scan"></div>
+    <div class="e-board-title">
+      <span>SOS DATA FEED</span> &nbsp;·&nbsp; <abbr title="L&amp;D — Learning &amp; Development: the industry that designs, delivers, and measures workplace training">L&amp;D</abbr> METRICS TERMINAL &nbsp;·&nbsp; LIVE
+    </div>
+
+    <div class="ticker-stack">
+
+      <!-- Row 1 -->
+      <div class="ticker-row">
+        <div class="ticker-inner">
+          <span class="t-green">NPS SCORE ↑ 94%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">COMPLETION RATE ↑ 97%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">LEARNER SATISFACTION ↑ 91%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">ACTUAL SKILL TRANSFER&nbsp;&nbsp;???&nbsp;&nbsp;↓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">NPS SCORE ↑ 94%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">COMPLETION RATE ↑ 97%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">LEARNER SATISFACTION ↑ 91%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">ACTUAL SKILL TRANSFER&nbsp;&nbsp;???&nbsp;&nbsp;↓</span>&nbsp;&nbsp;&nbsp;
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="ticker-row">
+        <div class="ticker-inner">
+          <span class="t-green">KNOWLEDGE TEST PASS RATE ↑ 88%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">ENGAGEMENT INDEX ↑ 86%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">CERTIFICATION COMPLETIONS ↑ 312&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">BEHAVIOR CHANGE 90 DAYS OUT&nbsp;&nbsp;???&nbsp;&nbsp;↓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">KNOWLEDGE TEST PASS RATE ↑ 88%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">ENGAGEMENT INDEX ↑ 86%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">CERTIFICATION COMPLETIONS ↑ 312&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">BEHAVIOR CHANGE 90 DAYS OUT&nbsp;&nbsp;???&nbsp;&nbsp;↓</span>&nbsp;&nbsp;&nbsp;
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="ticker-row">
+        <div class="ticker-inner">
+          <span class="t-green">MANAGER 360 FEEDBACK ↑ 4.7 / 5.0&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-amber">GOODHART'S LAW&nbsp;&nbsp;ACTIVE&nbsp;&nbsp;⚠</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">SESSION RATINGS ↑ 4.9&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">DECISION QUALITY UNDER PRESSURE&nbsp;&nbsp;UNMEASURED</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">MANAGER 360 FEEDBACK ↑ 4.7 / 5.0&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-amber">GOODHART'S LAW&nbsp;&nbsp;ACTIVE&nbsp;&nbsp;⚠</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">SESSION RATINGS ↑ 4.9&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">DECISION QUALITY UNDER PRESSURE&nbsp;&nbsp;UNMEASURED</span>&nbsp;&nbsp;&nbsp;
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="ticker-row">
+        <div class="ticker-inner">
+          <span class="t-green">TIME-ON-TASK ↑ 18 MIN AVG&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">REPEAT LOGINS ↑ 68%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">VOLUNTARY PRACTICE REPETITION&nbsp;&nbsp;???</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-amber">COBRA EFFECT&nbsp;&nbsp;SEE SIGNAL 02&nbsp;&nbsp;⚠</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">TIME-ON-TASK ↑ 18 MIN AVG&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">REPEAT LOGINS ↑ 68%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">VOLUNTARY PRACTICE REPETITION&nbsp;&nbsp;???</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-amber">COBRA EFFECT&nbsp;&nbsp;SEE SIGNAL 02&nbsp;&nbsp;⚠</span>&nbsp;&nbsp;&nbsp;
+        </div>
+      </div>
+
+      <!-- Row 5 -->
+      <div class="ticker-row">
+        <div class="ticker-inner">
+          <span class="t-green">LEVEL 1 SMILE SHEET ↑ 96%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">LEVEL 2 KNOWLEDGE TEST ↑ 91%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">LEVEL 3 BEHAVIOR APPLIED&nbsp;&nbsp;NOT TRACKED</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">LEVEL 4 RESULTS&nbsp;&nbsp;NOT TRACKED</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-amber">STRATHERN 1997&nbsp;&nbsp;STILL CORRECT&nbsp;&nbsp;⚠</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">LEVEL 1 SMILE SHEET ↑ 96%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-green">LEVEL 2 KNOWLEDGE TEST ↑ 91%&nbsp;&nbsp;✓</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-dim">│</span>&nbsp;&nbsp;&nbsp;
+          <span class="t-red">LEVEL 3 BEHAVIOR APPLIED&nbsp;&nbsp;NOT TRACKED</span>&nbsp;&nbsp;&nbsp;
+        </div>
+      </div>
+
+    </div><!-- /ticker-stack -->
+
+    <div class="e-floor">
+      <div class="e-headline">ANOMALY DETECTED — SIGNAL 022</div>
+      <p class="e-anomaly">The board is full of <strong>good-looking numbers.</strong> Something is off. Every metric is green. The thing we actually came here to change is nowhere on the screen.</p>
+    </div>
+  </div>
+
+  <!-- Right: Monitor -->
+  <div class="e-right">
+    <div class="e-monitor">
+      <div class="e-monitor-corner">SOS-022</div>
+      <div class="e-mon-label">// MELIORISM2.COM DATA BROADCAST //</div>
+      <div class="e-mon-date">22 MAY<br>2026</div>
+      <div class="e-mon-issue">ISSUE 022 · LIVING INCOME</div>
+      <div class="e-mon-title">When the Metric Becomes the Target</div>
+      <div class="e-mon-sub">GOODHART'S LAW · L&amp;D SYSTEMS<br>COBRA EFFECT · MEASUREMENT FAILURE</div>
+      <div class="e-broadcast-indicator"><span class="e-bd"></span>BROADCAST LIVE</div>
+      <button class="e-btn" onclick="tuneIn()">TUNE IN →</button>
+    </div>
+    <div class="e-disclaimer">
+      All metrics above are real proxies used in real L&amp;D programs.<br>
+      The red ones are what you actually came here to build.
+    </div>
+  </div>
+
+</section>
+
+<!-- ── MAIN PANEL ── -->
+<main id="main-panel" aria-label="Issue 022 content">
+
+  <div class="broadcast-header">
+    <span class="bh-badge">// MELIORISM2.COM DATA BROADCAST //</span>
+    <span class="bh-title">When the Metric Becomes the Target</span>
+    <span class="bh-dim">ISSUE 022 · LIVING INCOME · 22 MAY 2026</span>
+  </div>
+
+  <div class="panel-grid">
+
+    <!-- ── LEFT: Main content ── -->
+    <div class="panel-main">
+
+      <!-- SIGNAL 01 — THE LAW -->
+      <section class="section" id="s1" data-section="s1">
+        <div class="signal-mark">
+          <span class="signal-num">SIGNAL 01</span>
+          <span class="signal-tag">THE LAW</span>
+        </div>
+        <h2 class="section-title">Goodhart's Law</h2>
+
+        <p class="body-text">In 1975, British economist Charles Goodhart was studying monetary policy when he noticed something that would outlive his career and colonize every measuring institution on earth: <em>"Any observed statistical regularity will tend to collapse once pressure is placed upon it for control purposes."</em></p>
+
+        <span class="cite">Goodhart, C.A.E. (1975). Problems of Monetary Management: The U.K. Experience. Reserve Bank of Australia.</span>
+
+        <p class="body-text">Twenty-two years later, anthropologist Marilyn Strathern reframed it in the language that stuck: <strong>"When a measure becomes a target, it ceases to be a good measure."</strong> She was writing about university audit systems in Britain. She could have been writing about every training program you've ever designed.</p>
+
+        <span class="cite">Strathern, M. (1997). Improving Ratings: Audit in the British University System. <em>European Review</em>, 5(3), 305–321.</span>
+
+        <div class="etymology-box">
+          <div class="etym-word">metric</div>
+          <div class="etym-root">from Greek metron — a measure · a tool for knowing distance</div>
+          <div class="etym-body">A meter is a tool, not a goal. You use it to know where you are. The moment you use it to prove where you are, the reading starts lying to you. You've confused the map for the territory — the instrument is no longer pointing at the world; it's pointing at your need to look good. Every practitioner who has sat in a meeting defending their NPS score knows this feeling from the inside.</div>
+        </div>
+
+        <img class="section-img fly-ready" src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=75&fit=crop" alt="A measuring tape — the tool that becomes the target" loading="lazy" onerror="this.style.display='none'">
+        <p class="section-img-caption">The tool was built to measure distance. Not to be the destination. — Unsplash</p>
+
+        <p class="body-text fly-ready">This is not a flaw in the people doing the measuring. It is a structural property of any system that ties incentives to indicators. The indicator and the thing it was pointing at start to diverge — slowly at first, then completely. By the time you notice, you've been optimizing the wrong thing for years.</p>
+      </section>
+
+      <!-- SIGNAL 02 — IN THE ROOM -->
+      <section class="section" id="s2" data-section="s2">
+        <div class="signal-mark">
+          <span class="signal-num">SIGNAL 02</span>
+          <span class="signal-tag">IN THE ROOM</span>
+        </div>
+        <h2 class="section-title">The Practitioner's Version</h2>
+
+        <p class="body-text">You have seen this play out. Not as a theory — as a Tuesday. Here is what Goodhart's Law looks like from inside the room:</p>
+
+        <p class="body-text"><strong>Completion rates as a proxy for learning.</strong> The LMS shows 97% completion. People clicked through every slide to get the certificate. The learning took twelve minutes. The forgetting started fourteen minutes later.</p>
+
+        <p class="body-text"><strong>NPS scores as a proxy for impact.</strong> Participants rate to be nice. They rate the facilitator's energy, the quality of the coffee, the fact that they got out of the office for a day. Kirkpatrick Level 1 — the smile sheet — was designed to be one input, not the verdict.</p>
+
+        <p class="body-text"><strong>Competency checklists as a proxy for competence.</strong> Once people know the rubric, they learn to perform the rubric. The checklist stops pointing at the skill and starts pointing at checklist-passing behavior.</p>
+
+        <p class="body-text"><strong>Knowledge tests as a proxy for decision quality.</strong> A person can score 91% on a post-module assessment and still make the same bad call under pressure — because pressure is not on the test.</p>
+
+        <span class="cite">Muller, J.Z. (2018). <em>The Tyranny of Metrics</em>. Princeton University Press. — 250 pages of case studies from healthcare, policing, higher education, and financial services, all demonstrating the same structural failure.</span>
+
+        <button class="reveal-btn" onclick="toggleReveal(this,'cobra-reveal')" aria-expanded="false">
+          <span class="rb-arrow">▶</span> DECODE: THE COBRA EFFECT — BRITISH INDIA, 19th C.
+        </button>
+        <div class="reveal-body cobra-box" id="cobra-reveal">
+          <img class="section-img" src="https://images.unsplash.com/photo-1531386151447-fd76ad50012f?w=900&q=75&fit=crop" alt="A cobra — the animal at the center of an unintended consequence" loading="lazy" onerror="this.style.display='none'">
+          <div class="cobra-head">⚠ THE COBRA EFFECT — BRITISH INDIA, 19th C.</div>
+          <p class="cobra-body">The British colonial government, alarmed by the cobra population in Delhi, offered a bounty for every dead cobra brought to the office. Logical intervention. Clear metric. The result: entrepreneurs began <em>breeding cobras</em> to collect the bounty. When the government discovered the farms and cancelled the program, the breeders released their stock. The cobra population rose. The incentive created the opposite of the intended outcome — not because the people were malicious, but because the measure became the target.</p>
+          <span class="cite">Siebert, H. (2001). <em>Der Kobra-Effekt: Wie man Irrwege der Wirtschaftspolitik vermeidet</em>. DVA. — German economist Horst Siebert coined the term. The mechanism is universal.</span>
+        </div>
+
+        <p class="body-text">Your learning programs are not growing cobras. But they may be growing completion certificates, favorable ratings, and knowledge-test scores — while the behavior change you promised your client remains unmeasured and therefore unknown.</p>
+      </section>
+
+      <!-- SIGNAL 03 — THE RESEARCH -->
+      <section class="section" id="s3" data-section="s3">
+        <div class="signal-mark">
+          <span class="signal-num">SIGNAL 03</span>
+          <span class="signal-tag">THE RESEARCH</span>
+        </div>
+        <h2 class="section-title">The Literature</h2>
+
+        <p class="body-text">Goodhart's Law did not begin in L&amp;D — <strong>Learning &amp; Development</strong>, the industry that designs and measures workplace training. It began in monetary economics, traveled through anthropology and higher education auditing, and arrived in the training room via organizational psychology. The convergence of these lineages is the story worth understanding.</p>
+
+        <img class="section-img fly-ready" src="https://images.unsplash.com/photo-1507842217343-583bb2390d74?w=900&q=75&fit=crop" alt="Research library — four fields of knowledge converging on the same structural flaw" loading="lazy" onerror="this.style.display='none'">
+        <p class="section-img-caption">Monetary economics → anthropology → psychology → your training room. Four fields. One mechanism. — Unsplash</p>
+
+        <div class="pull-quote" id="tq1">"When a measure becomes a target, it ceases to be a good measure."<br>— Marilyn Strathern, 1997<span class="tq-cursor" id="tq-cursor" style="display:none"></span></div>
+
+        <p class="body-text">Alfie Kohn's <em>Punished by Rewards</em> (1993) arrived at the same conclusion from a different direction: incentive structures — including the meta-incentive of being rated and evaluated — undermine intrinsic motivation. When the external measure is present, the internal signal quiets. Practitioners who design for scores may be actively suppressing the autonomous motivation that makes learning durable.</p>
+
+        <span class="cite">Kohn, A. (1993). <em>Punished by Rewards: The Trouble with Gold Stars, Incentive Plans, A's, Praise, and Other Bribes</em>. Houghton Mifflin.</span>
+
+        <p class="body-text">Donald Campbell's 1979 formulation — now called Campbell's Law — adds a social dimension: <em>"The more any quantitative social indicator is used for social decision-making, the more subject it will be to corruption pressures and the more apt it will be to distort and corrupt the social processes it is intended to monitor."</em> The institutional pressure to show results doesn't just distort measurement. It distorts the thing being measured.</p>
+
+        <span class="cite">Campbell, D.T. (1979). Assessing the Impact of Planned Social Change. <em>Evaluation and Program Planning</em>, 2(1), 67–90. — Campbell's work on social indicators predates Strathern's popularization and offers the corruption-pressure framing that explains why the distortion is systematic, not personal.</span>
+
+        <p class="body-text">Donella Meadows, writing in <em>Thinking in Systems</em>, frames the deeper issue as an information flow problem: the feedback loop that should correct the system is receiving the wrong signal. The system is not broken — it is working exactly as designed. It is designed around the wrong metric.</p>
+
+        <span class="cite">Meadows, D. (2008). <em>Thinking in Systems: A Primer</em>. Chelsea Green Publishing.</span>
+      </section>
+
+      <!-- SIGNAL 04 — THE WALL MOMENT -->
+      <section class="wall-section" id="s4" data-section="s4">
+        <div class="wall-header">
+          <span class="wall-badge">SIGNAL 04</span>
+          <span class="wall-title">THE METRICS BOARD</span>
+          <span class="wall-badge" style="margin-left:auto;">WHAT YOU MEASURE VS. WHAT YOU NEED</span>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metrics-col-head measure">WHAT WE MEASURE</div>
+          <div class="metrics-col-head need">WHAT WE ACTUALLY NEED</div>
+
+          <div class="metric-cell measure">
+            <span class="metric-row-num">01</span>
+            Completion Rate
+          </div>
+          <div class="metric-cell need">
+            <span class="metric-row-num">01</span>
+            Durable skill change — behavior still present 90 days later
+          </div>
+
+          <div class="metric-cell measure">
+            <span class="metric-row-num">02</span>
+            NPS / Smile Sheet Score
+          </div>
+          <div class="metric-cell need">
+            <span class="metric-row-num">02</span>
+            Behavior applied in a novel situation, without a coach watching
+          </div>
+
+          <div class="metric-cell measure">
+            <span class="metric-row-num">03</span>
+            Knowledge Test Score
+          </div>
+          <div class="metric-cell need">
+            <span class="metric-row-num">03</span>
+            Decision quality under real pressure, with real stakes
+          </div>
+
+          <div class="metric-cell measure">
+            <span class="metric-row-num">04</span>
+            Engagement Metrics (time-on-task, clicks, logins)
+          </div>
+          <div class="metric-cell need">
+            <span class="metric-row-num">04</span>
+            Voluntary repetition of the practice when nobody is counting
+          </div>
+
+          <div class="metric-cell measure">
+            <span class="metric-row-num">05</span>
+            Certification Pass Rate
+          </div>
+          <div class="metric-cell need">
+            <span class="metric-row-num">05</span>
+            Confidence and competence under novel, unsupported conditions
+          </div>
+
+          <div class="metric-cell measure">
+            <span class="metric-row-num">06</span>
+            Manager 360 Feedback Score
+          </div>
+          <div class="metric-cell need">
+            <span class="metric-row-num">06</span>
+            Team outcomes over 12 months — observable, measurable, real
+          </div>
+        </div>
+      </section>
+
+      <!-- SIGNAL 05 — THE MECHANISM -->
+      <section class="section" id="s5" data-section="s5">
+        <div class="signal-mark">
+          <span class="signal-num">SIGNAL 05</span>
+          <span class="signal-tag">THE MECHANISM</span>
+        </div>
+        <h2 class="section-title">Why Smart People Still Do It</h2>
+
+        <p class="body-text">Understanding Goodhart's Law intellectually does not stop practitioners from chasing the wrong metrics. If it did, the training industry would have fixed this in 1997. The law is clear. The behavior persists. There must be a competing commitment operating beneath the surface.</p>
+
+        <button class="reveal-btn" onclick="toggleReveal(this,'kegan-reveal')" aria-expanded="false">
+          <span class="rb-arrow">▶</span> DECODE: KEGAN &amp; LAHEY — WHY KNOWING ISN'T ENOUGH
+        </button>
+        <div class="reveal-body mechanism-box" id="kegan-reveal">
+          <img class="section-img" src="https://images.unsplash.com/photo-1516542076529-1ea3854896f2?w=900&q=75&fit=crop" alt="A lock — the competing commitment that keeps practitioners chasing the wrong metrics" loading="lazy" onerror="this.style.display='none'">
+          <div class="mech-head">KEGAN &amp; LAHEY — IMMUNITY TO CHANGE</div>
+          <p class="mech-body">The competing commitment behind metric-chasing is <strong>the need to prove value.</strong> Practitioners who cannot show transformation numerically face an existential threat to their work, their budget, their seat at the table. The metric isn't just a measurement — it is a survival tool. The assumption underneath it: <em>if I can't show the number, I don't get to keep doing the work.</em> This competing commitment (prove value numerically) protects a big assumption (value only counts if it is countable) and it runs hot enough to override the intellectual understanding that the metric is lying.</p>
+        </div>
+
+        <span class="cite">Kegan, R. &amp; Lahey, L.L. (2009). <em>Immunity to Change: How to Overcome It and Unlock Potential in Yourself and Your Organization</em>. Harvard Business Review Press.</span>
+
+        <p class="body-text">This is why information alone does not fix Goodhart's Law in practice. The practitioners who know the law still report the same metrics — because the competing commitment (show a number that justifies your existence) runs deeper than the knowledge. Fixing this requires working at the level of identity, not data literacy.</p>
+
+        <div class="meliorist-band">
+          <span class="mel-badge">MELIORIST FRAME · CONSTRUCTIVE STEWARDSHIP</span>
+          <div class="mel-title">Extracting Value While Appearing to Create It</div>
+          <p class="mel-body">Constructive stewardship means stewarding your <strong>measurement systems</strong> as carefully as your learning systems. If your metrics are optimizing for something other than the outcome you claim to serve, the system is extracting value from clients — their time, attention, money, trust — while appearing to create it. That is <strong>wealth extraction disguised as wealth creation.</strong> The practitioners who earn income commensurate with their actual impact are the ones who can point to real change in the people they serve. Not because they are more virtuous. Because they built measurement systems that couldn't lie to them.</p>
+        </div>
+      </section>
+
+      <!-- SIGNAL 06 — COUNTER-MOVES -->
+      <section class="section" id="s6" data-section="s6">
+        <div class="signal-mark">
+          <span class="signal-num">SIGNAL 06</span>
+          <span class="signal-tag">COUNTER-MOVES</span>
+        </div>
+        <h2 class="section-title">Breaking the Goodhart Trap</h2>
+
+        <p class="body-text">The trap is structural. The counter-moves are also structural — design choices, not willpower choices. Here are five that work:</p>
+
+        <div style="margin-top:24px;">
+          <div class="countermove">
+            <span class="cm-num">01</span>
+            <div class="cm-body"><strong>Use leading indicators, not lagging ones.</strong> Measure the behaviors that produce the outcome — not a proxy for the outcome. If the goal is better coaching conversations, measure the number of coaching conversations held this week, not the 360 score in six months. The leading indicator is harder to fake.</div>
+          </div>
+          <div class="countermove">
+            <span class="cm-num">02</span>
+            <div class="cm-body"><strong>Use multiple metrics in tension.</strong> When metrics conflict, they become harder to game simultaneously. Pair a speed metric with a quality metric. Pair a completion metric with a follow-through metric. A practitioner optimizing two conflicting measures has less room to optimize only the one that looks best.</div>
+          </div>
+          <div class="countermove">
+            <span class="cm-num">03</span>
+            <div class="cm-body"><strong>Qualitative + quantitative.</strong> A number plus a story is harder to fake than a number alone. Ask participants to describe one specific moment they applied the skill, not just whether they would recommend the program. The story is your Level 3 check — and it is free to collect.</div>
+          </div>
+          <div class="countermove">
+            <span class="cm-num">04</span>
+            <div class="cm-body"><strong>Measure the measure.</strong> Periodically ask: is this metric still pointing at what I think it is? Goodhart's Law does not operate all at once — it drifts. An annual audit of your measurement system, asking whether each metric is still a good proxy for the outcome you care about, catches drift before it becomes corruption.</div>
+          </div>
+          <div class="countermove">
+            <span class="cm-num">05</span>
+            <div class="cm-body"><strong>The Dragonfly Question (Meadows).</strong> Donella Meadows named the dragonfly after an insect that can see in almost every direction simultaneously. The question: <em>What would you need to measure to know if this is actually working?</em> Ask it before you start, not after. The answer often reveals that the real thing you need to measure is not in your current system — and that is exactly the information you need.</div>
+          </div>
+        </div>
+
+        <span class="cite">Meadows, D. (2008). <em>Thinking in Systems: A Primer</em>. Chelsea Green. — The Dragonfly concept appears in Meadows' systems leverage points work; the "measure the measure" practice is derived from her intervention on information flows.</span>
+      </section>
+
+      <!-- SIGNAL 07 — FIELD WORK + BIBLIOGRAPHY -->
+      <section class="section" id="s7" data-section="s7">
+        <div class="signal-mark">
+          <span class="signal-num">SIGNAL 07</span>
+          <span class="signal-tag">FIELD WORK</span>
+        </div>
+        <h2 class="section-title">Your Three Metrics</h2>
+
+        <div class="fieldwork-box">
+          <div class="fw-head">90-SECOND FIELD WORK</div>
+          <p class="fw-prompt">Pull your three most-used training metrics — the ones you report to clients, managers, or funders. For each one, work through this sequence:</p>
+          <ul class="fw-steps">
+            <li>Write down the actual behavior change you are trying to create. Be specific: not "improved communication" — "fewer escalations in the first conversation."</li>
+            <li>Ask: does this metric point directly at that behavior, or at a proxy? If it's a proxy, how many steps removed is it from the real thing?</li>
+            <li>Ask: could someone score well on this metric without the behavior change actually happening? If yes, your metric is a Goodhart candidate.</li>
+            <li>Ask: what would you need to measure to know if the real thing happened? You don't have to measure it yet — just name it. Naming it changes what you notice.</li>
+          </ul>
+        </div>
+
+        <div style="margin-top:36px;">
+          <div class="signal-mark">
+            <span class="signal-num">SOURCES</span>
+            <span class="signal-tag">BIBLIOGRAPHY</span>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="source-item"><span class="source-num">01 </span>Goodhart, C.A.E. (1975). Problems of Monetary Management: The U.K. Experience. Reserve Bank of Australia.</div>
+            <div class="source-item"><span class="source-num">02 </span>Strathern, M. (1997). Improving Ratings: Audit in the British University System. <em>European Review</em>, 5(3), 305–321.</div>
+            <div class="source-item"><span class="source-num">03 </span>Muller, J.Z. (2018). <em>The Tyranny of Metrics</em>. Princeton University Press.</div>
+            <div class="source-item"><span class="source-num">04 </span>Kohn, A. (1993). <em>Punished by Rewards</em>. Houghton Mifflin.</div>
+            <div class="source-item"><span class="source-num">05 </span>Siebert, H. (2001). <em>Der Kobra-Effekt</em>. DVA.</div>
+            <div class="source-item"><span class="source-num">06 </span>Kegan, R. &amp; Lahey, L.L. (2009). <em>Immunity to Change</em>. Harvard Business Review Press.</div>
+            <div class="source-item"><span class="source-num">07 </span>Meadows, D. (2008). <em>Thinking in Systems: A Primer</em>. Chelsea Green.</div>
+            <div class="source-item"><span class="source-num">08 </span>Campbell, D.T. (1979). Assessing the Impact of Planned Social Change. <em>Evaluation and Program Planning</em>, 2(1), 67–90.</div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /panel-main -->
+
+    <!-- ── RIGHT: Sidebar ── -->
+    <aside class="panel-sidebar">
+
+      <div class="sidebar-block">
+        <div class="sb-block-label">SIGNAL STATS</div>
+
+        <div class="stat-row">
+          <div class="stat-value">1975</div>
+          <div class="stat-label">Year Goodhart first stated the law — in a monetary policy paper, not a training manual</div>
+          <div class="stat-source">Reserve Bank of Australia symposium</div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-value">22</div>
+          <div class="stat-label">Years before Strathern gave it the name that stuck</div>
+          <div class="stat-source">European Review, 1997</div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-value">L1</div>
+          <div class="stat-label">Most-reported Kirkpatrick level in corporate L&amp;D (smile sheets) — the level most susceptible to Goodhart's Law</div>
+          <div class="stat-source">Muller, 2018</div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-value">L3–4</div>
+          <div class="stat-label">Kirkpatrick levels measuring real behavior change and results — rarely tracked, the only levels that matter to the client's bottom line</div>
+          <div class="stat-source">Kirkpatrick Partners, 2021</div>
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <div class="sb-block-label">CROSS-SIGNAL</div>
+        <p class="sidebar-note">This issue connects to <strong>Issue 004 (Map vs. Territory)</strong> — the metric is a map. Goodhart's Law is what happens when you forget the map is not the terrain.</p>
+        <p class="sidebar-note">It also connects to <strong>Issue 012 (Leverage Points)</strong> — changing the information flow (what you measure) is a high-leverage intervention. Meadows ranks information flows as the fifth highest leverage point in a system.</p>
+        <p class="sidebar-note"><strong>Issue 017 (Transfer Collapse)</strong> is the downstream consequence: when you optimize for Level 1 metrics, transfer collapses. The measurement failure and the transfer failure are the same failure.</p>
+      </div>
+
+      <div class="sidebar-block">
+        <div class="sb-block-label">THE LIVING INCOME CONNECTION</div>
+        <p class="sidebar-note">The practitioners who command premium rates are not necessarily the ones with the best NPS scores. They are the ones who can say: <em>here is what changed, here is how we know, here is what it was worth.</em></p>
+        <p class="sidebar-note">That is a different offer than "participants rated the session 4.9 out of 5." One is a popularity metric. The other is a value-creation claim. Clients who are serious about results pay for the second one.</p>
+        <p class="sidebar-note">The Goodhart trap keeps practitioners in the first offer — not because they lack skill, but because their measurement system can only produce the first kind of evidence.</p>
+      </div>
+
+      <div class="sidebar-block">
+        <div class="sb-block-label">DIMENSION NOTE</div>
+        <p class="sidebar-note"><strong>Living Income.</strong> This issue is in the Living Income dimension because measurement fluency is an income lever, not just an intellectual curiosity. The practitioners who built rigorous outcome measurement systems — who can show L3 and L4 data — charge more, keep clients longer, and get referrals from results rather than from relationships alone.</p>
+        <p class="sidebar-note">Building that measurement system takes time. It starts with the field work prompt. Not with a new tool — with a clearer question about what you're trying to know.</p>
+      </div>
+
+    </aside><!-- /panel-sidebar -->
+
+  </div><!-- /panel-grid -->
+
+</main>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <a href="../archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span class="footer-issue">MELIORISM2.COM · ISSUE 022 · 22 MAY 2026</span>
+</footer>
+
+<script>
+// ── UTC Clock ──
+function updateClock(){
+  const now = new Date();
+  const h = String(now.getUTCHours()).padStart(2,'0');
+  const m = String(now.getUTCMinutes()).padStart(2,'0');
+  const s = String(now.getUTCSeconds()).padStart(2,'0');
+  const el = document.getElementById('sbclock');
+  if(el) el.textContent = h+':'+m+':'+s+' UTC';
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ── Supabase engagement tracking ──
+// Posts to event_log: title = "signal-os | {slug} | {event} | {label}"
+// reflection = session_id, notes = JSON payload. Silent fail always.
+const _sos = (() => {
+  const ENDPOINT = 'https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY  = 'sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const ISSUE_NUMBER = '022';
+  const ISSUE_SLUG   = 'when-the-metric-becomes-the-target';
+  const SESSION_ID = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
+  let queue = [];
+  let flushTimer = null;
+  function scrollPct(){
+    const el=document.getElementById('main-panel')||document.documentElement;
+    const total=el.scrollHeight-el.clientHeight;
+    return total>0?Math.round((el.scrollTop/total)*100):0;
+  }
+  function flush(){
+    if(!queue.length)return;
+    const batch=queue.splice(0);
+    batch.forEach(ev=>{
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{'apikey':API_KEY,'Authorization':'Bearer '+API_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+        body:JSON.stringify({
+          title:'meliorism2.com | '+ISSUE_SLUG+' | '+ev.event+' | '+(ev.label||''),
+          occurred_at:ev.ts,
+          reflection:SESSION_ID,
+          notes:JSON.stringify({issue_number:ISSUE_NUMBER,issue_slug:ISSUE_SLUG,event:ev.event,label:ev.label||null,extra:ev.extra||null,referrer:document.referrer||null,scroll_pct:ev.scroll_pct,viewport_w:window.innerWidth,viewport_h:window.innerHeight})
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    });
+  }
+  function enqueue(event,label,extra){
+    queue.push({event,label,extra,ts:new Date().toISOString(),scroll_pct:scrollPct()});
+    if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
+  }
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flush();});
+  return{track:enqueue};
+})();
+
+function track(event, label, extra){
+  console.log('[signal-os]', event, label||'', extra||'');
+  _sos.track(event, label, extra);
+}
+
+// ── Tune In — open main panel ──
+function tuneIn(){
+  track('entry_cta_clicked', {label:'tune_in'});
+  const entry = document.getElementById('entry');
+  const panel = document.getElementById('main-panel');
+  if(!entry || !panel) return;
+  entry.style.opacity = '0';
+  entry.style.pointerEvents = 'none';
+  panel.style.display = 'block';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      panel.style.opacity = '1';
+      track('main_panel_opened', {});
+    });
+  });
+  setTimeout(function(){
+    entry.style.display = 'none';
+  }, 800);
+}
+
+// ── Intersection Observer — section tracking ──
+(function(){
+  if(!window.IntersectionObserver) return;
+  const options = { threshold: 0.25 };
+  const observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        const id = entry.target.getAttribute('data-section');
+        if(id) track('section_visible', {section: id});
+      }
+    });
+  }, options);
+  document.querySelectorAll('[data-section]').forEach(function(el){
+    observer.observe(el);
+  });
+})();
+
+// ── Track wall moment visibility ──
+(function(){
+  if(!window.IntersectionObserver) return;
+  const wall = document.getElementById('s4');
+  if(!wall) return;
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        track('wall_moment_viewed', {section:'metrics_board'});
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.3});
+  obs.observe(wall);
+})();
+
+// ── Track field work section ──
+(function(){
+  if(!window.IntersectionObserver) return;
+  const fw = document.getElementById('s7');
+  if(!fw) return;
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        track('fieldwork_reached', 's7');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.2});
+  obs.observe(fw);
+})();
+
+// ── Click-to-reveal toggle ──
+function toggleReveal(btn, id){
+  const body = document.getElementById(id);
+  if(!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.setAttribute('aria-expanded', String(!isOpen));
+  const label = btn.textContent.replace(/^[▶▼]\s*/,'');
+  track('reveal_toggle', id, isOpen ? 'close' : 'open');
+}
+
+// ── Fly-in observer — animate elements as they enter viewport ──
+(function(){
+  if(!window.IntersectionObserver) {
+    document.querySelectorAll('.fly-ready').forEach(function(el){ el.classList.add('fly-visible'); });
+    return;
+  }
+  const flyObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('fly-visible');
+        flyObs.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.1});
+  document.querySelectorAll('.fly-ready').forEach(function(el){ flyObs.observe(el); });
+})();
+
+// ── Pull quote typewriter (fires when quote scrolls into view) ──
+(function(){
+  const tq = document.getElementById('tq1');
+  const cursor = document.getElementById('tq-cursor');
+  if(!tq || !cursor || !window.IntersectionObserver) return;
+  let done = false;
+  const text = '"When a measure becomes a target, it ceases to be a good measure."\n— Marilyn Strathern, 1997';
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !done){
+        done = true;
+        obs.unobserve(e.target);
+        cursor.style.display = 'inline-block';
+        tq.innerHTML = '<span class="tq-cursor" id="tq-cursor"></span>';
+        let i = 0;
+        const c = document.getElementById('tq-cursor');
+        const interval = setInterval(function(){
+          if(i >= text.length){ clearInterval(interval); return; }
+          tq.insertBefore(document.createTextNode(text[i]), c);
+          i++;
+        }, 28);
+        track('pull_quote_viewed', 'strathern_1997');
+      }
+    });
+  }, {threshold: 0.5});
+  obs.observe(tq);
+})();
+
+// ── Track reveal interactions ──
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('.reveal-btn');
+  if(btn) {
+    const isNowOpen = btn.classList.contains('open');
+    track('reveal_clicked', btn.textContent.trim().slice(0,40), isNowOpen ? 'opened' : 'closed');
+  }
+});
+</script>
+
+</body>
+</html>

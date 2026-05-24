@@ -1,0 +1,636 @@
+<!-- signal-os:date: 2026-05-18 -->
+<!-- signal-os:slug: the-recency-trap -->
+<!-- signal-os:title: The Recency Trap -->
+<!-- signal-os:concept: The availability heuristic makes vivid, recent events feel statistically normal. Practitioners calibrate their intuitions on the last dramatic incident — not base rates. -->
+<!-- signal-os:format: Weather Station Report -->
+<!-- signal-os:dimension: Brave Spaces -->
+<!-- signal-os:sources: 7 -->
+<!-- signal-os:tags: #cognition #decision-making #behavior-change -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 18 · The Recency Trap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Roboto+Slab:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#F8F7F4;--surface:#EEF0F4;--navy:#1A3A5C;--teal:#2A7A6A;
+  --accent:#1A3A5C;--text:#1A1E2A;--muted:rgba(26,30,42,0.65);
+  --dim:rgba(26,30,42,0.45);--border:rgba(26,58,92,0.15);
+  --border-h:rgba(26,58,92,0.3);--teal-glow:rgba(42,122,106,0.25);
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Public Sans',sans-serif;overflow:hidden;}
+
+.sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;background:var(--navy);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:14px;}
+.sb-logo{font-size:0.7rem;letter-spacing:4px;font-weight:700;color:#F8F7F4;text-decoration:none;
+  text-shadow:0 0 12px rgba(248,247,244,0.4);}
+.sb-label{font-size:0.62rem;letter-spacing:2px;color:rgba(248,247,244,0.6);flex:1;}
+.sb-clock{font-size:0.62rem;letter-spacing:2px;color:rgba(248,247,244,0.7);font-family:monospace;}
+
+#entry{position:fixed;inset:0;top:36px;bottom:40px;z-index:800;
+  display:grid;grid-template-columns:1fr 1fr;background:var(--bg);transition:opacity 0.8s ease;}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-radar{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--navy);padding:40px;position:relative;overflow:hidden;}
+.radar-label{font-size:0.62rem;letter-spacing:4px;color:rgba(248,247,244,0.5);margin-bottom:24px;font-family:monospace;}
+.radar-scope{position:relative;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,#0A1E35 0%,#071428 60%,#040E1E 100%);
+  border:2px solid rgba(42,122,106,0.4);
+  box-shadow:0 0 40px rgba(42,122,106,0.15),inset 0 0 30px rgba(0,0,0,0.5);overflow:hidden;}
+.radar-ring{position:absolute;border-radius:50%;border:1px solid rgba(42,122,106,0.2);
+  top:50%;left:50%;transform:translate(-50%,-50%);}
+.radar-ring:nth-child(1){width:70px;height:70px;}
+.radar-ring:nth-child(2){width:140px;height:140px;}
+.radar-ring:nth-child(3){width:210px;height:210px;}
+.radar-ring:nth-child(4){width:278px;height:278px;}
+.radar-cross{position:absolute;top:50%;left:0;right:0;height:1px;
+  background:rgba(42,122,106,0.2);transform:translateY(-50%);}
+.radar-cross-v{position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:rgba(42,122,106,0.2);transform:translateX(-50%);}
+.radar-sweep{position:absolute;top:50%;left:50%;width:50%;height:2px;
+  transform-origin:left center;
+  background:linear-gradient(to right,rgba(42,122,106,0.9),transparent);
+  box-shadow:0 0 6px rgba(42,122,106,0.8);animation:sweep 3s linear infinite;}
+@keyframes sweep{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.blip{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--teal);
+  box-shadow:0 0 8px var(--teal),0 0 16px rgba(42,122,106,0.6);animation:blip-fade 3s linear infinite;}
+.blip:nth-child(6){top:38%;left:62%;animation-delay:0s;}
+.blip:nth-child(7){top:55%;left:30%;animation-delay:0.8s;}
+.blip:nth-child(8){top:25%;left:48%;animation-delay:1.6s;}
+.blip:nth-child(9){top:70%;left:65%;animation-delay:2.1s;}
+.blip:nth-child(10){top:48%;left:72%;animation-delay:0.4s;}
+@keyframes blip-fade{0%{opacity:0;transform:scale(0);}10%{opacity:1;transform:scale(1);}80%{opacity:0.5;}100%{opacity:0;}}
+.radar-status{margin-top:24px;font-family:monospace;font-size:0.68rem;letter-spacing:2px;
+  color:var(--teal);text-shadow:0 0 8px rgba(42,122,106,0.8);display:flex;align-items:center;gap:8px;}
+.pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);
+  box-shadow:0 0 8px var(--teal);animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+
+.entry-brief{display:flex;flex-direction:column;justify-content:center;padding:60px 52px;
+  border-left:1px solid var(--border);background:var(--bg);}
+.entry-tags{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;}
+.tag{font-size:0.6rem;letter-spacing:3px;font-weight:600;padding:4px 10px;
+  border:1px solid var(--border-h);color:var(--muted);}
+.tag-accent{background:var(--navy);color:var(--bg);border-color:var(--navy);}
+.entry-issue{font-family:'Roboto Slab',serif;font-size:0.72rem;letter-spacing:3px;color:var(--teal);
+  font-weight:400;margin-bottom:16px;text-shadow:0 0 12px var(--teal-glow);}
+.entry-title{font-family:'Roboto Slab',serif;font-size:clamp(2.4rem,4vw,3.6rem);font-weight:700;
+  color:var(--navy);line-height:1.05;margin-bottom:20px;letter-spacing:-0.02em;}
+.entry-sub{font-size:1rem;color:var(--muted);line-height:1.7;max-width:420px;margin-bottom:36px;font-weight:300;}
+.entry-btn{background:var(--navy);color:var(--bg);border:none;padding:16px 36px;
+  font-family:'Public Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:4px;
+  cursor:pointer;width:fit-content;transition:box-shadow 0.2s,transform 0.1s;
+  box-shadow:0 4px 20px rgba(26,58,92,0.2);}
+.entry-btn:hover{box-shadow:0 6px 30px rgba(26,58,92,0.4),0 0 20px rgba(26,58,92,0.15);transform:translateY(-1px);}
+.entry-reading-time{margin-top:16px;font-size:0.62rem;letter-spacing:2px;color:var(--dim);}
+
+#main-panel{position:fixed;inset:0;top:36px;bottom:40px;display:none;opacity:0;
+  transition:opacity 0.6s ease;background:var(--bg);grid-template-columns:280px 1fr;}
+#main-panel.visible{display:grid;opacity:1;}
+
+.sidebar{background:var(--navy);display:flex;flex-direction:column;overflow-y:auto;
+  border-right:1px solid rgba(26,58,92,0.3);}
+.sidebar-head{padding:20px 20px 16px;border-bottom:1px solid rgba(248,247,244,0.1);}
+.sidebar-head-label{font-size:0.58rem;letter-spacing:4px;color:rgba(248,247,244,0.5);margin-bottom:6px;font-family:monospace;}
+.sidebar-head-title{font-family:'Roboto Slab',serif;font-size:0.9rem;color:rgba(248,247,244,0.9);font-weight:400;}
+.instrument{padding:16px 20px;border-bottom:1px solid rgba(248,247,244,0.07);}
+.inst-label{font-size:0.55rem;letter-spacing:3px;color:rgba(248,247,244,0.45);margin-bottom:8px;font-family:monospace;}
+.inst-value{font-family:'Roboto Slab',serif;font-size:1.4rem;color:var(--teal);
+  text-shadow:0 0 12px rgba(42,122,106,0.6);font-weight:300;}
+.inst-unit{font-size:0.62rem;letter-spacing:2px;color:rgba(248,247,244,0.4);margin-top:2px;font-family:monospace;}
+.barometer{padding:16px 20px;border-bottom:1px solid rgba(248,247,244,0.07);}
+.baro-label{font-size:0.55rem;letter-spacing:3px;color:rgba(248,247,244,0.45);margin-bottom:10px;font-family:monospace;}
+.baro-bar-track{height:6px;background:rgba(248,247,244,0.1);border-radius:3px;margin-bottom:6px;overflow:hidden;}
+.baro-bar-fill{height:100%;border-radius:3px;background:var(--teal);
+  box-shadow:0 0 6px rgba(42,122,106,0.8);animation:baro-animate 4s ease-in-out infinite alternate;}
+@keyframes baro-animate{from{width:62%;}to{width:71%;}}
+.baro-value{font-family:monospace;font-size:0.68rem;color:rgba(248,247,244,0.5);letter-spacing:1px;}
+.sidebar-toc{padding:16px 20px;flex:1;}
+.toc-label{font-size:0.55rem;letter-spacing:3px;color:rgba(248,247,244,0.45);margin-bottom:12px;font-family:monospace;}
+.toc-item{display:block;font-size:0.68rem;color:rgba(248,247,244,0.5);letter-spacing:1px;
+  padding:7px 0;border-bottom:1px solid rgba(248,247,244,0.05);cursor:pointer;transition:color 0.2s;text-decoration:none;}
+.toc-item:hover,.toc-item.active{color:var(--teal);text-shadow:0 0 8px rgba(42,122,106,0.5);}
+.toc-num{font-family:monospace;color:rgba(248,247,244,0.25);margin-right:8px;}
+
+.content-area{overflow-y:auto;display:flex;flex-direction:column;}
+.report-header{background:var(--surface);border-bottom:2px solid var(--border);padding:20px 40px;
+  display:flex;align-items:center;gap:24px;flex-shrink:0;}
+.report-type{font-size:0.6rem;letter-spacing:4px;color:var(--teal);font-family:monospace;
+  text-shadow:0 0 8px var(--teal-glow);}
+.report-title{font-family:'Roboto Slab',serif;font-size:1rem;color:var(--navy);font-weight:600;}
+.report-date{font-size:0.62rem;letter-spacing:2px;color:var(--dim);font-family:monospace;margin-left:auto;}
+
+.section{padding:36px 40px;border-bottom:1px solid var(--border);}
+.section:last-child{border-bottom:none;}
+.section-badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;}
+.section-num{font-family:monospace;font-size:0.6rem;letter-spacing:3px;color:var(--dim);}
+.section-tag{font-size:0.6rem;letter-spacing:4px;font-weight:700;color:var(--teal);text-shadow:0 0 8px var(--teal-glow);}
+.section-title{font-family:'Roboto Slab',serif;font-size:1.5rem;font-weight:600;color:var(--navy);margin-bottom:20px;line-height:1.2;}
+.body-text{font-size:0.95rem;line-height:1.8;color:var(--text);font-weight:300;max-width:680px;}
+.body-text+.body-text{margin-top:14px;}
+
+.cite{font-size:0.74rem;color:var(--text);border-left:3px solid var(--accent);
+  padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;}
+
+.pull-quote{font-family:'Roboto Slab',serif;font-size:1.35rem;font-weight:300;color:var(--navy);
+  line-height:1.5;border-left:4px solid var(--teal);padding:16px 24px;margin:24px 0;max-width:580px;
+  box-shadow:-4px 0 16px -4px var(--teal-glow);}
+
+.etymology-box{background:var(--surface);border:1px solid var(--border);padding:24px 28px;margin:20px 0;max-width:600px;}
+.etym-word{font-family:'Roboto Slab',serif;font-size:1.1rem;color:var(--navy);font-weight:600;margin-bottom:4px;}
+.etym-root{font-size:0.7rem;letter-spacing:2px;color:var(--teal);margin-bottom:12px;font-family:monospace;}
+.etym-body{font-size:0.88rem;line-height:1.7;color:var(--muted);}
+
+.wall-section{padding:0;border-bottom:1px solid var(--border);background:var(--navy);}
+.wall-header{padding:28px 40px 20px;border-bottom:1px solid rgba(248,247,244,0.1);
+  display:flex;align-items:baseline;gap:16px;}
+.wall-badge{font-size:0.6rem;letter-spacing:4px;color:rgba(248,247,244,0.5);font-family:monospace;}
+.wall-title{font-family:'Roboto Slab',serif;font-size:1.1rem;color:rgba(248,247,244,0.9);font-weight:400;}
+.weather-map{padding:32px 40px 40px;}
+.wm-headline{font-family:'Roboto Slab',serif;font-size:0.7rem;letter-spacing:6px;color:var(--teal);
+  text-shadow:0 0 10px rgba(42,122,106,0.6);margin-bottom:28px;text-align:center;font-weight:400;}
+.forecast-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.forecast-col{background:rgba(10,30,53,0.8);padding:24px 20px;border:1px solid rgba(42,122,106,0.15);}
+.fc-incident{font-size:0.62rem;letter-spacing:3px;color:rgba(248,247,244,0.4);font-family:monospace;
+  margin-bottom:10px;text-transform:uppercase;}
+.fc-label{font-family:'Roboto Slab',serif;font-size:0.95rem;color:rgba(248,247,244,0.9);
+  margin-bottom:20px;line-height:1.3;font-weight:400;}
+.fc-row{margin-bottom:14px;}
+.fc-row-label{font-size:0.58rem;letter-spacing:3px;color:rgba(248,247,244,0.4);font-family:monospace;margin-bottom:5px;}
+.fc-bar-track{height:4px;background:rgba(248,247,244,0.08);border-radius:2px;margin-bottom:4px;}
+.fc-bar{height:100%;border-radius:2px;}
+.fc-bar.brain{background:#E05A45;box-shadow:0 0 6px rgba(224,90,69,0.6);}
+.fc-bar.actual{background:var(--teal);box-shadow:0 0 6px rgba(42,122,106,0.6);}
+.fc-num{font-family:monospace;font-size:0.65rem;color:rgba(248,247,244,0.6);}
+.fc-delta{margin-top:16px;padding:8px 12px;background:rgba(224,90,69,0.12);
+  border:1px solid rgba(224,90,69,0.25);font-size:0.65rem;color:#E05A45;letter-spacing:1px;font-family:monospace;}
+
+.meliorist-section{background:var(--surface);border-left:4px solid var(--teal);padding:28px 32px;
+  box-shadow:-4px 0 20px -4px var(--teal-glow);}
+.mel-badge{font-size:0.6rem;letter-spacing:4px;color:var(--teal);font-family:monospace;
+  margin-bottom:14px;text-shadow:0 0 8px var(--teal-glow);}
+.mel-title{font-family:'Roboto Slab',serif;font-size:1.2rem;color:var(--navy);margin-bottom:16px;font-weight:600;}
+
+.fieldwork-box{background:var(--surface);border:1px solid var(--border);padding:24px 28px;margin:20px 0;max-width:640px;}
+.fw-label{font-size:0.62rem;letter-spacing:4px;color:var(--teal);font-family:monospace;
+  margin-bottom:12px;text-shadow:0 0 8px var(--teal-glow);}
+.fw-prompt{font-size:0.95rem;line-height:1.7;color:var(--text);font-style:italic;}
+.bib-list{list-style:none;margin-top:16px;}
+.bib-list li{font-size:0.82rem;color:var(--muted);line-height:1.6;padding:8px 0;
+  border-bottom:1px solid var(--border);}
+.bib-list li:last-child{border-bottom:none;}
+
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:var(--navy);
+  border-top:1px solid rgba(248,247,244,0.1);display:flex;align-items:center;
+  justify-content:center;gap:22px;font-size:0.62rem;letter-spacing:2px;}
+.footer-bar a{color:rgba(248,247,244,0.7);text-decoration:none;}
+.footer-bar a:hover{color:var(--teal);}
+.footer-sep{color:rgba(248,247,244,0.2);}
+.footer-current{color:var(--teal);text-shadow:0 0 8px var(--teal-glow);}
+
+@media(max-width:768px){
+  #entry{grid-template-columns:1fr;grid-template-rows:auto 1fr;
+    align-items:flex-start;overflow-y:auto;}
+  .entry-radar{height:260px;}
+  .entry-brief{padding:36px 24px 80px;}
+  #main-panel.visible{display:flex;flex-direction:column;}
+  .sidebar{width:100%;flex-direction:row;overflow-x:auto;flex-shrink:0;}
+  .sidebar-toc{display:none;}
+  .content-area{overflow-y:auto;}
+  .section{padding:24px 20px;}
+  .report-header{padding:14px 20px;}
+  .forecast-grid{grid-template-columns:1fr;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div style="width:1px;height:12px;background:rgba(248,247,244,0.2);"></div>
+  <div class="sb-label">WEATHER STATION REPORT · BRAVE SPACES · ISSUE 018</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<div id="entry">
+  <div class="entry-radar">
+    <div class="radar-label">COGNITIVE CLIMATE RADAR</div>
+    <div class="radar-scope">
+      <div class="radar-ring"></div>
+      <div class="radar-ring"></div>
+      <div class="radar-ring"></div>
+      <div class="radar-ring"></div>
+      <div class="radar-cross"></div>
+      <div class="radar-cross-v"></div>
+      <div class="radar-sweep"></div>
+      <div class="blip"></div>
+      <div class="blip"></div>
+      <div class="blip"></div>
+      <div class="blip"></div>
+      <div class="blip"></div>
+    </div>
+    <div class="radar-status">
+      <div class="pulse-dot"></div>
+      SCANNING · SIGNAL DETECTED
+    </div>
+  </div>
+
+  <div class="entry-brief">
+    <div class="entry-tags">
+      <span class="tag tag-accent">ISSUE 018</span>
+      <span class="tag">BRAVE SPACES</span>
+      <span class="tag">COGNITIVE BIAS</span>
+      <span class="tag">MAY 18, 2026</span>
+    </div>
+    <div class="entry-issue">WEATHER STATION REPORT</div>
+    <h1 class="entry-title">The Recency<br>Trap</h1>
+    <p class="entry-sub">We judge probability by how easily examples come to mind. What's recent, vivid, or emotional feels more common than it actually is. Practitioners who understand this stop anchoring their methods to the last thing that went wrong.</p>
+    <button class="entry-btn" onclick="openMain()">REPORT IN &rarr;</button>
+    <div class="entry-reading-time">90 SEC SCAN &middot; 12 MIN FULL BRIEF</div>
+  </div>
+</div>
+
+<div id="main-panel">
+  <div class="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-head-label">STATION READINGS</div>
+      <div class="sidebar-head-title">Cognitive Climate<br>Monitor</div>
+    </div>
+    <div class="instrument">
+      <div class="inst-label">AVAILABILITY INDEX</div>
+      <div class="inst-value">HIGH</div>
+      <div class="inst-unit">RECENT EVENT DOMINANCE</div>
+    </div>
+    <div class="instrument">
+      <div class="inst-label">BIAS PRESSURE</div>
+      <div class="inst-value">1.3&times;</div>
+      <div class="inst-unit">OVER BASE RATE</div>
+    </div>
+    <div class="barometer">
+      <div class="baro-label">CALIBRATION METER</div>
+      <div class="baro-bar-track"><div class="baro-bar-fill"></div></div>
+      <div class="baro-value">VIVID RECALL PRESSURE: ELEVATED</div>
+    </div>
+    <div class="instrument">
+      <div class="inst-label">ESTABLISHED</div>
+      <div class="inst-value">1973</div>
+      <div class="inst-unit">TVERSKY &amp; KAHNEMAN</div>
+    </div>
+    <div class="instrument">
+      <div class="inst-label">DIMENSION</div>
+      <div class="inst-value" style="font-size:0.95rem;text-shadow:none;color:rgba(248,247,244,0.7);">BRAVE<br>SPACES</div>
+      <div class="inst-unit">MELIORISM 2.0 FRAMEWORK</div>
+    </div>
+    <div class="sidebar-toc">
+      <div class="toc-label">REPORT SECTIONS</div>
+      <a class="toc-item active" onclick="scrollSec('s1')"><span class="toc-num">01</span>WEATHER BRIEFING</a>
+      <a class="toc-item" onclick="scrollSec('s2')"><span class="toc-num">02</span>FIELD CONDITIONS</a>
+      <a class="toc-item" onclick="scrollSec('s3')"><span class="toc-num">03</span>ETYMOLOGY STATION</a>
+      <a class="toc-item" onclick="scrollSec('s4')"><span class="toc-num">04</span>INSTRUMENT READINGS</a>
+      <a class="toc-item" onclick="scrollSec('s5')"><span class="toc-num">05</span>WEATHER MAP</a>
+      <a class="toc-item" onclick="scrollSec('s6')"><span class="toc-num">06</span>MELIORIST FRAME</a>
+      <a class="toc-item" onclick="scrollSec('s7')"><span class="toc-num">07</span>FIELD WORK</a>
+    </div>
+  </div>
+
+  <div class="content-area" id="content-scroll">
+    <div class="report-header">
+      <div>
+        <div class="report-type">PRACTITIONER WEATHER BRIEF</div>
+        <div class="report-title">The Recency Trap &mdash; Availability Heuristic</div>
+      </div>
+      <div class="report-date">ISSUED: 2026-05-18 &middot; MELIORISM2.COM 018</div>
+    </div>
+
+    <div class="section" id="s1" data-section="weather-briefing">
+      <div class="section-badge">
+        <span class="section-num">01</span>
+        <span class="section-tag">WEATHER BRIEFING</span>
+      </div>
+      <h2 class="section-title">The Mechanism</h2>
+      <p class="body-text">In 1973, Amos Tversky and Daniel Kahneman published the finding that would rewrite our understanding of human judgment. When people estimate how frequent or probable something is, they don't run statistics. They retrieve examples. If examples come to mind easily, the event feels common. If they don't, it feels rare.</p>
+      <span class="cite">Tversky, A. &amp; Kahneman, D. (1973). Availability: A heuristic for judging frequency and probability. <em>Cognitive Psychology, 5</em>(2), 207&ndash;232. The seminal paper identifying the availability heuristic as a distinct cognitive shortcut, separate from rational probability estimation.</span>
+      <p class="body-text">They named it the <strong>availability heuristic</strong>: we judge the world by what's mentally available. The problem isn't that we use this shortcut &mdash; it's fast, often functional, and cost-effective for most low-stakes decisions. The problem is that what's available is not a random sample of reality. It's a biased one. Recent events, vivid events, and emotionally charged events are retrieved faster and feel more representative than the actual statistical distribution warrants.</p>
+      <div class="pull-quote">"What's mentally available &ne; what's statistically common. The brain is not sampling the world &mdash; it's sampling its own memory."</div>
+      <p class="body-text">The implications for practitioners are direct. Every trainer, coach, educator, manager, or parent builds their methods on an implicit model of what challenges are likely. That model is shaped far more by the last vivid incident than by the actual base rate across all their sessions, students, or situations. The weather station is reading one dramatic storm &mdash; and forecasting the whole season from it.</p>
+    </div>
+
+    <div class="section" id="s2" data-section="field-conditions">
+      <div class="section-badge">
+        <span class="section-num">02</span>
+        <span class="section-tag">FIELD CONDITIONS</span>
+      </div>
+      <h2 class="section-title">In the Training Room</h2>
+      <p class="body-text">A practitioner has one disastrous group conflict &mdash; a session where interpersonal tension erupted and the learning collapsed. It was vivid, emotionally charged, and professionally uncomfortable. For the next six sessions, they redesign their opening protocols around psychological safety. They add conflict de-escalation exercises. They over-brief their support staff. They tighten their norm-setting rituals.</p>
+      <p class="body-text">None of this is wrong exactly. But they're not designing for the actual distribution of their groups. They're designing for the last storm. The vivid exception has become the implicit average. This is availability at work: a single high-intensity event has inflated its own perceived probability to the point of reshaping professional practice.</p>
+      <div class="pull-quote">"They're managing last time, not this time. The map they're reading is drawn from one incident, not the territory."</div>
+      <p class="body-text">The practitioner isn't careless or irrational. The bias is built into cognition's architecture. But what separates practitioners who calibrate accurately from those who don't is a habit &mdash; the habit of asking: "Is this design responding to base rates, or to the last thing that scared me?"</p>
+      <span class="cite">Kahneman, D. (2011). <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux. Chapter 12: "The Availability Heuristic" &mdash; systematic review of how vivid, recent, and emotionally salient events distort probability estimates in professional judgment contexts.</span>
+    </div>
+
+    <div class="section" id="s3" data-section="etymology">
+      <div class="section-badge">
+        <span class="section-num">03</span>
+        <span class="section-tag">ETYMOLOGY STATION</span>
+      </div>
+      <h2 class="section-title">What Words Know</h2>
+      <div class="etymology-box">
+        <div class="etym-word">Available</div>
+        <div class="etym-root">LATIN: availere &middot; "to be powerful, to avail"</div>
+        <div class="etym-body">From the Latin <em>availere</em> &mdash; to be strong enough, to have force. What is "available" to us is not merely accessible; it has power over us. It exerts influence by virtue of being there, at hand, already found. The word carries a ghost of agency: available things reach back at you.</div>
+      </div>
+      <div class="etymology-box">
+        <div class="etym-word">Heuristic</div>
+        <div class="etym-root">GREEK: heuriskein &middot; "to discover, to find"</div>
+        <div class="etym-body">From Greek <em>heuriskein</em> &mdash; the same root as Archimedes' famous <em>eureka</em>. A heuristic is a discovery device, a method for finding. When we use the availability heuristic, we are finding our way through probability by discovering examples &mdash; but we're discovering in the dark, with one hand feeling for what we already touched before.</div>
+      </div>
+      <p class="body-text">The etymology converges on something worth sitting with: when we rely on availability, we're using the past to power-navigate the present. The discoveries we've already made exert force on the discoveries we're supposed to be making now. We're finding the world through a mirror of what already found us.</p>
+    </div>
+
+    <div class="section" id="s4" data-section="instrument-readings">
+      <div class="section-badge">
+        <span class="section-num">04</span>
+        <span class="section-tag">INSTRUMENT READINGS</span>
+      </div>
+      <h2 class="section-title">The Research Signal</h2>
+      <p class="body-text">In 1979, Paul Slovic, Baruch Fischhoff, and Sarah Lichtenstein administered a landmark study on risk perception. They asked people to estimate causes of death &mdash; how often does a tornado kill people versus asthma? How does flood mortality compare to diabetes? The results were systematic and striking: vivid, newsworthy deaths (tornadoes, plane crashes, murders) were dramatically overestimated. Quiet, slow, invisible deaths (diabetes, stomach cancer, heart disease) were dramatically underestimated.</p>
+      <span class="cite">Slovic, P., Fischhoff, B. &amp; Lichtenstein, S. (1979). Rating the risks. <em>Environment, 21</em>(3), 14&ndash;39. Found systematic overestimation of dramatic causes of death and underestimation of statistically common but undramatic causes &mdash; a direct demonstration of the availability heuristic in risk judgment.</span>
+      <p class="body-text">The distortion wasn't random noise &mdash; it tracked directly to media coverage and narrative vividness. What got covered got overestimated. What happened quietly, daily, at scale, got forgotten by intuition even when known by reason.</p>
+      <p class="body-text">Gerd Gigerenzer, whose work on heuristics has pushed back productively against Kahneman's framing, acknowledges the double nature of availability: in everyday, familiar environments, fast retrieval of examples is often <em>accurate</em> because experience has been calibrated through repeated exposure to actual frequencies. The failure mode arrives when practitioners are operating in expert contexts, making decisions about populations they don't directly observe, or in situations where one vivid incident has recalibrated their entire intuition.</p>
+      <span class="cite">Gigerenzer, G. (2007). <em>Gut Feelings: The Intelligence of the Unconscious.</em> Viking. Chapter 6 argues that heuristics including availability are often accurate in familiar environments &mdash; the failure mode is specifically in expert, high-stakes professional contexts where base rates matter and single vivid incidents distort calibration.</span>
+      <p class="body-text">The practical implication: availability is not a bug to be exterminated. It's a feature that fails in specific conditions. Practitioners who understand those conditions &mdash; novel contexts, single dramatic incidents, emotionally charged events, information that arrived through narrative rather than direct observation &mdash; can interrupt the bias where it actually operates.</p>
+    </div>
+
+    <div class="wall-section" id="s5" data-section="weather-map">
+      <div class="wall-header">
+        <span class="wall-badge">05 &middot; WALL MOMENT</span>
+        <span class="wall-title">What Your Brain Forecasts vs. Base Rate Reality</span>
+      </div>
+      <div class="weather-map">
+        <div class="wm-headline">COGNITIVE FORECAST / BASE RATE COMPARISON &middot; THREE PRACTITIONER SCENARIOS</div>
+        <div class="forecast-grid">
+          <div class="forecast-col">
+            <div class="fc-incident">LAST INCIDENT</div>
+            <div class="fc-label">Group conflict erupts in session. Significant interpersonal tension. Three participants disengage.</div>
+            <div class="fc-row">
+              <div class="fc-row-label">BRAIN FORECAST: % OF SESSIONS WITH DISRUPTIVE CONFLICT</div>
+              <div class="fc-bar-track"><div class="fc-bar brain" style="width:55%;"></div></div>
+              <div class="fc-num">&sim;55% (felt sense after incident)</div>
+            </div>
+            <div class="fc-row">
+              <div class="fc-row-label">ACTUAL BASE RATE: PRACTITIONER AVERAGE</div>
+              <div class="fc-bar-track"><div class="fc-bar actual" style="width:8%;"></div></div>
+              <div class="fc-num">&sim;8% across typical cohorts</div>
+            </div>
+            <div class="fc-delta">DISTORTION: +47 PERCENTAGE POINTS &middot; ORIGIN: ONE INCIDENT</div>
+          </div>
+          <div class="forecast-col">
+            <div class="fc-incident">LAST INCIDENT</div>
+            <div class="fc-label">Training transfer fails visibly &mdash; team reverts to prior behavior within two weeks of workshop.</div>
+            <div class="fc-row">
+              <div class="fc-row-label">BRAIN FORECAST: % OF TRAININGS WITH NO LASTING CHANGE</div>
+              <div class="fc-bar-track"><div class="fc-bar brain" style="width:72%;"></div></div>
+              <div class="fc-num">&sim;72% (post-failure estimate)</div>
+            </div>
+            <div class="fc-row">
+              <div class="fc-row-label">ACTUAL BASE RATE: TRAINING TRANSFER LITERATURE</div>
+              <div class="fc-bar-track"><div class="fc-bar actual" style="width:33%;"></div></div>
+              <div class="fc-num">&sim;33% without systematic follow-through</div>
+            </div>
+            <div class="fc-delta">DISTORTION: +39 PERCENTAGE POINTS &middot; ORIGIN: ONE VISIBLE FAILURE</div>
+          </div>
+          <div class="forecast-col">
+            <div class="fc-incident">LAST INCIDENT</div>
+            <div class="fc-label">Entire cohort appears disengaged &mdash; low energy, minimal participation, flat affect throughout the day.</div>
+            <div class="fc-row">
+              <div class="fc-row-label">BRAIN FORECAST: % OF COHORTS ARRIVING DISENGAGED</div>
+              <div class="fc-bar-track"><div class="fc-bar brain" style="width:60%;"></div></div>
+              <div class="fc-num">&sim;60% (post-session read)</div>
+            </div>
+            <div class="fc-row">
+              <div class="fc-row-label">ACTUAL BASE RATE: PRACTITIONER REPORTED</div>
+              <div class="fc-bar-track"><div class="fc-bar actual" style="width:18%;"></div></div>
+              <div class="fc-num">&sim;18% across cohorts</div>
+            </div>
+            <div class="fc-delta">DISTORTION: +42 PERCENTAGE POINTS &middot; ORIGIN: ONE FLAT DAY</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="s6" data-section="meliorist-frame">
+      <div class="section-badge">
+        <span class="section-num">06</span>
+        <span class="section-tag">MELIORIST FRAME</span>
+      </div>
+      <div class="meliorist-section">
+        <div class="mel-badge">CONSTRUCTIVE STEWARDSHIP &middot; KEGAN &amp; LAHEY LENS</div>
+        <div class="mel-title">The Competing Commitment Underneath Availability Errors</div>
+        <p class="body-text">Robert Kegan and Lisa Lahey's framework for immunity to change asks what competing commitment is being protected when someone can't shift a pattern they consciously want to shift. For practitioners who over-design based on availability bias, the competing commitment is often this: <em>I need to feel competent and prepared.</em> The recent vivid incident became evidence of unpreparedness. Over-engineering for it is a way of ensuring, somatically and practically, that it won't happen again on their watch.</p>
+        <p class="body-text" style="margin-top:14px;">The deep assumption underneath: if something went wrong once, and I don't engineer against it, I'm an irresponsible practitioner. The immunity to change keeps the practitioner locked into storm-chasing mode &mdash; designing for the exception, not the distribution.</p>
+        <p class="body-text" style="margin-top:14px;">Constructive stewardship reframes this. <strong>Stewardship of your own calibration</strong> &mdash; your implicit model of what challenges are common &mdash; is as much a professional responsibility as any specific skill. Practitioners who calibrate to base rates rather than recent vividness can design for the actual distribution of what they will encounter, not just the last thing that left a mark. The wise action isn't to never be affected by vivid incidents &mdash; it's to notice when they're doing the forecasting work that frequency data should be doing instead.</p>
+      </div>
+      <span class="cite">Kegan, R. &amp; Lahey, L.L. (2009). <em>Immunity to Change: How to Overcome It and Unlock the Potential in Yourself and Your Organization.</em> Harvard Business Review Press. The competing commitment framework applied here: the drive to feel competent and prepared creates an immunity that over-anchors practice to salient failures rather than base rate distributions.</span>
+    </div>
+
+    <div class="section" id="s7" data-section="field-work">
+      <div class="section-badge">
+        <span class="section-num">07</span>
+        <span class="section-tag">FIELD WORK</span>
+      </div>
+      <h2 class="section-title">Your Assignment This Week</h2>
+      <div class="fieldwork-box">
+        <div class="fw-label">THE WEATHER LOG EXERCISE</div>
+        <div class="fw-prompt">Track your last five design decisions &mdash; five things you changed, added, removed, or emphasized in your practice. For each one, ask: What was the weather that influenced this? Was I responding to base rates across many sessions, or to the last storm? Could I name the specific incident that prompted this change? If the answer to that last question is yes &mdash; that's a candidate availability heuristic at work, not calibrated judgment.</div>
+      </div>
+      <p class="body-text" style="margin-top:24px;">The goal is not to become unresponsive to vivid incidents &mdash; they carry real information. The goal is to develop a practice for distinguishing between "this incident revealed a real pattern I should respond to" and "this incident was available and therefore became my forecast for all incidents." A weather station reads data continuously. It doesn't recalibrate the whole model on one unusual reading.</p>
+      <h3 style="font-family:'Roboto Slab',serif;font-size:1rem;color:var(--navy);margin:28px 0 14px;font-weight:600;letter-spacing:1px;">BIBLIOGRAPHY</h3>
+      <ul class="bib-list">
+        <li><strong>Tversky, A. &amp; Kahneman, D. (1973).</strong> Availability: A heuristic for judging frequency and probability. <em>Cognitive Psychology, 5</em>(2), 207&ndash;232. &mdash; The founding paper. Identifies availability as a distinct heuristic and demonstrates its distorting effects on probability judgment.</li>
+        <li><strong>Slovic, P., Fischhoff, B. &amp; Lichtenstein, S. (1979).</strong> Rating the risks. <em>Environment, 21</em>(3), 14&ndash;39. &mdash; Applied availability heuristic to risk perception; found dramatic deaths systematically overestimated, quiet deaths underestimated.</li>
+        <li><strong>Kahneman, D. (2011).</strong> <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux. &mdash; The accessible synthesis. Chapters 11&ndash;13 cover availability heuristic in depth with applied and professional examples.</li>
+        <li><strong>Gigerenzer, G. (2007).</strong> <em>Gut Feelings: The Intelligence of the Unconscious.</em> Viking. &mdash; Essential counterweight: heuristics including availability are often accurate in familiar environments. Identifies the specific conditions under which they fail.</li>
+        <li><strong>Heath, C. &amp; Heath, D. (2007).</strong> <em>Made to Stick: Why Some Ideas Survive and Others Die.</em> Random House. &mdash; Why vivid, concrete, narrative information is so cognitively adhesive &mdash; and what that means for what practitioners remember and over-weight.</li>
+        <li><strong>Taleb, N.N. (2007).</strong> <em>The Black Swan: The Impact of the Highly Improbable.</em> Random House. &mdash; Extended argument on narrative fallacy and how vivid rare events distort our models of what is normal. Cross-domain lens from finance to practitioner design.</li>
+        <li><strong>Kegan, R. &amp; Lahey, L.L. (2009).</strong> <em>Immunity to Change.</em> Harvard Business Review Press. &mdash; Competing commitment framework for why availability-driven over-design persists even when practitioners know it's happening.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="footer-bar">
+  <a href="/archive/index.html">&larr; THE LIBRARY</a>
+  <span class="footer-sep">&middot;</span>
+  <span class="footer-current">018 &middot; THE RECENCY TRAP &larr; CURRENT</span>
+</div>
+
+<script>
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');
+  if(el) el.textContent='UTC '+t;
+}
+tick(); setInterval(tick,1000);
+
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+  entry.classList.add('hidden');
+  track('enter','entry_screen');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='grid';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },800);
+}
+
+function scrollSec(id){
+  const el=document.getElementById(id);
+  const cs=document.getElementById('content-scroll');
+  if(el&&cs){
+    cs.scrollTo({top:el.offsetTop-60,behavior:'smooth'});
+  }
+  document.querySelectorAll('.toc-item').forEach(i=>i.classList.remove('active'));
+  if(event&&event.target){
+    const item=event.target.closest('.toc-item');
+    if(item) item.classList.add('active');
+  }
+  track('nav','toc_click',id);
+}
+
+function track(event,label,extra){
+  console.log('[signal-os]',event,label,extra||'');
+}
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      track('view',e.target.dataset.section||e.target.id||'unknown');
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+
+document.querySelectorAll('[data-section]').forEach(el=>observer.observe(el));
+
+const contentScroll=document.getElementById('content-scroll');
+if(contentScroll){
+  contentScroll.addEventListener('scroll',()=>{
+    const sections=document.querySelectorAll('[data-section]');
+    const scrollTop=contentScroll.scrollTop;
+    let current=null;
+    sections.forEach(s=>{
+      if(s.offsetTop-80<=scrollTop) current=s.id;
+    });
+    if(current){
+      track('scroll','section_visible',current);
+    }
+  });
+}
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

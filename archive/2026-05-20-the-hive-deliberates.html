@@ -1,0 +1,872 @@
+<!-- signal-os:date: 2026-05-20 -->
+<!-- signal-os:slug: the-hive-deliberates -->
+<!-- signal-os:title: The Hive Deliberates -->
+<!-- signal-os:concept: Honeybee colonies choose better than expert panels — not despite having no leader, but because of it. Your multi-generational room has the same architecture available. Most facilitators silence the dance before the quorum can form. -->
+<!-- signal-os:format: Naturalist's Field Journal -->
+<!-- signal-os:dimension: Gender & Generational Difference -->
+<!-- signal-os:sources: 8 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · The Hive Deliberates · Field Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Raleway:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --paper:       #FAF8F3;
+  --parchment:   #F2EDE3;
+  --aged:        #E8E0D0;
+  --ink:         #2A1A0E;
+  --ink-mid:     #4A3020;
+  --ink-faint:   rgba(42,26,14,0.45);
+  --ink-ghost:   rgba(42,26,14,0.2);
+  --sage:        #4D7358;
+  --sage-light:  #8FAF96;
+  --sage-faint:  rgba(77,115,88,0.12);
+  --amber:       #C07B1A;
+  --amber-faint: rgba(192,123,26,0.15);
+  --gold:        #E8A827;
+  --gold-faint:  rgba(232,168,39,0.18);
+  --red-field:   #943A2A;
+  --border:      rgba(42,26,14,0.15);
+  --border-h:    rgba(42,26,14,0.3);
+}
+html,body{height:100%;background:var(--paper);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:17px;line-height:1.65;overflow:hidden;}
+
+/* Status bar */
+.sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:34px;background:var(--ink);display:flex;align-items:center;padding:0 16px;gap:12px;}
+.sb-logo{font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;color:var(--paper);text-transform:uppercase;text-decoration:none;}
+.sb-div{width:1px;height:14px;background:rgba(255,255,255,0.2);}
+.sb-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,0.55);}
+.sb-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.sb-bee{font-size:14px;animation:beePulse 3s ease-in-out infinite;}
+@keyframes beePulse{0%,100%{transform:translateX(0) rotate(0deg);opacity:0.7;}25%{transform:translateX(3px) rotate(8deg);opacity:1;}75%{transform:translateX(-2px) rotate(-5deg);opacity:0.9;}}
+.sb-clock{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,0.5);}
+.sb-lib{font-family:'Raleway',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--gold);text-decoration:none;border:1px solid rgba(232,168,39,0.4);padding:2px 8px;border-radius:2px;transition:all 0.2s;}
+.sb-lib:hover{background:rgba(232,168,39,0.15);}
+
+/* Entry screen */
+#entry{position:fixed;inset:0;z-index:900;background:var(--parchment);display:grid;grid-template-columns:56px 1fr 220px;grid-template-rows:1fr;align-items:stretch;padding-top:34px;transition:opacity 0.7s ease,transform 0.7s ease;}
+#entry.hidden{opacity:0;transform:translateY(-12px);pointer-events:none;}
+.e-spine{background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:40px 0;}
+.e-spine-text{writing-mode:vertical-rl;font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.2em;color:var(--paper);text-transform:uppercase;}
+.e-spine-num{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(250,248,243,0.4);writing-mode:vertical-rl;}
+.e-cover{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:50px 40px;border-left:3px double var(--border-h);border-right:1px solid var(--border);}
+.e-day-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.e-day-label::before{content:'';display:inline-block;width:24px;height:1px;background:var(--amber);}
+.e-title{font-family:'EB Garamond',Georgia,serif;font-size:clamp(38px,5vw,62px);font-weight:600;font-style:italic;line-height:1.1;color:var(--ink);margin-bottom:10px;}
+.e-subtitle{font-family:'Raleway',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.1em;color:var(--sage);text-transform:uppercase;margin-bottom:28px;}
+.e-signal-box{background:var(--ink);color:var(--paper);padding:18px 24px;max-width:500px;border-left:4px solid var(--gold);margin-bottom:34px;}
+.e-signal-label{font-family:'Raleway',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+.e-signal-text{font-size:14px;line-height:1.65;color:rgba(250,248,243,0.9);}
+.e-cta{display:inline-flex;align-items:center;gap:10px;background:var(--sage);color:var(--paper);font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:14px 28px;border:none;cursor:pointer;transition:background 0.2s,transform 0.15s;}
+.e-cta:hover{background:var(--ink);transform:translateX(3px);}
+.e-deco{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 16px;gap:24px;border-left:1px solid var(--border);}
+.e-hexsvg{width:72px;height:83px;opacity:0.15;}
+.e-obs-count{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-faint);text-align:center;letter-spacing:0.08em;}
+.e-field-no{font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:13px;color:var(--ink-faint);text-align:center;}
+.e-meta-hint{margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-ghost);line-height:1.5;border-top:1px solid var(--border);padding-top:14px;max-width:180px;}
+
+/* Main panel */
+#main{display:none;position:fixed;inset:0;padding-top:34px;background:var(--paper);}
+
+/* Nav bar */
+.nav-bar{height:48px;background:var(--ink);display:flex;align-items:center;padding:0 16px;gap:0;overflow-x:auto;}
+.nav-tab{font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;color:rgba(250,248,243,0.5);text-transform:uppercase;padding:0 14px;height:48px;display:flex;align-items:center;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.2s,border-color 0.2s;}
+.nav-tab:hover{color:var(--paper);}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* Content area */
+.content-area{height:calc(100vh - 34px - 48px - 44px);overflow-y:auto;overflow-x:hidden;}
+.section-wrap{display:none;}
+.section-wrap.active{display:block;}
+
+/* Section: Signal */
+.signal-section{display:grid;grid-template-columns:240px 1fr 190px;min-height:calc(100vh - 34px - 48px - 44px);}
+.signal-sidebar{background:var(--parchment);border-right:2px solid var(--border);padding:28px 20px;display:flex;flex-direction:column;gap:20px;}
+.sig-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--amber);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:5px;}
+.sig-main-title{font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:20px;font-weight:600;color:var(--ink);line-height:1.25;}
+.sig-dimension{font-family:'Raleway',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.1em;color:var(--sage);text-transform:uppercase;margin-top:6px;}
+.obs-card{background:white;border:1px solid var(--border);border-top:3px solid var(--sage);padding:12px 14px;}
+.obs-card-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:var(--sage);text-transform:uppercase;margin-bottom:7px;}
+.obs-card-body{font-size:13px;line-height:1.55;color:var(--ink-mid);}
+.obs-card-body strong{color:var(--ink);font-weight:600;}
+.taxonomy-block{margin-top:auto;border-top:1px solid var(--border);padding-top:14px;}
+.tax-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.14em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:9px;}
+.tax-item{display:flex;justify-content:space-between;margin-bottom:4px;}
+.tax-name{font-size:12px;font-style:italic;color:var(--ink-mid);}
+.tax-val{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);}
+
+/* Signal main */
+.signal-main{padding:32px 36px 60px;overflow-y:auto;}
+.s-eyebrow{font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--amber);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.s-eyebrow::before{content:'';width:26px;height:2px;background:var(--amber);}
+.s-headline{font-family:'EB Garamond',Georgia,serif;font-size:clamp(26px,3vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:18px;}
+.s-headline em{font-style:italic;color:var(--sage);}
+.s-lead{font-size:18px;line-height:1.7;color:var(--ink);margin-bottom:24px;border-left:3px solid var(--gold);padding-left:18px;font-style:italic;}
+.s-body{font-size:16px;line-height:1.7;color:var(--ink-mid);}
+.s-body p{margin-bottom:16px;}
+.s-body p:last-child{margin-bottom:0;}
+.s-cite{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);vertical-align:super;cursor:pointer;}
+.concept-box{background:var(--sage-faint);border:1px solid var(--sage);border-left:4px solid var(--sage);padding:22px 26px;margin:24px 0;}
+.concept-box-label{font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;letter-spacing:0.2em;color:var(--sage);text-transform:uppercase;margin-bottom:7px;}
+.concept-box-title{font-family:'EB Garamond',Georgia,serif;font-size:22px;font-weight:600;font-style:italic;color:var(--ink);margin-bottom:9px;}
+.concept-box-body{font-size:15px;line-height:1.65;color:var(--ink-mid);}
+.three-layers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:24px 0;}
+.layer-card{background:var(--parchment);border:1px solid var(--border);border-top:3px solid transparent;padding:18px 16px;cursor:pointer;transition:box-shadow 0.2s,transform 0.15s;}
+.layer-card:nth-child(1){border-top-color:var(--amber);}
+.layer-card:nth-child(2){border-top-color:var(--sage);}
+.layer-card:nth-child(3){border-top-color:var(--ink);}
+.layer-card:hover{box-shadow:0 4px 16px rgba(42,26,14,0.1);transform:translateY(-2px);}
+.layer-num{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-faint);letter-spacing:0.12em;margin-bottom:5px;}
+.layer-title{font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);margin-bottom:8px;}
+.layer-body{font-size:13px;line-height:1.6;color:var(--ink-mid);}
+
+/* Signal marginalia */
+.signal-margin{border-left:1px solid var(--border);padding:24px 14px;background:var(--parchment);display:flex;flex-direction:column;gap:18px;}
+.margin-note{border-bottom:1px dashed var(--border);padding-bottom:14px;}
+.margin-note-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:5px;}
+.margin-note-text{font-family:'EB Garamond',Georgia,serif;font-size:12px;font-style:italic;line-height:1.55;color:var(--ink-mid);}
+
+/* Move box */
+.move-box{background:var(--ink);color:var(--paper);padding:28px 32px;margin:24px 0;display:grid;grid-template-columns:1fr 200px;gap:28px;}
+.move-label{font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+.move-title{font-family:'EB Garamond',Georgia,serif;font-size:24px;font-weight:600;font-style:italic;color:var(--paper);margin-bottom:14px;}
+.move-body{font-size:15px;line-height:1.65;color:rgba(250,248,243,0.85);}
+.move-body p{margin-bottom:12px;}
+.move-meta{border-left:1px solid rgba(255,255,255,0.15);padding-left:20px;display:flex;flex-direction:column;gap:14px;}
+.mmi-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:3px;}
+.mmi-val{font-family:'Raleway',sans-serif;font-size:13px;color:rgba(250,248,243,0.8);}
+
+/* Edge case */
+.edge-box{background:var(--amber-faint);border:1px solid var(--amber);border-left:4px solid var(--red-field);padding:22px 26px;margin:24px 0;}
+.edge-label{font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;letter-spacing:0.18em;color:var(--red-field);text-transform:uppercase;margin-bottom:7px;}
+.edge-title{font-family:'EB Garamond',Georgia,serif;font-size:20px;font-weight:600;font-style:italic;color:var(--ink);margin-bottom:9px;}
+.edge-body{font-size:15px;line-height:1.65;color:var(--ink-mid);}
+
+/* Scouts section */
+.scouts-section{padding:32px 36px 60px;}
+.scouts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0;}
+.scout-card{background:white;border:1px solid var(--border);padding:20px 16px;position:relative;overflow:hidden;cursor:pointer;transition:box-shadow 0.2s;}
+.scout-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.scout-card:nth-child(1)::before{background:linear-gradient(90deg,#7A6A9A,#5A4A7A);}
+.scout-card:nth-child(2)::before{background:linear-gradient(90deg,#4A7A6A,#2A5A4A);}
+.scout-card:nth-child(3)::before{background:linear-gradient(90deg,#C07B1A,#9A5B0A);}
+.scout-card:nth-child(4)::before{background:linear-gradient(90deg,#3A6A8A,#1A4A6A);}
+.scout-card:hover{box-shadow:0 4px 20px rgba(42,26,14,0.12);}
+.scout-gen{font-family:'Raleway',sans-serif;font-size:10px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink);margin-bottom:3px;}
+.scout-born{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-faint);margin-bottom:12px;}
+.scout-territory-label{font-family:'Raleway',sans-serif;font-size:8px;font-weight:700;letter-spacing:0.12em;color:var(--sage);text-transform:uppercase;margin-bottom:7px;}
+.scout-territory{font-size:13px;line-height:1.55;color:var(--ink-mid);}
+.scout-territory li{list-style:none;padding-left:12px;position:relative;margin-bottom:4px;}
+.scout-territory li::before{content:'—';position:absolute;left:0;color:var(--ink-ghost);}
+.scout-signal{margin-top:12px;padding-top:9px;border-top:1px dashed var(--border);font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:12px;color:var(--amber);}
+
+/* Wall section */
+.wall-section{padding:0;}
+.wall-header{padding:32px 36px 20px;}
+.wall-title{font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--amber);text-transform:uppercase;margin-bottom:10px;}
+.wall-headline{font-family:'EB Garamond',Georgia,serif;font-size:30px;font-style:italic;font-weight:600;color:var(--ink);}
+.wall-canvas-wrap{width:100%;background:var(--ink);padding:36px;}
+.wall-canvas-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;color:rgba(250,248,243,0.4);text-transform:uppercase;margin-bottom:20px;}
+.dance-floor{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:100%;}
+.dance-col-header{font-family:'Raleway',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;text-align:center;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.1);}
+.dance-bars{display:flex;flex-direction:column;gap:4px;}
+.dance-bar-row{display:flex;align-items:center;gap:7px;}
+.dance-bar-label{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(250,248,243,0.35);width:80px;text-align:right;flex-shrink:0;}
+.dance-bar-track{flex:1;height:7px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+.dance-bar-fill{height:100%;border-radius:2px;transition:width 1.2s ease;width:0;}
+.wall-caption{padding:20px 36px;font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:14px;color:rgba(250,248,243,0.6);line-height:1.5;background:var(--ink);}
+.wall-footer{padding:20px 36px 36px;}
+.wall-callout{background:var(--gold);color:var(--ink);display:inline-block;padding:14px 22px;font-family:'EB Garamond',Georgia,serif;font-size:20px;font-weight:600;font-style:italic;}
+
+/* History section */
+.history-section{display:grid;grid-template-columns:1fr 1fr;min-height:60vh;}
+.history-panel{padding:36px;border-right:1px solid var(--border);}
+.etymology-panel{padding:36px;}
+.hist-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--sage);text-transform:uppercase;margin-bottom:12px;}
+.hist-headline{font-family:'EB Garamond',Georgia,serif;font-size:22px;font-style:italic;font-weight:600;color:var(--ink);margin-bottom:16px;}
+.hist-body{font-size:15px;line-height:1.7;color:var(--ink-mid);}
+.hist-body p{margin-bottom:14px;}
+.etym-word{font-family:'EB Garamond',Georgia,serif;font-size:44px;font-style:italic;color:var(--ink);line-height:1;margin-bottom:3px;}
+.etym-pron{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);margin-bottom:18px;}
+.etym-tree{display:flex;flex-direction:column;gap:9px;margin-bottom:22px;}
+.etym-node{display:flex;align-items:baseline;gap:10px;}
+.etym-lang{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--amber);letter-spacing:0.1em;width:46px;flex-shrink:0;}
+.etym-form{font-style:italic;color:var(--ink);font-size:14px;margin-right:5px;}
+.etym-meaning{font-size:13px;color:var(--ink-mid);}
+.etym-connection{background:var(--sage-faint);border-left:3px solid var(--sage);padding:12px 16px;font-size:14px;line-height:1.6;color:var(--ink-mid);font-style:italic;}
+
+/* Meliorism + experiment */
+.mel-section{display:grid;grid-template-columns:1fr 1fr;}
+.mel-panel{padding:36px;background:var(--parchment);border-right:1px solid var(--border);}
+.exp-panel{padding:36px;}
+.mel-mark{font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;background:var(--ink);display:inline-block;padding:3px 10px;margin-bottom:14px;}
+.mel-body{font-size:15px;line-height:1.7;color:var(--ink-mid);}
+.mel-body p{margin-bottom:14px;}
+.mel-quote{font-family:'EB Garamond',Georgia,serif;font-size:20px;font-style:italic;font-weight:600;color:var(--ink);line-height:1.35;border-left:4px solid var(--gold);padding-left:18px;margin:20px 0;}
+.exp-label{font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;letter-spacing:0.2em;color:var(--sage);text-transform:uppercase;margin-bottom:12px;}
+.exp-title{font-family:'EB Garamond',Georgia,serif;font-size:20px;font-style:italic;font-weight:600;color:var(--ink);margin-bottom:16px;}
+.exp-steps{display:flex;flex-direction:column;gap:14px;margin-bottom:20px;}
+.exp-step{display:flex;gap:12px;}
+.exp-step-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--paper);background:var(--sage);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.exp-step-body{font-size:14px;line-height:1.6;color:var(--ink-mid);}
+.exp-log{background:var(--ink);color:var(--paper);padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;}
+.exp-log-label{color:var(--gold);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:7px;}
+
+/* Community */
+.community-section{padding:36px;background:var(--parchment);}
+.comm-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:24px 0;}
+.comm-box{background:white;border:1px solid var(--border);padding:22px 20px;}
+.comm-box-label{font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;letter-spacing:0.18em;color:var(--sage);text-transform:uppercase;margin-bottom:9px;}
+.comm-q{font-family:'EB Garamond',Georgia,serif;font-size:16px;font-style:italic;color:var(--ink);line-height:1.5;}
+.founder-block{background:var(--ink);color:var(--paper);padding:22px 26px;margin:18px 0;}
+.founder-label{font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:9px;}
+.founder-space{font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:14px;color:rgba(250,248,243,0.4);line-height:1.5;}
+
+/* Bibliography */
+.bib-section{padding:36px;}
+.bib-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.bib-entry{display:grid;grid-template-columns:26px 1fr;gap:10px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px dashed var(--border);}
+.bib-entry:last-child{border-bottom:none;}
+.bib-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);margin-top:2px;}
+.bib-text{font-size:14px;line-height:1.6;color:var(--ink-mid);}
+.bib-text em{font-style:italic;color:var(--ink);}
+.bib-further{background:var(--gold-faint);border-left:3px solid var(--gold);padding:14px 18px;margin-top:20px;}
+.bib-further-label{font-family:'Raleway',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--amber);text-transform:uppercase;margin-bottom:7px;}
+.bib-further-text{font-size:14px;line-height:1.6;color:var(--ink-mid);}
+
+/* Footer */
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:500;height:44px;background:var(--parchment);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:14px;}
+.footer-lib{font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--sage);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.footer-lib:hover{color:var(--ink);}
+.footer-sep{font-size:10px;color:var(--border-h);}
+.footer-meta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-faint);}
+.footer-right{margin-left:auto;}
+
+/* Mobile */
+@media(max-width:768px){
+  .signal-section{grid-template-columns:1fr;}
+  .signal-sidebar,.signal-margin{display:none;}
+  .signal-main{padding:20px 16px 60px;overflow-y:auto;}
+  .three-layers{grid-template-columns:1fr;}
+  .scouts-grid{grid-template-columns:1fr 1fr;}
+  .history-section,.mel-section,.comm-grid{grid-template-columns:1fr;}
+  .history-panel{border-right:none;border-bottom:1px solid var(--border);}
+  .dance-floor{grid-template-columns:1fr 1fr;}
+  .move-box{grid-template-columns:1fr;}
+  .move-meta{border-left:none;border-top:1px solid rgba(255,255,255,0.15);padding-left:0;padding-top:14px;}
+  #entry{grid-template-columns:40px 1fr;overflow-y:auto;padding-bottom:80px;}
+  .e-deco{display:none;}
+  .e-cover{padding:28px 20px;}
+  .e-title{font-size:34px;}
+  .content-area{overflow-y:auto;padding-bottom:80px;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<!-- Status Bar -->
+<div class="sb">
+  <a href="/" class="sb-logo">Meliorism2.com</a>
+  <div class="sb-div"></div>
+  <span class="sb-meta">World Bee Day · May 20</span>
+  <div class="sb-right">
+    <span class="sb-bee">🐝</span>
+    <span class="sb-clock" id="sbClock"></span>
+    <a href="/archive/index.html" class="sb-lib">Library</a>
+  </div>
+</div>
+
+<!-- Entry Screen -->
+<div id="entry">
+  <div class="e-spine">
+    <span class="e-spine-text">Meliorism2.com · Field Journal</span>
+    <span class="e-spine-num">2026·05·20</span>
+  </div>
+  <div class="e-cover">
+    <div class="e-day-label">World Bee Day · May 20, 2026</div>
+    <h1 class="e-title">The Hive<br>Deliberates</h1>
+    <div class="e-subtitle">Gender &amp; Generational Difference · Naturalist's Field Journal</div>
+    <div class="e-signal-box">
+      <div class="e-signal-label">The 90-Second Signal</div>
+      <div class="e-signal-text">Honeybee colonies choose better than expert panels — not despite having no leader, but because of it. 300–500 scouts each dance for their best site. The most credible signal accumulates dancers. When enough commit, the swarm launches — accurately, nearly every time. Your multi-generational room has this same architecture. The failure isn't that the generations disagree. It's that most facilitators silence the dance before the quorum can form.</div>
+    </div>
+    <button class="e-cta" onclick="openJournal()">Open Field Journal →</button>
+  </div>
+  <div class="e-deco">
+    <svg class="e-hexsvg" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,5 95,27.5 95,87.5 50,110 5,87.5 5,27.5" stroke="#2A1A0E" stroke-width="3" fill="none"/>
+      <polygon points="50,22 78,37.5 78,77.5 50,93 22,77.5 22,37.5" stroke="#2A1A0E" stroke-width="1.5" fill="none" opacity="0.4"/>
+    </svg>
+    <div class="e-obs-count">8 observations<br>4 scouts mapped<br>1 experiment protocol</div>
+    <div class="e-field-no">Field No. 005</div>
+    <div class="e-meta-hint"><strong>Why this format?</strong><br>The naturalist's journal externalizes complex systems as discrete specimen observations — each section skimmable independently or readable in sequence. Useful for visual and systematic thinkers.</div>
+  </div>
+</div>
+
+<!-- Main Panel -->
+<div id="main">
+  <div class="nav-bar">
+    <div class="nav-tab active" onclick="switchTab('signal',this)">The Signal</div>
+    <div class="nav-tab" onclick="switchTab('scouts',this)">Generational Scouts</div>
+    <div class="nav-tab" onclick="switchTab('wall',this)">Dance Floor</div>
+    <div class="nav-tab" onclick="switchTab('history',this)">History &amp; Etymology</div>
+    <div class="nav-tab" onclick="switchTab('meliorism',this)">Meliorism</div>
+    <div class="nav-tab" onclick="switchTab('community',this)">Community</div>
+    <div class="nav-tab" onclick="switchTab('bibliography',this)">Sources</div>
+  </div>
+
+  <div class="content-area">
+
+    <!-- SIGNAL SECTION -->
+    <div class="section-wrap active" id="sec-signal">
+      <div class="signal-section">
+        <div class="signal-sidebar">
+          <div>
+            <div class="sig-label">Today's Observation</div>
+            <div class="sig-main-title">The Hive Deliberates</div>
+            <div class="sig-dimension">Gender &amp; Generational Difference</div>
+          </div>
+          <div class="obs-card">
+            <div class="obs-card-label">Key Concept</div>
+            <div class="obs-card-body">The <strong>Quorum Threshold</strong> — the point at which enough diverse scouts have committed to make the swarm move. Missable. Buildable. Measurable.</div>
+          </div>
+          <div class="obs-card">
+            <div class="obs-card-label">Calendar Hook</div>
+            <div class="obs-card-body">Today is <strong>World Bee Day</strong> (May 20, UNESCO). Named for Anton Janša — born May 20, 1734 — the Slovenian beekeeper who first documented the waggle dance.</div>
+          </div>
+          <div class="obs-card">
+            <div class="obs-card-label">Cross-Domain Pull</div>
+            <div class="obs-card-body">Entomology → Facilitation → Generational theory. Three fields. One mechanism.</div>
+          </div>
+          <div class="taxonomy-block">
+            <div class="tax-label">Specimen Record</div>
+            <div class="tax-item"><span class="tax-name">Format</span><span class="tax-val">Field Journal</span></div>
+            <div class="tax-item"><span class="tax-name">Dimension</span><span class="tax-val">Gen. Difference</span></div>
+            <div class="tax-item"><span class="tax-name">Sources</span><span class="tax-val">8</span></div>
+            <div class="tax-item"><span class="tax-name">Read time</span><span class="tax-val">~14 min</span></div>
+          </div>
+        </div>
+
+        <div class="signal-main" data-obs="signal-main">
+          <div class="s-eyebrow">The Signal — 90-second read</div>
+          <h2 class="s-headline">What the <em>dance floor</em> already knows</h2>
+          <p class="s-lead">When a honeybee colony must find a new home, it sends 300–500 scouts. Each returns and dances with a waggle run proportional to site quality. Over hours, the best site accumulates the most dancers. When enough scouts commit — the quorum threshold — the entire colony launches, together, accurately. No leader. No vote. Distributed signal, honestly danced.</p>
+          <div class="s-body">
+            <p>Your training room has four scouts. Each generational cohort carries a <em>formation history</em>: the accumulated record of institutional environments, economic conditions, and technological infrastructures that shaped their working adulthood. Each is mapping genuinely different territory.</p>
+            <p>The failure mode in multi-generational facilitation is not conflict. Conflict is signal. The failure mode is <strong>premature synthesis</strong> — the facilitator reading the room's discomfort as breakdown rather than information, and rushing to a consensus that one cohort's territory map produced while the others' maps were still being danced.</p>
+            <p>The bee colony never does this. The waggle dance protocol waits for the quorum. It is, according to biologist Thomas Seeley at Cornell, one of the most accurate collective decision processes studied in any species — 95%+ accuracy in selecting the best new home site from available options.<span class="s-cite" onclick="track('cite-1')" title="Seeley, T.D. (2010). Honeybee Democracy. Princeton University Press.">[1]</span></p>
+            <p>The implication for practitioners is structural, not metaphorical. The colony's accuracy comes from three specific mechanisms: independent scouting (no cohort influencing another before each has surveyed their territory), honest signaling (dance intensity reflects genuine site quality, not social pressure), and quorum sensing (movement begins when — not before — sufficient commitment accumulates). All three have direct, applicable equivalents in your facilitation design.</p>
+          </div>
+
+          <div class="concept-box" data-obs="concept-box">
+            <div class="concept-box-label">Named Concept</div>
+            <div class="concept-box-title">The Quorum Threshold</div>
+            <div class="concept-box-body">In bee swarms: the minimum number of scouts committed to a site before the colony launches — not unanimity, but momentum. In multi-generational facilitation: the moment when enough participants from different cohorts have expressed sufficient aligned signal that the group can move with genuine collective ownership, not compliance. It is missable (if you rush synthesis), buildable (if you design for it), and distinguishable from false consensus (which produces alignment in the room and fragmentation on return).</div>
+          </div>
+
+          <div class="three-layers">
+            <div class="layer-card" onclick="track('layer-what')">
+              <div class="layer-num">01 — WHAT IT IS</div>
+              <div class="layer-title">The Mechanism</div>
+              <div class="layer-body">A measurable state in any deliberating group. You can see it: conversations shift from position-staking to territory integration. Cohort representatives begin completing each other's sentences. The room's noise quality changes — from competing signals to harmonics.</div>
+            </div>
+            <div class="layer-card" onclick="track('layer-why')">
+              <div class="layer-num">02 — WHY IT WORKS</div>
+              <div class="layer-title">The Neuroscience</div>
+              <div class="layer-body">Commitment consolidates when we hear our own position reflected and connected. When a Gen X skeptic hears their institutional critique <em>integrated</em> into a Millennial's framework — not refuted, integrated — the quorum effect fires neurologically. This is not groupthink. It is signal integration: two territory maps pointing at the same terrain from different sides.<span class="s-cite" onclick="track('cite-1b')" title="Seeley (2010), pp. 165–193.">[1]</span></div>
+            </div>
+            <div class="layer-card" onclick="track('layer-how')">
+              <div class="layer-num">03 — HOW TO USE IT</div>
+              <div class="layer-title">Today's Move</div>
+              <div class="layer-body">Instead of synthesizing what everyone said — the facilitator's natural reflex — ask the group to synthesize. "Which two of these signals are pointing at the same thing, from different angles?" The generational scouts self-sort. You watch. You don't name the quorum. You create the conditions; the colony does the rest.</div>
+            </div>
+          </div>
+
+          <div class="move-box" data-obs="move-box">
+            <div>
+              <div class="move-label">In-Session Move</div>
+              <div class="move-title">The Scout Check</div>
+              <div class="move-body">
+                <p>Before any topic with generational stakes, say: <em>"For three minutes — no responses, just additions. What does each generation in this room know about [topic] that the others might not have seen yet?"</em> Capture on a visible surface without editing.</p>
+                <p>Then: <em>"Where are two of these pointing at the same territory?"</em> Let the group find the overlap. Don't name it yourself. What you're doing invisibly: creating conditions for independent scouting before the dance floor opens. Each cohort commits to their signal without social dampening from the others. When the floor opens, the quality of the waggle runs is higher.</p>
+                <p>What to watch for: which cohort goes silent when another cohort speaks. That silence is a stopped dance — one bee headbutting another mid-waggle-run to shut down a competing signal. It's data, not dysfunction. Name it as a question, not a critique.</p>
+              </div>
+            </div>
+            <div class="move-meta">
+              <div><div class="mmi-label">Time</div><div class="mmi-val">8–12 minutes</div></div>
+              <div><div class="mmi-label">Group size</div><div class="mmi-val">6–30 participants</div></div>
+              <div><div class="mmi-label">Use when</div><div class="mmi-val">Group stuck or polarized across generational lines</div></div>
+              <div><div class="mmi-label">Do not use when</div><div class="mmi-val">Room has only one cohort — mechanic requires scout diversity</div></div>
+            </div>
+          </div>
+
+          <div class="edge-box" data-obs="edge-box">
+            <div class="edge-label">Edge Case — Complication</div>
+            <div class="edge-title">When Two Quorums Form Simultaneously</div>
+            <div class="edge-body">The bee swarm has a failure mode: two equally strong sites, two equally committed groups of scouts, neither reaching the quorum threshold alone. The colony stalls. This happens in multi-generational rooms when exactly two dominant cohorts hold incompatible formation histories — most commonly Boomer/Gen-Z pairs, where the institutional credentialing map and the institutional distrust map are the two sites.<span class="s-cite" onclick="track('cite-1c')" title="Seeley (2010), pp. 174–179.">[1]</span> The bee solution is startling: scouts physically interrupt the other group's waggle runs. In facilitation, the equivalent is not compromise — it's a third frame. Introduce territory neither cohort has mapped. Ask: "What would someone from outside this organization entirely observe about this question?" A Gen X or Millennial voice often steps into this frame naturally. The two original quorums dissolve. New signals can form.</div>
+          </div>
+        </div>
+
+        <div class="signal-margin">
+          <div class="margin-note">
+            <div class="margin-note-label">Field Note</div>
+            <div class="margin-note-text">"The bees are not communicating information. They are communicating conviction." — Seeley, on the waggle dance</div>
+          </div>
+          <div class="margin-note">
+            <div class="margin-note-label">Practitioner Note</div>
+            <div class="margin-note-text">The facilitator's reflex is to reduce generational tension. The swarm protocol asks something different: honor the tension long enough for the quorum to form.</div>
+          </div>
+          <div class="margin-note">
+            <div class="margin-note-label">World Bee Day</div>
+            <div class="margin-note-text">Anton Janša (1734–1773) documented the waggle dance a century before its meaning was understood. He knew something was being communicated. He couldn't decode it. Sometimes that's enough.</div>
+          </div>
+          <div class="margin-note">
+            <div class="margin-note-label">Cross-Domain</div>
+            <div class="margin-note-text">Independent signal + honest dance + quorum sensing appears in: distributed computing consensus algorithms, urban planning neighborhood input processes, and improvisational theatre ensemble decision-making.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCOUTS SECTION -->
+    <div class="section-wrap" id="sec-scouts">
+      <div class="scouts-section">
+        <div class="s-eyebrow">Observation Set — Generational Scouts</div>
+        <h2 class="s-headline">Four scouts. <em>Four territory maps.</em></h2>
+        <div class="s-body">
+          <p>Each generational cohort carries a formation history — the accumulated record of institutional environments, economic conditions, and technological infrastructures that shaped their working adulthood. These are not stereotypes. They are scouting reports: genuinely different terrain, honestly surveyed. The practitioner who dismisses any scout's map loses signal that cannot be recovered by adding more sessions.</p>
+        </div>
+        <div class="scouts-grid" data-obs="scouts-grid">
+          <div class="scout-card" onclick="track('scout-boomer')">
+            <div class="scout-gen">Baby Boomers</div>
+            <div class="scout-born">b. 1946–1964 · formation era: 1965–1990</div>
+            <div class="scout-territory-label">Territory Map</div>
+            <ul class="scout-territory">
+              <li>Institutional loyalty as a career logic that worked</li>
+              <li>Face-to-face authority as the legitimate channel</li>
+              <li>Linear progression as evidence of competence</li>
+              <li>Seniority as encoded wisdom, not gatekeeping</li>
+            </ul>
+            <div class="scout-signal">"What took us a lifetime to build is being discarded without being understood."</div>
+          </div>
+          <div class="scout-card" onclick="track('scout-genx')">
+            <div class="scout-gen">Generation X</div>
+            <div class="scout-born">b. 1965–1980 · formation era: 1981–2002</div>
+            <div class="scout-territory-label">Territory Map</div>
+            <ul class="scout-territory">
+              <li>Skepticism of institutions as learned from institutional failure</li>
+              <li>DIY autonomy as a survival strategy, not ideology</li>
+              <li>Working around systems rather than through them</li>
+              <li>Pragmatic loyalty to people, not organizations</li>
+            </ul>
+            <div class="scout-signal">"I'll believe the policy when I see it survive the next reorg."</div>
+          </div>
+          <div class="scout-card" onclick="track('scout-millennial')">
+            <div class="scout-gen">Millennials</div>
+            <div class="scout-born">b. 1981–1996 · formation era: 2000–2020</div>
+            <div class="scout-territory-label">Territory Map</div>
+            <ul class="scout-territory">
+              <li>Collaborative meaning-making as non-negotiable</li>
+              <li>Values alignment as prerequisite for commitment</li>
+              <li>Digital fluency as baseline, not differentiator</li>
+              <li>Transparency as default mode, not policy choice</li>
+            </ul>
+            <div class="scout-signal">"Tell me the why before you ask for the what."</div>
+          </div>
+          <div class="scout-card" onclick="track('scout-genz')">
+            <div class="scout-gen">Generation Z</div>
+            <div class="scout-born">b. 1997–2012 · formation era: 2015–present</div>
+            <div class="scout-territory-label">Territory Map</div>
+            <ul class="scout-territory">
+              <li>Radical transparency as the only credible signal</li>
+              <li>Institutional distrust as the evidence-based starting position</li>
+              <li>Algorithmic thinking — pattern and system over authority</li>
+              <li>Identity multiplicity as natural, not confusing</li>
+            </ul>
+            <div class="scout-signal">"I can see the gap between what you say and what you do. I always could."</div>
+          </div>
+        </div>
+        <div class="s-body"><p><span class="s-cite" onclick="track('cite-2')" title="Gratton & Scott (2016). The 100-Year Life.">[2]</span> <span class="s-cite" onclick="track('cite-3')" title="Strauss & Howe (1991). Generations.">[3]</span> Note: use these maps as the scouting reports they are. They are not destiny. Every room will contain individuals whose map differs from their cohort's median. The archetypes are a starting calibration, not a ceiling.</p></div>
+
+        <div class="concept-box" style="margin-top:24px">
+          <div class="concept-box-label">Practitioner Design Question</div>
+          <div class="concept-box-title">Which scout are you most likely to silence?</div>
+          <div class="concept-box-body">Every facilitator has a home cohort — the formation history they share, consciously or not. And every home cohort has a scout whose signal most directly challenges their map. Boomer facilitators often silence Gen Z's credibility challenges. Gen X facilitators often cut short Boomer institutional memory before it finishes. Millennial facilitators often move past Gen X pragmatism before it's done dancing. Awareness of your own tendency to stop signals is the prerequisite for running the Scout Check cleanly.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WALL / DANCE FLOOR -->
+    <div class="section-wrap" id="sec-wall">
+      <div class="wall-section">
+        <div class="wall-header">
+          <div class="wall-title">Wall Moment — Full-Field Visualization</div>
+          <div class="wall-headline">The Dance Floor: Signal Strength by Cohort &amp; Territory Domain</div>
+        </div>
+        <div class="wall-canvas-wrap" data-obs="dance-floor">
+          <div class="wall-canvas-label">Waggle Run Intensity — Mapped from cohort formation research to facilitation signal domains · Seeley (2010), Gratton &amp; Scott (2016)</div>
+          <div class="dance-floor" id="danceFloor"></div>
+          <div class="wall-caption">Bar length = signal intensity (territory confidence by formation domain). In a bee colony, the site with the most accumulated waggle-run intensity wins the quorum. In your room, the signal with the most accumulated vocal endorsement — not the loudest individual — moves the group. Watch for which signals get reinforced and which get stopped mid-dance.</div>
+        </div>
+        <div class="wall-footer">
+          <div class="wall-callout">"The colony's accuracy is not despite having no leader — it is because of it."</div>
+          <div class="s-body" style="padding:20px 0;max-width:760px">
+            <p>Seeley's pivotal finding: when he experimentally introduced a "superstar" bee — one scout with dramatically higher waggle intensity than all others — the colony's decision accuracy <em>declined</em>.<span class="s-cite" onclick="track('cite-1d')" title="Seeley (2010), pp. 200–206.">[1]</span> The superstar suppressed signal diversity. The room converged on the superstar's site, even when better sites were available. The practitioner equivalent: the high-status, high-energy participant whose formation history dominates the dance floor. Every room has one. The Scout Check is one protocol for interrupting the superstar effect without making it personal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY + ETYMOLOGY -->
+    <div class="section-wrap" id="sec-history">
+      <div class="history-section">
+        <div class="history-panel" data-obs="history">
+          <div class="hist-label">Field History — Specimen Context</div>
+          <div class="hist-headline">Thomas Seeley and the Cornell Beeyard</div>
+          <div class="hist-body">
+            <p>Thomas D. Seeley spent his career lying in the grass next to beehives at Cornell, watching. Not theorizing — watching. His decades of direct observation produced <em>Honeybee Democracy</em> (2010), documenting what no one had proven before: that bee colonies, presented with multiple new home sites, consistently select the objectively best one, with no central decision-maker involved at any point.</p>
+            <p>The key methodological move: he painted individual scouts with color dots so he could track which bees had visited which sites and which were now dancing — and with what intensity. The dance floor became legible. What looked like chaos was, upon close observation, a sophisticated signal-weighting and quorum protocol.</p>
+            <p>Seeley's parallel finding: colonies allowed to run the full waggle dance protocol — independent scouts, honest signaling, genuine quorum formation — chose better than colonies he manipulated to converge faster. Speed of convergence and accuracy of decision were in direct tension. The rush to consensus cost the colony quality.</p>
+            <p>The parallel to facilitation is not approximate. It is precise. All of which the practitioner can support, accelerate, obstruct, or corrupt — usually without knowing which they're doing.</p>
+          </div>
+          <div style="margin-top:20px;padding:14px 18px;background:var(--amber-faint);border-left:3px solid var(--amber);">
+            <div class="hist-label" style="margin-bottom:7px;">Historical Footnote</div>
+            <div class="hist-body">World Bee Day is named for Anton Janša (born May 20, 1734), the Slovenian beekeeper who wrote the first systematic apiculture manual in European history. He documented the waggle dance a full century before Karl von Frisch decoded its meaning in the 1940s — winning the Nobel Prize in 1973 for the work. Janša knew something was being communicated. He could not yet say what. The gap between observation and understanding is one of the most generative places in any discipline.<span class="s-cite" onclick="track('cite-7')" title="UNESCO (2017). World Bee Day Resolution.">[7]</span></div>
+          </div>
+        </div>
+        <div class="etymology-panel">
+          <div class="hist-label">Etymology — Root of the Word</div>
+          <div class="etym-word">deliberate</div>
+          <div class="etym-pron">/dɪˈlɪb.ər.ɪt/ · v. &amp; adj.</div>
+          <div class="etym-tree">
+            <div class="etym-node"><span class="etym-lang">LATIN</span><span><span class="etym-form">deliberare</span><span class="etym-meaning">to consider carefully, to weigh</span></span></div>
+            <div class="etym-node"><span class="etym-lang">PREFIX</span><span><span class="etym-form">de-</span><span class="etym-meaning">intensive (completely, thoroughly)</span></span></div>
+            <div class="etym-node"><span class="etym-lang">ROOT</span><span><span class="etym-form">librare</span><span class="etym-meaning">to weigh (from libra, scales)</span></span></div>
+            <div class="etym-node"><span class="etym-lang">PROTO-IE</span><span><span class="etym-form">*(s)li-bh-</span><span class="etym-meaning">to balance, to swing</span></span></div>
+          </div>
+          <div class="etym-connection">To deliberate is, at its root, to put on the scales — to weigh thoroughly. The bee colony puts every available option on the scale simultaneously, through the aggregate weight of the dance floor. The Latin sense and the biological mechanism are, remarkably, the same operation. The etymology arrived at the structure before the biology was legible.</div>
+          <div style="margin-top:24px;">
+            <div class="hist-label">Secondary Etymology</div>
+            <div class="etym-word" style="font-size:34px;">quorum</div>
+            <div class="etym-pron">/ˈkwɔː.rəm/ · n., from Latin genitive plural of qui ("of whom")</div>
+            <div class="hist-body" style="margin-top:10px;">
+              <p>Originally a legal formula: <em>quorum vos unum esse volumus</em> — "of whom we wish you to be one." A quorum was the minimum number of specific people whose presence made an assembly legally constituted. The word carried membership, not just number — these particular ones, not just any sufficient count.</p>
+              <p>The bee colony's quorum threshold operates the same way: it is not merely that enough bees commit, but that enough of <em>these particular scouts</em> — those who have surveyed the best site — have committed. The quorum is a quality judgment, not just a headcount.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MELIORISM + EXPERIMENT -->
+    <div class="section-wrap" id="sec-meliorism">
+      <div class="mel-section">
+        <div class="mel-panel" data-obs="meliorism">
+          <div class="mel-mark">Meliorism Element</div>
+          <div class="hist-headline" style="margin-bottom:16px;">Constructive Stewardship Without Control</div>
+          <div class="mel-body">
+            <p>The bee colony is the most elegant existing demonstration of what Meliorism 2.0 proposes: that the world gets better through collaborative agency, not central direction. No bee controls the swarm. Every bee stewards the signal. The quorum threshold is not imposed — it emerges from the accumulation of wise, independent action.</p>
+            <p>What makes this Meliorist rather than merely naturalistic: the bees do not simply aggregate. They remain <em>honest</em> about what they actually found. The waggle dance is an honest signal — a bee cannot effectively fake high site quality by dancing harder; intensity emerges from genuine assessment. The mechanism is built for honest input, and it produces accurate collective decisions because of that honesty.</p>
+            <p>The practitioner who runs this protocol in a multi-generational room is not managing consensus. They are creating the conditions under which the room's own distributed wisdom can surface and sort itself. That is stewardship: not adding your map to theirs, but tending the dance floor until the quorum forms.</p>
+          </div>
+          <div class="mel-quote">"The world gets better not through a leader knowing more, but through diverse agents each contributing their territory map fully."</div>
+          <div class="mel-body">
+            <p>The generational diversity in your room is not a design problem to be managed. It is the signal-diversity that makes collective intelligence possible. A room of one cohort — however skilled — is a colony that sent only one scout. It may find a fine site. It will never find the best one.<span class="s-cite" onclick="track('cite-8')" title="Surowiecki (2004). The Wisdom of Crowds.">[8]</span></p>
+          </div>
+        </div>
+        <div class="exp-panel">
+          <div class="exp-label">Experiment Protocol — This Week</div>
+          <div class="exp-title">The Dance Floor Audit</div>
+          <div class="exp-steps">
+            <div class="exp-step">
+              <div class="exp-step-num">1</div>
+              <div class="exp-step-body"><strong>Before your next multi-generational session:</strong> note the approximate cohort composition of the room. You don't need birth years — broad formation-era intuition is sufficient. Who is likely carrying which territory map?</div>
+            </div>
+            <div class="exp-step">
+              <div class="exp-step-num">2</div>
+              <div class="exp-step-body"><strong>During the session:</strong> for one 20-minute block, track silently. Who speaks first on each new topic? Who amplifies (adds to) rather than counters? Who stops a signal — interrupts, redirects, or signals non-verbally — before it completes its run?</div>
+            </div>
+            <div class="exp-step">
+              <div class="exp-step-num">3</div>
+              <div class="exp-step-body"><strong>Run the Scout Check once:</strong> "For three minutes — additions only. What does each generation in this room know about [topic] that the others might not have seen?" Observe what surfaces that wasn't visible before.</div>
+            </div>
+            <div class="exp-step">
+              <div class="exp-step-num">4</div>
+              <div class="exp-step-body"><strong>After:</strong> note which cohort's territory was integrated into the final synthesis. Which was filtered out? Was the quorum genuine (you could feel the room commit) or performed (verbal agreement, body language still divided)?</div>
+            </div>
+          </div>
+          <div class="exp-log">
+            <div class="exp-log-label">Log Template — One Line Per Session</div>
+            [Date] · [Cohorts present] · [Scout silenced] · [Quorum: genuine/performed/none] · [What I'd change]
+          </div>
+          <div style="margin-top:22px;padding:14px 18px;background:var(--sage-faint);border-left:3px solid var(--sage);">
+            <div class="obs-card-label" style="margin-bottom:7px;">Community Share Invitation</div>
+            <div style="font-size:14px;color:var(--ink-mid);line-height:1.6;">Share one observation from your dance floor audit. What did you notice about your own reflexive tendency to stop or amplify a particular generation's signal? What surprised you about the quorum — when it formed, or when it didn't?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMUNITY -->
+    <div class="section-wrap" id="sec-community">
+      <div class="community-section">
+        <div class="s-eyebrow">Community</div>
+        <h2 class="s-headline">The <em>field</em> notes back</h2>
+        <div class="comm-grid">
+          <div class="comm-box" onclick="track('comm-format-q')">
+            <div class="comm-box-label">Format Question</div>
+            <div class="comm-q">The Naturalist's Field Journal formats each section as a discrete specimen — skimmable as an index card, readable in sequence, revisable as a reference. Did this format work for your brain today? What would you change about how the observations were organized?</div>
+          </div>
+          <div class="comm-box" onclick="track('comm-content-q')">
+            <div class="comm-box-label">Content Question</div>
+            <div class="comm-q">The four scout maps are formation-history summaries — intentionally broad. Where did your room's actual scouts map differently? What territory did the archetypes miss, and what did they get right about your cohort?</div>
+          </div>
+        </div>
+        <div class="founder-block">
+          <div class="founder-label">Founder Announcements</div>
+          <div class="founder-space">[ Brian fills in — founding member updates, community notes, upcoming sessions ]</div>
+        </div>
+        <div style="background:var(--parchment);color:var(--ink);padding:22px 26px;margin-top:0;border-left:4px solid var(--gold);border:1px solid var(--border);border-left:4px solid var(--gold);">
+          <div style="font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;margin-bottom:9px;">Supporter Messages</div>
+          <div style="font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:14px;color:var(--ink-faint);line-height:1.5;">[ Brian fills in — recognition, community shares, practitioner field reports ]</div>
+        </div>
+        <div style="margin-top:28px;padding:22px 26px;background:var(--aged);border-left:4px solid var(--sage);">
+          <div class="obs-card-label" style="color:var(--sage);margin-bottom:7px;">About Meliorism2.com</div>
+          <div style="font-size:14px;line-height:1.6;color:var(--ink-mid);">Meliorism2.com is an independent practitioner media publication for trainers, coaches, educators, managers, leaders, and parents. Each briefing is a self-contained experience — a different visual world every issue — built on peer-reviewed research and translated into practitioner language. Founding members support an independent, ad-free signal that serves the room, not the market.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIBLIOGRAPHY -->
+    <div class="section-wrap" id="sec-bibliography">
+      <div class="bib-section">
+        <div class="s-eyebrow">Specimen Provenance</div>
+        <h2 class="s-headline">Sources &amp; <em>Field References</em></h2>
+        <div class="bib-label">CITED SOURCES — 8 TOTAL</div>
+        <div class="bib-entry"><div class="bib-num">[1]</div><div class="bib-text">Seeley, T.D. (2010). <em>Honeybee Democracy.</em> Princeton University Press. — The foundational work on swarm intelligence, quorum sensing, and collective decision-making. Seeley's documentation of 95%+ accuracy in site selection, the superstar suppression effect, and the waggle dance as honest signal are the primary biological framework for this briefing.</div></div>
+        <div class="bib-entry"><div class="bib-num">[2]</div><div class="bib-text">Gratton, L. &amp; Scott, A. (2016). <em>The 100-Year Life: Living and Working in an Age of Longevity.</em> Bloomsbury Publishing. — Formation history and generational cohorts in the context of extended working lives; how different cohorts have accumulated fundamentally different intangible knowledge infrastructures.</div></div>
+        <div class="bib-entry"><div class="bib-num">[3]</div><div class="bib-text">Strauss, W. &amp; Howe, N. (1991). <em>Generations: The History of America's Future.</em> William Morrow. — Formation history as a predictive frame for cohort values and institutional orientations. Use the formation-history concept; apply skepticism to the cyclical determinism claims.</div></div>
+        <div class="bib-entry"><div class="bib-num">[4]</div><div class="bib-text">Schein, E.H. (2010). <em>Organizational Culture and Leadership</em> (4th ed.). Jossey-Bass. — Schein's work on tacit knowledge and the organizational level of culture provides the framework for why generational formation histories persist as working assumptions rather than explicit beliefs — and why they are difficult to surface without deliberate facilitation design.</div></div>
+        <div class="bib-entry"><div class="bib-num">[5]</div><div class="bib-text">Weick, K.E. (1995). <em>Sensemaking in Organizations.</em> Sage Publications. — Weick's sensemaking framework describes how groups construct meaning from ambiguous signals. Different cohorts apply different sensemaking frames to identical events; the quorum forms when these frames find shared interpretive ground.</div></div>
+        <div class="bib-entry"><div class="bib-num">[6]</div><div class="bib-text">Couzin, I.D. (2009). Collective cognition in animal groups. <em>Trends in Cognitive Sciences,</em> 13(1), 36–43. — General mechanisms by which animal collectives produce decisions that no individual could generate alone; the mathematics of quorum sensing and honest signaling as a general biological protocol.</div></div>
+        <div class="bib-entry"><div class="bib-num">[7]</div><div class="bib-text">UNESCO. (2017). <em>World Bee Day Resolution.</em> United Nations General Assembly. — The designation of May 20 as World Bee Day, commemorating Anton Janša (1734–1773), whose first systematic apiculture manual documented the waggle dance a century before its meaning was understood.</div></div>
+        <div class="bib-entry"><div class="bib-num">[8]</div><div class="bib-text">Surowiecki, J. (2004). <em>The Wisdom of Crowds.</em> Doubleday. — The conditions under which diverse groups outperform expert individuals — and when they fail (information cascade, homophily, centralization). The human-organization parallel to the colony's accuracy conditions.</div></div>
+        <div class="bib-further">
+          <div class="bib-further-label">Further Reading — Cross-Domain</div>
+          <div class="bib-further-text"><strong>For the practitioner who wants the computational equivalent:</strong> Lamport, L., Shostak, R., &amp; Pease, M. (1982). The Byzantine Generals Problem. <em>ACM Transactions on Programming Languages and Systems,</em> 4(3), 382–401. — The theoretical foundation of consensus in distributed systems where nodes cannot all trust each other. The problem the bee colony solved in biology; computer science spent two decades formalizing the same structure. The parallels to multi-generational trust dynamics in facilitation rooms are not coincidental.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content-area -->
+</div><!-- /main -->
+
+<!-- Footer Bar -->
+<div class="footer-bar">
+  <a href="/archive/index.html" class="footer-lib">← Library</a>
+  <span class="footer-sep">·</span>
+  <span class="footer-meta">Issue 005 · The Hive Deliberates · 2026-05-20</span>
+  <span class="footer-right"><span class="footer-meta">World Bee Day 🐝</span></span>
+</div>
+
+<script>
+// Clock
+function updateClock(){
+  const n=new Date();
+  document.getElementById('sbClock').textContent=n.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+setInterval(updateClock,1000);updateClock();
+
+// Open journal
+function openJournal(){
+  track('open-journal');
+  const entry=document.getElementById('entry');
+  const main=document.getElementById('main');
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    main.style.display='block';
+    requestAnimationFrame(()=>{requestAnimationFrame(()=>{
+      buildDanceFloor();
+      initObserver();
+    });});
+  },700);
+}
+
+// Tab switching
+function switchTab(id,el){
+  track('tab-'+id);
+  document.querySelectorAll('.section-wrap').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  const sec=document.getElementById('sec-'+id);
+  if(sec) sec.classList.add('active');
+  if(el) el.classList.add('active');
+  const ca=document.querySelector('.content-area');
+  if(ca) ca.scrollTop=0;
+  if(id==='wall') setTimeout(animateBars,300);
+}
+
+// Dance floor data
+const DANCE_DATA=[
+  {cohort:'Boomers',color:'#7A6A9A',bars:[{l:'Authority trust',v:88},{l:'Institutional memory',v:92},{l:'Process respect',v:76},{l:'Oral knowledge',v:84},{l:'Seniority signal',v:79}]},
+  {cohort:'Gen X',color:'#4D7358',bars:[{l:'Systems critique',v:90},{l:'Autonomy need',v:95},{l:'Pragmatic trust',v:72},{l:'Workaround fluency',v:88},{l:'Low-drama clarity',v:82}]},
+  {cohort:'Millennials',color:'#C07B1A',bars:[{l:'Values alignment',v:94},{l:'Collaborative pull',v:89},{l:'Digital fluency',v:91},{l:'Meaning-seeking',v:96},{l:'Feedback appetite',v:83}]},
+  {cohort:'Gen Z',color:'#3A6A8A',bars:[{l:'Transparency radar',v:97},{l:'Pattern recognition',v:92},{l:'Institutional doubt',v:95},{l:'Identity fluency',v:88},{l:'Signal sensitivity',v:93}]}
+];
+
+function buildDanceFloor(){
+  const floor=document.getElementById('danceFloor');
+  if(!floor||floor.children.length>0) return;
+  DANCE_DATA.forEach(col=>{
+    const div=document.createElement('div');
+    div.innerHTML=`<div class="dance-col-header" style="color:${col.color}">${col.cohort}</div>
+      <div class="dance-bars">${col.bars.map(b=>`
+        <div class="dance-bar-row" data-val="${b.v}">
+          <div class="dance-bar-label">${b.l}</div>
+          <div class="dance-bar-track">
+            <div class="dance-bar-fill" style="background:${col.color};width:0%"></div>
+          </div>
+        </div>`).join('')}
+      </div>`;
+    floor.appendChild(div);
+  });
+}
+
+function animateBars(){
+  document.querySelectorAll('.dance-bar-row').forEach((row,i)=>{
+    const val=row.dataset.val;
+    const fill=row.querySelector('.dance-bar-fill');
+    if(fill) setTimeout(()=>{fill.style.width=val+'%';},i*55);
+  });
+}
+
+// Intersection Observer
+function initObserver(){
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting) track('view-'+(e.target.dataset.obs||'unknown'));});
+  },{threshold:0.3});
+  document.querySelectorAll('[data-obs]').forEach(el=>obs.observe(el));
+}
+
+// Click tracking
+function track(event){
+  try{
+    const ex=JSON.parse(localStorage.getItem('sos_track')||'[]');
+    ex.push({e:event,t:Date.now()});
+    if(ex.length>200) ex.shift();
+    localStorage.setItem('sos_track',JSON.stringify(ex));
+  }catch(x){}
+}
+
+// Scroll depth tracking
+const ca=document.querySelector('.content-area');
+if(ca){
+  let maxD=0;
+  ca.addEventListener('scroll',()=>{
+    const pct=Math.round((ca.scrollTop/(ca.scrollHeight-ca.clientHeight))*100);
+    if(pct>maxD+10){maxD=pct;track('scroll-depth-'+pct);}
+  });
+}
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

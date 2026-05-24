@@ -1,0 +1,527 @@
+<!-- signal-os:date: 2026-05-09 -->
+<!-- signal-os:slug: hanlons-razor -->
+<!-- signal-os:title: Hanlon's Razor -->
+<!-- signal-os:concept: Never attribute to malice what is adequately explained by incompetence. The attribution error as practitioner trap. -->
+<!-- signal-os:format: The Incident Report -->
+<!-- signal-os:dimension: Brave Spaces -->
+<!-- signal-os:sources: 8 -->
+<!-- signal-os:tags: #reasoning #collaboration #trust -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 9 · Hanlon's Razor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Code+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#F5F0E8;
+  --text:#1A1208;
+  --manila:#E8DCC8;
+  --stamp:#8B2020;
+  --blue:#1A3A8B;
+  --border:rgba(26,18,8,0.15);
+  --muted:rgba(26,18,8,0.5);
+  --line:rgba(26,18,8,0.08);
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source Serif 4',serif;overflow:hidden;}
+
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;
+  background:rgba(245,240,232,0.97);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+  font-family:'Source Code Pro',monospace;font-size:0.7rem;color:var(--muted);
+}
+.sb-logo a{font-weight:600;color:var(--text);text-decoration:none;font-size:0.72rem;font-family:'Source Serif 4',serif;letter-spacing:0.06em;}
+.sb-sep{opacity:0.3;}
+.sb-right{margin-left:auto;display:flex;gap:14px;}
+
+/* ENTRY */
+#entry{
+  position:fixed;inset:0;top:36px;
+  background:var(--bg);
+  display:grid;place-items:center;
+  overflow-y:auto;padding:20px;padding-bottom:80px;
+}
+.folder-wrap{
+  width:min(480px,100%);
+  position:relative;cursor:pointer;
+}
+.folder-body{
+  background:var(--manila);
+  border:1px solid rgba(26,18,8,0.2);
+  border-radius:2px 2px 4px 4px;
+  padding:0;
+  box-shadow:2px 4px 16px rgba(26,18,8,0.15);
+  animation:folderOpen 0.8s ease 0.3s both;
+  transform-origin:top center;
+}
+@keyframes folderOpen{
+  from{transform:scaleY(0.05);opacity:0;}
+  to{transform:scaleY(1);opacity:1;}
+}
+.folder-tab{
+  background:#D4C4A0;
+  border-radius:4px 4px 0 0;
+  border:1px solid rgba(26,18,8,0.2);
+  border-bottom:none;
+  padding:8px 20px;
+  font-family:'Source Code Pro',monospace;font-size:0.7rem;font-weight:500;
+  letter-spacing:0.1em;color:rgba(26,18,8,0.7);
+  display:inline-block;
+  margin-bottom:-1px;
+}
+.folder-inner{padding:32px 36px 36px;}
+.case-stamp{
+  display:inline-block;
+  border:2px solid var(--stamp);color:var(--stamp);
+  font-family:'Source Code Pro',monospace;font-size:0.72rem;font-weight:500;
+  letter-spacing:0.14em;padding:5px 14px;
+  transform:rotate(-3deg);
+  margin-bottom:24px;
+  box-shadow:1px 1px 0 rgba(139,32,32,0.3);
+}
+.folder-principle{
+  font-size:1.05rem;line-height:1.7;font-style:italic;
+  color:var(--text);margin-bottom:20px;
+  border-left:3px solid var(--stamp);padding-left:16px;
+}
+.folder-attr{
+  font-family:'Source Code Pro',monospace;font-size:0.72rem;color:var(--muted);
+  margin-bottom:28px;
+}
+.folder-status{
+  display:flex;gap:16px;align-items:center;margin-bottom:28px;
+  padding:12px 16px;background:rgba(26,18,8,0.04);border:1px solid var(--border);
+}
+.status-dot{width:8px;height:8px;background:var(--stamp);border-radius:50%;
+  animation:pulse 1.6s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.status-text{font-family:'Source Code Pro',monospace;font-size:0.72rem;color:var(--text);}
+.entry-btn{
+  display:inline-block;padding:12px 32px;
+  background:var(--blue);color:#F5F0E8;
+  font-family:'Source Code Pro',monospace;font-size:0.8rem;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border:none;
+  transition:opacity 0.2s;
+}
+.entry-btn:hover{opacity:0.85;}
+
+/* MAIN PANEL */
+#main{
+  display:none;
+  position:fixed;inset:0;top:36px;
+  grid-template-columns:200px 1fr;
+  grid-template-rows:1fr auto;
+  background:var(--bg);
+}
+.sidebar{
+  background:#E0D4BC;border-right:1px solid var(--border);
+  padding:24px 0;overflow-y:auto;
+}
+.sidebar-label{
+  font-family:'Source Code Pro',monospace;font-size:0.58rem;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--muted);padding:0 16px 12px;
+  border-bottom:1px solid var(--border);margin-bottom:8px;
+}
+.tab-item{
+  display:flex;align-items:center;gap:8px;padding:9px 16px;
+  cursor:pointer;border-left:3px solid transparent;transition:all 0.15s;
+}
+.tab-item:hover,.tab-item.active{
+  background:var(--bg);border-left-color:var(--stamp);
+}
+.tab-code{
+  font-family:'Source Code Pro',monospace;font-size:0.62rem;
+  color:var(--stamp);font-weight:500;min-width:20px;
+}
+.tab-name{font-size:0.77rem;line-height:1.3;color:var(--text);}
+.tab-item.active .tab-name{font-weight:600;}
+
+/* CONTENT */
+.content{overflow-y:auto;padding:48px 56px 80px;background:var(--bg);}
+/* ruled paper effect */
+.content{
+  background-image:repeating-linear-gradient(transparent,transparent 27px,var(--line) 27px,var(--line) 28px);
+  background-attachment:local;
+}
+.section{
+  max-width:700px;padding-bottom:64px;border-bottom:2px dashed var(--border);margin-bottom:64px;
+  position:relative;
+}
+.section:last-of-type{border-bottom:none;}
+.section-code{
+  font-family:'Source Code Pro',monospace;font-size:0.6rem;font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--stamp);
+  display:block;margin-bottom:10px;
+}
+.section h2{font-size:1.8rem;font-weight:300;line-height:1.2;margin-bottom:24px;}
+.section p{font-size:0.94rem;line-height:1.85;margin-bottom:14px;background:transparent;}
+.cite{
+  font-size:0.74rem;color:var(--text);border-left:3px solid var(--stamp);
+  padding:10px 16px;margin:10px 0 24px;display:block;line-height:1.7;
+  background:rgba(139,32,32,0.05);
+}
+
+/* WALL — ATTRIBUTION TABLE */
+.wall{
+  width:100vw;position:relative;left:50%;transform:translateX(-50%);
+  background:var(--text);color:var(--bg);
+  padding:56px 40px;margin:64px 0;
+}
+.wall-label{
+  font-family:'Source Code Pro',monospace;font-size:0.62rem;letter-spacing:0.16em;
+  color:var(--stamp);text-transform:uppercase;margin-bottom:8px;display:block;
+  text-shadow:0 0 10px rgba(139,32,32,0.6);
+}
+.wall-sub{font-size:0.85rem;opacity:0.6;margin-bottom:36px;font-style:italic;}
+.attr-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.attr-table th{
+  font-family:'Source Code Pro',monospace;font-size:0.6rem;letter-spacing:0.1em;
+  text-transform:uppercase;padding:10px 14px;text-align:left;
+  border-bottom:1px solid rgba(245,240,232,0.2);color:rgba(245,240,232,0.5);
+}
+.attr-table td{padding:12px 14px;border-bottom:1px solid rgba(245,240,232,0.08);vertical-align:top;line-height:1.5;}
+.attr-table tr:last-child td{border-bottom:none;}
+.attr-table td:first-child{color:rgba(245,240,232,0.85);font-style:italic;}
+.attr-table td:nth-child(2){color:#CC6666;}
+.attr-table td:nth-child(3){color:#88BBEE;}
+.attr-table td:nth-child(4){color:rgba(245,240,232,0.75);font-family:'Source Code Pro',monospace;font-size:0.76rem;}
+
+/* FOOTER */
+.main-footer{
+  grid-column:1/-1;border-top:1px solid var(--border);
+  padding:12px 24px;display:flex;align-items:center;gap:16px;
+  font-family:'Source Code Pro',monospace;font-size:0.7rem;color:var(--muted);
+  background:var(--bg);
+}
+.main-footer a{color:var(--text);text-decoration:none;font-weight:500;}
+.main-footer a:hover{color:var(--stamp);}
+.footer-sep{opacity:0.3;}
+
+@media(max-width:768px){
+  #entry{overflow-y:auto;padding-bottom:80px;}
+  #main{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .content{padding:28px 20px 80px;}
+  .wall{padding:36px 20px;left:0;transform:none;width:100%;}
+  .attr-table{font-size:0.75rem;}
+  .attr-table th:nth-child(3),.attr-table td:nth-child(3){display:none;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <div class="sb-logo"><a href="/">MELIORISM2.COM</a></div>
+  <span class="sb-sep">|</span>
+  <span>009 · HANLON'S RAZOR</span>
+  <div class="sb-right">
+    <span id="clk" style="font-family:'Source Code Pro',monospace;font-size:0.7rem;color:var(--muted);"></span>
+    <span>BRAVE SPACES</span>
+  </div>
+</div>
+
+<div id="entry">
+  <div class="folder-wrap">
+    <div class="folder-tab">INCIDENT REPORT — CASE FILE 009</div>
+    <div class="folder-body">
+      <div class="folder-inner">
+        <div class="case-stamp">CASE OPEN</div>
+        <p class="folder-principle">"Never attribute to malice what is adequately explained by incompetence."</p>
+        <p class="folder-attr" style="font-family:'Source Code Pro',monospace;font-size:0.72rem;color:var(--muted);margin-bottom:24px;">— Hanlon's Razor. Origin disputed. Possibly Robert J. Hanlon, 1980.</p>
+        <div class="folder-status">
+          <div class="status-dot"></div>
+          <div class="status-text">Investigation active · Attribution error identified · Evidence being filed</div>
+        </div>
+        <button class="entry-btn" onclick="openMain()">Open the File →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="main">
+  <nav class="sidebar">
+    <div class="sidebar-label">Case Sections</div>
+    <div class="tab-item active" onclick="scrollTo('sa',this)"><span class="tab-code">A</span><span class="tab-name">The Principle</span></div>
+    <div class="tab-item" onclick="scrollTo('sb',this)"><span class="tab-code">B</span><span class="tab-name">The Attribution Error</span></div>
+    <div class="tab-item" onclick="scrollTo('sc',this)"><span class="tab-code">C</span><span class="tab-name">Malice vs. Incompetence in L&amp;D</span></div>
+    <div class="tab-item" onclick="scrollTo('sd',this)"><span class="tab-code">D</span><span class="tab-name">The Organizational Version</span></div>
+    <div class="tab-item" onclick="scrollTo('se',this)"><span class="tab-code">E</span><span class="tab-name">Brave Spaces</span></div>
+    <div class="tab-item" onclick="scrollTo('sf',this)"><span class="tab-code">F</span><span class="tab-name">When Hanlon Fails</span></div>
+    <div class="tab-item" onclick="scrollTo('sg',this)"><span class="tab-code">G</span><span class="tab-name">Attribution Table</span></div>
+    <div class="tab-item" onclick="scrollTo('sh',this)"><span class="tab-code">H</span><span class="tab-name">Field Work</span></div>
+  </nav>
+
+  <div class="content" id="contentPane">
+    <div class="section" id="sa" data-track="section-principle">
+      <span class="section-code">Section A — The Principle</span>
+      <h2>Hanlon Was Not Famous. That's the Point.</h2>
+      <p>Robert J. Hanlon may have been an ordinary person from Scranton, Pennsylvania who submitted a quip to Murphy's Law: Book Two in 1980. That is the most plausible origin of the razor that bears his name. He was not a philosopher, not a social scientist, not a celebrated intellectual. He noticed something true and wrote it down.</p>
+      <p>The principle: never attribute to malice what is adequately explained by incompetence. The operative word is "adequately." The razor is not saying malice doesn't exist. It is saying that before you reach for the malice explanation, you must first ask whether incompetence explains the facts equally well — and if it does, prefer it.</p>
+      <p>This matters because malice explanations are sticky. Once you have decided that someone acted from bad intent, everything they do afterward confirms it. The razor interrupts that process at the moment of attribution, before the narrative hardens.</p>
+      <span class="cite">Hanlon's Razor appears in <em>Murphy's Law Book Two: More Reasons Why Things Go Wrong</em> (Price/Stern/Sloan, 1980). The attribution is disputed — the same principle appears in Robert Heinlein's 1941 novella <em>Logic of Empire</em> ("You have attributed conditions to villainy that simply result from stupidity") and in Napoleon Bonaparte's alleged aphorism. The uncertain origin is itself instructive.</span>
+    </div>
+
+    <div class="section" id="sb" data-track="section-attribution">
+      <span class="section-code">Section B — The Attribution Error</span>
+      <h2>Ross (1977) and the Fundamental Attribution Error</h2>
+      <p>Lee Ross named the "fundamental attribution error" in 1977: people consistently overweight dispositional explanations (character, intent, personality) and underweight situational explanations (context, constraints, circumstances) when explaining others' behavior. When someone acts badly, we say they are a bad person. When we act badly, we cite the situation.</p>
+      <p>Fritz Heider's earlier work on interpersonal perception (1958) showed that this bias is not learned — it is the default mode of human social cognition. We are built to infer intention behind action. It was an evolutionary advantage when the action in question was a predator bearing down on us. It is a liability when the action is a colleague missing a deadline.</p>
+      <p>Harold Kelley's covariation model (1967) mapped the conditions under which attribution to person versus situation is rational — and found that humans consistently skip the necessary covariation analysis and jump directly to person-attribution. We are not bad at logic; we simply don't perform it before we reach a social conclusion.</p>
+      <span class="cite"><em>Ross, Lee.</em> "The Intuitive Psychologist and His Shortcomings." <em>Advances in Experimental Social Psychology</em> 10 (1977): 173–220. <em>Heider, Fritz.</em> <em>The Psychology of Interpersonal Relations.</em> Wiley, 1958. <em>Kelley, Harold H.</em> "Attribution Theory in Social Psychology." <em>Nebraska Symposium on Motivation</em> 15 (1967): 192–238.</span>
+    </div>
+
+    <div class="section" id="sc" data-track="section-ld">
+      <span class="section-code">Section C — Malice vs. Incompetence in L&D</span>
+      <h2>The Learner Who "Won't"</h2>
+      <p>There is a specific attribution trap that haunts training: the learner who "won't" apply what they've learned. The trainer worked hard. The content was solid. The evaluation scores were good. And three months later, nothing has changed.</p>
+      <p>The malice attribution is tempting: they didn't want to change. They were resistant. They were protecting their turf. Their manager undermined the program. Someone sabotaged it. These explanations feel explanatory because they locate a cause in an actor with a will.</p>
+      <p>The incompetence attribution is more uncomfortable and usually more accurate: the transfer design was inadequate. The training didn't include enough practice with the actual conditions participants would face. The manager wasn't prepared to support application. The gap between learning and doing wasn't bridged. Nobody did anything malicious. The system simply wasn't designed for transfer.</p>
+      <p>Chris Argyris called this "skilled incompetence" — professionals who are very good at avoiding the conditions that would reveal their limitations, not because they're malicious but because the avoidance is automatic, invisible, and defended by reasoning that sounds entirely sensible.</p>
+      <span class="cite"><em>Argyris, Chris.</em> "Teaching Smart People How to Learn." <em>Harvard Business Review</em> 69, no. 3 (1991): 99–109. Argyris's concept of double-loop learning — and the defensive routines that prevent it — maps directly onto the incompetence-not-malice reading of organizational non-learning.</span>
+    </div>
+
+    <div class="section" id="sd" data-track="section-org">
+      <span class="section-code">Section D — The Organizational Version</span>
+      <h2>Systemic Incompetence vs. Deliberate Obstruction</h2>
+      <p>Organizations develop what look like deliberate patterns of dysfunction — policies that frustrate, systems that contradict each other, processes that destroy the work they're supposed to support. The temptation is to explain these as the result of malicious actors, political sabotage, or deliberate consolidation of power.</p>
+      <p>The more frequent explanation is Gall's Law: complex systems fail in complex ways, and the failure modes accumulate over time without anyone intending them. The organization has fifteen competing IT systems because each was the right solution to a specific problem at a specific moment, and nobody was in charge of the integration. That's incompetence in the literal sense — the structural capacity to govern complexity was not present. Not malice.</p>
+      <p>The diagnostic question Hanlon's razor demands: what would the behavior look like if everyone involved was simply operating at the edge of their capacity, managing incomplete information, responding to local incentives? If that scenario explains what you observe, you don't need malice. The razor is a call for structural diagnosis before conspiracy theory.</p>
+      <span class="cite"><em>Gall, John.</em> <em>Systemantics.</em> Quadrangle, 1975. See also <em>Argyris, Chris, and Donald Schön.</em> <em>Organizational Learning: A Theory of Action Perspective.</em> Addison-Wesley, 1978 — particularly the concept of organizational defensive routines, which look like obstruction but are usually undiscussable incompetence.</span>
+    </div>
+
+    <div class="section" id="se" data-track="section-brave">
+      <span class="section-code">Section E — Brave Spaces</span>
+      <h2>It Takes Courage to Choose the Charitable Interpretation</h2>
+      <p>Safe spaces promise protection from discomfort. Brave spaces ask for something harder: the willingness to stay in discomfort and act wisely within it. Choosing the incompetence interpretation over the malice interpretation is not always comfortable. It means relinquishing the satisfying certainty of having identified a villain.</p>
+      <p>When a participant challenges your facilitation in a way that feels disruptive, the malice interpretation is fast and protective: they're trying to undermine me. The incompetence interpretation is slower and requires more of you: they don't have the skills for respectful disagreement, or they're anxious in groups, or they didn't understand what you were asking them to do.</p>
+      <p>The brave space is the moment where you hold both interpretations long enough to test them rather than collapsing immediately into the one that feels safest. That pause — that moment of not-yet-deciding — is what Hanlon's razor asks of practitioners. It is a practice of epistemic courage. The alternative, rushing to malice, always feels like discernment. It almost never is.</p>
+      <span class="cite">The concept of brave spaces as distinct from safe spaces is most clearly articulated in <em>Arao, Brian, and Kristi Clemens.</em> "From Safe Spaces to Brave Spaces." In <em>The Art of Effective Facilitation</em>, ed. Lisa M. Landreman. Stylus Publishing, 2013.</span>
+    </div>
+
+    <div class="section" id="sf" data-track="section-limits">
+      <span class="section-code">Section F — When Hanlon Fails</span>
+      <h2>The Limits: Actual Malice Exists</h2>
+      <p>The razor is a default, not a law. There are situations where incompetence does not explain the behavior. When a pattern of harm is directed consistently at specific individuals or groups; when the behavior persists after clear feedback and adequate support; when the person has demonstrated competence in comparable situations — these are conditions under which the incompetence explanation becomes inadequate.</p>
+      <p>The distinction matters especially in work that involves power differentials. Organizational racism, harassment, and deliberate exclusion are real. Explaining them as incompetence is not charitable analysis — it is epistemic cowardice dressed as fairness. Hanlon's razor does not ask you to maintain the charitable interpretation indefinitely in the face of contradicting evidence. It asks you to start there.</p>
+      <p>The practitioner who can hold both — who defaults to incompetence while remaining alert to the conditions under which malice is the accurate explanation — is operating at the highest level of this razor's intent. The goal is accurate attribution, not comfortable attribution.</p>
+      <span class="cite"><em>Lord, Charles G., Lee Ross, and Mark R. Lepper.</em> "Biased Assimilation and Attitude Polarization: The Effects of Prior Theories on Subsequently Considered Evidence." <em>Journal of Personality and Social Psychology</em> 37, no. 11 (1979): 2098–2109. The capital punishment study — where people evaluated identical evidence differently based on prior beliefs — shows how attribution errors compound into entrenched positions.</span>
+    </div>
+
+    <!-- WALL MOMENT -->
+    <div class="wall" id="sg" data-track="wall-attribution-table">
+      <span class="wall-label">Wall Moment 009 — The Attribution Table</span>
+      <p class="wall-sub">Six common L&amp;D situations, through both lenses. Which explanation opens a door?</p>
+      <table class="attr-table">
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Malice Interpretation</th>
+            <th>Incompetence Interpretation</th>
+            <th>What changes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Learner not applying training 3 months later</td>
+            <td>They were never committed. Resisting change deliberately.</td>
+            <td>Transfer design was inadequate. No on-the-job practice built in.</td>
+            <td>From confrontation to redesign.</td>
+          </tr>
+          <tr>
+            <td>Manager undermining a program mid-session</td>
+            <td>Deliberate sabotage to protect their authority.</td>
+            <td>Manager was never briefed on what to do when participants ask for their support.</td>
+            <td>From adversary to uninformed stakeholder who needs a briefing.</td>
+          </tr>
+          <tr>
+            <td>Participant challenging facilitation publicly</td>
+            <td>Hostile actor trying to derail the session.</td>
+            <td>Person doesn't have vocabulary for productive disagreement. High anxiety in groups.</td>
+            <td>From threat to person who needs a different kind of invitation.</td>
+          </tr>
+          <tr>
+            <td>L&amp;D budget cut mid-year</td>
+            <td>Leadership doesn't value development. Sending a signal.</td>
+            <td>Finance has a cash flow problem and cut every discretionary line. L&amp;D is first because it has no hard deliverable this quarter.</td>
+            <td>From culture diagnosis to business case for visible deliverables.</td>
+          </tr>
+          <tr>
+            <td>Evaluation scores consistently flat despite changes</td>
+            <td>Participants are gaming the survey or don't care.</td>
+            <td>The evaluation instrument is measuring the wrong things and can't detect what changed.</td>
+            <td>From cynicism about participants to instrument redesign.</td>
+          </tr>
+          <tr>
+            <td>Diversity initiative not changing representation numbers</td>
+            <td>Leadership paying lip service. No real intent to change.</td>
+            <td>Hiring managers lack the skills to interrupt their own pattern-matching at the moment of decision. Training happened; transfer design did not.</td>
+            <td>From indicting leadership to targeting the 90-second hiring decision moment.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section" id="sh" data-track="section-fieldwork">
+      <span class="section-code">Section H — Field Work</span>
+      <h2>Working with the Razor This Week</h2>
+      <p><strong>The Attribution Pause:</strong> When you feel the urge to explain someone's behavior as deliberate obstruction, pause. Ask: what is the simplest incompetence explanation that accounts for these facts? Write it down. Does it explain at least as much as the malice interpretation?</p>
+      <p><strong>The Transfer Autopsy:</strong> Identify one program where transfer didn't happen. Run through the Attribution Table: which column's explanation fits? If incompetence is a better fit than malice, what does that change about how you redesign it?</p>
+      <p><strong>The Brave Moment:</strong> Find one relationship where you're carrying a malice attribution. Test it: what evidence would you need to see to update it to incompetence? Have you looked for that evidence?</p>
+      <p style="margin-top:36px;font-size:0.79rem;color:var(--muted);font-family:'Source Code Pro',monospace;">Sources: Ross (1977) · Heider (1958) · Kelley (1967) · Argyris (1991) · Gall (1975) · Lord, Ross &amp; Lepper (1979) · Arao &amp; Clemens (2013) · Argyris &amp; Schön (1978)</p>
+    </div>
+  </div>
+
+  <footer class="main-footer">
+    <a href="/archive/index.html">← THE LIBRARY</a>
+    <span class="footer-sep">|</span>
+    <span>Issue 009 · Hanlon's Razor · 2026-05-09</span>
+  </footer>
+</div>
+
+<script>
+function tick(){
+  const n=new Date();
+  document.getElementById('clk').textContent=
+    n.getUTCHours().toString().padStart(2,'0')+':'+
+    n.getUTCMinutes().toString().padStart(2,'0')+':'+
+    n.getUTCSeconds().toString().padStart(2,'0')+' UTC';
+}
+tick();setInterval(tick,1000);
+
+function openMain(){
+  track('entry-open');
+  document.getElementById('entry').style.display='none';
+  const m=document.getElementById('main');
+  requestAnimationFrame(()=>{requestAnimationFrame(()=>{m.style.display='grid';});});
+}
+
+function scrollTo(id,el){
+  track('nav-'+id);
+  document.querySelectorAll('.tab-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  const t=document.getElementById(id);
+  if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+const tracked=new Set();
+function track(label){
+  if(!tracked.has(label)){tracked.add(label);console.log('[SO]',label);}
+}
+
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&e.target.dataset.track){
+      track(e.target.dataset.track);
+      const all=Array.from(document.querySelectorAll('[data-track]'));
+      const idx=all.indexOf(e.target);
+      const items=document.querySelectorAll('.tab-item');
+      if(items[idx]){
+        document.querySelectorAll('.tab-item').forEach(i=>i.classList.remove('active'));
+        items[idx].classList.add('active');
+      }
+    }
+  });
+},{threshold:0.25});
+document.querySelectorAll('[data-track]').forEach(el=>obs.observe(el));
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

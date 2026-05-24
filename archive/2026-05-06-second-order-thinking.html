@@ -1,0 +1,571 @@
+<!-- signal-os:date: 2026-05-06 -->
+<!-- signal-os:slug: second-order-thinking -->
+<!-- signal-os:title: Second-Order Thinking -->
+<!-- signal-os:concept: First-order thinking asks what happens next. Second-order thinking asks what happens after that — and finds the unintended consequences that practitioners never see coming. -->
+<!-- signal-os:format: The Game Board -->
+<!-- signal-os:dimension: Gender & Generational Difference -->
+<!-- signal-os:sources: 8 -->
+<!-- signal-os:tags: #systems #decision-making #leadership -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 6 · Second-Order Thinking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#0B140B;
+  --surface:#111A11;
+  --cream:#F0EDD8;
+  --gold:#C8A84B;
+  --goldf:rgba(200,168,75,0.3);
+  --goldfaint:rgba(200,168,75,0.08);
+  --green:#3A6B3A;
+  --greenf:rgba(58,107,58,0.2);
+  --border:rgba(200,168,75,0.15);
+  --border-h:rgba(200,168,75,0.3);
+  --muted:rgba(240,237,216,0.5);
+  --dim:rgba(240,237,216,0.3);
+  --text:#D4CFA8;
+}
+
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Serif Display',serif;overflow:hidden;}
+
+/* Status bar */
+.sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;background:rgba(11,20,11,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:14px;}
+.sb-logo{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:4px;font-weight:600;color:var(--gold);text-decoration:none;text-shadow:0 0 12px rgba(200,168,75,0.5);}
+.sb-sep{width:1px;height:12px;background:var(--border);}
+.sb-label{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:2px;color:var(--muted);flex:1;}
+.sb-clock{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:2px;color:var(--muted);}
+
+/* Entry: chess board fills viewport */
+#entry{
+  position:fixed;inset:0;top:36px;bottom:40px;z-index:800;
+  display:grid;grid-template-rows:1fr;
+  background:var(--bg);
+  transition:opacity 0.8s ease;
+  overflow:hidden;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+/* Chess board grid */
+.chess-board{
+  position:absolute;inset:0;
+  display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);
+}
+.chess-square{transition:background 0.3s;}
+.chess-square.dark{background:rgba(58,107,58,0.18);}
+.chess-square.light{background:rgba(200,168,75,0.04);}
+.chess-square:hover{background:rgba(200,168,75,0.1);}
+
+/* Entry content overlay */
+.entry-overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:2;
+  padding:32px;
+}
+.chess-knight{
+  font-size:clamp(4rem,10vw,8rem);
+  color:var(--cream);
+  text-shadow:0 0 40px rgba(200,168,75,0.4),0 0 80px rgba(200,168,75,0.1);
+  margin-bottom:32px;
+  animation:knightPulse 3s ease-in-out infinite;
+}
+@keyframes knightPulse{0%,100%{text-shadow:0 0 40px rgba(200,168,75,0.4),0 0 80px rgba(200,168,75,0.1);}50%{text-shadow:0 0 60px rgba(200,168,75,0.6),0 0 100px rgba(200,168,75,0.2);}}
+
+.entry-questions{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  margin-bottom:36px;min-height:120px;
+}
+.entry-q{
+  font-family:'DM Mono',monospace;font-size:clamp(0.7rem,1.5vw,0.9rem);
+  letter-spacing:3px;color:var(--muted);text-transform:uppercase;
+  opacity:0;transform:translateY(6px);transition:all 0.6s ease;
+}
+.entry-q.active{opacity:1;transform:translateY(0);color:var(--gold);text-shadow:0 0 12px rgba(200,168,75,0.4);}
+.entry-btn{
+  font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:3px;font-weight:600;
+  background:transparent;color:var(--gold);
+  border:1px solid var(--gold);padding:14px 36px;cursor:pointer;
+  text-transform:uppercase;
+  opacity:0;transition:all 0.4s ease;
+  text-shadow:0 0 8px rgba(200,168,75,0.3);
+  box-shadow:0 0 0 rgba(200,168,75,0);
+}
+.entry-btn.visible{opacity:1;}
+.entry-btn:hover{background:var(--goldf);box-shadow:0 0 24px rgba(200,168,75,0.3);}
+
+/* Main panel: numbered moves sidebar + content */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+}
+#main-panel.visible{display:grid;grid-template-columns:200px 1fr;opacity:1;}
+
+/* Sidebar */
+.sidebar{
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  overflow-y:auto;
+  padding:20px 0;
+  display:flex;flex-direction:column;gap:1px;
+}
+.sidebar-head{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--gold);padding:8px 20px 12px;text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:8px;text-shadow:0 0 8px rgba(200,168,75,0.4);}
+.nav-item{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:1.5px;padding:9px 20px;cursor:pointer;color:var(--muted);border-left:2px solid transparent;transition:all 0.2s;display:block;text-decoration:none;text-transform:uppercase;line-height:1.5;}
+.nav-item:hover{color:var(--gold);border-left-color:var(--gold);background:var(--goldfaint);}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:var(--goldfaint);}
+.move-num{display:block;font-size:0.7rem;font-weight:600;color:var(--gold);margin-bottom:1px;text-shadow:0 0 8px rgba(200,168,75,0.3);}
+
+/* Content pane */
+.content-pane{overflow-y:auto;padding:36px 52px 48px;scroll-behavior:smooth;}
+
+/* Sections */
+.section{max-width:740px;margin-bottom:60px;}
+.section-eyebrow{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--gold);margin-bottom:8px;text-transform:uppercase;text-shadow:0 0 8px rgba(200,168,75,0.3);}
+.section-title{font-size:clamp(1.3rem,2.5vw,1.95rem);color:var(--cream);margin-bottom:20px;line-height:1.2;font-style:italic;}
+.section-body{font-size:1rem;line-height:1.85;color:var(--text);margin-bottom:20px;}
+.section-body p{margin-bottom:16px;}
+.pull-quote{font-size:1.15rem;font-style:italic;line-height:1.65;color:var(--cream);border-left:3px solid var(--gold);padding:16px 24px;margin:24px 0;box-shadow:inset 4px 0 16px rgba(200,168,75,0.08);}
+
+/* Order-level card */
+.order-card{
+  display:grid;grid-template-columns:80px 1fr;gap:0;
+  border:1px solid var(--border);margin:20px 0;overflow:hidden;
+}
+.order-num{background:var(--goldf);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:var(--gold);font-family:'DM Mono',monospace;text-shadow:0 0 16px rgba(200,168,75,0.5);}
+.order-body{padding:20px 24px;}
+.order-label{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;}
+.order-text{font-size:0.95rem;line-height:1.6;color:var(--text);}
+
+/* WALL: The Cascade */
+.wall-section{
+  margin:40px -52px;
+  padding:52px;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.wall-head{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:4px;color:var(--gold);margin-bottom:12px;text-transform:uppercase;text-shadow:0 0 12px rgba(200,168,75,0.5);}
+.wall-title{font-size:clamp(1.5rem,3vw,2.2rem);color:var(--cream);margin-bottom:8px;line-height:1.1;font-style:italic;}
+.wall-sub{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:40px;letter-spacing:2px;}
+.cascade-block{margin-bottom:40px;}
+.cascade-label{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--gold);margin-bottom:20px;text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.cascade-chain{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
+.cascade-node{background:var(--bg);padding:20px 16px;position:relative;}
+.cascade-node::after{content:'→';position:absolute;right:-12px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:0.9rem;color:var(--gold);z-index:2;}
+.cascade-node:last-child::after{display:none;}
+.cascade-node-label{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.cascade-node:nth-child(1) .cascade-node-label{color:var(--cream);}
+.cascade-node:nth-child(2) .cascade-node-label{color:var(--muted);}
+.cascade-node:nth-child(3) .cascade-node-label{color:rgba(200,168,75,0.7);}
+.cascade-node:nth-child(4) .cascade-node-label{color:var(--gold);text-shadow:0 0 8px rgba(200,168,75,0.4);}
+.cascade-node-text{font-size:0.85rem;line-height:1.55;color:var(--text);}
+.cascade-node:nth-child(4) .cascade-node-text{color:var(--cream);}
+
+/* Cite */
+.cite{font-size:0.74rem;color:var(--text);border-left:3px solid var(--gold);padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;font-family:'DM Mono',monospace;}
+
+/* Meliorist */
+.meliorist-block{background:var(--goldfaint);border:1px solid var(--border-h);padding:28px 32px;margin:32px 0;}
+.mel-head{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--gold);margin-bottom:12px;text-transform:uppercase;text-shadow:0 0 8px rgba(200,168,75,0.4);}
+.mel-body{font-size:1rem;line-height:1.8;color:var(--text);}
+
+/* Nature */
+.nature-block{background:var(--greenf);border-left:3px solid var(--green);padding:20px 24px;margin:24px 0;}
+.nature-head{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--green);margin-bottom:10px;text-transform:uppercase;}
+.nature-text{font-size:0.95rem;line-height:1.7;font-style:italic;color:var(--text);}
+
+/* Fieldwork */
+.fieldwork{background:rgba(58,107,58,0.08);border:1px solid rgba(58,107,58,0.25);padding:28px 32px;margin:32px 0;}
+.fw-head{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--green);margin-bottom:16px;text-transform:uppercase;}
+.fw-item{display:flex;gap:12px;margin-bottom:14px;font-size:0.95rem;line-height:1.6;}
+.fw-bullet{color:var(--gold);flex-shrink:0;font-family:'DM Mono',monospace;}
+
+/* Bibliography */
+.bib-list{list-style:none;display:grid;gap:14px;}
+.bib-item{font-size:0.88rem;line-height:1.6;padding-left:20px;border-left:2px solid var(--border-h);color:var(--muted);}
+.bib-item strong{color:var(--cream);}
+
+/* Footer */
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:var(--bg);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:22px;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:2px;}
+.footer-bar a{color:var(--gold);text-decoration:none;}
+.footer-bar a:hover{text-shadow:0 0 8px rgba(200,168,75,0.6);}
+.footer-sep{color:var(--border-h);}
+
+/* Mobile */
+@media(max-width:768px){
+  #entry{overflow-y:auto;}
+  .entry-overlay{padding:28px 16px 80px;justify-content:flex-start;padding-top:60px;}
+  #main-panel.visible{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .content-pane{padding:24px 16px 80px;}
+  .wall-section{margin:40px -16px;padding:28px 16px;}
+  .cascade-chain{grid-template-columns:1fr;}
+  .cascade-node::after{display:none;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div class="sb-sep"></div>
+  <div class="sb-label">THE GAME BOARD · GENDER & GENERATIONAL DIFFERENCE · ISSUE 006</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<div id="entry">
+  <!-- Chess board -->
+  <div class="chess-board" id="chess-board"></div>
+  <!-- Overlay content -->
+  <div class="entry-overlay">
+    <div class="chess-knight">♞</div>
+    <div class="entry-questions">
+      <div class="entry-q" id="q1">WHAT JUST MOVED?</div>
+      <div class="entry-q" id="q2">WHAT HAPPENS NEXT?</div>
+      <div class="entry-q" id="q3">AND AFTER THAT?</div>
+    </div>
+    <button class="entry-btn" id="game-btn" onclick="openMain()">Think Two Moves Ahead →</button>
+  </div>
+</div>
+
+<div id="main-panel">
+  <nav class="sidebar">
+    <div class="sidebar-head">♞ MOVES</div>
+    <a href="#s1" class="nav-item active" onclick="setActive(this)"><span class="move-num">MOVE I</span>First vs. Second Level</a>
+    <a href="#s2" class="nav-item" onclick="setActive(this)"><span class="move-num">MOVE II</span>The Cobra Effect</a>
+    <a href="#s3" class="nav-item" onclick="setActive(this)"><span class="move-num">MOVE III</span>The Peltzman Effect</a>
+    <a href="#s4" class="nav-item" onclick="setActive(this)"><span class="move-num">MOVE IV</span>Training's Failures</a>
+    <a href="#s5" class="nav-item" onclick="setActive(this)"><span class="move-num">MOVE V</span>Gender & Generation</a>
+    <a href="#s6" class="nav-item" onclick="setActive(this)"><span class="move-num">MOVE VI</span>The Cascade</a>
+    <a href="#s7" class="nav-item" onclick="setActive(this)"><span class="move-num">MOVE VII</span>The 6-Month Question</a>
+    <a href="#s8" class="nav-item" onclick="setActive(this)"><span class="move-num">MOVE VIII</span>Field Work</a>
+  </nav>
+
+  <div class="content-pane">
+
+    <div class="section" id="s1" data-section="howard-marks">
+      <div class="section-eyebrow">MOVE I · ORIGIN</div>
+      <div class="section-title">First vs. Second Level Thinking</div>
+      <div class="section-body">
+        <p>In 2011, Howard Marks — co-founder of Oaktree Capital — circulated a memo that became one of the most-read documents in investing. Its thesis was simple: first-level thinking is available to everyone. Second-level thinking is rare and that's why it creates advantage.</p>
+        <p>First-level thinking: "This company has bad news — sell." Second-level thinking: "This company has bad news, everyone will sell, the price will drop below fair value, and in six months it will recover. Buy while everyone else is selling."</p>
+        <p>First-level thinking asks: what will happen? Second-level thinking asks: what will happen after that? And who doesn't see it coming? The difference isn't intelligence. It's the habit of thinking one move further than the moment.</p>
+        <p>For practitioners: first-level thinking designs a session and asks "will this produce learning today?" Second-level thinking asks "if this produces learning today, what will participants do differently next week — and will their environment support that or resist it?"</p>
+      </div>
+      <span class="cite">Marks, H. (2011). <em>The Most Important Thing: Uncommon Sense for the Thoughtful Investor.</em> Columbia University Press. The memo "Second-Level Thinking" is reproduced in Chapter 1. Available at oaktreecapital.com/insights/memo.</span>
+    </div>
+
+    <div class="section" id="s2" data-section="cobra">
+      <div class="section-eyebrow">MOVE II · UNINTENDED CONSEQUENCES</div>
+      <div class="section-title">The Cobra Effect</div>
+      <div class="section-body">
+        <p>British India. The colonial administration was alarmed by the density of cobras in Delhi. Solution: pay a bounty for every dead cobra. First-order result: people killed cobras and collected the bounty. Second-order result: people began breeding cobras to kill and collect the bounty. When the administration discovered this and canceled the program, the breeders released their now-worthless snakes. The cobra population was higher than before the program started.</p>
+        <p>The bounty solved the symptom and created the condition. This is the cobra effect: an incentive that reliably produces the opposite of its intended outcome because the second-order effects were never examined.</p>
+        <p>Training programs run cobra effects constantly. The mandatory compliance training that teaches employees to click through acknowledgment screens without reading them. The skills certification that measures test-completion rather than skill application. The leadership development program that increases leaders' vocabulary about leadership while leaving their behavior unchanged — and which now makes them better at explaining why the unchanged behavior is acceptable.</p>
+      </div>
+      <div class="order-card">
+        <div class="order-num">1°</div>
+        <div class="order-body">
+          <div class="order-label">First-Order Effect</div>
+          <div class="order-text">Mandatory training completed. Compliance scores rise. Certificate issued.</div>
+        </div>
+      </div>
+      <div class="order-card">
+        <div class="order-num">2°</div>
+        <div class="order-body">
+          <div class="order-label">Second-Order Effect</div>
+          <div class="order-text">Employees learn to click through at minimum effort. Compliance becomes a performance, not a practice. The behavior the training was meant to change is now protected by the illusion that it's been addressed.</div>
+        </div>
+      </div>
+      <span class="cite">Bastiat, F. (1850). "Ce qu'on voit et ce qu'on ne voit pas" [That Which Is Seen and That Which Is Not Seen]. Available in translation from FEE.org. The foundational account of seen and unseen consequences — the intellectual ancestor of all unintended-consequences analysis.</span>
+    </div>
+
+    <div class="section" id="s3" data-section="peltzman">
+      <div class="section-eyebrow">MOVE III · RISK COMPENSATION</div>
+      <div class="section-title">The Peltzman Effect — Safety That Creates Risk</div>
+      <div class="section-body">
+        <p>In 1975, economist Sam Peltzman published a study of US mandatory seatbelt laws. The prediction was straightforward: seatbelts save lives. The finding was less comfortable: fatalities among car occupants fell, but fatalities among pedestrians and cyclists rose. Drivers, feeling safer, drove faster and less carefully. The net effect was smaller than expected — some studies showed it was neutral.</p>
+        <p>This is risk compensation: when we reduce one source of danger, we often take on more risk elsewhere, returning to roughly our prior level of perceived risk exposure. The safety system doesn't eliminate risk; it relocates it.</p>
+        <p>The practitioner's Peltzman effect: providing extensive structure, scaffolding, and support in a learning environment reduces participants' tolerance for ambiguity. Learners who are well-scaffolded in training become less capable of navigating novel situations on the job — because the safety system never let them practice navigating without it.</p>
+      </div>
+      <span class="cite">Peltzman, S. (1975). The effects of automobile safety regulation. <em>Journal of Political Economy, 83</em>(4), 677–725. — The original study. Still controversial; the methodology debate is itself instructive about second-order analysis.</span>
+      <span class="cite">Meadows, D.H. (2008). <em>Thinking in Systems: A Primer.</em> Chelsea Green Publishing. — Risk compensation is a systems archetype (the "fixes that fail" pattern, pp. 111–117). Meadows' treatment is the clearest path from Peltzman to practitioner application.</span>
+    </div>
+
+    <div class="section" id="s4" data-section="training-failures">
+      <div class="section-eyebrow">MOVE IV · TRAINING APPLICATIONS</div>
+      <div class="section-title">Training's Second-Order Failures</div>
+      <div class="section-body">
+        <p>The refresh module paradox: when training completion rates are low, the standard response is to add a refresher module — making the content shorter, simpler, more accessible. First-order effect: completion rates rise. Second-order effect: the simplification removes the cognitive effort that produces retention. Completion goes up; behavior change goes down.</p>
+        <p>The onboarding acceleration paradox: when new hires feel unproductive, companies compress onboarding. First-order effect: faster time-to-productivity on measured tasks. Second-order effect: higher attrition at 12–18 months, when the unaddressed gaps in tacit knowledge become visible. The cost of the second-order effect typically exceeds the cost of the extended onboarding by 3–5x.</p>
+        <p>Daniel Kahneman's research is relevant here: fast thinking (System 1) feels right but generates first-order answers. Slow thinking (System 2) is effortful and generates second-order analysis. Organizations under pressure systematically reward System 1 decisions, even when they produce second-order damage.</p>
+      </div>
+      <span class="cite">Kahneman, D. (2011). <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux. Chapter 25 develops the "what you see is all there is" bias — the cognitive mechanism that makes first-order thinking the default. The practitioner application is in Chapter 23 (the planning fallacy).</span>
+    </div>
+
+    <div class="section" id="s5" data-section="gender-generation">
+      <div class="section-eyebrow">MOVE V · DIMENSION</div>
+      <div class="section-title">Gender & Generational Difference — Whose Second-Order Effects Go Unexamined?</div>
+      <div class="section-body">
+        <p>Second-order thinking becomes a justice question when we ask: whose second-order effects get examined, and whose don't?</p>
+        <p>A training intervention designed to develop "executive presence" produces first-order results: participants receive coaching on communication, gravitas, and visibility. Second-order result: the definition of "executive presence" is implicitly white, male, and senior — meaning women and people of color who adopt the prescribed behaviors are often penalized for them ("too aggressive," "not collegial") while receiving the same advice that rewards white men. The training fixes nothing and may make it worse.</p>
+        <p>The generational version: L&D programs designed for "digital natives" embed an assumption that younger workers learn better with technology and older workers learn better with print or in-person instruction. First-order: sessions are differentiated by age. Second-order: we reinforce a generational hierarchy that treats younger workers as technologically sophisticated but experientially shallow, and older workers as wise but unable to adapt. Both groups are damaged by the frame.</p>
+        <p>The second-order question for every training design: if this works as intended, who benefits, who is burdened, and what does it teach people about who belongs?</p>
+      </div>
+      <span class="cite">Rivera, L.A. (2015). <em>Pedigree: How Elite Students Get Elite Jobs.</em> Princeton University Press. — The research backbone for how "cultural fit" and "executive presence" function as proxies for demographic similarity. The second-order effects of L&D that reinforces these norms are documented in Chapters 4–6.</span>
+    </div>
+
+    <!-- WALL MOMENT: The Cascade -->
+    <div class="wall-section" id="s6" data-section="cascade">
+      <div class="wall-head">♞ WALL DISPLAY</div>
+      <div class="wall-title">The Cascade</div>
+      <div class="wall-sub">DECISION → 1ST ORDER → 2ND ORDER → 3RD ORDER · TWO SCENARIOS</div>
+
+      <div class="cascade-block">
+        <div class="cascade-label">SCENARIO A · "Add content to fix retention"</div>
+        <div class="cascade-chain">
+          <div class="cascade-node">
+            <div class="cascade-node-label">Decision</div>
+            <div class="cascade-node-text">Retention scores are low. Add a post-training module with key content summary.</div>
+          </div>
+          <div class="cascade-node">
+            <div class="cascade-node-label">1st Order</div>
+            <div class="cascade-node-text">Recall scores on the post-module quiz improve. Stakeholders report satisfaction with the intervention.</div>
+          </div>
+          <div class="cascade-node">
+            <div class="cascade-node-label">2nd Order</div>
+            <div class="cascade-node-text">Cognitive load increases. Participants learn to pass the quiz without retaining the behavior. The module becomes a compliance checkbox.</div>
+          </div>
+          <div class="cascade-node">
+            <div class="cascade-node-label">3rd Order</div>
+            <div class="cascade-node-text">Organization believes retention is solved. The actual behavior gap grows. When it surfaces, it is blamed on frontline managers, not training design.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cascade-block">
+        <div class="cascade-label">SCENARIO B · "Design for digital natives in a multi-gen room"</div>
+        <div class="cascade-chain">
+          <div class="cascade-node">
+            <div class="cascade-node-label">Decision</div>
+            <div class="cascade-node-text">Team has a wide age range. Design with gamification and mobile-first interaction to "meet younger learners where they are."</div>
+          </div>
+          <div class="cascade-node">
+            <div class="cascade-node-label">1st Order</div>
+            <div class="cascade-node-text">Younger participants engage quickly. Completion rates up. Energy in the room appears high.</div>
+          </div>
+          <div class="cascade-node">
+            <div class="cascade-node-label">2nd Order</div>
+            <div class="cascade-node-text">Older participants feel the design implies they can't learn in new ways. Trust declines. Their tacit knowledge — the actual value of mixed-generation teams — is never surfaced.</div>
+          </div>
+          <div class="cascade-node">
+            <div class="cascade-node-label">3rd Order</div>
+            <div class="cascade-node-text">The gap between cohorts widens. Senior employees disengage from L&D programs. The intergenerational knowledge transfer that the program was meant to enable is blocked by the design that was meant to facilitate it.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="s7" data-section="six-month">
+      <div class="section-eyebrow">MOVE VII · THE PRACTITIONER'S QUESTION</div>
+      <div class="section-title">If This Works Perfectly, What Happens Six Months Later?</div>
+      <div class="section-body">
+        <p>The practitioner's second-order question is not "will this work?" It's "if this works exactly as designed, what does the world look like six months later — and is that the world we want?"</p>
+        <p>Donella Meadows identified leverage points in systems — places where a small shift produces large change. The highest leverage point is not changing parameters or flows; it's changing the <em>goals</em> of the system. Most training interventions change behaviors. Second-order practitioners ask: what goal does this behavior serve, and is that goal the right one?</p>
+        <p>The practitioner who teaches "how to have difficult conversations" is changing a behavior. The second-order question: in this organization, what happens to people who have difficult conversations? If they get managed out, the training is preparing people to be managed out more articulately. The intervention needed isn't communication skills — it's the goal of the system that penalizes honesty.</p>
+        <div class="meliorist-block">
+          <div class="mel-head">♞ Meliorism 2.0 · Wise Action Requires Seeing the Cascade</div>
+          <div class="mel-body">Constructive stewardship means accepting responsibility for the downstream effects of your interventions. The practitioner who designs only for first-order results is not practicing wisdom — they're practicing efficiency. Wise action is slower. It asks what happens next. It traces the cascade before committing to the move. And it is willing to not make the move when the second-order effects are worse than the first-order problem.</div>
+        </div>
+      </div>
+      <span class="cite">Meadows, D.H. (2008). <em>Thinking in Systems: A Primer.</em> Chelsea Green Publishing. "Leverage Points: Places to Intervene in a System" (originally a 1999 Whole Earth essay) is the essential companion to this section. The goal-of-the-system leverage point is #3 in her hierarchy.</span>
+    </div>
+
+    <div class="section" id="s8" data-section="fieldwork">
+      <div class="section-eyebrow">MOVE VIII · FIELD WORK</div>
+      <div class="section-title">Carry This Into the Room</div>
+
+      <div class="nature-block">
+        <div class="nature-head">♞ Nature Invitation</div>
+        <div class="nature-text">Find a tree that has clearly shaped the growth of trees around it — whether by providing shade that stunted a neighbor, or light that guided a sapling's lean. Sit with the relationship. The tree didn't intend the second-order effect. But the second-order effect is real. How many of your training interventions are shaping the room in ways you haven't examined?</div>
+      </div>
+
+      <div class="fieldwork">
+        <div class="fw-head">♞ Three Second-Order Questions — For Every Design Decision</div>
+        <div class="fw-item"><span class="fw-bullet">01.</span><span>If this session works exactly as designed, what does a participant's work environment look like 90 days later? Does that environment support or resist what they learned?</span></div>
+        <div class="fw-item"><span class="fw-bullet">02.</span><span>Who in this room is not being designed for by the assumptions in this session? What second-order effects does that create for them?</span></div>
+        <div class="fw-item"><span class="fw-bullet">03.</span><span>What behavior does this training measure? What is that measurement incentivizing people to do — and is that the behavior we actually want?</span></div>
+      </div>
+
+      <div class="section-eyebrow" style="margin-top:32px;">BIBLIOGRAPHY</div>
+      <ul class="bib-list">
+        <li class="bib-item"><strong>Marks, H. (2011).</strong> <em>The Most Important Thing: Uncommon Sense for the Thoughtful Investor.</em> Columbia University Press. — The practitioner-language account of first vs. second-level thinking.</li>
+        <li class="bib-item"><strong>Bastiat, F. (1850).</strong> "That Which Is Seen and That Which Is Not Seen." FEE.org. — The original unseen consequences argument. One essay. Read in 20 minutes.</li>
+        <li class="bib-item"><strong>Peltzman, S. (1975).</strong> The effects of automobile safety regulation. <em>Journal of Political Economy, 83</em>(4). — The empirical foundation for risk compensation as a second-order effect.</li>
+        <li class="bib-item"><strong>Meadows, D.H. (2008).</strong> <em>Thinking in Systems: A Primer.</em> Chelsea Green Publishing. — The best single source for understanding cascades, feedback loops, and leverage points.</li>
+        <li class="bib-item"><strong>Kahneman, D. (2011).</strong> <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux. — System 1 vs. System 2 as the cognitive mechanism behind first-order default thinking.</li>
+        <li class="bib-item"><strong>Rivera, L.A. (2015).</strong> <em>Pedigree: How Elite Students Get Elite Jobs.</em> Princeton University Press. — The second-order effects of "culture fit" and "executive presence" in professional development.</li>
+        <li class="bib-item"><strong>Senge, P. (1990).</strong> <em>The Fifth Discipline.</em> Doubleday. — "Fixes that fail" and "shifting the burden" as systems archetypes; the organizational-learning version of second-order thinking.</li>
+        <li class="bib-item"><strong>Taleb, N.N. (2012).</strong> <em>Antifragile: Things That Gain from Disorder.</em> Random House. — The second-order argument at full scale: systems that are fragile to second-order effects vs. those that gain strength from them. Chapter 2 is directly relevant to training design.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--gold)">006 SECOND-ORDER THINKING ← CURRENT</span>
+</div>
+
+<script>
+function tick(){const n=new Date();const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()].map(v=>String(v).padStart(2,'0')).join(':');const el=document.getElementById('clk');if(el)el.textContent='UTC '+t;}
+tick();setInterval(tick,1000);
+
+// Build chess board
+const board=document.getElementById('chess-board');
+for(let r=0;r<8;r++){for(let c=0;c<8;c++){const sq=document.createElement('div');sq.className='chess-square '+((r+c)%2===0?'light':'dark');board.appendChild(sq);}}
+
+// Staggered questions
+setTimeout(()=>{document.getElementById('q1').classList.add('active');track('view','entry_q1');},600);
+setTimeout(()=>{document.getElementById('q2').classList.add('active');track('view','entry_q2');},1500);
+setTimeout(()=>{document.getElementById('q3').classList.add('active');track('view','entry_q3');},2400);
+setTimeout(()=>{document.getElementById('game-btn').classList.add('visible');},3200);
+
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='grid';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{panel.classList.add('visible');}));
+  },800);
+  track('enter','entry_screen');
+}
+
+function setActive(el){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function track(event,label,extra){console.log('[signal-os]',event,label,extra||'');}
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      track('view',e.target.dataset.section||e.target.id||'unknown');
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('[data-section]').forEach(el=>observer.observe(el));
+});
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

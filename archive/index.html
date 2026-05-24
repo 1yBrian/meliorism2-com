@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Practitioner's Library — Meliorism2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream: #faf8f5;
+      --surface: #f0ebe5;
+      --accent: #8b6f47;
+      --accent-dark: #6b5235;
+      --text: #1e1e1e;
+      --text-muted: #5a5550;
+      --border: #d8cfc4;
+      --dark-bg: #1a1714;
+
+      --dim-witnessing: #c8a87a;
+      --dim-brave: #5a4a8b;
+      --dim-income: #3a6b4a;
+      --dim-presence: #2a4a6b;
+      --dim-gender: #8b5a3a;
+
+      --dim-witnessing-bg: rgba(200,168,122,0.12);
+      --dim-brave-bg: rgba(90,74,139,0.10);
+      --dim-income-bg: rgba(58,107,74,0.10);
+      --dim-presence-bg: rgba(42,74,107,0.10);
+      --dim-gender-bg: rgba(139,90,58,0.10);
+    }
+
+    html {
+      font-size: 18px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Crimson Text', Georgia, serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.7;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* ── SITE HEADER ── */
+    .site-header {
+      background: var(--dark-bg);
+      padding: 0 64px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-header-logo {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #e8e0d5;
+      text-decoration: none;
+    }
+
+    .site-header-back {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #8a8070;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .site-header-back:hover {
+      color: var(--accent);
+    }
+
+    /* ── LIBRARY HEADER ── */
+    .library-header {
+      padding: 80px 64px 56px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .library-eyebrow {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .library-title {
+      font-family: 'Crimson Text', serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .library-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    /* ── CONTROLS ── */
+    .controls {
+      padding: 36px 64px;
+      border-bottom: 1px solid var(--border);
+      background: var(--cream);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      pointer-events: none;
+      font-family: 'Courier Prime', monospace;
+    }
+
+    #search-input {
+      width: 100%;
+      padding: 14px 20px 14px 48px;
+      font-family: 'Crimson Text', serif;
+      font-size: 1.05rem;
+      color: var(--text);
+      background: #fff;
+      border: 1.5px solid var(--border);
+      outline: none;
+      transition: border-color 0.2s;
+      line-height: 1.4;
+    }
+
+    #search-input::placeholder {
+      color: #a09890;
+      font-style: italic;
+    }
+
+    #search-input:focus {
+      border-color: var(--accent);
+    }
+
+    /* ── DIMENSION CHIPS ── */
+    .dim-filter {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .dim-filter::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .chip[data-dim="Witnessing Authentic Humanity"].active {
+      background: var(--dim-witnessing);
+      border-color: var(--dim-witnessing);
+      color: #1e1e1e;
+    }
+
+    .chip[data-dim="Brave Spaces"].active {
+      background: var(--dim-brave);
+      border-color: var(--dim-brave);
+      color: #fff;
+    }
+
+    .chip[data-dim="Living Income"].active {
+      background: var(--dim-income);
+      border-color: var(--dim-income);
+      color: #fff;
+    }
+
+    .chip[data-dim="In-Person Presence"].active {
+      background: var(--dim-presence);
+      border-color: var(--dim-presence);
+      color: #fff;
+    }
+
+    .chip[data-dim="Gender & Generational Difference"].active {
+      background: var(--dim-gender);
+      border-color: var(--dim-gender);
+      color: #fff;
+    }
+
+    /* ── RESULTS BAR ── */
+    .results-bar {
+      padding: 18px 64px;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      background: var(--cream);
+    }
+
+    /* ── GRID ── */
+    .grid-wrap {
+      padding: 48px 64px 96px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.09);
+      border-color: var(--accent);
+    }
+
+    .card-accent-bar {
+      height: 4px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .card-body {
+      padding: 24px 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-top-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-date {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .card-format {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: right;
+    }
+
+    .card-title {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .card-concept {
+      font-family: 'Crimson Text', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--text-muted);
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .card-dim-badge {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .badge-witnessing {
+      background: var(--dim-witnessing-bg);
+      color: #7a5c20;
+    }
+
+    .badge-brave {
+      background: var(--dim-brave-bg);
+      color: var(--dim-brave);
+    }
+
+    .badge-income {
+      background: var(--dim-income-bg);
+      color: var(--dim-income);
+    }
+
+    .badge-presence {
+      background: var(--dim-presence-bg);
+      color: var(--dim-presence);
+    }
+
+    .badge-gender {
+      background: var(--dim-gender-bg);
+      color: var(--dim-gender);
+    }
+
+    .card-sources {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: #a09890;
+      white-space: nowrap;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      display: none;
+      padding: 96px 0;
+      text-align: center;
+    }
+
+    .empty-state.visible {
+      display: block;
+    }
+
+    .empty-state-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .empty-state-body {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark-bg);
+      color: #8a8070;
+      padding: 40px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c8bfb5;
+    }
+
+    .footer-right {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-align: right;
+      line-height: 1.9;
+    }
+
+    .footer-right a {
+      color: #8a8070;
+      text-decoration: none;
+    }
+
+    .footer-right a:hover {
+      color: var(--accent);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .site-header {
+        padding: 0 32px;
+      }
+
+      .library-header {
+        padding: 56px 32px 40px;
+      }
+
+      .controls {
+        padding: 24px 32px;
+      }
+
+      .results-bar {
+        padding: 16px 32px;
+      }
+
+      .grid-wrap {
+        padding: 32px 32px 72px;
+      }
+
+      .card-grid {
+        gap: 20px;
+      }
+
+      footer {
+        padding: 36px 32px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-right {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .library-title {
+        font-size: 2.2rem;
+      }
+
+      .site-header {
+        padding: 0 20px;
+      }
+
+      .library-header {
+        padding: 40px 20px 32px;
+      }
+
+      .controls {
+        padding: 20px;
+      }
+
+      .results-bar {
+        padding: 14px 20px;
+      }
+
+      .grid-wrap {
+        padding: 24px 20px 60px;
+      }
+
+      footer {
+        padding: 28px 20px;
+      }
+
+      .empty-state {
+        padding: 64px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SITE HEADER -->
+  <header class="site-header">
+    <a href="/" class="site-header-logo">Meliorism2</a>
+    <a href="/" class="site-header-back">&#8592; meliorism2.com</a>
+  </header>
+
+  <!-- LIBRARY HEADER -->
+  <div class="library-header">
+    <div class="library-eyebrow">Practitioner's Library</div>
+    <h1 class="library-title">The Practitioner's Library</h1>
+    <p class="library-subtitle">Find the obstacle your client is facing right now</p>
+  </div>
+
+  <!-- CONTROLS: SEARCH + FILTER -->
+  <div class="controls" role="search">
+    <div class="search-wrap">
+      <span class="search-icon" aria-hidden="true">&#9906;</span>
+      <input
+        type="search"
+        id="search-input"
+        placeholder="Search by obstacle, topic, or keyword..."
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search briefings"
+      >
+    </div>
+    <div class="dim-filter" role="group" aria-label="Filter by dimension">
+      <button class="chip active" data-dim="all">All</button>
+      <button class="chip" data-dim="Witnessing Authentic Humanity">Witnessing</button>
+      <button class="chip" data-dim="Brave Spaces">Brave Spaces</button>
+      <button class="chip" data-dim="Living Income">Living Income</button>
+      <button class="chip" data-dim="In-Person Presence">In-Person Presence</button>
+      <button class="chip" data-dim="Gender & Generational Difference">Gender &amp; Generation</button>
+    </div>
+  </div>
+
+  <!-- RESULTS BAR -->
+  <div class="results-bar" id="results-bar" aria-live="polite"></div>
+
+  <!-- CARD GRID -->
+  <div class="grid-wrap">
+    <div class="card-grid" id="card-grid"></div>
+    <div class="empty-state" id="empty-state">
+      <div class="empty-state-title">No briefings found</div>
+      <p class="empty-state-body">Try different keywords, or reset the filter to browse everything.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Meliorism2</div>
+    <div class="footer-right">
+      <div><a href="mailto:dispatch@meliorism2.com">dispatch@meliorism2.com</a></div>
+      <div>&#169; 2026 Meliorist Group &middot; San Francisco</div>
+      <div><a href="/">&#8592; Back to meliorism2.com</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const BRIEFINGS = [
+      { date:"2026-05-23", slug:"grief-as-practiced-presence", title:"Grief as Practiced Presence", concept:"Grief in a container means the container is real. The practitioner's job is not to fix it — it's to normalize it, sit with it, and expand everyone's capacity to be in its presence.", format:"Field Notebook", dimension:"Witnessing Authentic Humanity", sources:6, file:"2026-05-23-grief-as-practiced-presence.html" },
+      { date:"2026-05-22", slug:"the-switchboard-problem", title:"The Switchboard Problem", concept:"Brave space facilitation works like telephone exchange infrastructure — the practitioner is the operator, not the content. Your job is to maintain the conditions that make connection across difference structurally possible.", format:"Telephone Exchange", dimension:"Brave Spaces", sources:8, file:"2026-05-22-the-switchboard-problem.html" },
+      { date:"2026-05-22", slug:"when-the-metric-becomes-the-target", title:"When the Metric Becomes the Target", concept:"Goodhart's Law — when a measure becomes a target, it ceases to be a good measure. The practitioner's trap: optimizing for scores instead of transformation.", format:"Data Broadcast", dimension:"Living Income", sources:8, file:"2026-05-22-when-the-metric-becomes-the-target.html" },
+      { date:"2026-05-21", slug:"the-barton-gap", title:"The Barton Gap", concept:"Clara Barton founded the American Red Cross at 59, after decades of being underpaid for work that was unambiguously valuable. The mechanism that kept her rate low is the same one operating in your practice right now.", format:"Records Bureau", dimension:"Living Income", sources:9, file:"2026-05-21-the-barton-gap.html" },
+      { date:"2026-05-21", slug:"tradecraft", title:"Tradecraft", concept:"Every field has tacit knowledge that only transfers through proximity — the unwritten techniques, instincts, and failure libraries that make an expert different from a novice.", format:"Intelligence Dossier", dimension:"In-Person Presence", sources:7, file:"2026-05-21-tradecraft.html" },
+      { date:"2026-05-20", slug:"the-hive-deliberates", title:"The Hive Deliberates", concept:"Honeybee colonies make better collective decisions than expert panels — not despite having no leader, but because of it. Most facilitators silence the dance before the quorum can form.", format:"Naturalist's Field Journal", dimension:"Gender & Generational Difference", sources:8, file:"2026-05-20-the-hive-deliberates.html" },
+      { date:"2026-05-19", slug:"the-sunk-ship", title:"The Sunk Ship", concept:"Sunk cost fallacy keeps practitioners rowing a sinking boat — because turning back feels like admitting the voyage was wasted. It wasn't. It was data.", format:"Ship's Log", dimension:"In-Person Presence", sources:8, file:"2026-05-19-the-sunk-ship.html" },
+      { date:"2026-05-18", slug:"the-recency-trap", title:"The Recency Trap", concept:"The availability heuristic makes vivid, recent events feel statistically normal. Practitioners calibrate their intuitions on the last dramatic incident — not base rates.", format:"Weather Station", dimension:"Brave Spaces", sources:7, file:"2026-05-18-the-recency-trap.html" },
+      { date:"2026-05-17", slug:"the-transfer-collapse", title:"The Transfer Collapse", concept:"When a practitioner's financial precarity becomes the client's problem — the cognitive tax that crosses the container before either party notices.", format:"Financial Terminal", dimension:"Living Income", sources:8, file:"2026-05-17-the-transfer-collapse.html" },
+      { date:"2026-05-16", slug:"the-stimulated-emission-problem", title:"The Stimulated Emission Problem", concept:"Facilitators are not transmitters. They are pumps. Einstein described the mechanism in 1917. Nobody built it until 1960. The 43-year gap was not a knowledge problem. It was a conditions problem. So is yours.", format:"Laboratory Station", dimension:"Brave Spaces", sources:9, file:"2026-05-16-the-stimulated-emission-problem.html" },
+      { date:"2026-05-15", slug:"the-23-minute-problem", title:"The 23-Minute Problem", concept:"After one interruption, full focus recovery takes 23 minutes 15 seconds. Average task time before the next switch: 9.8 minutes. You design for a learner who no longer exists.", format:"Mission Control", dimension:"In-Person Presence", sources:9, file:"2026-05-15-the-23-minute-problem.html" },
+      { date:"2026-05-14", slug:"the-story-trap", title:"The Story Trap", concept:"Narrative bias makes humans compress experience into stories with heroes, villains, and causes — even when reality has none. Practitioners who understand this stop fighting the story and start working with it.", format:"Museum Room", dimension:"Witnessing Authentic Humanity", sources:8, file:"2026-05-14-the-story-trap.html" },
+      { date:"2026-05-14", slug:"briefing", title:"The Liminal Briefing", concept:"The threshold between states is not a moment — it is a room. The practitioner's job is to furnish it well.", format:"Liminal Room", dimension:"Witnessing Authentic Humanity", sources:6, file:"2026-05-14-briefing.html" },
+      { date:"2026-05-13", slug:"how-to-get-lucky", title:"How to Get Lucky", concept:"Luck is not random. It is the intersection of preparation, pattern recognition, and the willingness to act on weak signals before the evidence is conclusive.", format:"Research Lab", dimension:"Brave Spaces", sources:7, file:"2026-05-13-how-to-get-lucky.html" },
+      { date:"2026-05-12", slug:"leverage-points", title:"Leverage Points", concept:"Donella Meadows identified 12 places to intervene in a system. Most practitioners intervene at the weakest leverage points — numbers and flows — while the real change lives in goals, paradigms, and the power to change paradigms.", format:"Systems Map", dimension:"Living Income", sources:8, file:"2026-05-12-leverage-points.html" },
+      { date:"2026-05-11", slug:"confirmation-bias", title:"Confirmation Bias", concept:"The practitioner who only sees what confirms their model stops learning from clients. Confirmation bias is not a flaw to fix — it is a condition to design around.", format:"Evidence Board", dimension:"Brave Spaces", sources:7, file:"2026-05-11-confirmation-bias.html" },
+      { date:"2026-05-10", slug:"feynman-technique", title:"The Feynman Technique", concept:"If you can't explain it simply, you don't understand it yet. Feynman's method is also a practitioner's diagnostic — use it to find where your client's understanding breaks down.", format:"Chalkboard Session", dimension:"In-Person Presence", sources:6, file:"2026-05-10-feynman-technique.html" },
+      { date:"2026-05-09", slug:"hanlons-razor", title:"Hanlon's Razor", concept:"Never attribute to malice what is adequately explained by ignorance. The practitioner who assumes bad faith stops diagnosing and starts prosecuting.", format:"Investigator's Desk", dimension:"Witnessing Authentic Humanity", sources:6, file:"2026-05-09-hanlons-razor.html" },
+      { date:"2026-05-08", slug:"occams-razor", title:"Occam's Razor", concept:"The simplest explanation that fits the evidence is usually correct. Practitioners who over-engineer their frameworks create complexity their clients cannot enter.", format:"Philosopher's Study", dimension:"Brave Spaces", sources:6, file:"2026-05-08-occams-razor.html" },
+      { date:"2026-05-07", slug:"circle-of-competence", title:"Circle of Competence", concept:"Knowing the boundaries of your expertise is more valuable than the expertise itself. Most practitioners fail not because they lack competence, but because they can't see where their circle ends.", format:"Cartographer's Table", dimension:"In-Person Presence", sources:6, file:"2026-05-07-circle-of-competence.html" },
+      { date:"2026-05-06", slug:"second-order-thinking", title:"Second-Order Thinking", concept:"First-order thinking asks 'what happens next?' Second-order thinking asks 'what happens after what happens next?' Most practitioners are stuck in first-order loops with their clients.", format:"Strategy Room", dimension:"Living Income", sources:7, file:"2026-05-06-second-order-thinking.html" },
+      { date:"2026-05-05", slug:"inversion", title:"Inversion", concept:"Charlie Munger's method: instead of asking how to succeed, ask how to fail — then don't do that. The practitioner's version: name every way this session could go wrong, then design against it.", format:"Inverse Map", dimension:"Brave Spaces", sources:6, file:"2026-05-05-inversion.html" },
+      { date:"2026-05-04", slug:"map-not-territory", title:"Map Is Not Territory", concept:"The model is not the reality. When a practitioner mistakes their framework for the client's actual experience, they stop seeing the client and start seeing the framework.", format:"Cartography Room", dimension:"Witnessing Authentic Humanity", sources:7, file:"2026-05-04-map-not-territory.html" },
+      { date:"2026-05-03", slug:"first-principles", title:"First Principles", concept:"Elon Musk calls it physics thinking — reduce every problem to its fundamental truths, then reason up from there. For practitioners: strip the framework until you find the actual human problem underneath.", format:"Physics Whiteboard", dimension:"In-Person Presence", sources:6, file:"2026-05-03-first-principles.html" },
+      { date:"2026-05-02", slug:"trust-biology-contact-before-contract", title:"Trust Before Thought", concept:"Trust is established physiologically — through mirroring, safety signals, and neurochemistry — before any cognitive agreement is possible. You cannot think your way to trust. You can only create the conditions for it.", format:"Museum Exhibition", dimension:"Witnessing Authentic Humanity", sources:9, file:"2026-05-02-trust-biology-contact-before-contract.html" }
+    ];
+
+    // ── DIMENSION METADATA ──
+    const DIM_META = {
+      "Witnessing Authentic Humanity":    { color: "#c8a87a", badgeClass: "badge-witnessing" },
+      "Brave Spaces":                     { color: "#5a4a8b", badgeClass: "badge-brave" },
+      "Living Income":                    { color: "#3a6b4a", badgeClass: "badge-income" },
+      "In-Person Presence":               { color: "#2a4a6b", badgeClass: "badge-presence" },
+      "Gender & Generational Difference": { color: "#8b5a3a", badgeClass: "badge-gender" }
+    };
+
+    const DIM_SHORT = {
+      "Witnessing Authentic Humanity":    "Witnessing",
+      "Brave Spaces":                     "Brave Spaces",
+      "Living Income":                    "Living Income",
+      "In-Person Presence":               "In-Person Presence",
+      "Gender & Generational Difference": "Gender & Generation"
+    };
+
+    // ── DATE FORMATTER ──
+    function formatDate(str) {
+      const [y, m, d] = str.split('-').map(Number);
+      const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return mo[m - 1] + ' ' + d + ', ' + y;
+    }
+
+    // ── BUILD A SINGLE CARD ──
+    function buildCard(b) {
+      const meta = DIM_META[b.dimension] || { color: "#8b6f47", badgeClass: "badge-witnessing" };
+      const short = DIM_SHORT[b.dimension] || b.dimension;
+      const searchText = (b.title + ' ' + b.concept + ' ' + b.dimension + ' ' + b.format).toLowerCase();
+      return `<a class="card"
+                 href="/archive/${b.file}"
+                 data-dimension="${b.dimension}"
+                 data-search="${searchText}">
+        <div class="card-accent-bar" style="background:${meta.color}"></div>
+        <div class="card-body">
+          <div class="card-top-meta">
+            <span class="card-date">${formatDate(b.date)}</span>
+            <span class="card-format">${b.format}</span>
+          </div>
+          <h2 class="card-title">${b.title}</h2>
+          <p class="card-concept">${b.concept}</p>
+          <div class="card-footer">
+            <span class="card-dim-badge ${meta.badgeClass}">${short}</span>
+            <span class="card-sources">${b.sources} sources</span>
+          </div>
+        </div>
+      </a>`;
+    }
+
+    // ── INITIAL RENDER ──
+    const grid = document.getElementById('card-grid');
+    grid.innerHTML = BRIEFINGS.map(buildCard).join('');
+    const allCards = Array.from(grid.querySelectorAll('.card'));
+    const resultsBar = document.getElementById('results-bar');
+    const emptyState = document.getElementById('empty-state');
+
+    // ── STATE ──
+    let activeDim = 'all';
+    let searchQuery = '';
+
+    // ── APPLY FILTERS ──
+    function applyFilters() {
+      let count = 0;
+      allCards.forEach(card => {
+        const dimOk = activeDim === 'all' || card.dataset.dimension === activeDim;
+        const searchOk = !searchQuery || card.dataset.search.includes(searchQuery);
+        const show = dimOk && searchOk;
+        card.style.display = show ? '' : 'none';
+        if (show) count++;
+      });
+
+      const total = BRIEFINGS.length;
+      if (count === 0) {
+        emptyState.classList.add('visible');
+        resultsBar.textContent = 'No briefings match — try clearing the filter or search';
+      } else {
+        emptyState.classList.remove('visible');
+        if (count === total && activeDim === 'all' && !searchQuery) {
+          resultsBar.textContent = 'Showing all ' + total + ' briefings';
+        } else {
+          const dimPart = activeDim === 'all' ? '' : ' · ' + (DIM_SHORT[activeDim] || activeDim);
+          const sPart   = searchQuery ? ' · “' + searchQuery + '”' : '';
+          resultsBar.textContent = 'Showing ' + count + ' of ' + total + ' briefings' + dimPart + sPart;
+        }
+      }
+    }
+
+    // ── CHIP CLICKS ──
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeDim = chip.dataset.dim;
+        applyFilters();
+      });
+    });
+
+    // ── LIVE SEARCH ──
+    document.getElementById('search-input').addEventListener('input', e => {
+      searchQuery = e.target.value.trim().toLowerCase();
+      applyFilters();
+    });
+
+    // ── BOOT ──
+    applyFilters();
+  </script>
+
+</body>
+</html>

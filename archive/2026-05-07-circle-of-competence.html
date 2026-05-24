@@ -1,0 +1,619 @@
+<!-- signal-os:date: 2026-05-07 -->
+<!-- signal-os:slug: circle-of-competence -->
+<!-- signal-os:title: Circle of Competence -->
+<!-- signal-os:concept: Every practitioner has a circle of genuine expertise. The dangerous zone is not outside the circle — it's the edge. Knowing where your competence ends is the most underrated skill in the room. -->
+<!-- signal-os:format: The Surveyor's Field -->
+<!-- signal-os:dimension: Living Income -->
+<!-- signal-os:sources: 8 -->
+<!-- signal-os:tags: #cognition #decision-making #leadership -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 7 · Circle of Competence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#F2E8D0;
+  --text:#3D2B0A;
+  --brown:#8B6914;
+  --brownf:rgba(139,105,20,0.15);
+  --blue:#5B8DB8;
+  --bluef:rgba(91,141,184,0.2);
+  --danger:#B84040;
+  --dangerf:rgba(184,64,64,0.12);
+  --border:rgba(61,43,10,0.15);
+  --border-h:rgba(61,43,10,0.3);
+  --muted:rgba(61,43,10,0.55);
+  --dim:rgba(61,43,10,0.38);
+  --surface:rgba(242,232,208,0.7);
+}
+
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Spectral',serif;overflow:hidden;}
+
+/* Status bar */
+.sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;background:rgba(242,232,208,0.97);border-bottom:2px solid var(--border-h);display:flex;align-items:center;padding:0 20px;gap:14px;}
+.sb-logo{font-family:'Fira Code',monospace;font-size:0.7rem;letter-spacing:4px;font-weight:600;color:var(--brown);text-decoration:none;text-shadow:0 0 10px rgba(139,105,20,0.35);}
+.sb-sep{width:1px;height:12px;background:var(--border-h);}
+.sb-label{font-family:'Fira Code',monospace;font-size:0.62rem;letter-spacing:2px;color:var(--muted);flex:1;}
+.sb-clock{font-family:'Fira Code',monospace;font-size:0.62rem;letter-spacing:2px;color:var(--muted);}
+
+/* Entry — topographic full viewport */
+#entry{
+  position:fixed;inset:0;top:36px;bottom:40px;z-index:800;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--bg);
+  transition:opacity 0.8s ease;
+  overflow:hidden;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+/* Topographic rings — SVG or nested divs */
+.topo-container{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-52%);
+  width:min(65vw,420px);
+  height:min(65vw,420px);
+}
+.topo-ring{
+  position:absolute;
+  border-radius:50%;
+  border:1.5px solid rgba(61,43,10,0.22);
+  background:transparent;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+}
+/* Each ring slightly different shade + slight irregular shape via border-radius */
+.ring-1{width:100%;height:100%;border-color:rgba(61,43,10,0.10);}
+.ring-2{width:83%;height:83%;border-color:rgba(61,43,10,0.14);}
+.ring-3{width:66%;height:66%;border-color:rgba(61,43,10,0.18);}
+.ring-4{width:50%;height:50%;border-color:rgba(139,105,20,0.25);background:rgba(139,105,20,0.04);}
+.ring-5{width:34%;height:34%;border-color:rgba(139,105,20,0.35);background:rgba(139,105,20,0.07);}
+.ring-6{width:18%;height:18%;border-color:rgba(91,141,184,0.5);background:rgba(91,141,184,0.12);}
+
+/* Zone labels on rings */
+.topo-zone{
+  position:absolute;
+  font-family:'Fira Code',monospace;text-transform:uppercase;letter-spacing:1.5px;
+  white-space:nowrap;
+}
+.zone-high{font-size:0.6rem;color:var(--blue);top:50%;left:50%;transform:translate(-50%,-50%);font-weight:600;text-align:center;line-height:1.4;text-shadow:0 0 10px rgba(91,141,184,0.4);}
+.zone-mid{font-size:0.58rem;color:var(--brown);top:24%;left:50%;transform:translateX(-50%);opacity:0.85;}
+.zone-low{font-size:0.55rem;color:var(--muted);top:8%;left:50%;transform:translateX(-50%);opacity:0.7;}
+
+/* Pulsing amber dot at the edge */
+.edge-dot{
+  position:absolute;
+  width:14px;height:14px;
+  border-radius:50%;
+  background:var(--danger);
+  box-shadow:0 0 0 0 rgba(184,64,64,0.4);
+  animation:edgePulse 2.5s ease-in-out infinite;
+  top:32%;right:20%;
+  transform:translate(50%,-50%);
+}
+@keyframes edgePulse{0%,100%{box-shadow:0 0 0 0 rgba(184,64,64,0.4);}50%{box-shadow:0 0 0 12px rgba(184,64,64,0);}}
+
+/* Entry overlay text */
+.entry-overlay{
+  position:relative;z-index:2;
+  text-align:center;padding:32px;
+  display:flex;flex-direction:column;align-items:center;gap:20px;
+}
+.entry-prompt{font-family:'Fira Code',monospace;font-size:clamp(0.75rem,1.5vw,0.95rem);letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+.entry-title{font-size:clamp(1.6rem,4vw,2.8rem);color:var(--text);font-weight:700;line-height:1.1;letter-spacing:-0.5px;}
+.entry-sub{font-family:'Fira Code',monospace;font-size:clamp(0.6rem,1vw,0.72rem);letter-spacing:3px;color:var(--brown);text-transform:uppercase;text-shadow:0 0 8px rgba(139,105,20,0.3);}
+
+.entry-btn{
+  font-family:'Fira Code',monospace;font-size:0.75rem;letter-spacing:3px;font-weight:600;
+  background:var(--brown);color:var(--bg);
+  border:none;padding:14px 32px;cursor:pointer;
+  text-transform:uppercase;
+  transition:box-shadow 0.3s,transform 0.1s;
+  box-shadow:0 0 0 rgba(139,105,20,0);
+  margin-top:8px;
+}
+.entry-btn:hover{box-shadow:0 0 20px rgba(139,105,20,0.4);transform:translateY(-1px);}
+
+/* Main panel: elevation sidebar + content */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+}
+#main-panel.visible{display:grid;grid-template-columns:220px 1fr;opacity:1;}
+
+/* Elevation sidebar */
+.sidebar{
+  background:rgba(242,232,208,0.5);
+  border-right:2px solid var(--border);
+  overflow-y:auto;
+  padding:20px 0;
+  display:flex;flex-direction:column;
+}
+.elevation-strip{
+  display:flex;flex-direction:column;gap:0;
+  flex:1;
+}
+.elevation-zone{
+  padding:10px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;gap:4px;
+}
+.elev-label{font-family:'Fira Code',monospace;font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.elev-summit .elev-label{color:var(--blue);}
+.elev-camp .elev-label{color:var(--brown);}
+.elev-foot .elev-label{color:var(--muted);}
+.elev-sea .elev-label{color:var(--danger);}
+
+.nav-item{font-family:'Fira Code',monospace;font-size:0.58rem;letter-spacing:1px;padding:4px 0;cursor:pointer;color:var(--muted);border-left:none;transition:all 0.2s;display:block;text-decoration:none;line-height:1.5;text-transform:uppercase;}
+.nav-item:hover{color:var(--brown);}
+.nav-item.active{color:var(--text);}
+
+.sidebar-legend{padding:16px 20px;border-top:2px solid var(--border);}
+.legend-head{font-family:'Fira Code',monospace;font-size:0.5rem;letter-spacing:3px;color:var(--brown);margin-bottom:10px;text-transform:uppercase;}
+.legend-item{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.legend-dot{width:10px;height:10px;border-radius:50%;}
+.legend-text{font-family:'Fira Code',monospace;font-size:0.52rem;color:var(--muted);}
+
+/* Content pane */
+.content-pane{overflow-y:auto;padding:36px 52px 48px;scroll-behavior:smooth;}
+
+/* Sections */
+.section{max-width:740px;margin-bottom:60px;}
+.section-eyebrow{font-family:'Fira Code',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--brown);margin-bottom:8px;text-transform:uppercase;text-shadow:0 0 8px rgba(139,105,20,0.25);}
+.section-title{font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.2;}
+.section-body{font-size:1.02rem;line-height:1.85;color:var(--text);margin-bottom:20px;}
+.section-body p{margin-bottom:16px;}
+.pull-quote{font-size:1.15rem;font-style:italic;line-height:1.65;color:var(--text);border-left:4px solid var(--brown);padding:16px 24px;margin:24px 0;box-shadow:inset 4px 0 12px rgba(139,105,20,0.08);}
+
+/* Danger zone block */
+.danger-block{
+  background:var(--dangerf);
+  border:1px solid rgba(184,64,64,0.3);
+  border-left:4px solid var(--danger);
+  padding:20px 24px;margin:24px 0;
+}
+.danger-head{font-family:'Fira Code',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--danger);margin-bottom:8px;text-transform:uppercase;}
+.danger-text{font-size:0.95rem;line-height:1.65;color:var(--text);}
+
+/* WALL: Competence Topography */
+.wall-section{
+  margin:40px -52px;
+  padding:52px;
+  background:var(--text);
+  color:var(--bg);
+}
+.wall-head{font-family:'Fira Code',monospace;font-size:0.65rem;letter-spacing:4px;color:rgba(139,105,20,0.9);margin-bottom:12px;text-transform:uppercase;text-shadow:0 0 8px rgba(139,105,20,0.5);}
+.wall-title{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;margin-bottom:8px;line-height:1.1;color:var(--bg);}
+.wall-sub{font-family:'Fira Code',monospace;font-size:0.68rem;color:rgba(242,232,208,0.5);margin-bottom:40px;letter-spacing:2px;}
+
+.topo-display{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(242,232,208,0.1);margin-bottom:40px;}
+.topo-cell{background:rgba(61,43,10,0.9);padding:28px 20px;}
+.topo-cell-label{font-family:'Fira Code',monospace;font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+.topo-cell-title{font-size:1.1rem;font-weight:700;margin-bottom:10px;line-height:1.2;}
+.topo-cell-body{font-size:0.85rem;line-height:1.55;color:rgba(242,232,208,0.75);}
+.zone-a .topo-cell-label{color:rgba(91,141,184,0.9);}
+.zone-a .topo-cell-title{color:var(--bg);}
+.zone-b .topo-cell-label{color:rgba(139,105,20,0.9);}
+.zone-b .topo-cell-title{color:var(--bg);}
+.zone-c .topo-cell-label{color:rgba(184,64,64,0.9);}
+.zone-c .topo-cell-title{color:var(--bg);}
+
+/* Case studies */
+.case-head{font-family:'Fira Code',monospace;font-size:0.6rem;letter-spacing:3px;color:rgba(242,232,208,0.5);margin-bottom:20px;text-transform:uppercase;padding-top:24px;border-top:1px solid rgba(242,232,208,0.1);}
+.case-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(242,232,208,0.08);}
+.case-item{background:rgba(61,43,10,0.8);padding:20px;}
+.case-name{font-family:'Fira Code',monospace;font-size:0.6rem;letter-spacing:2px;color:rgba(184,64,64,0.9);margin-bottom:6px;text-transform:uppercase;}
+.case-text{font-size:0.85rem;line-height:1.55;color:rgba(242,232,208,0.8);}
+
+/* Cite */
+.cite{font-size:0.74rem;color:var(--text);border-left:3px solid var(--brown);padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;font-family:'Fira Code',monospace;}
+
+/* Meliorist */
+.meliorist-block{background:var(--brownf);border:1px solid var(--border-h);padding:28px 32px;margin:32px 0;}
+.mel-head{font-family:'Fira Code',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--brown);margin-bottom:12px;text-transform:uppercase;text-shadow:0 0 8px rgba(139,105,20,0.3);}
+.mel-body{font-size:1rem;line-height:1.8;color:var(--text);}
+
+/* Indigenous */
+.indigenous-block{background:var(--bluef);border-left:4px solid var(--blue);padding:20px 24px;margin:24px 0;}
+.indig-head{font-family:'Fira Code',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--blue);margin-bottom:10px;text-transform:uppercase;}
+.indig-text{font-size:0.95rem;line-height:1.7;color:var(--text);}
+
+/* Nature */
+.nature-block{background:rgba(91,141,184,0.08);border-left:3px solid var(--blue);padding:20px 24px;margin:24px 0;}
+.nature-head{font-family:'Fira Code',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--blue);margin-bottom:10px;text-transform:uppercase;}
+.nature-text{font-size:0.95rem;line-height:1.7;font-style:italic;color:var(--text);}
+
+/* Fieldwork */
+.fieldwork{background:rgba(139,105,20,0.08);border:1px solid var(--border-h);padding:28px 32px;margin:32px 0;}
+.fw-head{font-family:'Fira Code',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--brown);margin-bottom:16px;text-transform:uppercase;}
+.fw-item{display:flex;gap:12px;margin-bottom:14px;font-size:0.95rem;line-height:1.6;}
+.fw-bullet{color:var(--brown);flex-shrink:0;font-family:'Fira Code',monospace;}
+
+/* Bibliography */
+.bib-list{list-style:none;display:grid;gap:14px;}
+.bib-item{font-size:0.88rem;line-height:1.6;padding-left:20px;border-left:2px solid var(--border-h);color:var(--muted);}
+.bib-item strong{color:var(--text);}
+
+/* Footer */
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:var(--bg);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:22px;font-family:'Fira Code',monospace;font-size:0.7rem;letter-spacing:2px;}
+.footer-bar a{color:var(--brown);text-decoration:none;}
+.footer-bar a:hover{text-shadow:0 0 8px rgba(139,105,20,0.5);}
+.footer-sep{color:var(--border-h);}
+
+/* Mobile */
+@media(max-width:768px){
+  #entry{overflow-y:auto;justify-content:flex-start;padding-top:40px;}
+  .topo-container{position:relative;top:auto;left:auto;transform:none;margin:0 auto 20px;}
+  .entry-overlay{padding:20px 16px 80px;}
+  #main-panel.visible{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .content-pane{padding:24px 16px 80px;}
+  .wall-section{margin:40px -16px;padding:28px 16px;}
+  .topo-display{grid-template-columns:1fr;}
+  .case-grid{grid-template-columns:1fr;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div class="sb-sep"></div>
+  <div class="sb-label">THE SURVEYOR'S FIELD · LIVING INCOME · ISSUE 007</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<div id="entry">
+  <!-- Topographic rings -->
+  <div class="topo-container">
+    <div class="topo-ring ring-1"></div>
+    <div class="topo-ring ring-2"></div>
+    <div class="topo-ring ring-3"></div>
+    <div class="topo-ring ring-4"></div>
+    <div class="topo-ring ring-5"></div>
+    <div class="topo-ring ring-6"></div>
+    <div class="topo-zone zone-high">HIGH GROUND<br>Known Well</div>
+    <div class="topo-zone zone-mid">FOOTHILLS · Known Somewhat</div>
+    <div class="topo-zone zone-low">LOWLANDS · Unknown</div>
+    <!-- Pulsing danger dot at the edge -->
+    <div class="edge-dot"></div>
+  </div>
+
+  <!-- Overlay prompt -->
+  <div class="entry-overlay">
+    <div class="entry-prompt">⊕ Issue 007 · Living Income · The Surveyor's Field</div>
+    <div class="entry-title">Circle of Competence</div>
+    <div class="entry-sub">Where is the edge of yours?</div>
+    <button class="entry-btn" onclick="openMain()">Survey the Territory →</button>
+  </div>
+</div>
+
+<div id="main-panel">
+  <!-- Elevation sidebar -->
+  <nav class="sidebar">
+    <div class="elevation-strip">
+      <div class="elevation-zone elev-summit">
+        <div class="elev-label">⬆ Summit</div>
+        <a href="#s1" class="nav-item active" onclick="setActive(this)">I. The Formulation</a>
+        <a href="#s2" class="nav-item" onclick="setActive(this)">II. Dunning-Kruger Inversion</a>
+      </div>
+      <div class="elevation-zone elev-camp">
+        <div class="elev-label">⛺ Base Camp</div>
+        <a href="#s3" class="nav-item" onclick="setActive(this)">III. Living Income Dimension</a>
+        <a href="#s4" class="nav-item" onclick="setActive(this)">IV. The Competence Topography</a>
+      </div>
+      <div class="elevation-zone elev-foot">
+        <div class="elev-label">◎ Foothills</div>
+        <a href="#s5" class="nav-item" onclick="setActive(this)">V. Indigenous Knowing</a>
+        <a href="#s6" class="nav-item" onclick="setActive(this)">VI. Meliorist Frame</a>
+      </div>
+      <div class="elevation-zone elev-sea">
+        <div class="elev-label">⚠ Danger Zone</div>
+        <a href="#s7" class="nav-item" onclick="setActive(this)">VII. Field Work + Bibliography</a>
+      </div>
+    </div>
+    <div class="sidebar-legend">
+      <div class="legend-head">Zone Key</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div><div class="legend-text">High Ground — Known Well</div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--brown);"></div><div class="legend-text">Foothills — Known Somewhat</div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--muted);"></div><div class="legend-text">Lowlands — Unknown</div></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--danger);box-shadow:0 0 6px rgba(184,64,64,0.5);"></div><div class="legend-text">The Edge — Dangerous</div></div>
+    </div>
+  </nav>
+
+  <div class="content-pane">
+
+    <div class="section" id="s1" data-section="buffett-munger">
+      <div class="section-eyebrow">SECTION I · ORIGIN</div>
+      <div class="section-title">The Original Formulation</div>
+      <div class="section-body">
+        <p>Warren Buffett and Charlie Munger did not invent the concept of knowing your limits — but they codified it as an investment philosophy and named it. The circle of competence: the domain within which you have genuine, deep knowledge. Not familiarity. Not expertise-adjacent. The domain where you actually know what you don't know, which means you can identify the edge of your circle from the inside.</p>
+        <p>Buffett's formulation is precise: "I don't have to know what I don't know about technology to know that it's outside my circle of competence." The circle isn't about arrogance. It's about accuracy. Understanding where your circle ends is a navigation tool, not an admission of inadequacy.</p>
+        <p>The critical move: most people draw their circle of competence too large. They confuse familiarity with expertise, confidence with competence, and exposure with understanding. The circle gets drawn to match self-image rather than actual knowledge depth. And the inflated circle leads to decisions made in terrain the practitioner doesn't actually know.</p>
+      </div>
+      <span class="cite">Buffett, W. (various). Berkshire Hathaway annual shareholder letters, 1965–present. Available at berkshirehathaway.com. The circle of competence metaphor appears most explicitly in the 1996 letter. Munger's treatment is in <em>Poor Charlie's Almanack</em> (2005), pp. 215–222.</span>
+      <div class="pull-quote">"It's not supposed to be easy. Anyone who finds it easy is stupid." — Charlie Munger, on staying inside the circle</div>
+    </div>
+
+    <div class="section" id="s2" data-section="dunning-kruger">
+      <div class="section-eyebrow">SECTION II · COGNITIVE SCIENCE</div>
+      <div class="section-title">Dunning-Kruger — The Inversion at the Edge</div>
+      <div class="section-body">
+        <p>The Dunning-Kruger effect has a less-discussed inverse: as expertise deepens, self-assessed confidence initially <em>drops</em> before it rises again at true mastery. The expert who knows the most is often the one most acutely aware of what they don't know — not because they're humble, but because deep knowledge reveals the topology of the unknown. The deeper you go, the more clearly you can see the edges.</p>
+        <p>This creates a paradox for practitioners: the most competent people in a field often present with less certainty than moderately skilled peers. The moderately skilled practitioner, having learned enough to feel capable but not enough to see the full complexity, operates with maximum confidence — and maximum exposure to the dangers of the edge.</p>
+        <p>Anders Ericsson's research on expertise is relevant here: the transition from competence to expertise is not linear. Deliberate practice doesn't just add skills — it rebuilds the internal model of the domain from scratch. Expert memory is organized differently. Expert perception is different. The expert isn't just doing more of what the novice does — they're doing something structurally different. And that difference makes the expert-novice gap much wider than self-assessment suggests.</p>
+      </div>
+      <span class="cite">Kruger, J. & Dunning, D. (1999). Unskilled and unaware of it. <em>Journal of Personality and Social Psychology, 77</em>(6), 1121–1134. — The peak-confidence curve for intermediate practitioners is in Figure 2.</span>
+      <span class="cite">Ericsson, K.A. & Pool, R. (2016). <em>Peak: Secrets from the New Science of Expertise.</em> Houghton Mifflin Harcourt. — The mental representations of experts (Chapter 3) explain why expertise feels like uncertainty — not confidence.</span>
+    </div>
+
+    <div class="section" id="s3" data-section="living-income">
+      <div class="section-eyebrow">SECTION III · DIMENSION</div>
+      <div class="section-title">Living Income — Deep Narrow Earns More Than Shallow Broad</div>
+      <div class="section-body">
+        <p>The Living Income dimension asks: what does genuine economic security look like for a practitioner — not just survival income, but wealth, sustainability, and the capacity to serve clients at the highest level?</p>
+        <p>The economic evidence is consistent: narrow depth commands premium rates. A practitioner who genuinely knows leadership communication in high-stakes legal environments commands different rates than one who offers "leadership development." The specificity is not a marketing strategy — it reflects actual competence depth, which clients can feel in the room.</p>
+        <p>The scope creep trap is where the Living Income dimension and the circle of competence intersect dangerously. The practitioner who expands their offering beyond their genuine circle — to capture more revenue — typically captures the revenue and loses the quality signal. Clients who hired the deep specialist now have a generalist. The referral network that was built on depth is now recommending someone who is no longer quite the person they recommended.</p>
+        <p>Tom Peters argued in the 1980s that "if you're not distinctively excellent at something specific, you're competing on price." The circle of competence is the map of where you're distinctively excellent. Stay in it. Charge accordingly. Expand deliberately, not opportunistically.</p>
+      </div>
+      <span class="cite">Peters, T. (1987). <em>Thriving on Chaos: Handbook for a Management Revolution.</em> Alfred A. Knopf. — The "be distinctly excellent at something specific" argument is in Part III. Remarkably durable 40 years later.</span>
+
+      <div class="danger-block">
+        <div class="danger-head">⚠ The Scope Creep Danger Zone</div>
+        <div class="danger-text">The dangerous edge is not where you know nothing. It's where you know enough to sound credible but not enough to reliably deliver results. That zone — the edge of genuine competence — is where practitioners take on work that looks like their circle but isn't. The client relationship suffers. The referral network suffers. And the practitioner often doesn't notice until the damage is done, because they're operating on the inflated circle rather than the actual one.</div>
+      </div>
+    </div>
+
+    <!-- WALL MOMENT -->
+    <div class="wall-section" id="s4" data-section="topography">
+      <div class="wall-head">⊕ WALL DISPLAY</div>
+      <div class="wall-title">The Competence Topography</div>
+      <div class="wall-sub">THREE ZONES · THE DANGEROUS EDGE · FOUR REAL EXAMPLES</div>
+
+      <div class="topo-display">
+        <div class="topo-cell zone-a">
+          <div class="topo-cell-label">⬆ High Ground — Known Well</div>
+          <div class="topo-cell-title">Inside the Circle</div>
+          <div class="topo-cell-body">You know what you know and what you don't know. You can identify the edge of your expertise from the inside. You can deliver results reliably, recognize failure conditions, and refer out when needed. This is where your rate is defensible and your reputation grows.</div>
+        </div>
+        <div class="topo-cell zone-b">
+          <div class="topo-cell-label">◎ Foothills — Known Somewhat</div>
+          <div class="topo-cell-title">Adjacent Terrain</div>
+          <div class="topo-cell-body">You've been here but haven't mapped it fully. You can navigate with care and with appropriate caution. The foothills are where deliberate practice and supervision expand the circle over time. The mistake is mistaking familiarity with foothills territory for genuine competence in it.</div>
+        </div>
+        <div class="topo-cell zone-c">
+          <div class="topo-cell-label">⚠ The Edge — Danger Zone</div>
+          <div class="topo-cell-title">Where Practitioners Get Hurt</div>
+          <div class="topo-cell-body">Not the unknown — the almost-known. The practitioner feels capable. The language is familiar. The client is satisfied in the short term. And then something happens that requires the depth that isn't there. The edge is where reputations, client relationships, and sometimes people get damaged.</div>
+        </div>
+      </div>
+
+      <div class="case-head">⊕ FOUR REAL EXAMPLES — PRACTITIONERS OUTSIDE THEIR CIRCLE</div>
+      <div class="case-grid">
+        <div class="case-item">
+          <div class="case-name">Case: NLP Into Therapy</div>
+          <div class="case-text">A certified NLP practitioner with strong results in communication training begins working with clients on "limiting beliefs" and "trauma patterns." The language is familiar; the client is compliant. But the practitioner is now in clinical psychology territory without the training to assess risk, recognize contraindications, or handle dissociation. Clients have been harmed. The practitioner's professional credibility is permanently damaged.</div>
+        </div>
+        <div class="case-item">
+          <div class="case-name">Case: The One-Workshop DEI Expert</div>
+          <div class="case-text">A facilitator with strong group process skills completes a 2-day train-the-trainer on diversity, equity, and inclusion. They begin delivering DEI workshops. In high-stakes sessions — with historical organizational trauma, identity-based conflict, or active grievances — they lack the depth to navigate safely. They apply their generic facilitation tools. The session does damage. The organization concludes DEI work "doesn't work."</div>
+        </div>
+        <div class="case-item">
+          <div class="case-name">Case: The Coach in Medical Context</div>
+          <div class="case-text">An executive coach with strong tools for goal-setting and accountability begins working with a client managing a serious health condition alongside work challenges. The coach's model is designed for healthy, functional clients facing situational challenges. They miss clinical depression. They coach through a medical crisis as though it were a performance issue. The client deteriorates. The coach didn't know the edge of their circle.</div>
+        </div>
+        <div class="case-item">
+          <div class="case-name">Case: The Trainer Who Became a Consultant</div>
+          <div class="case-text">A skilled corporate trainer, after strong L&D results, is asked to lead an organizational strategy project. They accept. Their training skills — facilitation, content design, group dynamics — are real. Strategy consulting requires different competencies: organizational diagnosis, political navigation, stakeholder analysis, competitive landscape. The project fails. The client relationship ends. The trainer's reputation in the organization is permanently changed.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="s5" data-section="indigenous">
+      <div class="section-eyebrow">SECTION V · INDIGENOUS KNOWLEDGE</div>
+      <div class="section-title">"Not My Medicine" — Ethical Boundary as Practice</div>
+      <div class="section-body">
+        <p>In many indigenous knowledge traditions, the phrase "this is not my medicine" is not an admission of inadequacy — it's an ethical statement. A healer who has not been trained to work with a particular practice, plant, or person does not simply try anyway. They refer to the person whose medicine it is. The knowledge system is built around this: each practitioner has a specific relationship to specific knowledge, and practicing outside that relationship is understood as a harm, not a competence gap.</p>
+        <p>This is not a limitation on healing capacity — it is the framework that makes the healing reliable. You can trust the practitioner because you know they are practicing within their medicine. The accountability is built into the ontology.</p>
+        <p>Western professional development has worked backward to approximate this: licensing, scope-of-practice regulations, ethics codes. But these are structural constraints, not internalized values. The "not my medicine" principle is internalized. It operates even when no one is watching, and even when the client is offering to pay.</p>
+        <p>The practitioner who can say "this is not my medicine — but I know whose it is, and I'll make the introduction" is protecting the client, protecting their own practice, and contributing to a referral ecosystem that strengthens every practitioner in it. The economic benefit — long-term — is significant. The referral comes back.</p>
+      </div>
+      <div class="indigenous-block">
+        <div class="indig-head">⊕ Indigenous Knowledge · Attribution Note</div>
+        <div class="indig-text">The "not my medicine" principle is present across diverse indigenous knowledge traditions in North America, including Lakota, Diné (Navajo), and Pacific Northwest Coastal traditions, among others. These are living knowledge systems, not historical artifacts. This account draws from practitioner descriptions in the literature — not from any one tradition's internal protocols, which vary and which are not the author's to specify.</div>
+      </div>
+    </div>
+
+    <div class="section" id="s6" data-section="meliorist">
+      <div class="section-eyebrow">SECTION VI · MELIORIST FRAME</div>
+      <div class="section-title">Stewardship of Expertise</div>
+      <div class="section-body">
+        <p>Meliorist stewardship applied to practitioner expertise: your competence is not just your asset. It is something you hold in trust for the people who rely on you to know its limits.</p>
+        <p>The constructive steward expands their circle deliberately — through practice, supervision, study, and honest self-assessment. They do not expand it opportunistically, in response to market demand or flattering client requests. They are willing to say "not yet" when "not yet" is honest. And they are willing to say "not me" when "not me" is accurate.</p>
+        <p>This is also an economic argument. The practitioner who maintains a genuine, calibrated circle builds a reputation for accuracy. Clients learn they can trust what this practitioner says — including "I'm not the right person for this." That trust is the foundation of the referral network. It compounds over time. The practitioner who expands opportunistically gets the short-term revenue and loses the compounding signal.</p>
+        <div class="meliorist-block">
+          <div class="mel-head">⊕ Meliorism 2.0 · Wise Action as Stewardship of Expertise</div>
+          <div class="mel-body">Know your circle. Work in it. Expand it deliberately. Build a referral network of people whose circles are adjacent to yours. Say "not my medicine" when it's honest. Say "here's who it belongs to" when you can. This is not a limitation on your practice. It is the architecture of a practice that compounds in value over a career.</div>
+        </div>
+      </div>
+      <span class="cite">Kahneman, D. (2011). <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux. Chapter 22 (Expert Intuition: When Can We Trust It?) is the cognitive science of knowing when you're inside your circle. The conditions: sufficient regularity in the environment, sufficient practice, genuine feedback. Many practitioners are missing one or more of these.</span>
+    </div>
+
+    <div class="section" id="s7" data-section="fieldwork">
+      <div class="section-eyebrow">SECTION VII · FIELD WORK</div>
+      <div class="section-title">Carry This Into the Room</div>
+
+      <div class="nature-block">
+        <div class="nature-head">⊕ Nature Invitation</div>
+        <div class="nature-text">Find a watershed — a place where water flows from high ground to low. Stand at the edge where the high ground drops away. Notice how clearly the topography announces the transition. The land knows its own edge without needing to describe it. Sit with the question: do you know your professional edge with that same clarity? Or do you discover it only after crossing it?</div>
+      </div>
+
+      <div class="fieldwork">
+        <div class="fw-head">⊕ Three Surveyor's Questions</div>
+        <div class="fw-item"><span class="fw-bullet">01.</span><span>Draw your circle of competence as concentric rings — what's in the high ground? What's in the foothills? What's in the lowlands? Where is the orange dot that marks "this is where I've gotten into trouble"?</span></div>
+        <div class="fw-item"><span class="fw-bullet">02.</span><span>Identify one thing you've agreed to deliver in the last six months that sits closer to the edge than you'd like to admit. What would a more honest response have been?</span></div>
+        <div class="fw-item"><span class="fw-bullet">03.</span><span>Who are the two or three practitioners whose circles are adjacent to yours? Have you made an explicit referral arrangement with them — or is the network implied and untested?</span></div>
+      </div>
+
+      <div class="section-eyebrow" style="margin-top:32px;">BIBLIOGRAPHY</div>
+      <ul class="bib-list">
+        <li class="bib-item"><strong>Buffett, W. (1965–present).</strong> Berkshire Hathaway Shareholder Letters. berkshirehathaway.com. — The annual letters are the most practical compendium of the circle of competence in practice.</li>
+        <li class="bib-item"><strong>Kruger, J. & Dunning, D. (1999).</strong> Unskilled and unaware of it. <em>Journal of Personality and Social Psychology, 77</em>(6). — The cognitive mechanism behind inflated circle-drawing.</li>
+        <li class="bib-item"><strong>Ericsson, K.A. & Pool, R. (2016).</strong> <em>Peak: Secrets from the New Science of Expertise.</em> Houghton Mifflin Harcourt. — The mental representations that distinguish genuine expertise from skilled performance.</li>
+        <li class="bib-item"><strong>Kahneman, D. (2011).</strong> <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux. — Chapter 22 on expert intuition: when to trust it, when not to, and what conditions produce genuine calibration.</li>
+        <li class="bib-item"><strong>Peters, T. (1987).</strong> <em>Thriving on Chaos.</em> Alfred A. Knopf. — The economic argument for distinctive depth over broad generalism.</li>
+        <li class="bib-item"><strong>Munger, C. (2005).</strong> <em>Poor Charlie's Almanack.</em> Donning Company Publishers. — The mental model treatment of competence circles; includes the "find your niche and expand it carefully" argument.</li>
+        <li class="bib-item"><strong>Dreyfus, H.L. & Dreyfus, S.E. (1986).</strong> <em>Mind Over Machine: The Power of Human Intuition and Expertise in the Era of the Computer.</em> Free Press. — The five-stage model of skill acquisition (novice → expert) that gives the circle its developmental dimension.</li>
+        <li class="bib-item"><strong>Gawande, A. (2011).</strong> Personal Best. <em>The New Yorker,</em> Oct. 3, 2011. — The argument that even experts need coaches — people who can observe from outside the circle and see what the practitioner inside it cannot.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--brown)">007 CIRCLE OF COMPETENCE ← CURRENT</span>
+</div>
+
+<script>
+function tick(){const n=new Date();const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()].map(v=>String(v).padStart(2,'0')).join(':');const el=document.getElementById('clk');if(el)el.textContent='UTC '+t;}
+tick();setInterval(tick,1000);
+
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='grid';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{panel.classList.add('visible');}));
+  },800);
+  track('enter','entry_screen');
+}
+
+function setActive(el){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function track(event,label,extra){console.log('[signal-os]',event,label,extra||'');}
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      track('view',e.target.dataset.section||e.target.id||'unknown');
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('[data-section]').forEach(el=>observer.observe(el));
+});
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

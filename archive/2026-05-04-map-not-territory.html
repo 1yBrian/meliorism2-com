@@ -1,0 +1,621 @@
+<!-- signal-os:date: 2026-05-04 -->
+<!-- signal-os:slug: map-not-territory -->
+<!-- signal-os:title: Map Is Not the Territory -->
+<!-- signal-os:concept: Our training frameworks are maps of learning — Korzybski's warning: every map omits the territory it claims to describe. -->
+<!-- signal-os:format: The Cartographer's Study -->
+<!-- signal-os:dimension: Brave Spaces -->
+<!-- signal-os:sources: 8 -->
+<!-- signal-os:tags: #cognition #reasoning #decision-making -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 4 · Map Is Not the Territory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#F4EDD4;
+  --ink:#2C1810;
+  --sepia:#8B5E3C;
+  --forest:#2D5016;
+  --red:#8B2020;
+  --border:rgba(44,24,16,0.15);
+  --border-h:rgba(44,24,16,0.3);
+  --muted:rgba(44,24,16,0.6);
+  --dim:rgba(44,24,16,0.4);
+}
+
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:'Cormorant Garamond',serif;overflow:hidden;}
+
+/* Status bar */
+.sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;background:rgba(244,237,212,0.95);border-bottom:2px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:14px;}
+.sb-logo{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:4px;font-weight:600;color:var(--sepia);text-decoration:none;text-shadow:0 0 8px rgba(139,94,60,0.4);}
+.sb-sep{width:1px;height:12px;background:var(--border);}
+.sb-label{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:2px;color:var(--muted);flex:1;}
+.sb-clock{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:2px;color:var(--muted);}
+
+/* Entry — two-column full viewport */
+#entry{
+  position:fixed;inset:0;top:36px;bottom:40px;z-index:800;
+  display:grid;grid-template-columns:1fr 1fr;
+  background:var(--bg);
+  transition:opacity 0.8s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+/* Left: CSS map */
+.map-panel{
+  background:var(--bg);
+  border-right:2px solid var(--border-h);
+  position:relative;
+  overflow:hidden;
+  padding:28px;
+}
+.map-title{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:4px;color:var(--sepia);margin-bottom:16px;text-transform:uppercase;}
+.map-frame{
+  width:100%;height:calc(100% - 60px);
+  border:2px solid var(--border-h);
+  background:rgba(244,237,212,0.5);
+  position:relative;
+  overflow:hidden;
+}
+/* Map regions */
+.region{
+  position:absolute;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  border:1px dashed var(--border-h);
+  padding:8px;
+}
+.region-label{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;letter-spacing:1.5px;font-weight:600;text-transform:uppercase;margin-bottom:4px;}
+.region-sub{font-size:0.65rem;font-style:italic;color:var(--muted);}
+
+.region-addie{top:5%;left:5%;width:42%;height:30%;background:rgba(45,80,22,0.12);border-color:var(--forest);}
+.region-addie .region-label{color:var(--forest);}
+.region-kirk{top:5%;right:5%;width:42%;height:30%;background:rgba(139,32,32,0.1);border-color:var(--red);}
+.region-kirk .region-label{color:var(--red);}
+.region-7020{bottom:35%;left:5%;width:55%;height:28%;background:rgba(139,94,60,0.12);border-color:var(--sepia);}
+.region-7020 .region-label{color:var(--sepia);}
+.region-bloom{bottom:5%;right:5%;width:40%;height:30%;background:rgba(44,24,16,0.08);border-color:var(--ink);}
+.region-bloom .region-label{color:var(--ink);}
+.region-bloom .region-sub{font-size:0.6rem;}
+
+/* Map compass */
+.map-compass{position:absolute;bottom:12px;left:12px;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--sepia);opacity:0.7;}
+.map-scale{position:absolute;bottom:12px;right:12px;font-family:'IBM Plex Mono',monospace;font-size:0.55rem;color:var(--muted);}
+
+/* Grid lines */
+.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(44,24,16,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(44,24,16,0.06) 1px,transparent 1px);background-size:40px 40px;}
+
+/* Right: terra incognita */
+.terra-panel{
+  position:relative;
+  display:flex;flex-direction:column;
+  padding:40px 40px 28px;
+  overflow:hidden;
+}
+.terra-panel::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle at 30% 20%,rgba(139,94,60,0.06) 0%,transparent 50%),radial-gradient(circle at 70% 70%,rgba(44,24,16,0.04) 0%,transparent 50%);
+}
+.terra-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--sepia);margin-bottom:12px;text-transform:uppercase;}
+.terra-label{font-size:clamp(1.4rem,3vw,2.2rem);font-weight:700;letter-spacing:2px;color:var(--ink);margin-bottom:8px;text-transform:uppercase;line-height:1.1;}
+.terra-sub{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:2px;color:var(--muted);margin-bottom:32px;}
+.terra-quote{
+  font-size:clamp(1.1rem,2vw,1.5rem);font-style:italic;color:var(--ink);line-height:1.6;
+  border-left:3px solid var(--sepia);padding-left:20px;margin-bottom:24px;
+  flex:1;display:flex;align-items:center;
+}
+.terra-attr{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:2px;color:var(--sepia);margin-bottom:32px;}
+.issue-tags{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;letter-spacing:2px;padding:4px 10px;border:1px solid var(--border-h);color:var(--muted);}
+.entry-btn{
+  font-family:'IBM Plex Mono',monospace;font-size:0.75rem;letter-spacing:3px;font-weight:600;
+  background:var(--ink);color:var(--bg);
+  border:none;padding:14px 28px;cursor:pointer;width:fit-content;
+  transition:box-shadow 0.2s,transform 0.1s;
+  text-transform:uppercase;
+  box-shadow:0 0 0 rgba(44,24,16,0);
+}
+.entry-btn:hover{box-shadow:0 0 20px rgba(44,24,16,0.4);transform:translateY(-1px);}
+
+/* Main panel */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+  grid-template-columns:240px 1fr;
+}
+#main-panel.visible{display:grid;opacity:1;}
+
+/* Sidebar */
+.sidebar{
+  background:rgba(244,237,212,0.6);
+  border-right:2px solid var(--border);
+  overflow-y:auto;
+  padding:20px 0;
+  display:flex;flex-direction:column;gap:2px;
+}
+.sidebar-head{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--sepia);padding:8px 20px 12px;text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:8px;}
+.nav-item{
+  font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:1.5px;
+  padding:8px 20px;cursor:pointer;
+  color:var(--muted);border-left:3px solid transparent;
+  transition:all 0.2s;display:flex;align-items:flex-start;gap:8px;
+  text-decoration:none;
+}
+.nav-item:hover{color:var(--ink);border-left-color:var(--sepia);background:rgba(139,94,60,0.08);}
+.nav-item.active{color:var(--ink);border-left-color:var(--sepia);background:rgba(139,94,60,0.12);}
+.nav-num{color:var(--sepia);flex-shrink:0;}
+.nav-label{text-transform:uppercase;line-height:1.4;}
+.sidebar-legend{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border);}
+.legend-head{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--sepia);margin-bottom:10px;text-transform:uppercase;}
+.legend-item{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.legend-swatch{width:12px;height:12px;border-radius:1px;}
+.legend-text{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;color:var(--muted);}
+
+/* Content pane */
+.content-pane{
+  overflow-y:auto;
+  padding:32px 48px 40px;
+  scroll-behavior:smooth;
+}
+
+/* Sections */
+.section{max-width:760px;margin-bottom:56px;}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--sepia);margin-bottom:8px;text-transform:uppercase;}
+.section-title{font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:700;color:var(--ink);margin-bottom:16px;line-height:1.2;}
+.section-body{font-size:1.05rem;line-height:1.8;color:var(--ink);margin-bottom:20px;}
+.section-body p{margin-bottom:16px;}
+.pull-quote{font-size:1.3rem;font-style:italic;line-height:1.6;color:var(--ink);border-left:4px solid var(--sepia);padding:16px 24px;margin:24px 0;box-shadow:inset 4px 0 0 rgba(139,94,60,0.3);}
+
+/* Wall moment — comparison table */
+.wall-section{
+  margin:40px -48px;
+  padding:48px;
+  background:var(--ink);
+  color:var(--bg);
+}
+.wall-head{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:4px;color:rgba(244,237,212,0.5);margin-bottom:32px;text-transform:uppercase;}
+.wall-title{font-size:clamp(1.4rem,3vw,2rem);font-weight:700;margin-bottom:40px;line-height:1.2;color:var(--bg);}
+.map-table{width:100%;border-collapse:collapse;}
+.map-table thead tr{border-bottom:2px solid rgba(244,237,212,0.3);}
+.map-table th{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:3px;color:rgba(244,237,212,0.6);padding:0 0 16px;text-align:left;text-transform:uppercase;}
+.map-table th:last-child{color:rgba(139,94,60,0.9);letter-spacing:3px;}
+.map-table td{padding:16px 0;border-bottom:1px solid rgba(244,237,212,0.1);font-size:0.95rem;line-height:1.5;vertical-align:top;}
+.map-table td:first-child{color:rgba(244,237,212,0.65);padding-right:32px;width:35%;}
+.map-table td:last-child{color:var(--bg);font-weight:500;}
+.map-arrow{color:var(--sepia);padding:0 16px;font-family:'IBM Plex Mono',monospace;}
+
+/* Fieldwork */
+.fieldwork{
+  background:rgba(139,94,60,0.08);
+  border:1px solid var(--border-h);
+  padding:28px 32px;
+  margin:32px 0;
+}
+.fw-head{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--sepia);margin-bottom:16px;text-transform:uppercase;}
+.fw-item{display:flex;gap:12px;margin-bottom:14px;font-size:0.95rem;line-height:1.6;}
+.fw-bullet{color:var(--sepia);flex-shrink:0;font-family:'IBM Plex Mono',monospace;}
+
+/* Bibliography */
+.bib-list{list-style:none;display:grid;gap:14px;}
+.bib-item{font-size:0.88rem;line-height:1.6;padding-left:20px;border-left:2px solid var(--border-h);color:var(--muted);}
+.bib-item strong{color:var(--ink);}
+
+/* Nature invite */
+.nature-block{
+  background:rgba(45,80,22,0.08);
+  border-left:4px solid var(--forest);
+  padding:20px 24px;
+  margin:24px 0;
+}
+.nature-head{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--forest);margin-bottom:10px;text-transform:uppercase;}
+.nature-text{font-size:0.95rem;line-height:1.7;font-style:italic;color:var(--ink);}
+
+/* Cite */
+.cite{font-size:0.74rem;color:var(--ink);border-left:3px solid var(--sepia);padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;font-family:'IBM Plex Mono',monospace;}
+
+/* Meliorist */
+.meliorist-block{
+  background:rgba(44,24,16,0.06);
+  border:2px solid var(--border-h);
+  padding:28px 32px;
+  margin:32px 0;
+}
+.mel-head{font-family:'IBM Plex Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--ink);margin-bottom:12px;text-transform:uppercase;}
+.mel-body{font-size:1rem;line-height:1.8;color:var(--ink);}
+
+/* Footer */
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:var(--bg);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:22px;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:2px;}
+.footer-bar a{color:var(--sepia);text-decoration:none;}
+.footer-bar a:hover{text-shadow:0 0 8px rgba(139,94,60,0.5);}
+.footer-sep{color:var(--border-h);}
+
+/* Mobile */
+@media(max-width:768px){
+  #entry{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow-y:auto;}
+  .map-panel{min-height:300px;border-right:none;border-bottom:2px solid var(--border-h);}
+  .terra-panel{padding:28px 20px 80px;}
+  #main-panel.visible{grid-template-columns:1fr;grid-template-rows:auto 1fr;}
+  .sidebar{display:none;}
+  .content-pane{padding:20px 16px 80px;}
+  .wall-section{margin:40px -16px;padding:28px 16px;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div class="sb-sep"></div>
+  <div class="sb-label">THE CARTOGRAPHER'S STUDY · BRAVE SPACES · ISSUE 004</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<div id="entry">
+  <!-- Left: CSS map -->
+  <div class="map-panel">
+    <div class="map-title">⊕ CHART OF KNOWN TRAINING DOCTRINE — c. 2026</div>
+    <div class="map-frame">
+      <div class="map-grid"></div>
+      <div class="region region-addie">
+        <div class="region-label">ADDIE Province</div>
+        <div class="region-sub">Analyze · Design · Develop<br>Implement · Evaluate</div>
+      </div>
+      <div class="region region-kirk">
+        <div class="region-label">Kirkpatrick Range</div>
+        <div class="region-sub">Four Levels<br>of Evaluation</div>
+      </div>
+      <div class="region region-7020">
+        <div class="region-label">70–20–10 Lowlands</div>
+        <div class="region-sub">Experience · Social · Formal</div>
+      </div>
+      <div class="region region-bloom">
+        <div class="region-label">Bloom's<br>Taxonomy Peaks</div>
+        <div class="region-sub">Knowledge → Synthesis<br>The Hierarchy</div>
+      </div>
+      <div class="map-compass">✦ N</div>
+      <div class="map-scale">SCALE: 1 cm = 10 years of unexamined assumption</div>
+    </div>
+  </div>
+
+  <!-- Right: terra incognita -->
+  <div class="terra-panel">
+    <div class="terra-eyebrow">⊕ ISSUE 004 · BRAVE SPACES</div>
+    <div class="terra-label">Actual Terrain<br>— Unmapped —</div>
+    <div class="terra-sub">THE CARTOGRAPHER'S STUDY</div>
+    <div class="terra-quote">
+      "A map is not the territory it represents, but, if correct, it has a similar structure to the territory, which accounts for its usefulness."
+    </div>
+    <div class="terra-attr">— ALFRED KORZYBSKI · Science and Sanity · 1933</div>
+    <div class="issue-tags">
+      <span class="tag">BRAVE SPACES</span>
+      <span class="tag">EPISTEMOLOGY</span>
+      <span class="tag">TRAINING DOCTRINE</span>
+      <span class="tag">8 SOURCES</span>
+    </div>
+    <button class="entry-btn" onclick="openMain()">Enter the Territory →</button>
+  </div>
+</div>
+
+<div id="main-panel">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-head">⊕ MAP LEGEND</div>
+    <a href="#s1" class="nav-item active" onclick="setActive(this)"><span class="nav-num">I.</span><span class="nav-label">The 1931 Formulation</span></a>
+    <a href="#s2" class="nav-item" onclick="setActive(this)"><span class="nav-num">II.</span><span class="nav-label">What the Map Can't Carry</span></a>
+    <a href="#s3" class="nav-item" onclick="setActive(this)"><span class="nav-num">III.</span><span class="nav-label">Borges' Useless Map</span></a>
+    <a href="#s4" class="nav-item" onclick="setActive(this)"><span class="nav-num">IV.</span><span class="nav-label">Dunning-Kruger as Map Problem</span></a>
+    <a href="#s5" class="nav-item" onclick="setActive(this)"><span class="nav-num">V.</span><span class="nav-label">The Brave Spaces Act</span></a>
+    <a href="#s6" class="nav-item" onclick="setActive(this)"><span class="nav-num">VI.</span><span class="nav-label">The Comparison</span></a>
+    <a href="#s7" class="nav-item" onclick="setActive(this)"><span class="nav-num">VII.</span><span class="nav-label">Meliorist Frame</span></a>
+    <a href="#s8" class="nav-item" onclick="setActive(this)"><span class="nav-num">VIII.</span><span class="nav-label">Field Work + Bibliography</span></a>
+    <div class="sidebar-legend">
+      <div class="legend-head">Terrain Key</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(45,80,22,0.3);border:1px solid var(--forest);"></div><div class="legend-text">ADDIE Province</div></div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(139,32,32,0.2);border:1px solid var(--red);"></div><div class="legend-text">Kirkpatrick Range</div></div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(139,94,60,0.2);border:1px solid var(--sepia);"></div><div class="legend-text">70-20-10 Lowlands</div></div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(44,24,16,0.1);border:1px solid var(--ink);"></div><div class="legend-text">Bloom's Peaks</div></div>
+    </div>
+  </nav>
+
+  <!-- Content pane -->
+  <div class="content-pane">
+
+    <div class="section" id="s1" data-section="korzybski">
+      <div class="section-num">SECTION I · ETYMOLOGY</div>
+      <div class="section-title">The 1931 Formulation</div>
+      <div class="section-body">
+        <p>Alfred Korzybski coined the phrase in 1931, two years before his landmark work <em>Science and Sanity</em> went to press. He was a Polish-American philosopher and engineer — not an educator — and his concern was the way human nervous systems confuse symbolic representations with actual reality. His term for this confusion: <strong>semantic reactions</strong>. We don't just think with language; we respond to language as though it were the thing itself.</p>
+        <p>The word "dog" can trigger the same adrenaline response as an actual dog. The organizational chart triggers the same feelings of hierarchy as actual power dynamics. And ADDIE — the framework drawn in 1975 — triggers the same confidence as an actual evidence base.</p>
+      </div>
+      <span class="cite">Korzybski, A. (1933). <em>Science and Sanity: An Introduction to Non-Aristotelian Systems and General Semantics</em> (2nd ed.). Science Press. The phrase "the map is not the territory" first appears in a 1931 paper at the American Mathematical Society.</span>
+      <div class="pull-quote">"The purpose of abstracting is to leave out details. That's also its danger."</div>
+    </div>
+
+    <div class="section" id="s2" data-section="bateson">
+      <div class="section-num">SECTION II · THE TERRITORY</div>
+      <div class="section-title">What the Map Can't Carry</div>
+      <div class="section-body">
+        <p>Gregory Bateson extended Korzybski's observation into a second-order principle: <strong>the map is not just a simplification — it is a different kind of thing than the territory</strong>. A map of London is not London. It doesn't smell like rain, it doesn't have pubs, it doesn't have people in it. It is a symbolic artifact that operates by omission.</p>
+        <p>Every training framework is built on omission. ADDIE omits iteration. Kirkpatrick's Level 1 (participant satisfaction) omits its inverse correlation with learning outcomes — satisfied participants have consistently been shown to learn less than mildly challenged ones. The 70-20-10 model omits the evidence base, because there isn't one: the researchers who developed it in the 1980s explicitly warned that it was descriptive, not prescriptive.</p>
+        <p>Bateson called the confusion between map and territory "the pathology of epistemology." It isn't a knowledge problem. It's a thinking-about-knowledge problem — which means it doesn't get fixed by adding more information to the map.</p>
+      </div>
+      <span class="cite">Bateson, G. (1972). <em>Steps to an Ecology of Mind</em>. University of Chicago Press. The essay "Form, Substance, and Difference" (pp. 448–466) develops the map/territory distinction furthest.</span>
+      <span class="cite">Thalheimer, W. (2018). <em>The 70-20-10 Rule: Research, History, and Guidance</em>. Work-Learning Research. Confirms the original Lombardo-Eichinger study was qualitative, retrospective, and never intended as a training prescription.</span>
+    </div>
+
+    <div class="section" id="s3" data-section="borges">
+      <div class="section-num">SECTION III · LITERATURE</div>
+      <div class="section-title">Borges' Useless Map</div>
+      <div class="section-body">
+        <p>In 1946, Jorge Luis Borges wrote a one-paragraph story — "On Exactitude in Science" — about an empire whose cartographers became so obsessed with precision that they built a map of the empire at 1:1 scale. A map the size of the thing itself. It was, of course, useless. Future generations found it rotting in desert ruins, the occasional shelter for travelers and animals.</p>
+        <p>Borges was writing satire, but the parable runs both ways. A perfect map is useless because it has no useful omissions. A perfect training system is useless for the same reason: it's so complete, so multi-modal, so assessment-rich that practitioners can't actually use it. The useful map is always an act of disciplined omission. The question is: which things have we agreed to omit without noticing?</p>
+        <p>In most training doctrine, we have omitted: emotional state, somatic readiness, social context, power differentials, implementation support, and time. What we have kept: content modules, assessment scores, and Level 1 reaction sheets.</p>
+      </div>
+      <span class="cite">Borges, J.L. (1946). "Del rigor en la ciencia" [On Exactitude in Science]. In <em>El Hacedor</em> (1960). Translated by A. Hurley. A single paragraph — one of the most efficient arguments in the philosophy of representation.</span>
+    </div>
+
+    <div class="section" id="s4" data-section="dunning-kruger">
+      <div class="section-num">SECTION IV · COGNITIVE SCIENCE</div>
+      <div class="section-title">Dunning-Kruger as a Map Problem</div>
+      <div class="section-body">
+        <p>In 1999, David Dunning and Justin Kruger published a deceptively simple study. People who performed poorly on tests of logical reasoning, grammar, and humor also dramatically overestimated their own performance. They scored in the 12th percentile and estimated they'd scored in the 62nd.</p>
+        <p>The standard reading is about confidence and incompetence. The deeper reading — the one practitioners need — is about <strong>map failure</strong>. The unskilled participant has a map of the skill domain. That map is wrong. But here's the mechanism: <em>you can only use your map to evaluate your map</em>. If your map is wrong, your evaluation of your map will also be wrong. This is not a character flaw. It is a structural problem.</p>
+        <p>It explains why practitioners who've learned ADDIE as their mental model of learning design cannot easily evaluate the limitations of ADDIE. The map assesses the map. Breaking this loop requires external input — which is exactly what brave spaces make possible.</p>
+      </div>
+      <span class="cite">Kruger, J. & Dunning, D. (1999). Unskilled and unaware of it: How difficulties in recognizing one's own incompetence lead to inflated self-assessments. <em>Journal of Personality and Social Psychology, 77</em>(6), 1121–1134. DOI: 10.1037/0022-3514.77.6.1121</span>
+      <span class="cite">Dunning, D. (2011). The Dunning-Kruger Effect: On Being Ignorant of One's Own Ignorance. <em>Advances in Experimental Social Psychology, 44</em>, 247–296. The more nuanced account — novice overconfidence is a feature, not a bug, of early learning.</span>
+    </div>
+
+    <div class="section" id="s5" data-section="brave-spaces">
+      <div class="section-num">SECTION V · DIMENSION</div>
+      <div class="section-title">The Brave Spaces Act — Saying Your Map Is Wrong</div>
+      <div class="section-body">
+        <p>"Safe spaces" ask people to bring who they are without challenge. Brave spaces ask something harder: bring your map, and be willing to have it wrong.</p>
+        <p>Arao and Clemens argued in 2013 that "safety" as a classroom contract often functions as comfort maintenance — it protects participants from the discomfort that learning actually requires. Brave spaces reframe this: the contract is not protection from challenge, it's commitment to staying in the room when challenge arrives.</p>
+        <p>For practitioners, the brave spaces act is specific: it means being willing to say, in front of participants, "the model I just taught you may be wrong." It means being willing to hear, from a participant with 25 years of frontline experience, that the map doesn't match their territory. And it means building sessions where participants can surface the gap without feeling like they're failing the trainer.</p>
+        <p>Chris Argyris called this "double-loop learning" — not just adjusting behavior within the existing map, but examining and revising the map itself. His research found that the people most resistant to this were high-performing professionals: people whose identity was most invested in their map being correct.</p>
+      </div>
+      <span class="cite">Arao, B. & Clemens, K. (2013). From Safe Spaces to Brave Spaces: A New Way to Frame Dialogue Around Diversity and Social Justice. In <em>The Art of Effective Facilitation</em>. Stylus Publishing.</span>
+      <span class="cite">Argyris, C. (1991). Teaching Smart People How to Learn. <em>Harvard Business Review, 69</em>(3), 99–109. The seminal account of defensive reasoning and the double-loop learning failure in highly skilled professionals.</span>
+    </div>
+
+    <!-- WALL MOMENT -->
+    <div class="wall-section" id="s6" data-section="wall">
+      <div class="wall-head">⊕ THE COMPARISON · WALL DISPLAY</div>
+      <div class="wall-title">The Map Says / The Territory Is</div>
+      <table class="map-table">
+        <thead>
+          <tr>
+            <th>THE MAP SAYS</th>
+            <th class="map-arrow">→</th>
+            <th>THE TERRITORY IS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ADDIE is a linear process</td>
+            <td class="map-arrow">→</td>
+            <td>Learning design is iterative, recursive, and frequently reversed. The map survived because linear is manageable, not because it's true.</td>
+          </tr>
+          <tr>
+            <td>70-20-10 is a research-backed ratio</td>
+            <td class="map-arrow">→</td>
+            <td>The ratio is descriptive, not prescriptive. The original researchers (Lombardo & Eichinger, 1996) warned against using it as a design principle. No replication study has validated the numbers.</td>
+          </tr>
+          <tr>
+            <td>Kirkpatrick Level 1 (satisfaction) predicts Level 2 (learning)</td>
+            <td class="map-arrow">→</td>
+            <td>Satisfaction and learning are weakly to inversely correlated. Comfortable participants tend to learn less. The measurement persists because it's cheap and feels like evidence.</td>
+          </tr>
+          <tr>
+            <td>Bloom's Taxonomy is a hierarchy — knowledge before synthesis</td>
+            <td class="map-arrow">→</td>
+            <td>Experts routinely skip levels. Problem-based and case-based methods that begin at "synthesis" have consistently outperformed knowledge-first sequencing. The pyramid is a pedagogical convenience, not a cognitive law.</td>
+          </tr>
+          <tr>
+            <td>Transfer happens when content is well-designed</td>
+            <td class="map-arrow">→</td>
+            <td>Transfer research since 1901 (Thorndike & Woodworth) consistently finds that transfer is situational, context-sensitive, and frequently fails when the environment doesn't match training conditions.</td>
+          </tr>
+          <tr>
+            <td>More content = more learning</td>
+            <td class="map-arrow">→</td>
+            <td>Cognitive load theory (Sweller, 1988) establishes that working memory capacity is finite. Past a threshold, more content reduces learning. The map adds; the territory limits.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section" id="s7" data-section="meliorist">
+      <div class="section-num">SECTION VII · MELIORIST FRAME</div>
+      <div class="section-title">The Constructive Steward Uses the Map — and Updates It</div>
+      <div class="section-body">
+        <p>The Meliorist principle here is not "abandon the frameworks." Maps are useful. ADDIE gets projects through gate reviews. Kirkpatrick gives organizations a language for evaluation. Bloom's gives curriculum designers a starting scaffold.</p>
+        <p>The Meliorist principle is stewardship: <strong>hold the map lightly and the territory faithfully</strong>. The framework is a tool for entry; the participant's actual experience of learning is the territory you're responsible for. Those two things sometimes match. More often, there's a gap. The constructive steward names the gap without abandoning the tool.</p>
+        <p>Peter Senge called this "creative tension" — the gap between vision (the map you aspire to) and current reality (the territory as it is). The tension is not a problem to be resolved by updating the map to say what you want. It's the engine of learning — for your participants and for you.</p>
+        <div class="meliorist-block">
+          <div class="mel-head">⊕ Meliorism 2.0 · Wise Action</div>
+          <div class="mel-body">A wise practitioner carries a map with calibrated confidence — useful for navigation, suspect as gospel. The brave act is not discarding the map. It's being willing to look up from it and say: "This doesn't match what I see."</div>
+        </div>
+      </div>
+      <span class="cite">Senge, P. (1990). <em>The Fifth Discipline: The Art and Practice of the Learning Organization</em>. Doubleday. "Creative tension" is developed in Chapter 8. Senge's debt to Korzybski is rarely noted but significant.</span>
+    </div>
+
+    <div class="section" id="s8" data-section="fieldwork">
+      <div class="section-num">SECTION VIII · FIELD WORK</div>
+      <div class="section-title">Carry This Into the Room</div>
+
+      <div class="nature-block">
+        <div class="nature-head">⊕ Nature Invitation</div>
+        <div class="nature-text">Find a paper map of a place you know well — a neighborhood, a park, a campus. Walk the area with the map in hand. Notice three things the map omits. Not errors — omissions. What did the map decide wasn't worth including? Bring that list to your next session design review.</div>
+      </div>
+
+      <div class="fieldwork">
+        <div class="fw-head">⊕ Three Questions for Your Next Session</div>
+        <div class="fw-item"><span class="fw-bullet">01.</span><span>What framework am I using to design this session? What does that framework omit by design?</span></div>
+        <div class="fw-item"><span class="fw-bullet">02.</span><span>At which point in this session will participants have the opportunity to tell me the map doesn't match their territory?</span></div>
+        <div class="fw-item"><span class="fw-bullet">03.</span><span>If my Level 1 scores are high, what might that mean besides "this worked"?</span></div>
+      </div>
+
+      <div class="section-num" style="margin-top:32px;">BIBLIOGRAPHY</div>
+      <ul class="bib-list">
+        <li class="bib-item"><strong>Korzybski, A. (1933).</strong> <em>Science and Sanity: An Introduction to Non-Aristotelian Systems and General Semantics.</em> Science Press. — The source. Dense, rewarding, frequently misquoted.</li>
+        <li class="bib-item"><strong>Bateson, G. (1972).</strong> <em>Steps to an Ecology of Mind.</em> University of Chicago Press. — The philosophical extension. Start with "Form, Substance, and Difference."</li>
+        <li class="bib-item"><strong>Borges, J.L. (1946).</strong> "On Exactitude in Science." In <em>El Hacedor</em> (1960). — One paragraph. Read it twice.</li>
+        <li class="bib-item"><strong>Kruger, J. & Dunning, D. (1999).</strong> Unskilled and unaware of it. <em>Journal of Personality and Social Psychology, 77</em>(6). — The original study, more nuanced than the meme.</li>
+        <li class="bib-item"><strong>Argyris, C. (1991).</strong> Teaching Smart People How to Learn. <em>Harvard Business Review.</em> — The single best account of why professionals resist double-loop learning.</li>
+        <li class="bib-item"><strong>Arao, B. & Clemens, K. (2013).</strong> From Safe Spaces to Brave Spaces. In <em>The Art of Effective Facilitation.</em> Stylus. — The framework that reframes the practitioner's contract with participants.</li>
+        <li class="bib-item"><strong>Senge, P. (1990).</strong> <em>The Fifth Discipline.</em> Doubleday. — "Creative tension" and the systems view of organizational learning.</li>
+        <li class="bib-item"><strong>Thalheimer, W. (2018).</strong> <em>The 70-20-10 Rule: Research, History, and Guidance.</em> Work-Learning Research. — The definitive audit of the 70-20-10 evidence base (or lack thereof).</li>
+      </ul>
+    </div>
+
+  </div><!-- end content-pane -->
+</div><!-- end main-panel -->
+
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--sepia)">004 MAP IS NOT THE TERRITORY ← CURRENT</span>
+</div>
+
+<script>
+function tick(){const n=new Date();const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()].map(v=>String(v).padStart(2,'0')).join(':');const el=document.getElementById('clk');if(el)el.textContent='UTC '+t;}
+tick();setInterval(tick,1000);
+
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='grid';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{panel.classList.add('visible');}));
+  },800);
+  track('enter','entry_screen');
+}
+
+function setActive(el){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function track(event,label,extra){console.log('[signal-os]',event,label,extra||'');}
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      track('view',e.target.dataset.section||e.target.id||'unknown');
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('[data-section]').forEach(el=>observer.observe(el));
+});
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

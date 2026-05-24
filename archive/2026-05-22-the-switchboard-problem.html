@@ -1,0 +1,1485 @@
+<!-- signal-os:date: 2026-05-22 -->
+<!-- signal-os:slug: the-switchboard-problem -->
+<!-- signal-os:title: The Switchboard Problem -->
+<!-- signal-os:concept: Brave space facilitation works like telephone exchange infrastructure — the practitioner is the operator, not the content. Your job is to maintain the conditions that make connection across difference structurally possible. -->
+<!-- signal-os:format: Telephone Exchange / Vintage Switchboard -->
+<!-- signal-os:dimension: Brave Spaces -->
+<!-- signal-os:sources: 8 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 022 · The Switchboard Problem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+/* ── CSS Variables ── */
+:root{
+  --bg:        #F8F4EC;
+  --surface:   #F0E8D4;
+  --surface2:  #E6DBB9;
+  --panel-bg:  #2B1F10;
+  --panel-txt: #E8D5A8;
+  --panel-dim: rgba(232,213,168,0.45);
+  --panel-bdr: rgba(232,213,168,0.15);
+  --accent:    #7B4A22;
+  --accent2:   #2B4C7E;
+  --red:       #8B2020;
+  --amber:     #C4882A;
+  --green-led: #4CAF50;
+  --text:      #1E1208;
+  --muted:     rgba(30,18,8,0.58);
+  --dim:       rgba(30,18,8,0.35);
+  --border:    rgba(30,18,8,0.12);
+  --border-h:  rgba(30,18,8,0.22);
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Libre Baskerville', Georgia, serif;
+  overflow: hidden;
+}
+
+/* ── Status bar ── */
+.sb {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 36px;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--panel-bdr);
+  display: flex; align-items: center; padding: 0 18px; gap: 14px;
+}
+.sb-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 3px; font-weight: 700;
+  color: var(--amber); text-decoration: none;
+}
+.sb-divider { width: 1px; height: 16px; background: var(--panel-bdr); }
+.sb-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 2px; color: var(--panel-dim); flex: 1;
+}
+.sb-clock {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 2px; color: var(--panel-dim);
+}
+.sb-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green-led);
+  box-shadow: 0 0 6px var(--green-led);
+  animation: blink-slow 2s ease-in-out infinite;
+}
+@keyframes blink-slow {
+  0%,100%{opacity:1;} 50%{opacity:0.3;}
+}
+
+/* ── Entry Screen ── */
+#entry {
+  position: fixed; inset: 0; top: 36px; bottom: 40px;
+  z-index: 800;
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: 1fr 480px 1fr;
+  grid-template-rows: 80px 1fr 80px;
+  transition: opacity 0.7s ease;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+#entry.hidden { opacity: 0; pointer-events: none; }
+
+.entry-board {
+  grid-column: 2; grid-row: 2;
+  padding: 10px 0 30px;
+}
+
+/* CSS Switchboard Art */
+.board-art {
+  width: 100%;
+  height: 148px;
+  background: var(--panel-bg);
+  border: 2px solid rgba(196,136,42,0.35);
+  border-radius: 3px;
+  display: grid;
+  grid-template-columns: repeat(8,1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 6px;
+  padding: 26px 18px 14px;
+  margin-bottom: 26px;
+  position: relative;
+  overflow: hidden;
+}
+.board-art::before {
+  content: 'SIGNAL-OS EXCHANGE CO. · EST. 2026';
+  position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.44rem; letter-spacing: 3px; color: rgba(196,136,42,0.4);
+  white-space: nowrap;
+}
+.art-jack {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.art-led {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 4px rgba(196,136,42,0.5);
+  opacity: 0.2;
+}
+.art-led.active {
+  background: var(--red);
+  box-shadow: 0 0 8px rgba(139,32,32,0.8);
+  opacity: 1;
+  animation: blink-slow 1.2s ease-in-out infinite;
+}
+.art-socket {
+  width: 13px; height: 20px;
+  border: 1px solid rgba(196,136,42,0.3);
+  border-radius: 6px;
+  background: rgba(0,0,0,0.45);
+}
+.art-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.33rem; color: rgba(196,136,42,0.35);
+  letter-spacing: 0.5px;
+}
+
+/* Entry text */
+.entry-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.56rem; letter-spacing: 3px; color: var(--muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.entry-hook {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.7rem; letter-spacing: 2px; color: var(--accent);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.entry-title {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 2.3rem; font-weight: 700; line-height: 1.08;
+  color: var(--text);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.entry-sub {
+  font-size: 1.0rem; line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 26px;
+  font-style: italic;
+}
+.entry-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem; letter-spacing: 3px; font-weight: 700;
+  background: var(--panel-bg);
+  color: var(--amber);
+  border: 1px solid rgba(196,136,42,0.5);
+  padding: 14px 34px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  display: inline-flex; align-items: center; gap: 12px;
+}
+.entry-btn:hover {
+  background: #3D2D16;
+  box-shadow: 0 0 20px rgba(196,136,42,0.2);
+  transform: translateY(-1px);
+}
+.entry-btn:active { transform: translateY(0); }
+.entry-btn-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 5px var(--amber);
+  animation: blink-slow 1s ease-in-out infinite;
+}
+.entry-note {
+  margin-top: 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 1.5px;
+  color: var(--dim);
+  font-style: italic;
+}
+
+/* ── Main Panel ── */
+#main-panel {
+  position: fixed; inset: 0;
+  top: 36px; bottom: 40px;
+  display: none;
+}
+#main-panel.visible {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* ── Switchboard Panel (left nav) ── */
+#switchboard {
+  background: var(--panel-bg);
+  border-right: 1px solid var(--panel-bdr);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.sw-header {
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid var(--panel-bdr);
+  flex-shrink: 0;
+}
+.sw-header-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.48rem; letter-spacing: 3px;
+  color: var(--panel-dim); text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.sw-header-title {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.76rem; font-weight: 600;
+  color: var(--panel-txt);
+}
+.sw-lines {
+  flex: 1;
+  padding: 8px 0;
+  overflow-y: auto;
+}
+.sw-line {
+  display: flex; align-items: center;
+  padding: 9px 14px 9px 16px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  gap: 10px;
+}
+.sw-line:hover { background: rgba(232,213,168,0.06); }
+.sw-line.active {
+  background: rgba(232,213,168,0.1);
+  border-left-color: var(--amber);
+}
+.sw-led {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(196,136,42,0.2);
+  border: 1px solid rgba(196,136,42,0.28);
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.sw-line.active .sw-led {
+  background: var(--amber);
+  box-shadow: 0 0 5px rgba(196,136,42,0.65);
+  animation: blink-slow 2.5s infinite;
+}
+.sw-line-info { flex: 1; min-width: 0; }
+.sw-line-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.48rem; letter-spacing: 2px;
+  color: var(--panel-dim); margin-bottom: 1px;
+}
+.sw-line-name {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.7rem; font-weight: 500;
+  color: var(--panel-txt);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sw-line.active .sw-line-name { color: var(--amber); }
+.sw-jack {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1px solid rgba(196,136,42,0.22);
+  background: rgba(0,0,0,0.4);
+  flex-shrink: 0;
+}
+.sw-line.active .sw-jack {
+  border-color: rgba(196,136,42,0.55);
+  box-shadow: 0 0 4px rgba(196,136,42,0.35);
+}
+.sw-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--panel-bdr);
+  flex-shrink: 0;
+}
+.sw-footer-stat {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.46rem; letter-spacing: 2px;
+  color: var(--panel-dim); margin-bottom: 2px;
+}
+.sw-footer-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem; color: var(--amber); letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.sw-meta-hint {
+  padding-top: 10px;
+  border-top: 1px solid var(--panel-bdr);
+}
+.sw-meta-hint p {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.44rem; letter-spacing: 0.5px;
+  line-height: 1.65;
+  color: rgba(232,213,168,0.28);
+  font-style: italic;
+}
+
+/* ── Content Panel (right) ── */
+#content {
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+/* Sections */
+.section {
+  display: none;
+  padding: 38px 50px 60px;
+  min-height: 100%;
+}
+.section.visible { display: block; }
+
+/* Section header */
+.sec-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.56rem; letter-spacing: 3px;
+  color: var(--accent); text-transform: uppercase;
+  margin-bottom: 7px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-eyebrow::before {
+  content: '';
+  width: 22px; height: 1px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.sec-title {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 2.0rem; font-weight: 700; line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 7px;
+  letter-spacing: -0.02em;
+}
+.sec-sub {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.88rem; color: var(--muted); font-weight: 400;
+  margin-bottom: 30px;
+  line-height: 1.5;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Body text */
+.sec-body p {
+  font-size: 1.0rem; line-height: 1.78;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.sec-body p:last-child { margin-bottom: 0; }
+
+/* Highlight / callout */
+.highlight-block {
+  background: var(--surface);
+  border-left: 4px solid var(--amber);
+  padding: 20px 22px;
+  margin: 24px 0;
+  border-radius: 0 3px 3px 0;
+}
+.highlight-block p {
+  font-size: 1.05rem; line-height: 1.72;
+  color: var(--text); margin: 0;
+}
+
+/* 90-second signal */
+.signal-banner {
+  background: var(--panel-bg);
+  padding: 26px 30px;
+  margin-bottom: 28px;
+  border-radius: 3px;
+}
+.signal-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 3px;
+  color: var(--amber); text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.signal-label-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 5px var(--amber);
+  animation: blink-slow 1.5s infinite;
+}
+.signal-banner p {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 1.15rem; line-height: 1.65;
+  color: var(--panel-txt);
+  font-weight: 400;
+}
+.signal-banner strong { color: var(--amber); font-weight: 600; }
+
+/* In-session move */
+.move-card {
+  background: var(--surface);
+  border: 1px solid var(--border-h);
+  border-top: 3px solid var(--accent2);
+  padding: 20px 22px;
+  margin: 24px 0;
+  border-radius: 0 0 3px 3px;
+}
+.move-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.5rem; letter-spacing: 2.5px;
+  color: var(--accent2); text-transform: uppercase;
+  margin-bottom: 9px;
+}
+.move-card p {
+  font-size: 0.95rem; line-height: 1.72;
+  color: var(--text); margin: 0;
+}
+.move-card strong { color: var(--accent2); }
+
+/* Edge case */
+.edge-card {
+  background: rgba(139,32,32,0.05);
+  border: 1px solid rgba(139,32,32,0.16);
+  border-left: 4px solid var(--red);
+  padding: 18px 20px;
+  margin: 24px 0;
+  border-radius: 0 3px 3px 0;
+}
+.edge-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.5rem; letter-spacing: 2.5px;
+  color: var(--red); text-transform: uppercase;
+  margin-bottom: 7px;
+}
+.edge-card p { font-size: 0.95rem; line-height: 1.72; margin: 0; }
+
+/* Citation */
+.cite {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.5rem; color: var(--muted);
+  display: inline; margin-left: 3px;
+  vertical-align: super;
+}
+
+/* Wall moment */
+.wall-moment {
+  background: var(--panel-bg);
+  margin: 32px -50px;
+  padding: 50px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.wall-moment::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 38px,
+    rgba(196,136,42,0.035) 38px,
+    rgba(196,136,42,0.035) 39px
+  );
+}
+.wall-quote {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 1.95rem; font-style: italic; line-height: 1.35;
+  color: var(--panel-txt); font-weight: 400;
+  width: 100%; margin: 0 auto 18px;
+  position: relative; z-index: 1;
+}
+.wall-attr {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 2px;
+  color: var(--amber);
+  position: relative; z-index: 1;
+}
+
+/* Etymology box */
+.etym-box {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  border: 1px solid var(--border-h);
+  margin: 24px 0;
+  overflow: hidden;
+  border-radius: 3px;
+}
+.etym-word {
+  background: var(--surface2);
+  padding: 16px 12px;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 1.3rem; font-weight: 700;
+  color: var(--accent); font-style: italic;
+  border-right: 1px solid var(--border-h);
+}
+.etym-body {
+  padding: 14px 18px;
+  background: var(--surface);
+}
+.etym-body .etym-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.48rem; letter-spacing: 2px;
+  color: var(--muted); margin-bottom: 5px;
+  text-transform: uppercase;
+}
+.etym-body p {
+  font-size: 0.9rem; line-height: 1.65;
+  color: var(--text); margin: 0;
+}
+
+/* Nature invitation */
+.nature-card {
+  background: linear-gradient(135deg, #EFF5E8, #E4EDD6);
+  border: 1px solid rgba(60,100,40,0.16);
+  border-left: 4px solid #5A8A3C;
+  padding: 20px 22px;
+  margin: 24px 0;
+  border-radius: 0 3px 3px 0;
+}
+.nature-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.5rem; letter-spacing: 2.5px;
+  color: #5A8A3C; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.nature-card p { font-size: 0.93rem; line-height: 1.72; margin: 0; color: #253D16; }
+
+/* Experiment protocol */
+.experiment-block {
+  border: 2px solid var(--border-h);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 24px 0;
+}
+.exp-header {
+  background: var(--surface2);
+  padding: 12px 20px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 3px;
+  color: var(--accent); text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+}
+.exp-header-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.exp-body { padding: 20px; }
+.exp-body p { font-size: 0.94rem; line-height: 1.72; margin-bottom: 12px; }
+.exp-body p:last-child { margin: 0; }
+.exp-log {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 14px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem; line-height: 1.7;
+  color: var(--muted);
+  margin: 12px 0;
+}
+
+/* Bibliography */
+.bib-section { margin-top: 32px; }
+.bib-track { margin-bottom: 26px; }
+.bib-track-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 3px;
+  color: var(--accent); text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--border);
+}
+.bib-entry {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.bib-entry:last-child { border-bottom: none; }
+.bib-ref {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.83rem; font-weight: 600;
+  color: var(--text); margin-bottom: 4px;
+}
+.bib-note {
+  font-size: 0.86rem; line-height: 1.65;
+  color: var(--muted);
+}
+
+/* Community section */
+.community-block {
+  background: var(--surface);
+  border: 1px solid var(--border-h);
+  border-radius: 3px;
+  padding: 24px 26px;
+  margin: 24px 0;
+}
+.community-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 3px;
+  color: var(--accent); text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.community-q {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 1.02rem; font-weight: 600;
+  color: var(--text); margin-bottom: 5px; line-height: 1.4;
+}
+.community-q-sub {
+  font-size: 0.87rem; color: var(--muted);
+  margin-bottom: 20px; line-height: 1.52;
+}
+.community-divider { height: 1px; background: var(--border); margin: 20px 0; }
+.community-announcement {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 2px;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 7px;
+}
+.community-empty { font-size: 0.86rem; color: var(--dim); font-style: italic; }
+
+/* ── Footer bar ── */
+.footer-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
+  height: 40px;
+  background: var(--panel-bg);
+  border-top: 1px solid var(--panel-bdr);
+  display: flex; align-items: center; justify-content: center; gap: 22px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.56rem; letter-spacing: 2px;
+}
+.footer-bar a { color: var(--panel-dim); text-decoration: none; transition: color 0.15s; }
+.footer-bar a:hover { color: var(--amber); }
+.footer-sep { color: var(--panel-bdr); }
+.footer-current { color: var(--amber); }
+
+/* ── Mobile ── */
+@media (max-width: 720px) {
+  #entry {
+    grid-template-columns: 1fr;
+    padding: 0 18px;
+    overflow-y: auto;
+  }
+  .entry-board { grid-column: 1; grid-row: 1; padding-top: 16px; }
+  .entry-title { font-size: 1.75rem; }
+  #main-panel.visible { display: flex; flex-direction: column; }
+  #switchboard { flex: 0 0 auto; }
+  .sw-lines { display: flex; flex-direction: row; padding: 0; overflow-x: auto; overflow-y: hidden; }
+  .sw-line {
+    flex-shrink: 0; flex-direction: column;
+    padding: 8px 12px; gap: 3px; align-items: center;
+    border-left: none; border-bottom: 3px solid transparent;
+  }
+  .sw-line.active { border-bottom-color: var(--amber); background: rgba(232,213,168,0.08); }
+  .sw-line-info { text-align: center; }
+  .sw-line-name { font-size: 0.58rem; }
+  .sw-jack { display: none; }
+  .sw-header { display: none; }
+  .sw-footer { display: none; }
+  #content { flex: 1; overflow-y: auto; }
+  .section { padding: 24px 20px 80px; }
+  .wall-moment { margin: 26px -20px; padding: 38px 20px; }
+  .wall-quote { font-size: 1.35rem; }
+  .etym-box { grid-template-columns: 1fr; }
+  .etym-word { border-right: none; border-bottom: 1px solid var(--border-h); padding: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Status Bar ── -->
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div class="sb-divider"></div>
+  <div class="sb-label">ISSUE 022 · THE SWITCHBOARD PROBLEM</div>
+  <div class="sb-dot" title="Live"></div>
+  <div class="sb-clock" id="clk">UTC --:--:--</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ ENTRY -->
+<div id="entry">
+  <div class="entry-board">
+    <!-- CSS Switchboard Art -->
+    <div class="board-art" aria-hidden="true">
+      <div class="art-jack"><div class="art-led active"></div><div class="art-socket"></div><div class="art-label">L01</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L02</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L03</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L04</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L05</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L06</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L07</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L08</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L09</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L10</div></div>
+      <div class="art-jack"><div class="art-led active"></div><div class="art-socket"></div><div class="art-label">L11</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L12</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L13</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L14</div></div>
+      <div class="art-jack"><div class="art-led active"></div><div class="art-socket"></div><div class="art-label">L15</div></div>
+      <div class="art-jack"><div class="art-led"></div><div class="art-socket"></div><div class="art-label">L16</div></div>
+    </div>
+
+    <div class="entry-meta">22 May 2026 · Harvey Milk Day · Issue 022</div>
+    <div class="entry-hook">Brave Spaces · Meliorism2.com</div>
+    <h1 class="entry-title">The Switchboard<br>Problem</h1>
+    <p class="entry-sub">A brave space isn't where everyone feels safe.<br>It's where the operator has maintained the lines.</p>
+    <button class="entry-btn" onclick="openMain()" id="connect-btn">
+      <div class="entry-btn-dot"></div>
+      CONNECT LINE
+    </button>
+    <p class="entry-note">8 lines open · Est. 12 min · 90-sec skim on Line 01</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════ MAIN -->
+<div id="main-panel">
+
+  <!-- Left: Switchboard Navigation -->
+  <nav id="switchboard" aria-label="Issue sections">
+    <div class="sw-header">
+      <div class="sw-header-label">Exchange Board</div>
+      <div class="sw-header-title">Issue 022</div>
+    </div>
+    <div class="sw-lines">
+      <div class="sw-line active" onclick="showSection('s-signal',this)">
+        <div class="sw-led"></div>
+        <div class="sw-line-info">
+          <div class="sw-line-num">LINE 01</div>
+          <div class="sw-line-name">The Signal</div>
+        </div>
+        <div class="sw-jack"></div>
+      </div>
+      <div class="sw-line" onclick="showSection('s-researcher',this)">
+        <div class="sw-led"></div>
+        <div class="sw-line-info">
+          <div class="sw-line-num">LINE 02</div>
+          <div class="sw-line-name">The Researcher</div>
+        </div>
+        <div class="sw-jack"></div>
+      </div>
+      <div class="sw-line" onclick="showSection('s-practitioner',this)">
+        <div class="sw-led"></div>
+        <div class="sw-line-info">
+          <div class="sw-line-num">LINE 03</div>
+          <div class="sw-line-name">The Practitioner</div>
+        </div>
+        <div class="sw-jack"></div>
+      </div>
+      <div class="sw-line" onclick="showSection('s-burden',this)">
+        <div class="sw-led"></div>
+        <div class="sw-line-info">
+          <div class="sw-line-num">LINE 04</div>
+          <div class="sw-line-name">Burden of Proof</div>
+        </div>
+        <div class="sw-jack"></div>
+      </div>
+      <div class="sw-line" onclick="showSection('s-legal',this)">
+        <div class="sw-led"></div>
+        <div class="sw-line-info">
+          <div class="sw-line-num">LINE 05</div>
+          <div class="sw-line-name">Legal Theorist</div>
+        </div>
+        <div class="sw-jack"></div>
+      </div>
+      <div class="sw-line" onclick="showSection('s-meliorist',this)">
+        <div class="sw-led"></div>
+        <div class="sw-line-info">
+          <div class="sw-line-num">LINE 06</div>
+          <div class="sw-line-name">Meliorist Voice</div>
+        </div>
+        <div class="sw-jack"></div>
+      </div>
+      <div class="sw-line" onclick="showSection('s-origins',this)">
+        <div class="sw-led"></div>
+        <div class="sw-line-info">
+          <div class="sw-line-num">LINE 07</div>
+          <div class="sw-line-name">Origins</div>
+        </div>
+        <div class="sw-jack"></div>
+      </div>
+      <div class="sw-line" onclick="showSection('s-fieldwork',this)">
+        <div class="sw-led"></div>
+        <div class="sw-line-info">
+          <div class="sw-line-num">LINE 08</div>
+          <div class="sw-line-name">Field Work</div>
+        </div>
+        <div class="sw-jack"></div>
+      </div>
+    </div>
+    <div class="sw-footer">
+      <div class="sw-footer-stat">LINES OPEN</div>
+      <div class="sw-footer-val">8 / 8</div>
+      <div class="sw-meta-hint">
+        <p>Format note: This switchboard gives you non-linear access — jump any line in any order. Designed for ADHD and pattern-seeking minds that resist top-to-bottom reading.</p>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Right: Content Sections -->
+  <main id="content">
+
+    <!-- ── LINE 01: THE SIGNAL ── -->
+    <section class="section visible" id="s-signal" data-section="signal">
+      <div class="sec-eyebrow">Line 01 · 90-Second Skim</div>
+      <h2 class="sec-title">The Signal</h2>
+      <p class="sec-sub">The key insight of this issue — read this and you have the briefing.</p>
+
+      <div class="signal-banner">
+        <div class="signal-label">
+          <div class="signal-label-dot"></div>
+          INCOMING TRANSMISSION · 22 MAY 2026
+        </div>
+        <p>
+          In 1978, Harvey Milk ran a camera shop at 575 Castro Street in San Francisco.
+          He didn't manage it as a business — he managed it as <strong>infrastructure</strong>.
+          Walk in, stay a while, bring a problem. The shop was a switchboard: a place where
+          connection across difference became structurally possible. The operator didn't
+          control the calls. He maintained the conditions that made the calls possible.
+        </p>
+        <p style="margin-top:14px;">
+          Brave space facilitation works exactly this way.
+          The practitioner is the <strong>operator, not the content</strong>.
+          Your job isn't to make people feel safe — safety is a condition you can't deliver.
+          Your job is to maintain the infrastructure that makes connection across difference
+          structurally possible: clear rules, fair process, pre-commitment on all sides.
+        </p>
+      </div>
+
+      <div class="sec-body">
+        <p>
+          The 2013 paper by Arao and Clemens that coined "brave spaces" made a sharp
+          distinction: <em>safe spaces</em> protect people from discomfort;
+          <em>brave spaces</em> acknowledge that discomfort is unavoidable and ask
+          participants to commit to engagement <em>anyway</em>.<span class="cite">[Arao &amp; Clemens, 2013]</span>
+          But the practitioner's operational question — <em>how do you actually build one?</em>
+          — was left mostly open.
+        </p>
+        <p>
+          Game theory gives us the mechanism. Brave spaces solve a coordination problem:
+          both parties want to speak honestly, but each fears being the only honest one.
+          The result is a Nash equilibrium of silence — a stable, bad outcome no individual
+          can unilaterally escape.<span class="cite">[Schelling, 1960]</span>
+          The operator's move is to change the payoff matrix before the conversation starts.
+        </p>
+
+        <div class="move-card">
+          <div class="move-label">In-Session Move · The Pre-Game Commit</div>
+          <p>
+            Before your next session, say this aloud to participants:
+            <strong>"Today's conversation has permission to be uncomfortable.
+            That is the container, not a problem with the container."</strong>
+            Then name one specific thing you are personally willing to say that you
+            have been avoiding. Model the commit. The research finding is that naming
+            the permission changes what is rational for everyone else in the room.
+          </p>
+        </div>
+
+        <div class="edge-card">
+          <div class="edge-label">Edge Case / Complication</div>
+          <p>
+            The brave space frame can be weaponized: if a practitioner with more
+            institutional power declares "we're in a brave space now," that declaration
+            can pressure people with less power to perform courage they don't feel.
+            The frame works when the operator has <em>equal or less</em> to lose than
+            participants, or when pre-commitment is genuinely mutual.
+            Ask: is the brave space invite equally risky for everyone in the room?
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LINE 02: THE RESEARCHER ── -->
+    <section class="section" id="s-researcher" data-section="researcher">
+      <div class="sec-eyebrow">Line 02 · Game Theory Lens</div>
+      <h2 class="sec-title">The Researcher</h2>
+      <p class="sec-sub">What a game theorist sees when they look at brave space facilitation.</p>
+
+      <div class="sec-body">
+        <p>
+          Thomas Schelling won the Nobel Prize in Economics for work that has almost
+          nothing to do with economics and everything to do with facilitation.
+          His 1960 book <em>The Strategy of Conflict</em> introduced the concept of
+          the <em>focal point</em>: a solution people converge on without communication,
+          simply because it is obvious or salient within a shared context.<span class="cite">[Schelling, 1960]</span>
+        </p>
+        <p>
+          The facilitation insight: when you explicitly name the rules of a brave space,
+          you are creating a focal point for courage. Before you spoke, the Nash equilibrium
+          was silence — everyone waiting for someone else to go first. After you speak,
+          the equilibrium shifts: you have named the permission and modeled the first move.
+          The payoff for honest engagement goes up; the payoff for silence goes down.
+        </p>
+
+        <div class="highlight-block">
+          <p>
+            "Pre-commitment" is Schelling's most powerful idea: a binding public declaration
+            that changes what options are available in the future. The brave space operator
+            makes a pre-commitment — <em>I will protect the process even when it gets hard</em> —
+            that every participant can factor into their own behavior.
+            This changes the game before a single word of content is spoken.
+          </p>
+        </div>
+
+        <p>
+          The finding most practitioners miss: brave spaces require <em>structural</em>
+          pre-commitment, not just aspirational statements.
+          "We value honest dialogue" is not a pre-commitment.
+          "If you say something that lands wrong, we will not end the conversation —
+          we will slow it down and investigate together" is a pre-commitment.
+          The difference is enforceability and specificity.
+        </p>
+        <p>
+          Amy Edmondson's decades of research on psychological safety in work teams
+          found that performance was not predicted by mutual liking, trust as a feeling,
+          or stated values — it was predicted by specific behavioral norms participants
+          could describe and had seen enforced.<span class="cite">[Edmondson, 1999]</span>
+          Safety and bravery are both downstream of <em>structure</em>.
+        </p>
+
+        <div class="move-card">
+          <div class="move-label">Researcher Recommendation</div>
+          <p>
+            Before your next brave space session: write down three specific
+            <em>process promises</em> you are making as the operator — not content promises.
+            State them aloud at the start.
+            <strong>Not "we'll be honest" but "if the conversation stops, I will name
+            what I see and we will stay in the room."</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LINE 03: THE PRACTITIONER ── -->
+    <section class="section" id="s-practitioner" data-section="practitioner">
+      <div class="sec-eyebrow">Line 03 · Somatic Frame</div>
+      <h2 class="sec-title">The Practitioner</h2>
+      <p class="sec-sub">Your nervous system reads "brave" and "safe" differently. So does your learner's.</p>
+
+      <div class="sec-body">
+        <p>
+          Functional medicine practitioners who work with identity and behavior change
+          encounter a pattern their behavioral colleagues rarely name: the body
+          distinguishes between <em>safe</em> and <em>brave</em> faster than
+          conscious thought does — and it governs what becomes possible in the room.
+        </p>
+        <p>
+          Stephen Porges' polyvagal theory describes three nervous system states:
+          <em>ventral vagal</em> (safe, social, connected), <em>sympathetic</em>
+          (mobilized for threat — fight or flight), and <em>dorsal vagal</em>
+          (shutdown, collapse, freeze).<span class="cite">[Porges, 2011]</span>
+          A genuine brave space keeps participants in ventral vagal while processing
+          material that would normally trigger the sympathetic response.
+          That is not a metaphor — it is a physiological design problem.
+        </p>
+
+        <div class="highlight-block">
+          <p>
+            The clinical finding that changes how practitioners should think about
+            "safe spaces": a learning environment that removes <em>all</em> discomfort
+            gradually trains the nervous system to read mild challenge as dangerous.
+            Practitioners who over-protect participants are, in functional medicine terms,
+            <em>dysregulating</em> them — making it progressively harder to stay
+            regulated when real challenge arrives.
+          </p>
+        </div>
+
+        <p>
+          The brave space design principle from this lens: the practitioner's first job
+          is <em>co-regulation</em>. When you are visibly regulated — calm, grounded,
+          not threatened by the difficulty — your nervous system invites others' systems
+          to regulate alongside yours. Porges calls this the "social engagement system":
+          humans read safety from other humans' faces, voices, and body states,
+          not from institutional promises.
+        </p>
+        <p>
+          This is where the immunity to change lens is most powerful: most resistance
+          in brave space work is not intellectual disagreement — it is a competing
+          commitment operating at the identity level, often felt somatically as avoidance,
+          tightness, or a sudden need to check the phone.<span class="cite">[Kegan &amp; Lahey, 2009]</span>
+          The practitioner who can name this — "I notice we're all holding something
+          right now" — is doing somatic facilitation, whether they call it that or not.
+        </p>
+
+        <div class="move-card">
+          <div class="move-label">Practitioner Move · Co-Regulation Posture</div>
+          <p>
+            Before you open the room: <strong>spend 90 seconds in the body state
+            you want participants to find.</strong> Slow your breath.
+            Lower your shoulders. Notice your feet on the floor.
+            This is the physiological pre-commitment your social engagement system
+            will broadcast into the room before you say a single word.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LINE 04: BURDEN OF PROOF ── -->
+    <section class="section" id="s-burden" data-section="burden">
+      <div class="sec-eyebrow">Line 04 · The Challenge</div>
+      <h2 class="sec-title">Burden of Proof</h2>
+      <p class="sec-sub">The claim that deserves scrutiny before you take it into a room.</p>
+
+      <div class="sec-body">
+        <div class="edge-card">
+          <div class="edge-label">The Charge</div>
+          <p>
+            "Brave Spaces" may simply be rebranded "Safe Spaces" with an added demand
+            that marginalized participants perform courage for the comfort of the powerful.
+            Who decides what counts as "mere discomfort" rather than actual harm?
+            The framework was developed and tested almost exclusively in well-resourced
+            university settings. The mechanism may not transfer outside them.
+          </p>
+        </div>
+
+        <p>
+          Arao and Clemens acknowledged this tension in the original 2013 paper —
+          the risk that "brave" becomes a demand that participants suppress legitimate
+          objections in the name of the group's learning goals.
+          The research base outside higher education is thin.
+          The documented failure modes are real.
+        </p>
+        <p>
+          The burden of proof question is <em>positional</em>: brave for whom?
+          A practitioner with institutional protection declaring "this is a brave space"
+          in a room where participants face real professional or social risk
+          is making a fundamentally different ask than one who has named their own stake
+          and what they personally are willing to say.
+          The operator's position matters enormously.
+        </p>
+
+        <div class="highlight-block">
+          <p>
+            The principle that survives scrutiny: brave space design works when the
+            facilitator has <em>equal or greater skin in the game</em> than the participants.
+            When the facilitator is protected and the participant is exposed,
+            the brave space framing is extractive.
+            When the facilitator models first — goes first, names first, risks first —
+            the framing holds.
+          </p>
+        </div>
+
+        <p>
+          The Burden of Proof's verdict: the frame is valid, the application is frequently
+          sloppy. Before using the term "brave space," ask:
+          What am I personally willing to say in this room that I have been avoiding?
+          If the answer is "nothing," you are not operating a brave space.
+          You are managing one, which is a different and lesser thing.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── LINE 05: LEGAL THEORIST ── -->
+    <section class="section" id="s-legal" data-section="legal">
+      <div class="sec-eyebrow">Line 05 · Procedural Frame</div>
+      <h2 class="sec-title">The Legal Theorist</h2>
+      <p class="sec-sub">What adversarial process teaches us about designed conditions for truth.</p>
+
+      <div class="sec-body">
+        <p>
+          Cross-examination is the most adversarial formal conversation in Western
+          civilization — and it is governed by rules specifically designed to make
+          the adversarial process <em>fair</em>, not comfortable.
+          The rules of evidence don't protect you from discomfort;
+          they protect you from abuse of process.
+        </p>
+        <p>
+          Practitioners rarely borrow from legal procedure because it reads as cold
+          and transactional. This is a mistake. The court's operating principle is
+          exactly what brave space facilitation is trying to achieve:
+          <em>rules that create conditions where truth can surface even in the presence
+          of adversarial parties</em>. The space is not safe. The process is fair.
+        </p>
+
+        <div class="highlight-block">
+          <p>
+            The legal theorist's insight: a "brave space agreement" consisting only of
+            aspirational statements ("we will be honest with each other") is unenforceable
+            and therefore meaningless as a coordination device. The agreements that change
+            behavior are <em>procedural</em>: what happens when someone violates the norm?
+            Who names the violation? Who is responsible for what happens next?
+            Courts work because consequences are specified in advance.
+          </p>
+        </div>
+
+        <p>
+          Cross-examination has three rules practitioners should borrow:
+          <em>relevance</em> (stay on the matter at hand),
+          <em>foundation</em> (connect claims to evidence, not just assertion),
+          and <em>the right to respond</em> (no statement can stand without
+          opportunity for reply). These three procedural moves produce conversations
+          that are challenging without being chaotic.
+        </p>
+        <p>
+          The hostile witness rule is also worth borrowing: when someone in the room
+          is protecting a position rather than exploring a question, the facilitator
+          has standing to name it and redirect. Not as attack — as process management.
+          This is what operators do. They maintain the line.
+        </p>
+
+        <div class="move-card">
+          <div class="move-label">Legal Theorist's Tool</div>
+          <p>
+            Build a <strong>brave space protocol card</strong> — not a statement of values,
+            but a set of procedural commitments: what will you do when a statement
+            lands badly? When someone withdraws? When the conversation loops?
+            Name the procedure before you need it.
+            Participants can commit to a procedure.
+            They cannot commit to an aspiration.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LINE 06: MELIORIST VOICE ── -->
+    <section class="section" id="s-meliorist" data-section="meliorist">
+      <div class="sec-eyebrow">Line 06 · Meliorist Voice · W: Wealth</div>
+      <h2 class="sec-title">The Meliorist Voice</h2>
+      <p class="sec-sub">What brave space design means for economic dignity — yours and your clients'.</p>
+
+      <div class="sec-body">
+        <p>
+          Amy Edmondson's foundational 1999 study of 51 hospital work teams found that
+          teams with high psychological safety performed 19% better by standard measures.
+          More striking: teams that combined high safety <em>and</em> high performance
+          standards produced 2–3 times more innovation output than teams with
+          safety alone.<span class="cite">[Edmondson, 1999]</span>
+          The brave space is not soft. It is the precondition for the hardest kind of work.
+        </p>
+
+        <div class="highlight-block">
+          <p>
+            Brave space design is a premium capability that most practitioners charge
+            standard rates for. General facilitation is a commodity.
+            Brave space facilitation — with clear protocols, documented pre-commitment
+            structures, and measurable outcomes — is a different and more valuable service.
+            The economic case for learning this is not motivational. It is straightforward:
+            clients who understand the mechanism pay more for it.
+          </p>
+        </div>
+
+        <p>
+          The Meliorism 2.0 connection: the world gets better when people with existing
+          power learn to hold space where people without it can speak first.
+          This is constructive stewardship of conversation infrastructure —
+          treating the conditions for honest exchange as a commons that requires
+          active maintenance. Every practitioner who can design this reliably
+          is building infrastructure, not just running sessions.
+        </p>
+        <p>
+          The gap: most practitioners who can design brave spaces have never named it
+          as a discrete service, priced it as such, or built a curriculum around it.
+          This is a wealth creation opportunity hidden inside a values practice.
+          The practitioner who has a reliable protocol earns differently from
+          the one who "just facilitates."
+        </p>
+
+        <div class="move-card">
+          <div class="move-label">Wealth Move</div>
+          <p>
+            Audit your current service description.
+            Does it name the <em>outcomes</em> of brave space design
+            (teams that stay in hard conversations; leaders who can name
+            what's actually happening) or the <em>inputs</em>
+            (facilitation, dialogue, workshops)?
+            <strong>Inputs are the commodity. Outcomes are the premium.</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LINE 07: ORIGINS ── -->
+    <section class="section" id="s-origins" data-section="origins">
+      <div class="sec-eyebrow">Line 07 · History · Etymology · Place</div>
+      <h2 class="sec-title">Origins</h2>
+      <p class="sec-sub">Harvey Milk Day, the word "brave," and the camera shop that became infrastructure.</p>
+
+      <!-- Wall moment -->
+      <div class="wall-moment" role="figure" aria-label="Harvey Milk quote">
+        <p class="wall-quote">"Every gay person must come out. Because every time they do, it lessens the fear."</p>
+        <p class="wall-attr">HARVEY MILK · SAN FRANCISCO · JUNE 25, 1978 · THE HOPE SPEECH</p>
+      </div>
+
+      <div class="sec-body" style="margin-top:32px;">
+        <p>
+          Today is Harvey Milk Day in California — his birthday, May 22, 1930.
+          He was killed in November 1978, but the infrastructure he built at
+          Castro Camera, 575 Castro Street, survived him.
+          He ran the shop less as a business than as a gathering point:
+          come in, stay a while, bring someone.
+        </p>
+        <p>
+          Milk's political theory was structural before it was rhetorical.
+          Visibility was the mechanism of change, not argument.
+          His instruction was not to win debates but to make themselves known to
+          the people already in their lives — because interpersonal visibility
+          changed the coordination game faster than any policy argument could.
+          <em>Every time someone comes out, it lessens the fear.</em><span class="cite">[Shilts, 1982]</span>
+          This is Schelling's focal point in political practice: change the payoff
+          matrix by being the first to move.
+        </p>
+        <p>
+          When Milk was killed, the community's brave space infrastructure survived him —
+          which is why what followed was organizing rather than only grief.
+          He had built something that didn't require him to function.
+          That is what brave space operators build.
+        </p>
+
+        <div class="etym-box">
+          <div class="etym-word">brave</div>
+          <div class="etym-body">
+            <div class="etym-label">Etymology</div>
+            <p>
+              From Old French <em>braver</em> — to defy, to challenge.
+              Originally applied to thieves and cutthroats: people who defied expected
+              social consequences. Later to warriors who accepted risk rather than avoiding it.
+              The root is not courage as the <em>absence</em> of fear —
+              it is defiance of the <em>expected outcome</em>.
+              A brave space is not a place without fear.
+              It is a place where defying the expected social outcome
+              (silence, avoidance, performance) becomes the norm.
+            </p>
+          </div>
+        </div>
+
+        <div class="nature-card">
+          <div class="nature-label">Nature Analog · Gap Dynamics</div>
+          <p>
+            After a forest fire, the dense canopy of established trees is cleared.
+            In the exposed ground, pioneer species — plants that couldn't survive
+            in the shade of the existing canopy — take root.
+            Ecologists call this "gap dynamics": new life requires not just presence,
+            but cleared structural conditions.<br><br>
+            Brave spaces are deliberately created gaps in social canopy.
+            Not absence of structure — removal of the specific structure
+            that was blocking the light.<br><br>
+            <strong>Nature Invitation:</strong> Find a place where something was recently
+            removed — a cut field, a cleared lot, a recently fallen tree.
+            Sit at the edge where the clearing meets what remains.
+            Notice what's growing in the light. Notice what's still in shadow.
+            That edge is where brave space lives in the physical world.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LINE 08: FIELD WORK ── -->
+    <section class="section" id="s-fieldwork" data-section="fieldwork">
+      <div class="sec-eyebrow">Line 08 · Experiment · Bibliography · Community</div>
+      <h2 class="sec-title">Field Work</h2>
+      <p class="sec-sub">The week's experiment, the sources behind this issue, and the community questions.</p>
+
+      <!-- Experiment Protocol -->
+      <div class="experiment-block">
+        <div class="exp-header">
+          <div class="exp-header-dot"></div>
+          EXPERIMENT PROTOCOL · THIS WEEK
+        </div>
+        <div class="exp-body">
+          <p><strong>The Pre-Game Commit Experiment</strong></p>
+          <p>
+            <strong>Setup:</strong> Before your next facilitated session, write one sentence
+            completing this: "The thing I am personally willing to say in this room
+            that I have been avoiding is: ___."
+            You do not need to say it in the session. Write it privately. Then enter the room.
+          </p>
+          <p>
+            <strong>Observation target:</strong> Notice whether writing the sentence changes
+            how you open the session and how you hold participant resistance when it arrives.
+          </p>
+          <div class="exp-log">
+            Log template:<br>
+            Date: ___ · Wrote it: Y/N · Said it: Y/N ·<br>
+            What I noticed about the room: ___________________________
+          </div>
+          <p>
+            <strong>Community share:</strong> If you run this experiment, share your
+            log line in the community thread. The pattern across responses is the finding.
+          </p>
+        </div>
+      </div>
+
+      <!-- Bibliography -->
+      <div class="bib-section">
+        <div class="bib-track">
+          <div class="bib-track-label">Academic Track</div>
+          <div class="bib-entry">
+            <div class="bib-ref">Arao, B. &amp; Clemens, K. (2013). "From Safe Spaces to Brave Spaces."</div>
+            <div class="bib-note">In Landreman (Ed.), <em>The Art of Effective Facilitation</em>, pp. 135–150. NASPA. The foundational text that named the distinction. Essential reading for any practitioner who uses psychological safety language — the brave/safe distinction is more operationally useful than the safety framing alone.</div>
+          </div>
+          <div class="bib-entry">
+            <div class="bib-ref">Edmondson, A.C. (1999). "Psychological Safety and Learning Behavior in Work Teams." <em>Administrative Science Quarterly</em>, 44(2), 350–383.</div>
+            <div class="bib-note">The landmark study of 51 work teams. The finding that safety alone doesn't predict performance — safety plus standards does — is the most useful result for practitioners designing brave space environments. Safety and bravery are both downstream of structure.</div>
+          </div>
+          <div class="bib-entry">
+            <div class="bib-ref">Schelling, T.C. (1960). <em>The Strategy of Conflict</em>. Harvard University Press.</div>
+            <div class="bib-note">The game theory classic introducing focal points and pre-commitment. Practitioners will find Chapter 3 most applicable — the analysis of how parties coordinate without direct communication transfers directly to facilitation design.</div>
+          </div>
+          <div class="bib-entry">
+            <div class="bib-ref">Porges, S.W. (2011). <em>The Polyvagal Theory</em>. W.W. Norton.</div>
+            <div class="bib-note">The physiological foundation for why brave spaces require more than stated intentions. The social engagement system chapter explains the mechanism by which the practitioner's own nervous system state transmits to participants before any content is discussed.</div>
+          </div>
+          <div class="bib-entry">
+            <div class="bib-ref">Kegan, R. &amp; Lahey, L. (2009). <em>Immunity to Change</em>. Harvard Business Review Press.</div>
+            <div class="bib-note">The framework that explains why most brave space facilitation fails at the identity level. The immunity map — particularly the competing commitment and big assumption columns — is the diagnostic tool practitioners need when participants know they should engage but can't.</div>
+          </div>
+        </div>
+
+        <div class="bib-track">
+          <div class="bib-track-label">Real World Track</div>
+          <div class="bib-entry">
+            <div class="bib-ref">Clark, T.R. (2020). <em>The 4 Stages of Psychological Safety</em>. Berrett-Koehler.</div>
+            <div class="bib-note">Practitioner-facing operationalization of Edmondson's research. The four-stage model maps directly onto brave space entry conditions. Most useful when presenting brave space work to organizational buyers who need a framework they can explain internally.</div>
+          </div>
+          <div class="bib-entry">
+            <div class="bib-ref">Shilts, R. (1982). <em>The Mayor of Castro Street: The Life and Times of Harvey Milk</em>. St. Martin's Press.</div>
+            <div class="bib-note">The definitive biography of Milk and a case study in brave space infrastructure at neighborhood scale. Particularly relevant: the chapters on Castro Camera as a gathering point, and Milk's theory that personal visibility was a structural intervention. The organizing after his assassination is the clearest evidence of durable infrastructure.</div>
+          </div>
+          <div class="bib-entry">
+            <div class="bib-ref">Cross-Domain Further Reading: Waddock, S. (2020). <em>Catalyzing Transformation: Making System Change Happen</em>. Business Expert Press.</div>
+            <div class="bib-note">From systems change theory — the concept of "holding space" as infrastructure maintenance rather than individual action. The parallel to brave space facilitation is direct: transformative change requires practitioners who maintain conditions rather than deliver content.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Community Section -->
+      <div class="community-block">
+        <div class="community-label">Community Exchange</div>
+
+        <div class="community-q">How did this format work for your brain today?</div>
+        <div class="community-q-sub">The switchboard navigation is designed for non-linear reading — did you read the lines in order, jump around, or go straight to one? What does that tell you about how you learn?</div>
+
+        <div class="community-divider"></div>
+
+        <div class="community-q">What would you add or challenge?</div>
+        <div class="community-q-sub">The Burden of Proof raised the positional critique of brave spaces. Where do you see that playing out in your own practice? Is there a context where the brave space framing has been used extractively — or where it transformed something?</div>
+
+        <div class="community-divider"></div>
+
+        <div class="community-announcement">Founder Announcements</div>
+        <p class="community-empty">[Brian fills in]</p>
+
+        <div class="community-divider"></div>
+
+        <div class="community-announcement">Supporter Messages</div>
+        <p class="community-empty">[Brian fills in]</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── Footer ── -->
+<div class="footer-bar">
+  <a href="../archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span class="footer-current">022 THE SWITCHBOARD PROBLEM ← CURRENT</span>
+</div>
+
+<script>
+// ── Clock ─────────────────────────────────────────────────────────────
+function tick() {
+  const n = new Date();
+  const t = [n.getUTCHours(), n.getUTCMinutes(), n.getUTCSeconds()]
+    .map(v => String(v).padStart(2,'0')).join(':');
+  const el = document.getElementById('clk');
+  if (el) el.textContent = 'UTC ' + t;
+}
+tick(); setInterval(tick, 1000);
+
+// ── Entry → Main transition ────────────────────────────────────────────
+function openMain() {
+  const entry = document.getElementById('entry');
+  const panel = document.getElementById('main-panel');
+  entry.classList.add('hidden');
+  track('enter', 'entry_screen', { issue: '022' });
+  setTimeout(() => {
+    entry.style.display = 'none';
+    panel.classList.add('visible');
+  }, 700);
+}
+
+// ── Section navigation ─────────────────────────────────────────────────
+function showSection(id, lineEl) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.sw-line').forEach(l => l.classList.remove('active'));
+  const sec = document.getElementById(id);
+  if (sec) {
+    sec.classList.add('visible');
+    const content = document.getElementById('content');
+    if (content) content.scrollTop = 0;
+  }
+  if (lineEl) lineEl.classList.add('active');
+  track('navigate', id, { issue: '022' });
+}
+
+// ── Engagement tracking ────────────────────────────────────────────────
+const _sos = (() => {
+  const ENDPOINT = 'https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY  = 'sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const SESSION_ID = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
+  const ISSUE_NUMBER = '022';
+  const ISSUE_SLUG   = 'the-switchboard-problem';
+  let queue = []; let flushTimer = null;
+  function scrollPct() {
+    const el = document.getElementById('content') || document.documentElement;
+    const total = el.scrollHeight - el.clientHeight;
+    return total > 0 ? Math.round((el.scrollTop / total) * 100) : 0;
+  }
+  function flush() {
+    if (!queue.length) return;
+    const batch = queue.splice(0);
+    batch.forEach(ev => {
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'apikey': API_KEY, 'Authorization': 'Bearer ' + API_KEY,
+          'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({
+          title: 'meliorism2.com | ' + ISSUE_SLUG + ' | ' + ev.event + ' | ' + ev.label,
+          occurred_at: ev.ts, reflection: SESSION_ID,
+          notes: JSON.stringify({ issue_number: ISSUE_NUMBER, issue_slug: ISSUE_SLUG,
+            event: ev.event, label: ev.label, extra: ev.extra || null,
+            referrer: document.referrer || null, scroll_pct: ev.scroll_pct,
+            viewport_w: window.innerWidth, viewport_h: window.innerHeight })
+        }), keepalive: true
+      }).catch(() => {});
+    });
+  }
+  function enqueue(event, label, extra) {
+    queue.push({ event, label, extra, ts: new Date().toISOString(), scroll_pct: scrollPct() });
+    if (!flushTimer) flushTimer = setTimeout(() => { flushTimer = null; flush(); }, 3000);
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') flush();
+  });
+  return { track: enqueue };
+})();
+
+function track(event, label, extra) {
+  console.log('[signal-os]', event, label, extra || '');
+  _sos.track(event, label, extra);
+}
+
+// ── IntersectionObserver ───────────────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      track('view', e.target.dataset.section || e.target.id || 'block', { issue: '022' });
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('[data-section]').forEach(el => observer.observe(el));
+
+document.querySelectorAll('.signal-banner, .wall-moment, .experiment-block').forEach(el => {
+  const o2 = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        track('view_block', el.className.split(' ')[0], { issue: '022' });
+        o2.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  o2.observe(el);
+});
+
+track('load', 'issue_022', { date: '2026-05-22' });
+</script>
+</body>
+</html>

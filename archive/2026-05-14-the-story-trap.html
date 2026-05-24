@@ -1,0 +1,782 @@
+<!-- signal-os:date: 2026-05-14 -->
+<!-- signal-os:slug: the-story-trap -->
+<!-- signal-os:title: The Story Trap -->
+<!-- signal-os:concept: Narrative bias makes humans compress experience into stories with heroes, villains, and causes — even when reality has none. Practitioners who understand this stop fighting the story and start working with it. -->
+<!-- signal-os:format: Broadcast Transcript -->
+<!-- signal-os:dimension: Witnessing Authentic Humanity -->
+<!-- signal-os:sources: 8 -->
+<!-- signal-os:tags: #narrative #cognition #behavior-change -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 14 · The Story Trap</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:        #0A0806;
+  --surface:   #141008;
+  --amber:     #E8A020;
+  --amberf:    rgba(232,160,32,0.5);
+  --amberl:    rgba(232,160,32,0.15);
+  --cream:     #F0E4C8;
+  --muted:     rgba(240,228,200,0.6);
+  --dim:       rgba(240,228,200,0.4);
+  --accent:    #E8A020;
+  --border:    rgba(232,160,32,0.15);
+  --border-h:  rgba(232,160,32,0.3);
+  --text:      #F0E4C8;
+  --red:       #C84040;
+  --redf:      rgba(200,64,64,0.6);
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Courier Prime','Courier New',monospace;overflow:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:128px 128px;}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 20% 50%,rgba(232,160,32,0.04),transparent 60%),radial-gradient(ellipse 40% 60% at 80% 30%,rgba(232,160,32,0.03),transparent 50%);}
+
+/* Status bar */
+.sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;background:rgba(10,8,6,0.97);border-bottom:1px solid var(--border-h);display:flex;align-items:center;padding:0 20px;gap:14px;}
+.sb-logo{font-family:'Libre Baskerville',serif;font-size:0.7rem;letter-spacing:4px;font-weight:700;color:var(--amber);text-decoration:none;text-shadow:0 0 14px var(--amberf);}
+.sb-sep{width:1px;height:12px;background:var(--border-h);}
+.sb-label{font-size:0.58rem;letter-spacing:2.5px;color:var(--dim);flex:1;}
+.sb-clock{font-size:0.6rem;letter-spacing:2px;color:var(--amber);text-shadow:0 0 8px var(--amberf);}
+
+/* Entry screen */
+#entry{position:fixed;inset:0;top:36px;bottom:40px;z-index:800;display:grid;grid-template-columns:1fr 1fr;background:var(--bg);transition:opacity 0.9s ease;}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-receiver{display:flex;flex-direction:column;justify-content:center;padding:60px 48px 60px 60px;border-right:1px solid var(--border);position:relative;z-index:1;}
+.freq-display{background:#080604;border:1px solid var(--border-h);border-radius:4px;padding:20px 24px;margin-bottom:32px;position:relative;box-shadow:inset 0 0 40px rgba(0,0,0,0.6),0 0 20px rgba(232,160,32,0.08);}
+.freq-display::before{content:'';position:absolute;inset:0;border-radius:4px;background:linear-gradient(180deg,rgba(232,160,32,0.03) 0%,transparent 100%);pointer-events:none;}
+.freq-station{font-size:0.55rem;letter-spacing:5px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;}
+.freq-number{font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;color:var(--amber);letter-spacing:2px;line-height:1;text-shadow:0 0 20px var(--amberf),0 0 40px rgba(232,160,32,0.3),0 0 80px rgba(232,160,32,0.15);display:block;margin-bottom:6px;}
+.freq-label{font-size:0.58rem;letter-spacing:4px;color:var(--amber);text-shadow:0 0 10px var(--amberf);opacity:0.8;}
+.freq-divider{height:1px;background:var(--border);margin:14px 0;}
+.freq-sub{font-size:0.6rem;letter-spacing:3px;color:var(--muted);}
+
+.signal-bars{display:flex;gap:5px;align-items:flex-end;height:32px;margin-bottom:32px;}
+.bar{width:10px;background:var(--amber);border-radius:2px 2px 0 0;box-shadow:0 0 8px var(--amberf);animation:pulse-bar var(--dur,1.2s) ease-in-out infinite;animation-delay:var(--delay,0s);opacity:var(--base-op,0.8);}
+.bar:nth-child(1){height:8px;--dur:1.1s;--delay:0s;--base-op:0.5;}
+.bar:nth-child(2){height:14px;--dur:0.9s;--delay:0.15s;--base-op:0.65;}
+.bar:nth-child(3){height:20px;--dur:1.3s;--delay:0.3s;--base-op:0.75;}
+.bar:nth-child(4){height:26px;--dur:0.8s;--delay:0.1s;--base-op:0.9;}
+.bar:nth-child(5){height:32px;--dur:1.0s;--delay:0.2s;--base-op:1.0;}
+@keyframes pulse-bar{0%,100%{opacity:var(--base-op,0.8);box-shadow:0 0 6px var(--amberf);}50%{opacity:1;box-shadow:0 0 14px var(--amberf),0 0 28px rgba(232,160,32,0.3);}}
+
+.scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(232,160,32,0.4),transparent);animation:scan 4s linear infinite;pointer-events:none;top:0;}
+@keyframes scan{0%{top:0;opacity:0;}5%{opacity:1;}95%{opacity:1;}100%{top:100%;opacity:0;}}
+
+.entry-tags{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.e-tag{font-size:0.52rem;letter-spacing:3px;padding:4px 10px;border:1px solid var(--border-h);color:var(--dim);text-transform:uppercase;}
+.e-tag.highlight{border-color:var(--amber);color:var(--amber);text-shadow:0 0 8px var(--amberf);}
+
+.entry-title{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;font-style:italic;color:var(--cream);line-height:1.1;margin-bottom:16px;letter-spacing:-0.5px;}
+.entry-title span{color:var(--amber);text-shadow:0 0 20px var(--amberf);}
+.entry-teaser{font-size:0.78rem;color:var(--muted);line-height:1.8;margin-bottom:36px;max-width:420px;letter-spacing:0.3px;}
+
+.entry-btn{display:inline-flex;align-items:center;gap:12px;background:transparent;border:1px solid var(--amber);color:var(--amber);font-family:'Courier Prime',monospace;font-size:0.75rem;font-weight:700;letter-spacing:4px;padding:14px 28px;cursor:pointer;text-transform:uppercase;transition:all 0.2s ease;text-shadow:0 0 10px var(--amberf);box-shadow:0 0 20px rgba(232,160,32,0.08),inset 0 0 20px rgba(232,160,32,0.04);}
+.entry-btn:hover{background:rgba(232,160,32,0.08);box-shadow:0 0 30px rgba(232,160,32,0.25),inset 0 0 20px rgba(232,160,32,0.08);text-shadow:0 0 16px var(--amberf);}
+.btn-dot{width:8px;height:8px;background:var(--red);border-radius:50%;box-shadow:0 0 10px var(--redf);animation:blink-btn 1.2s ease-in-out infinite;flex-shrink:0;}
+@keyframes blink-btn{0%,100%{opacity:1;box-shadow:0 0 10px var(--redf);}50%{opacity:0.4;box-shadow:0 0 4px var(--redf);}}
+
+.entry-visual{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 40px;position:relative;z-index:1;overflow:hidden;}
+.waveform{width:100%;height:120px;display:flex;align-items:center;justify-content:center;gap:3px;margin-bottom:40px;}
+.wave-bar{width:4px;background:var(--amber);border-radius:2px;opacity:0.6;animation:wave-anim var(--wdur,1s) ease-in-out infinite alternate;animation-delay:var(--wdelay,0s);}
+@keyframes wave-anim{from{transform:scaleY(0.15);opacity:0.3;}to{transform:scaleY(1);opacity:0.9;}}
+
+.broadcast-card{width:100%;max-width:360px;border:1px solid var(--border-h);background:rgba(20,16,8,0.8);padding:24px 28px;position:relative;}
+.broadcast-card::before{content:'TONIGHT\'S BROADCAST';position:absolute;top:-8px;left:16px;font-size:0.5rem;letter-spacing:4px;color:var(--amber);background:var(--bg);padding:0 8px;text-shadow:0 0 8px var(--amberf);}
+.bc-line{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.65rem;letter-spacing:1px;}
+.bc-line:last-child{border-bottom:none;}
+.bc-time{color:var(--amber);text-shadow:0 0 6px var(--amberf);flex-shrink:0;margin-right:12px;}
+.bc-seg{color:var(--muted);flex:1;}
+.bc-live{font-size:0.48rem;letter-spacing:3px;color:var(--red);text-shadow:0 0 8px var(--redf);}
+.broadcast-quote{margin-top:32px;text-align:center;font-family:'Libre Baskerville',serif;font-style:italic;font-size:0.85rem;color:var(--muted);line-height:1.7;max-width:320px;}
+.broadcast-quote span{display:block;font-family:'Courier Prime',monospace;font-style:normal;font-size:0.55rem;letter-spacing:3px;color:var(--dim);margin-top:10px;text-transform:uppercase;}
+
+/* Main panel */
+#main-panel{position:fixed;inset:0;top:36px;bottom:40px;z-index:700;display:none;opacity:0;transition:opacity 0.7s ease;}
+#main-panel.visible{display:grid;grid-template-columns:220px 1fr;opacity:1;}
+
+/* Sidebar */
+.sidebar{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:24px 0;overflow-y:auto;position:relative;z-index:1;}
+.on-air{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+.on-air-dot{width:10px;height:10px;background:var(--red);border-radius:50%;box-shadow:0 0 12px var(--redf),0 0 24px rgba(200,64,64,0.3);animation:blink-air 1.4s ease-in-out infinite;flex-shrink:0;}
+@keyframes blink-air{0%,100%{opacity:1;box-shadow:0 0 12px var(--redf),0 0 24px rgba(200,64,64,0.3);}50%{opacity:0.3;box-shadow:0 0 4px var(--redf);}}
+.on-air-text{font-size:0.6rem;letter-spacing:5px;color:var(--red);font-weight:700;text-shadow:0 0 8px var(--redf);}
+
+.sb-utc{padding:0 20px 16px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.utc-label{font-size:0.5rem;letter-spacing:4px;color:var(--dim);margin-bottom:4px;text-transform:uppercase;}
+.utc-time{font-size:1.2rem;color:var(--amber);letter-spacing:2px;text-shadow:0 0 12px var(--amberf);}
+
+.sb-meta{padding:0 20px;flex:1;}
+.meta-block{margin-bottom:20px;}
+.meta-label{font-size:0.48rem;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:6px;}
+.meta-value{font-size:0.65rem;color:var(--muted);line-height:1.5;letter-spacing:0.5px;}
+.meta-value.amber{color:var(--amber);text-shadow:0 0 8px var(--amberf);}
+
+.seg-nav{padding:0 12px;margin-top:8px;}
+.seg-nav-item{display:flex;align-items:center;gap:8px;padding:7px 8px;font-size:0.54rem;letter-spacing:1.5px;color:var(--dim);cursor:pointer;border-radius:2px;transition:all 0.2s;text-transform:uppercase;border-left:2px solid transparent;}
+.seg-nav-item:hover,.seg-nav-item.active{color:var(--amber);border-left-color:var(--amber);background:rgba(232,160,32,0.05);text-shadow:0 0 8px var(--amberf);}
+.seg-time{color:var(--amber);font-size:0.5rem;opacity:0.7;flex-shrink:0;}
+
+/* Content area */
+.content-area{overflow-y:scroll;padding:0;position:relative;}
+.content-area::-webkit-scrollbar{width:4px;}
+.content-area::-webkit-scrollbar-track{background:transparent;}
+.content-area::-webkit-scrollbar-thumb{background:var(--border-h);border-radius:2px;}
+
+/* Transcript header */
+.tx-header{padding:36px 48px 28px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(232,160,32,0.04) 0%,transparent 100%);}
+.tx-issue{font-size:0.55rem;letter-spacing:5px;color:var(--amber);text-shadow:0 0 8px var(--amberf);text-transform:uppercase;margin-bottom:12px;}
+.tx-title{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;font-style:italic;color:var(--cream);line-height:1.1;margin-bottom:12px;}
+.tx-subtitle{font-size:0.78rem;color:var(--muted);line-height:1.7;max-width:680px;letter-spacing:0.3px;}
+.tx-broadcast-tag{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:0.54rem;letter-spacing:3px;color:var(--dim);border:1px solid var(--border);padding:5px 12px;}
+
+/* Segment */
+.segment{padding:36px 48px;border-bottom:1px solid var(--border);position:relative;}
+.segment:last-child{border-bottom:none;}
+.seg-header{display:flex;align-items:baseline;gap:16px;margin-bottom:24px;}
+.seg-stamp{font-size:0.55rem;letter-spacing:4px;color:var(--amber);text-shadow:0 0 8px var(--amberf);flex-shrink:0;font-weight:700;}
+.seg-title{font-family:'Libre Baskerville',serif;font-size:1.15rem;font-weight:700;color:var(--cream);letter-spacing:0.5px;}
+.seg-divider{flex:1;height:1px;background:var(--border);margin-left:8px;align-self:center;}
+
+/* Body */
+.tx-body{font-size:0.85rem;line-height:1.9;color:var(--muted);letter-spacing:0.3px;max-width:780px;}
+.tx-body p{margin-bottom:18px;}
+.tx-body p:last-child{margin-bottom:0;}
+
+.pull-quote{font-family:'Libre Baskerville',serif;font-size:clamp(1rem,2vw,1.25rem);font-style:italic;color:var(--amber);text-shadow:0 0 16px var(--amberf);border-left:3px solid var(--amber);padding:16px 24px;margin:28px 0;box-shadow:inset 0 0 30px rgba(232,160,32,0.04);line-height:1.6;}
+
+.cite{font-size:0.74rem;color:var(--cream);border-left:3px solid var(--amber);padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;}
+.cite-source{color:var(--amber);text-shadow:0 0 6px var(--amberf);}
+
+.etym-block{background:rgba(232,160,32,0.04);border:1px solid var(--border-h);padding:24px 28px;margin:28px 0;position:relative;}
+.etym-block::before{content:'ETYMOLOGY';position:absolute;top:-8px;left:16px;font-size:0.48rem;letter-spacing:5px;color:var(--amber);background:var(--bg);padding:0 8px;text-shadow:0 0 8px var(--amberf);}
+.etym-chain{font-family:'Libre Baskerville',serif;font-style:italic;font-size:0.9rem;color:var(--cream);line-height:1.8;margin-bottom:12px;}
+.etym-chain em{color:var(--amber);text-shadow:0 0 8px var(--amberf);font-style:normal;}
+.etym-note{font-size:0.75rem;color:var(--muted);line-height:1.7;}
+
+.place-block{background:rgba(232,160,32,0.025);border-left:3px solid rgba(232,160,32,0.4);padding:20px 24px;margin:28px 0;}
+.place-label{font-size:0.48rem;letter-spacing:5px;color:var(--amber);text-shadow:0 0 6px var(--amberf);margin-bottom:10px;text-transform:uppercase;}
+.place-text{font-size:0.8rem;color:var(--muted);line-height:1.8;}
+
+/* Wall moment */
+.wall-moment{padding:0;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.wall-header{padding:36px 48px 24px;background:linear-gradient(180deg,rgba(232,160,32,0.06) 0%,transparent 80%);}
+.wall-headline{font-family:'Libre Baskerville',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:700;color:var(--amber);text-shadow:0 0 30px var(--amberf),0 0 60px rgba(232,160,32,0.25),0 0 120px rgba(232,160,32,0.1);line-height:1.1;letter-spacing:-0.5px;text-transform:uppercase;}
+.wall-sub{font-size:0.72rem;color:var(--muted);letter-spacing:2px;margin-top:10px;}
+.interp-colhead{padding:16px 24px;border-bottom:1px solid var(--border-h);font-size:0.55rem;letter-spacing:4px;text-transform:uppercase;}
+.col-what{color:var(--muted);}
+.col-story{color:var(--amber);text-shadow:0 0 8px var(--amberf);}
+.col-actual{color:var(--muted);opacity:0.7;}
+.scenario-row{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--border);}
+.scenario-row:last-child{border-bottom:none;}
+.sr-cell{padding:22px 24px;font-size:0.72rem;color:var(--muted);line-height:1.7;border-right:1px solid var(--border);}
+.sr-cell:last-child{border-right:none;}
+.sr-cell.story-cell{color:var(--cream);background:rgba(232,160,32,0.025);}
+.sr-cell .scenario-label{display:block;font-size:0.5rem;letter-spacing:3px;color:var(--amber);text-shadow:0 0 6px var(--amberf);margin-bottom:8px;text-transform:uppercase;}
+
+/* Meliorist */
+.meliorist-frame{background:rgba(232,160,32,0.04);border:1px solid var(--border-h);padding:28px 32px;margin:28px 0;position:relative;}
+.meliorist-frame::before{content:'MELIORIST FRAME';position:absolute;top:-8px;left:16px;font-size:0.48rem;letter-spacing:5px;color:var(--amber);background:var(--bg);padding:0 8px;text-shadow:0 0 8px var(--amberf);}
+.mf-text{font-size:0.82rem;color:var(--muted);line-height:1.9;}
+.mf-text p{margin-bottom:16px;}
+.mf-text p:last-child{margin-bottom:0;}
+.mf-text strong{color:var(--cream);}
+
+/* Field work */
+.field-work{background:rgba(200,64,64,0.04);border:1px solid rgba(200,64,64,0.2);padding:24px 28px;margin:28px 0;position:relative;}
+.field-work::before{content:'FIELD WORK';position:absolute;top:-8px;left:16px;font-size:0.48rem;letter-spacing:5px;color:var(--red);background:var(--bg);padding:0 8px;text-shadow:0 0 8px var(--redf);}
+.fw-text{font-size:0.8rem;color:var(--muted);line-height:1.9;}
+.fw-prompt{font-family:'Libre Baskerville',serif;font-style:italic;font-size:0.85rem;color:var(--cream);margin:12px 0;padding-left:16px;border-left:2px solid rgba(200,64,64,0.5);}
+
+/* Bibliography */
+.bib-section{margin-top:20px;}
+.bib-head{font-size:0.55rem;letter-spacing:5px;color:var(--amber);text-shadow:0 0 8px var(--amberf);text-transform:uppercase;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.bib-list{list-style:none;}
+.bib-list li{padding:10px 0;border-bottom:1px solid var(--border);font-size:0.72rem;color:var(--muted);line-height:1.7;padding-left:20px;position:relative;}
+.bib-list li::before{content:'—';position:absolute;left:0;color:var(--amber);text-shadow:0 0 6px var(--amberf);}
+.bib-list li:last-child{border-bottom:none;}
+.bib-list em{color:var(--cream);font-style:italic;}
+.bib-cross{margin-top:28px;}
+.bib-cross-head{font-size:0.52rem;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:14px;}
+.cross-item{padding:8px 0 8px 20px;border-bottom:1px solid var(--border);font-size:0.7rem;color:var(--dim);line-height:1.6;position:relative;}
+.cross-item::before{content:'↳';position:absolute;left:0;color:var(--amber);opacity:0.6;}
+.cross-item:last-child{border-bottom:none;}
+.cross-item em{color:var(--muted);font-style:italic;}
+
+/* Footer */
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:rgba(10,8,6,0.97);border-top:1px solid var(--border-h);display:flex;align-items:center;justify-content:center;gap:22px;font-size:0.6rem;letter-spacing:2.5px;}
+.footer-bar a{color:var(--amber);text-decoration:none;text-shadow:0 0 8px var(--amberf);}
+.footer-bar a:hover{text-shadow:0 0 16px var(--amberf);}
+.footer-sep{color:var(--border-h);}
+
+/* Mobile */
+@media(max-width:768px){
+  #entry{grid-template-columns:1fr;grid-template-rows:auto;align-items:flex-start;overflow-y:auto;}
+  .entry-receiver{padding:32px 24px;border-right:none;border-bottom:1px solid var(--border);padding-bottom:80px;}
+  .entry-visual{display:none;}
+  #main-panel.visible{display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;}
+  .sidebar{flex-direction:row;flex-wrap:wrap;gap:0;padding:12px 16px;border-right:none;border-bottom:1px solid var(--border);overflow-y:visible;overflow-x:auto;}
+  .on-air{padding:8px 12px;margin-bottom:0;border-bottom:none;border-right:1px solid var(--border);}
+  .sb-utc{padding:8px 16px;border-bottom:none;border-right:1px solid var(--border);margin-bottom:0;}
+  .sb-meta{display:none;}
+  .seg-nav{display:none;}
+  .segment,.wall-header{padding:24px 20px;}
+  .scenario-row{grid-template-columns:1fr;}
+  .sr-cell{border-right:none;border-bottom:1px solid var(--border);}
+  .sr-cell:last-child{border-bottom:none;}
+  .tx-header{padding:24px 20px;}
+  .interpreter-grid{display:block;}
+  div[style*="grid-template-columns:1fr 1fr 1fr"]{display:block!important;}
+}
+
+/* ── Signal-OS Enhancement Layer ── */
+.sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
+.sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
+.sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
+.sos-read-dot.seen{opacity:1;}
+
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div class="sb-sep"></div>
+  <div class="sb-label">BROADCAST TRANSCRIPT · WITNESSING · ISSUE 014</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div id="entry">
+  <div class="entry-receiver">
+    <div class="freq-display">
+      <div class="scanline"></div>
+      <div class="freq-station">STATION FREQUENCY</div>
+      <span class="freq-number">88.3 FM</span>
+      <div class="freq-label">MELIORISM2.COM · BROADCASTING LIVE</div>
+      <div class="freq-divider"></div>
+      <div class="freq-sub">TRANSMISSION DATE: MAY 14 · 2026</div>
+    </div>
+
+    <div class="signal-bars">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+
+    <div class="entry-tags">
+      <div class="e-tag highlight">ISSUE 014</div>
+      <div class="e-tag">BROADCAST TRANSCRIPT</div>
+      <div class="e-tag">WITNESSING</div>
+    </div>
+
+    <h1 class="entry-title">THE<br><span>STORY</span><br>TRAP</h1>
+
+    <p class="entry-teaser">
+      Your brain built a story about what happened before the meeting ended.
+      Before the debrief, before the data. The story had a villain.
+      It always does. Narrative bias is not a glitch — it is the operating system.
+      This broadcast is about learning to work with it.
+    </p>
+
+    <button class="entry-btn" onclick="openMain()" aria-label="Tune in to Issue 014">
+      <span class="btn-dot"></span>
+      TUNE IN →
+    </button>
+  </div>
+
+  <div class="entry-visual">
+    <div class="waveform" id="waveform"></div>
+
+    <div class="broadcast-card">
+      <div class="bc-line">
+        <span class="bc-time">00:00</span>
+        <span class="bc-seg">OPENING SIGNAL — The mechanism</span>
+        <span class="bc-live">● LIVE</span>
+      </div>
+      <div class="bc-line">
+        <span class="bc-time">04:15</span>
+        <span class="bc-seg">FIELD DISPATCH — In the room</span>
+      </div>
+      <div class="bc-line">
+        <span class="bc-time">08:30</span>
+        <span class="bc-seg">ETYMOLOGY BREAK — To narrate</span>
+      </div>
+      <div class="bc-line">
+        <span class="bc-time">12:45</span>
+        <span class="bc-seg">RESEARCH BRIEF — The interpreter</span>
+      </div>
+      <div class="bc-line">
+        <span class="bc-time">17:00</span>
+        <span class="bc-seg">WALL: THE STORY MACHINE</span>
+      </div>
+      <div class="bc-line">
+        <span class="bc-time">21:30</span>
+        <span class="bc-seg">MELIORIST FRAME — Steward the story</span>
+      </div>
+      <div class="bc-line">
+        <span class="bc-time">25:00</span>
+        <span class="bc-seg">CLOSING CREDITS + BIBLIOGRAPHY</span>
+      </div>
+    </div>
+
+    <p class="broadcast-quote">
+      "The narrative fallacy addresses our limited ability to look at sequences of facts
+      without weaving an explanation into them."
+      <span>— Nassim Nicholas Taleb, The Black Swan</span>
+    </p>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div id="main-panel">
+  <div class="sidebar">
+    <div class="on-air">
+      <div class="on-air-dot"></div>
+      <div class="on-air-text">ON AIR</div>
+    </div>
+    <div class="sb-utc">
+      <div class="utc-label">UTC TIME</div>
+      <div class="utc-time" id="sb-utc-time">--:--:--</div>
+    </div>
+    <div class="sb-meta">
+      <div class="meta-block">
+        <div class="meta-label">Frequency</div>
+        <div class="meta-value amber">88.3 FM</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Issue</div>
+        <div class="meta-value">014 · May 14, 2026</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Format</div>
+        <div class="meta-value">Broadcast Transcript</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Dimension</div>
+        <div class="meta-value">Witnessing Authentic Humanity</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Sources</div>
+        <div class="meta-value">8 cited</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Runtime</div>
+        <div class="meta-value">~25 min deep read<br>~90 sec skim path</div>
+      </div>
+    </div>
+    <div class="seg-nav">
+      <div class="seg-nav-item active" onclick="scrollToSeg('seg-01',this)"><span class="seg-time">00:00</span> Opening Signal</div>
+      <div class="seg-nav-item" onclick="scrollToSeg('seg-02',this)"><span class="seg-time">04:15</span> Field Dispatch</div>
+      <div class="seg-nav-item" onclick="scrollToSeg('seg-03',this)"><span class="seg-time">08:30</span> Etymology Break</div>
+      <div class="seg-nav-item" onclick="scrollToSeg('seg-04',this)"><span class="seg-time">12:45</span> Research Brief</div>
+      <div class="seg-nav-item" onclick="scrollToSeg('seg-05',this)"><span class="seg-time">17:00</span> Wall Moment</div>
+      <div class="seg-nav-item" onclick="scrollToSeg('seg-06',this)"><span class="seg-time">21:30</span> Meliorist Frame</div>
+      <div class="seg-nav-item" onclick="scrollToSeg('seg-07',this)"><span class="seg-time">25:00</span> Closing Credits</div>
+    </div>
+  </div>
+
+  <div class="content-area" id="content-area">
+
+    <div class="tx-header">
+      <div class="tx-issue">MELIORISM2.COM · ISSUE 014 · BROADCAST TRANSCRIPT</div>
+      <h2 class="tx-title">The Story Trap</h2>
+      <p class="tx-subtitle">Narrative bias makes humans compress sequential experience into causal stories — complete with heroes, villains, and inevitable conclusions — even when reality has none. Practitioners who understand this mechanism stop fighting the story and start working with it as the primary intervention site.</p>
+      <div class="tx-broadcast-tag">
+        <span>88.3 FM · MELIORISM2.COM</span>
+        <span style="color:var(--border-h);margin:0 8px;">·</span>
+        <span>BROADCASTING LIVE · MAY 14, 2026</span>
+      </div>
+    </div>
+
+    <!-- SEGMENT 01 -->
+    <div class="segment" id="seg-01" data-section="seg-01-opening-signal">
+      <div class="seg-header">
+        <span class="seg-stamp">[00:00]</span>
+        <span class="seg-title">SEGMENT 01 — OPENING SIGNAL</span>
+        <div class="seg-divider"></div>
+      </div>
+      <div class="tx-body">
+        <p>Something happened. Then something else happened. Then something else. Your brain did not experience this as a sequence of events. Your brain experienced this as a story — with a beginning, a cause, a villain, a lesson, and an arc bending toward the conclusion it already expected.</p>
+        <p>This is narrative bias: the cognitive tendency to compress sequential, often random or multi-causal events into a single explanatory story. It is not a failure mode. It is the brain operating exactly as designed. The problem is not that we tell stories. The problem is that we mistake our stories for descriptions of what actually happened.</p>
+        <div class="pull-quote">"The narrative fallacy addresses our limited ability to look at sequences of facts without weaving an explanation into them — and, to borrow from Tolstoy, all explanations are simplifications, but some simplifications are more dangerous than others."</div>
+        <span class="cite"><span class="cite-source">Daniel Kahneman, <em>Thinking, Fast and Slow</em> (2011), Farrar, Straus and Giroux — Chapter 19: "The Illusion of Understanding."</span> Kahneman describes the narrative fallacy — our compulsion to construct causal stories from sequences of events — as one of the most pervasive and least-recognized cognitive biases. The stories feel like memory but function as theory.</span>
+        <p>Jerome Bruner made the foundational distinction that most cognitive science has since built upon: human thinking operates in two fundamentally different modes. <em>Paradigmatic</em> thinking is logical, analytical, and concerned with truth conditions — the mode of scientists and arguments. <em>Narrative</em> thinking is temporal, causal, and concerned with human intention — the mode of witnesses, litigants, and gossips. Most of the waking day runs on narrative mode. It is faster, richer, and more emotionally legible. It is also more likely to be wrong about causes.</p>
+        <span class="cite"><span class="cite-source">Jerome Bruner, <em>Actual Minds, Possible Worlds</em> (1986), Harvard University Press.</span> Bruner's paradigmatic/narrative distinction remains one of the most generative frameworks in cognitive and educational psychology. Narrative mode is not inferior to paradigmatic mode — it simply has different failure modes. Practitioners need fluency in both.</span>
+        <p>Nassim Taleb gave the bias its sharpest label: the "narrative fallacy" — the tendency to construct, post-hoc, a story that makes the past seem inevitable. After the event, we feel we "knew it would happen." Before the event, we had no such certainty. The story retroactively eliminates all the roads not taken. It presents the one path that was followed as the only path that could have been.</p>
+        <span class="cite"><span class="cite-source">Nassim Nicholas Taleb, <em>The Black Swan: The Impact of the Highly Improbable</em> (2007), Random House — Chapter 6: "The Narrative Fallacy."</span> Taleb argues that humans are not simply story-lovers; we are story-compelled. The past, re-experienced through narrative, becomes not just comprehensible but inevitable — which makes us systematically poor at predicting futures that do not fit our current story.</span>
+      </div>
+    </div>
+
+    <!-- SEGMENT 02 -->
+    <div class="segment" id="seg-02" data-section="seg-02-field-dispatch">
+      <div class="seg-header">
+        <span class="seg-stamp">[04:15]</span>
+        <span class="seg-title">SEGMENT 02 — FIELD DISPATCH</span>
+        <div class="seg-divider"></div>
+      </div>
+      <div class="tx-body">
+        <p>A trainer enters a team debrief three minutes after a difficult product launch. Someone missed a deadline. The team is in the room. By minute three of open discussion, there is a villain. This is not because the team is unsophisticated. It is because the brain, under social pressure, produces a story faster than the facts can arrive.</p>
+        <p>The facilitator has a choice — but it is not the choice most facilitators think they have. The choice is not: <em>do I accept the story or challenge it?</em> The choice is: <em>do I work inside the story, or do I work on the story?</em> Working inside the story means accepting its terms and helping the group navigate toward a better ending. Working on the story means helping the group recognize that they are inside a story and that other stories are available.</p>
+        <div class="pull-quote">"What really happened" is often less therapeutically useful than "what story are you in?" — because behavior follows the story, not the facts.</div>
+        <p>Roger Schank's script theory explains why this is so. Schank proposed that humans process new experiences by pattern-matching them against stored "scripts" — cognitive schemas built from prior experience. When you enter a restaurant, you don't reconstruct from first principles what happens next. You run the restaurant script. When a team encounters a conflict, they don't analyze the situation fresh. They run whatever conflict script their history has installed. The script determines what they notice, what they explain, and what they do next.</p>
+        <span class="cite"><span class="cite-source">Roger Schank &amp; Robert Abelson, <em>Scripts, Plans, Goals and Understanding</em> (1977), Lawrence Erlbaum Associates.</span> Schank's script theory was originally developed for AI natural language processing but became foundational in cognitive psychology. Scripts are not neutral — they encode social expectations, role assignments, and causal structures. "Understanding" an event means fitting it to a script, not reconstructing it from data.</span>
+        <p>The practitioner implication is direct: if you try to correct the facts, you are competing with the script. The script has been running longer and is embedded in identity. Change the story's cast or shift the script entirely, and the facts become interpretable in a different way. This is not manipulation — it is narrative literacy. Understanding the story is the precondition for working with what is actually there.</p>
+      </div>
+    </div>
+
+    <!-- SEGMENT 03 -->
+    <div class="segment" id="seg-03" data-section="seg-03-etymology">
+      <div class="seg-header">
+        <span class="seg-stamp">[08:30]</span>
+        <span class="seg-title">SEGMENT 03 — ETYMOLOGY BREAK</span>
+        <div class="seg-divider"></div>
+      </div>
+      <div class="tx-body">
+        <div class="etym-block">
+          <div class="etym-chain"><em>narrative</em> ← Latin <em>narrare</em> (to tell, to recount) ← Latin <em>gnarus</em> (knowing, acquainted with) ← Proto-Indo-European <em>gno-</em> (to know)</div>
+          <div class="etym-note">The same root gives us <em>know</em>, <em>cognition</em>, <em>recognize</em>, <em>diagnose</em>, and <em>ignore</em> (literally: to not-know). To narrate is etymologically an epistemological act — not describing what happened, but asserting that you know what happened. Every story is a knowledge claim wearing a plot's clothing.</div>
+        </div>
+        <p>This etymology matters for practitioners. When a client says "here's what happened," they are not offering a transcript. They are offering a theory. The narrative grammar — sequence, causation, intention, outcome — is not the grammar of events. It is the grammar of <em>knowing</em>. Hearing it as a knowledge claim, rather than a report, changes what you listen for and what you ask.</p>
+        <div class="place-block">
+          <div class="place-label">Place Element · The Winter Count</div>
+          <div class="place-text">The Lakota Winter Count (<em>waníyetu wówapi</em>) is a form of historiography maintained by designated tribal historians — <em>wičháša wówapi</em> — who recorded each year as a single image painted on buffalo hide. Each year is named after the one event judged most significant: "The Year the Stars Fell" (the 1833 Leonid meteor shower). "The Year Many Died of Smallpox." Each image is a story compressed to its essential kernel, chosen by a human being exercising discernment about what mattered.<br><br>What Meliorism2.com is building — one issue per day, each named for a mechanism — is a modern winter count. Not every event, but the ones worth the name. The compression is not loss of information; it is editorial judgment. The Lakota tradition understood that the archive's job is not to record everything but to choose what future generations need to know.<br><br><span style="font-size:0.68rem;color:var(--dim);">Source: Candace Greene &amp; Russell Thornton (eds.), <em>The Year the Stars Fell: Lakota Winter Counts at the Smithsonian</em> (2007), Smithsonian Institution Press.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEGMENT 04 -->
+    <div class="segment" id="seg-04" data-section="seg-04-research-brief">
+      <div class="seg-header">
+        <span class="seg-stamp">[12:45]</span>
+        <span class="seg-title">SEGMENT 04 — THE RESEARCH BRIEF</span>
+        <div class="seg-divider"></div>
+      </div>
+      <div class="tx-body">
+        <p>Narrative bias does not operate in isolation. It is entangled with several other well-documented cognitive mechanisms that practitioners encounter daily. Understanding the cluster — not just the headline — is what makes intervention precise rather than blunt.</p>
+        <p>First: the <strong>availability heuristic</strong>. Amos Tversky and Daniel Kahneman demonstrated that humans judge the frequency and probability of events by how easily examples come to mind — not by how often they actually occur. What makes examples come to mind most easily? Stories. A dramatic story about a single failure makes that failure feel more common than a statistical table showing it is rare. Narrative bias and availability heuristic are mutually reinforcing: stories make events available; availability makes stories feel true.</p>
+        <span class="cite"><span class="cite-source">Amos Tversky &amp; Daniel Kahneman, "Availability: A heuristic for judging frequency and probability," <em>Cognitive Psychology</em> 5(2), 1973, pp. 207–232.</span> The canonical paper on availability heuristic. The study showed that people systematically overestimate the frequency of memorable events (plane crashes, murders, floods) and underestimate the frequency of statistically common but narratively dull ones (diabetes, heart disease, farm accidents). The story is the amplifier.</span>
+        <p>Second — and more unsettling for practitioners who believe in transparent self-knowledge — the <strong>interpreter effect</strong>. Neuroscientist Michael Gazzaniga's decades of split-brain research revealed that the left hemisphere of the human brain is a confabulation engine. In patients whose corpus callosum had been severed (splitting left and right brain communication), the left hemisphere would routinely generate confident, plausible explanations for behaviors initiated by the right hemisphere — behaviors the left hemisphere had literally no access to.</p>
+        <div class="pull-quote">The brain generates explanatory stories for behavior even when it has no access to the actual cause. Gazzaniga called this system "the interpreter." It is always on. It never acknowledges uncertainty.</div>
+        <span class="cite"><span class="cite-source">Michael Gazzaniga, <em>The Social Brain: Discovering the Networks of the Mind</em> (1985), Basic Books. See also: Gazzaniga, <em>Who's in Charge? Free Will and the Science of the Brain</em> (2011) for the updated synthesis.</span> The interpreter is not a pathology of split-brain patients. It is the normal operating mode of the human left hemisphere. We all confabulate explanations for our behavior. The explanations feel like memory. They are often not memory at all — they are real-time story generation.</span>
+        <p>The practitioner conclusion from Gazzaniga is not comfortable: when a client explains why they did something, the explanation is not necessarily what caused the behavior. It is the interpreter's best current story. This does not make the explanation worthless — it makes it a diagnostic. What story is the interpreter running? What would have to be true for that story to be the one the interpreter tells? That is your entry point.</p>
+      </div>
+    </div>
+
+    <!-- SEGMENT 05 — WALL MOMENT -->
+    <div class="wall-moment" id="seg-05" data-section="seg-05-wall-moment">
+      <div class="wall-header">
+        <div class="seg-stamp" style="margin-bottom:12px;">[17:00]</div>
+        <div class="wall-headline">THE INTERPRETER<br>IS ALWAYS ON</div>
+        <div class="wall-sub">THREE PRACTITIONER SCENARIOS · WHAT HAPPENED vs. WHAT WE TOLD OURSELVES vs. WHAT WAS ACTUALLY TRUE</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--border-h);">
+        <div class="interp-colhead col-what" style="border-right:1px solid var(--border);">WHAT HAPPENED</div>
+        <div class="interp-colhead col-story" style="border-right:1px solid var(--border);">WHAT WE TOLD OURSELVES</div>
+        <div class="interp-colhead col-actual">WHAT WAS ACTUALLY TRUE</div>
+      </div>
+
+      <div class="scenario-row">
+        <div class="sr-cell">
+          <span class="scenario-label">Scenario A · Team Silence</span>
+          A manager presents a new process to their team. The room is quiet. Two people look at their phones. No one asks questions. Meeting ends in 12 minutes.
+        </div>
+        <div class="sr-cell story-cell">
+          "They don't respect the work. They've already decided this won't work. The two on their phones are the resistors — I need to address them directly. This team is disengaged and probably burned out."
+        </div>
+        <div class="sr-cell">
+          The process was presented at 4:47 PM on a Friday. One person on their phone was reading the document the manager had just referenced. The quiet was processing, not rejection. Three team members emailed follow-up questions within the hour.
+        </div>
+      </div>
+
+      <div class="scenario-row">
+        <div class="sr-cell">
+          <span class="scenario-label">Scenario B · Client Pushback</span>
+          A coach proposes a reframe to a client. The client says, "I'm not sure that fits." Pauses. Changes the subject.
+        </div>
+        <div class="sr-cell story-cell">
+          "They're resistant. They're not ready to do the real work. This is the third time they've deflected. They may not be coachable. I'm not reaching them."
+        </div>
+        <div class="sr-cell">
+          The client was actively processing. The subject change was how they think — they needed to come at it sideways. They returned to the reframe at their next session and named it as the most useful thing from the previous month.
+        </div>
+      </div>
+
+      <div class="scenario-row">
+        <div class="sr-cell">
+          <span class="scenario-label">Scenario C · Training Feedback</span>
+          A facilitator runs a two-day leadership workshop. Post-survey average: 3.8 out of 5. Two participants wrote critical comments.
+        </div>
+        <div class="sr-cell story-cell">
+          "The content wasn't right for this audience. They weren't ready for this level of challenge. My approach doesn't work for this industry."
+        </div>
+        <div class="sr-cell">
+          The two critical participants had attended under administrative requirement, not choice. The 3.8 average included six 5s. Two participants applied the frameworks within 30 days in documented team interventions. The content worked; the context needed attention.
+        </div>
+      </div>
+
+      <div style="padding:28px 48px;background:rgba(232,160,32,0.03);border-top:1px solid var(--border);">
+        <div class="tx-body">
+          <p>In each scenario, the story arrived before the facts were in. In each scenario, the story had a villain. In each scenario, the practitioner's next action would have been shaped by the story — not by what was actually happening. Gazzaniga's interpreter generates these stories in under three seconds. The question is not how to stop it. The question is how to hold it lightly enough to let more data arrive.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEGMENT 06 -->
+    <div class="segment" id="seg-06" data-section="seg-06-meliorist-frame">
+      <div class="seg-header">
+        <span class="seg-stamp">[21:30]</span>
+        <span class="seg-title">SEGMENT 06 — MELIORIST FRAME</span>
+        <div class="seg-divider"></div>
+      </div>
+      <div class="tx-body">
+        <div class="meliorist-frame">
+          <div class="mf-text">
+            <p>Kegan &amp; Lahey's immunity to change framework adds a layer beneath the cognitive story that most practitioners miss. The story we keep telling — the one that keeps recurring across debriefs, sessions, and years — is not merely a cognitive shortcut. It is often an identity protection.</p>
+            <p><strong>The competing commitment behind narrative bias is frequently self-concept.</strong> "My team doesn't listen" protects a practitioner from the harder story: "I haven't yet learned to be heard." "My clients aren't ready" protects against the possibility: "My approach needs revision." The story with a villain outside yourself is a load-bearing wall in an identity architecture that has worked — until now.</p>
+            <p>Kegan &amp; Lahey's methodology does not challenge the story directly. It asks: <em>what would be true about you if you let go of this story?</em> What assumption would be exposed? What competing commitment would be threatened? This is where the real immunity lives — not in the narrative content, but in the identity stake underneath it.</p>
+          </div>
+        </div>
+        <span class="cite"><span class="cite-source">Robert Kegan &amp; Lisa Laskow Lahey, <em>Immunity to Change: How to Overcome It and Unlock the Potential in Yourself and Your Organization</em> (2009), Harvard Business Review Press.</span> Kegan and Lahey's four-column map — commitment, competing commitment, big assumption, and immune behavior — is one of the most clinically validated change frameworks in organizational psychology. The narrative a person tells about why change is not possible is a diagnostic of the big assumption underneath it.</span>
+        <p><strong>Meliorism 2.0 application:</strong> Working with narrative bias is not about debunking stories — debunking rarely works and usually generates resistance. It is about expanding the story library.</p>
+        <p>Constructive stewardship means stewarding the story, not just the facts. Ask: who else could be cast as a protagonist in this account? What timescale, if added, would change the arc? What would the story look like if you wrote yourself as the learner rather than the wronged party?</p>
+        <p>This is not reframing in the therapeutic-jargon sense. It is story expansion — taking a narrative that has contracted around a single cause and single villain, and returning it to the full complexity that was always there. The goal is not a better story. The goal is a more spacious one.</p>
+      </div>
+    </div>
+
+    <!-- SEGMENT 07 -->
+    <div class="segment" id="seg-07" data-section="seg-07-closing-credits">
+      <div class="seg-header">
+        <span class="seg-stamp">[25:00]</span>
+        <span class="seg-title">SEGMENT 07 — CLOSING CREDITS + BIBLIOGRAPHY</span>
+        <div class="seg-divider"></div>
+      </div>
+      <div class="tx-body">
+
+        <div class="field-work">
+          <div class="fw-text">
+            <p>Before your next debrief, team review, or client session, run this three-question check:</p>
+            <div class="fw-prompt">What story am I already in before this conversation begins?</div>
+            <div class="fw-prompt">Who is the villain in my current interpretation?</div>
+            <div class="fw-prompt">What would change — about my role, my actions, my possibilities — if I cast myself as the learner instead?</div>
+            <p style="margin-top:14px;">You do not need to share this check with anyone. Its value is in the pause between generating the story and acting on it. That pause is where professional judgment lives.</p>
+          </div>
+        </div>
+
+        <div class="bib-section">
+          <div class="bib-head">SOURCES CITED IN THIS BROADCAST</div>
+          <ul class="bib-list">
+            <li>Daniel Kahneman, <em>Thinking, Fast and Slow</em> (2011). Farrar, Straus and Giroux. Chapter 19: "The Illusion of Understanding." Primary source on narrative fallacy and the construction of causal stories from sequential events.</li>
+            <li>Jerome Bruner, <em>Actual Minds, Possible Worlds</em> (1986). Harvard University Press. Foundational text on paradigmatic vs. narrative modes of thought. The clearest account of why narrative thinking has its own logic.</li>
+            <li>Nassim Nicholas Taleb, <em>The Black Swan: The Impact of the Highly Improbable</em> (2007). Random House. Chapter 6 on the narrative fallacy; Chapter 8 on Ludic Fallacy and the epistemology of uncertainty.</li>
+            <li>Roger Schank &amp; Robert Abelson, <em>Scripts, Plans, Goals and Understanding</em> (1977). Lawrence Erlbaum. The foundational account of script theory and how stored narrative templates structure new experience.</li>
+            <li>Amos Tversky &amp; Daniel Kahneman, "Availability: A heuristic for judging frequency and probability," <em>Cognitive Psychology</em> 5(2), 1973, pp. 207–232. The canonical paper demonstrating availability heuristic and its interaction with narrative salience.</li>
+            <li>Michael Gazzaniga, <em>The Social Brain: Discovering the Networks of the Mind</em> (1985). Basic Books. Split-brain research establishing the left hemisphere "interpreter" — the confabulation engine that generates explanatory stories for behavior even without causal access.</li>
+            <li>Robert Kegan &amp; Lisa Laskow Lahey, <em>Immunity to Change</em> (2009). Harvard Business Review Press. The four-column map for identifying competing commitments and the big assumptions that stories protect.</li>
+            <li>Candace Greene &amp; Russell Thornton (eds.), <em>The Year the Stars Fell: Lakota Winter Counts at the Smithsonian</em> (2007). Smithsonian Institution Press. An authoritative account of Lakota historiographic practice and the epistemology of compressed narrative records.</li>
+          </ul>
+
+          <div class="bib-cross">
+            <div class="bib-cross-head">CROSS-DOMAIN FURTHER READING</div>
+            <div class="cross-item">Robert McKee, <em>Story: Substance, Structure, Style, and the Principles of Screenwriting</em> (1997). ReganBooks. — The practitioner's guide to story structure from a craft perspective. Understanding how stories are built is the prerequisite for understanding how to unbuild them.</div>
+            <div class="cross-item">Jonathan Gottschall, <em>The Storytelling Animal: How Stories Make Us Human</em> (2012). Houghton Mifflin Harcourt. — Evolutionary psychology of narrative. Why humans are the story-telling species, what it costs us, and why it was worth it.</div>
+            <div class="cross-item">Karl Weick, <em>Sensemaking in Organizations</em> (1995). Sage Publications. — Organizational theory of how collective stories are built and how they determine collective action. The management science companion to the cognitive science covered in this broadcast.</div>
+          </div>
+        </div>
+
+        <div style="margin-top:40px;padding:20px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <div style="font-size:0.55rem;letter-spacing:4px;color:var(--dim);text-transform:uppercase;">88.3 FM · MELIORISM2.COM · END OF BROADCAST · ISSUE 014 · MAY 14, 2026</div>
+          <div style="font-size:0.55rem;letter-spacing:3px;color:var(--dim);">NEXT TRANSMISSION: <span style="color:var(--amber);text-shadow:0 0 8px var(--amberf);">ISSUE 015</span></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--amber);text-shadow:0 0 8px var(--amberf);">014 · THE STORY TRAP ← CURRENT</span>
+</div>
+
+<script>
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()].map(v=>String(v).padStart(2,'0')).join(':');
+  const e1=document.getElementById('clk');
+  const e2=document.getElementById('sb-utc-time');
+  if(e1)e1.textContent='UTC '+t;
+  if(e2)e2.textContent=t;
+}
+tick();setInterval(tick,1000);
+
+(function buildWaveform(){
+  const wf=document.getElementById('waveform');
+  if(!wf)return;
+  for(let i=0;i<48;i++){
+    const b=document.createElement('div');
+    b.className='wave-bar';
+    const h=Math.floor(20+Math.random()*80);
+    const dur=(0.5+Math.random()*1.2).toFixed(2);
+    const delay=(Math.random()*1.5).toFixed(2);
+    b.style.cssText='height:'+h+'px;--wdur:'+dur+'s;--wdelay:'+delay+'s;';
+    wf.appendChild(b);
+  }
+})();
+
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+  entry.classList.add('hidden');
+  track('enter','entry_screen');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='grid';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },900);
+}
+
+function scrollToSeg(id,el){
+  const target=document.getElementById(id);
+  if(target){
+    const area=document.getElementById('content-area');
+    if(area)area.scrollTo({top:target.offsetTop-20,behavior:'smooth'});
+  }
+  document.querySelectorAll('.seg-nav-item').forEach(item=>item.classList.remove('active'));
+  if(el)el.classList.add('active');
+  track('nav',id);
+}
+
+function track(event,label,extra){
+  console.log('[signal-os]',event,label,extra||'');
+}
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      track('view',e.target.dataset.section||e.target.id||'unknown');
+      observer.unobserve(e.target);
+      const id=e.target.id;
+      if(id){
+        const match=document.querySelector('.seg-nav-item[onclick*="\''+id+'\'"]');
+        if(match){
+          document.querySelectorAll('.seg-nav-item').forEach(i=>i.classList.remove('active'));
+          match.classList.add('active');
+        }
+      }
+    }
+  });
+},{threshold:0.25,root:document.getElementById('content-area')});
+
+const panelEl=document.getElementById('main-panel');
+if(panelEl){
+  const mo=new MutationObserver(()=>{
+    document.querySelectorAll('[data-section]').forEach(el=>observer.observe(el));
+  });
+  mo.observe(panelEl,{attributeFilter:['class']});
+}
+
+document.querySelectorAll('.footer-bar a').forEach(a=>{
+  a.addEventListener('click',()=>track('click','library_link'));
+});
+</script>
+<script>
+// ── Signal-OS Enhancement Layer ──
+(function(){
+  const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
+  const KEY = 'sos-progress-' + SLUG;
+
+  // ── Progress tracking ──
+  function getProgress(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function markSeen(id){const p=getProgress();p[id]=Date.now();localStorage.setItem(KEY,JSON.stringify(p));updateProgressDisplay();}
+  function updateProgressDisplay(){
+    const p=getProgress();
+    const total=document.querySelectorAll('[data-sos-section]').length;
+    const seen=Object.keys(p).length;
+    const pct=total?Math.round(seen/total*100):0;
+    const el=document.getElementById('sos-prog-txt');
+    if(el)el.textContent=total?`READ ${seen}/${total} · ${pct}%`:'TRACKING ON';
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      const dot=el.querySelector('.sos-read-dot');
+      if(dot&&p[el.dataset.sosSection])dot.classList.add('seen');
+    });
+  }
+
+  // Tag visible sections with tracking
+  function tagSections(){
+    const candidates=document.querySelectorAll('h2,h3,.file-card,.station,.panel,.section,article,section');
+    candidates.forEach(function(el,i){
+      if(!el.dataset.sosSection){
+        el.dataset.sosSection='s'+i;
+        // Add read dot
+        const dot=document.createElement('span');
+        dot.className='sos-read-dot';
+        el.appendChild(dot);
+      }
+    });
+    // IntersectionObserver for auto-mark
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4)markSeen(e.target.dataset.sosSection);});
+      },{threshold:0.4});
+      document.querySelectorAll('[data-sos-section]').forEach(function(el){io.observe(el);});
+    }
+    // Click tracking
+    document.querySelectorAll('[data-sos-section]').forEach(function(el){
+      el.addEventListener('click',function(){markSeen(el.dataset.sosSection);},true);
+    });
+  }
+
+  // ── Web Speech API ──
+  let speaking=false;let utterance=null;
+  function toggleListen(){
+    const btn=document.getElementById('sos-listen-btn');
+    if(speaking){
+      window.speechSynthesis.cancel();speaking=false;
+      if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}
+      return;
+    }
+    const text=document.body.innerText.replace(/\s+/g,' ').slice(0,8000);
+    utterance=new SpeechSynthesisUtterance(text);
+    utterance.rate=0.92;utterance.pitch=1.0;
+    utterance.onend=function(){speaking=false;if(btn){btn.textContent='▶ LISTEN';btn.classList.remove('active');}};
+    window.speechSynthesis.speak(utterance);
+    speaking=true;
+    if(btn){btn.textContent='■ STOP';btn.classList.add('active');}
+  }
+
+  // ── Build toolbar ──
+  function buildToolbar(){
+    const bar=document.createElement('div');bar.className='sos-toolbar';
+    bar.innerHTML=`
+      <a class="sos-lib" href="/archive/index.html">← LIBRARY</a>
+      <div class="sos-progress" id="sos-prog-txt">TRACKING</div>
+      <button class="sos-btn" id="sos-listen-btn" onclick="window._sosToggleListen()">▶ LISTEN</button>
+    `;
+    document.body.appendChild(bar);
+    window._sosToggleListen=toggleListen;
+  }
+
+  // ── Init ──
+  function init(){buildToolbar();tagSections();updateProgressDisplay();}
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>
