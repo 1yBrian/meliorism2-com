@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meliorism2.com — Daily Briefings for Practitioners</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream: #faf8f5;
+      --surface: #f0ebe5;
+      --accent: #8b6f47;
+      --accent-dark: #6b5235;
+      --text: #1e1e1e;
+      --text-muted: #5a5550;
+      --dark-bg: #1a1714;
+      --dark-surface: #252118;
+
+      --dim-witnessing: #c8a87a;
+      --dim-brave: #5a4a8b;
+      --dim-income: #3a6b4a;
+      --dim-presence: #2a4a6b;
+      --dim-gender: #8b5a3a;
+    }
+
+    html {
+      font-size: 18px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Crimson Text', Georgia, serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.7;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: var(--dark-bg);
+      color: #e8e0d5;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 10px 24px;
+      line-height: 1.5;
+    }
+
+    /* ── STICKY NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--cream);
+      border-bottom: 1px solid #d8cfc4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: calc(100vh - 100px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid #d8cfc4;
+    }
+
+    .hero-left {
+      padding: 96px 64px 96px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid #d8cfc4;
+      background: var(--surface);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero-question {
+      font-family: 'Crimson Text', serif;
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 48px;
+    }
+
+    .hero-question em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: #faf8f5;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 16px 36px;
+      transition: background 0.2s, transform 0.15s;
+      align-self: flex-start;
+    }
+
+    .hero-cta:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+    }
+
+    .hero-right {
+      padding: 96px 80px 96px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+    }
+
+    .hero-description {
+      font-size: 1.25rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+
+    .hero-meta {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+    }
+
+    .hero-meta span {
+      display: block;
+    }
+
+    /* ── PHILOSOPHY STRIP ── */
+    .philosophy {
+      background: var(--dark-bg);
+      color: #e8e0d5;
+      padding: 96px 80px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .philosophy-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-top: 6px;
+    }
+
+    .philosophy-text {
+      font-size: 1.3rem;
+      line-height: 1.85;
+      color: #e8e0d5;
+      font-style: italic;
+    }
+
+    /* ── FEATURED ISSUE ── */
+    .featured {
+      padding: 96px 80px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 64px;
+      align-items: start;
+      border-bottom: 1px solid #d8cfc4;
+    }
+
+    .featured-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding-top: 6px;
+    }
+
+    .featured-card {
+      background: var(--surface);
+      border-left: 4px solid var(--dim-witnessing);
+      padding: 40px 48px;
+      max-width: 720px;
+    }
+
+    .featured-meta {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .featured-meta .sep {
+      color: #c0b8b0;
+    }
+
+    .featured-dimension {
+      color: var(--dim-witnessing);
+    }
+
+    .featured-title {
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .featured-concept {
+      font-size: 1.1rem;
+      font-style: italic;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .featured-link {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+
+    .featured-link:hover {
+      color: var(--accent-dark);
+    }
+
+    /* ── WHAT IT IS — 4-PANEL GRID ── */
+    .what-section {
+      padding: 0;
+      border-bottom: 1px solid #d8cfc4;
+    }
+
+    .what-header {
+      padding: 64px 80px 48px;
+      border-bottom: 1px solid #d8cfc4;
+    }
+
+    .what-header-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .what-header-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .what-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .what-panel {
+      padding: 56px 40px;
+      border-right: 1px solid #d8cfc4;
+      position: relative;
+    }
+
+    .what-panel:last-child {
+      border-right: none;
+    }
+
+    .what-panel:nth-child(1) {
+      background: var(--cream);
+    }
+
+    .what-panel:nth-child(2) {
+      background: var(--surface);
+    }
+
+    .what-panel:nth-child(3) {
+      background: #e8e2d8;
+    }
+
+    .what-panel:nth-child(4) {
+      background: var(--dark-surface);
+      color: #e8e0d5;
+    }
+
+    .what-panel-number {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .what-panel:nth-child(4) .what-panel-number {
+      color: #c8a87a;
+    }
+
+    .what-panel-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+
+    .what-panel:nth-child(4) .what-panel-title {
+      color: #e8e0d5;
+    }
+
+    .what-panel-body {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+
+    .what-panel:nth-child(4) .what-panel-body {
+      color: #b8afa8;
+    }
+
+    /* ── FOUNDING STRIP ── */
+    .founding {
+      background: var(--accent);
+      padding: 80px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .founding-left {}
+
+    .founding-eyebrow {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 16px;
+    }
+
+    .founding-headline {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .founding-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.7;
+    }
+
+    .founding-cta {
+      display: inline-block;
+      background: #fff;
+      color: var(--accent);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 18px 40px;
+      white-space: nowrap;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .founding-cta:hover {
+      background: #f0ebe5;
+      transform: translateY(-1px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark-bg);
+      color: #8a8070;
+      padding: 48px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-logo {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c8bfb5;
+    }
+
+    .footer-meta {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-align: right;
+      line-height: 1.8;
+    }
+
+    .footer-meta a {
+      color: #8a8070;
+      text-decoration: none;
+    }
+
+    .footer-meta a:hover {
+      color: var(--accent);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .what-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .what-panel:nth-child(2) {
+        border-right: none;
+      }
+      .what-panel:nth-child(3) {
+        border-right: 1px solid #d8cfc4;
+      }
+      .what-panel:nth-child(4) {
+        border-right: none;
+      }
+      .what-panel:nth-child(1),
+      .what-panel:nth-child(2) {
+        border-bottom: 1px solid #d8cfc4;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .nav {
+        padding: 0 24px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-left {
+        padding: 64px 32px;
+        border-right: none;
+        border-bottom: 1px solid #d8cfc4;
+      }
+
+      .hero-right {
+        padding: 64px 32px;
+      }
+
+      .hero-question {
+        font-size: 2.4rem;
+      }
+
+      .philosophy {
+        grid-template-columns: 1fr;
+        padding: 64px 32px;
+        gap: 24px;
+      }
+
+      .featured {
+        grid-template-columns: 1fr;
+        padding: 64px 32px;
+        gap: 24px;
+      }
+
+      .what-header {
+        padding: 48px 32px 32px;
+      }
+
+      .what-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .what-panel {
+        border-right: none;
+        border-bottom: 1px solid #d8cfc4;
+        padding: 40px 32px;
+      }
+
+      .what-panel:last-child {
+        border-bottom: none;
+      }
+
+      .founding {
+        grid-template-columns: 1fr;
+        padding: 64px 32px;
+        gap: 40px;
+      }
+
+      footer {
+        padding: 40px 32px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-meta {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        gap: 20px;
+      }
+
+      .hero-left {
+        padding: 48px 24px;
+      }
+
+      .hero-right {
+        padding: 48px 24px;
+      }
+
+      .hero-question {
+        font-size: 2rem;
+      }
+
+      .featured-card {
+        padding: 28px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announcement-bar">
+    Signal-OS is now Meliorism2.com — same publication, clearer home.
+  </div>
+
+  <!-- STICKY NAV -->
+  <nav class="nav">
+    <a href="/" class="nav-logo">Meliorism2.com</a>
+    <ul class="nav-links">
+      <li><a href="/archive/">Library</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#founding">Founding</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Daily briefings for practitioners</div>
+      <h1 class="hero-question">
+        What is getting in your<br>
+        <em>clients' way?</em>
+      </h1>
+      <a href="/archive/" class="hero-cta">Enter the Library</a>
+    </div>
+    <div class="hero-right">
+      <div class="hero-label">What Meliorism2.com is</div>
+      <p class="hero-description">
+        A practitioner media publication for trainers, coaches, and educators.
+        Each issue names one specific obstacle — not a concept, not a theory — the
+        actual mechanism getting in your clients' way right now. Then gives you
+        language to reach for in the room.
+      </p>
+      <div class="hero-meta">
+        <span>Published daily</span>
+        <span>Research-grounded</span>
+        <span>Research-cited. Practitioner-written.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY STRIP -->
+  <section class="philosophy">
+    <div class="philosophy-label">The operating premise</div>
+    <p class="philosophy-text">
+      Meliorism 2.0 holds that the better version of a person, a group, or a practice
+      is already present — concealed by friction, circumstance, and habit. Each issue
+      names one specific thing getting in your clients' way. Traces its mechanism.
+      Gives you language to reach for in the room — today, if you need it.
+    </p>
+  </section>
+
+  <!-- FEATURED ISSUE -->
+  <section class="featured">
+    <div class="featured-label">Latest issue</div>
+    <div class="featured-card">
+      <div class="featured-meta">
+        <span>Issue 023</span>
+        <span class="sep">·</span>
+        <span>May 23, 2026</span>
+        <span class="sep">·</span>
+        <span class="featured-dimension">Witnessing Authentic Humanity</span>
+      </div>
+      <h2 class="featured-title">Grief as Practiced Presence</h2>
+      <p class="featured-concept">
+        Grief in a container means the container is real. The practitioner's job is not
+        to fix it — it's to normalize it, sit with it, and expand everyone's capacity
+        to be in its presence.
+      </p>
+      <a href="/archive/2026-05-23-grief-as-practiced-presence.html" class="featured-link">
+        Read this issue →
+      </a>
+    </div>
+  </section>
+
+  <!-- WHAT MELIORISM2 IS — 4-PANEL GRID -->
+  <section class="what-section" id="about">
+    <div class="what-header">
+      <div class="what-header-label">What this is</div>
+      <h2 class="what-header-title">Four things that set the standard</h2>
+    </div>
+    <div class="what-grid">
+      <div class="what-panel">
+        <div class="what-panel-number">01 — Format</div>
+        <h3 class="what-panel-title">Format Explorers</h3>
+        <p class="what-panel-body">
+          Each issue arrives in a distinct container — Field Notebook, Ship's Log,
+          Intelligence Dossier. The format is the argument. The structure is the signal.
+          Not a newsletter. A practicum.
+        </p>
+      </div>
+      <div class="what-panel">
+        <div class="what-panel-number">02 — Voice</div>
+        <h3 class="what-panel-title">Practitioner-to-Practitioner</h3>
+        <p class="what-panel-body">
+          Written by someone who works in the room, for people who work in the room.
+          No academic distance. No executive summary veneer. Peer-level honesty about
+          what actually happens when the work gets hard.
+        </p>
+      </div>
+      <div class="what-panel">
+        <div class="what-panel-number">03 — Standard</div>
+        <h3 class="what-panel-title">Research-Grounded</h3>
+        <p class="what-panel-body">
+          Every issue cites its sources. The mechanism is traced from primary research
+          to practitioner application. You can follow the thread, check the evidence,
+          and adapt the insight with confidence.
+        </p>
+      </div>
+      <div class="what-panel">
+        <div class="what-panel-number">04 — Design</div>
+        <h3 class="what-panel-title">Neurodivergent-Friendly</h3>
+        <p class="what-panel-body">
+          High contrast. Legible type. Short issues with one thesis, one mechanism,
+          one takeaway. Designed for practitioners whose own cognition is part of
+          the work — not an obstacle to it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDING STRIP -->
+  <section class="founding" id="founding">
+    <div class="founding-left">
+      <div class="founding-eyebrow">Founding membership</div>
+      <h2 class="founding-headline">Support the work.</h2>
+      <p class="founding-sub">
+        $297 one-time · First 297 founding supporters · No subscription. No recurring charge.
+        One payment secures lifetime access to every issue in the archive and every issue
+        published going forward.
+      </p>
+    </div>
+    <a href="#" class="founding-cta">Become a Founder</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Meliorism2.com</div>
+    <div class="footer-meta">
+      <span><a href="mailto:dispatch@meliorism2.com">dispatch@meliorism2.com</a></span>
+      <span>© 2026 Meliorist Group · San Francisco</span>
+    </div>
+  </footer>
+
+</body>
+</html>
