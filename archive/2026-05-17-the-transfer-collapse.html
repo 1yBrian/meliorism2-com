@@ -30,8 +30,8 @@ html,body{height:100%;background:var(--ft-pink);color:var(--ink);font-family:var
 /* ── ENTRY ── */
 #entry{position:fixed;inset:0;background:var(--ft-pink);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;transition:opacity .6s ease;}
 #entry.hiding{opacity:0;pointer-events:none;}
-.e-wordmark{font-family:var(--font-mono);font-size:10px;letter-spacing:5px;color:var(--muted);text-transform:uppercase;margin-bottom:40px;}
-.e-issue{font-family:var(--font-mono);font-size:10px;color:var(--dim);letter-spacing:2px;margin-bottom:16px;text-align:center;}
+.e-wordmark{font-family:var(--font-mono);font-size: 12px;letter-spacing:5px;color:var(--muted);text-transform:uppercase;margin-bottom:40px;}
+.e-issue{font-family:var(--font-mono);font-size: 12px;color:var(--dim);letter-spacing:2px;margin-bottom:16px;text-align:center;}
 .e-title{font-family:var(--font-mono);font-size:clamp(26px,4.5vw,52px);font-weight:700;color:var(--ink);letter-spacing:-1px;text-align:center;line-height:1.05;margin-bottom:12px;}
 .e-sub{font-size:15px;color:var(--muted);max-width:440px;text-align:center;line-height:1.6;margin-bottom:40px;}
 .e-hr{width:280px;height:1px;background:var(--border);margin-bottom:32px;}
@@ -39,7 +39,7 @@ html,body{height:100%;background:var(--ft-pink);color:var(--ink);font-family:var
 .e-btn{font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:var(--claret);color:#fff;border:none;padding:15px 40px;cursor:pointer;transition:background .2s;}
 .e-btn:hover{background:#8b1220;}
 .e-ticker{position:absolute;bottom:0;left:0;right:0;height:30px;background:var(--wheat);border-top:1px solid var(--border);overflow:hidden;display:flex;align-items:center;}
-.ticker-wrap{display:flex;white-space:nowrap;animation:tick 80s linear infinite;font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.5px;}
+.ticker-wrap{display:flex;white-space:nowrap;animation:tick 80s linear infinite;font-family:var(--font-mono);font-size: 12px;color:var(--muted);letter-spacing:.5px;}
 .ticker-wrap span.hl{color:var(--claret);font-weight:700;}
 .ti{padding:0 40px;}
 @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
@@ -49,21 +49,21 @@ html,body{height:100%;background:var(--ft-pink);color:var(--ink);font-family:var
 #terminal.visible{opacity:1;pointer-events:all;}
 
 .top-bar{height:38px;background:var(--wheat);border-bottom:2px solid var(--claret);display:flex;align-items:center;padding:0 16px;flex-shrink:0;gap:16px;}
-.tb-logo{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:3px;color:var(--claret);text-transform:uppercase;flex-shrink:0;}
+.tb-logo{font-family:var(--font-mono);font-size: 12px;font-weight:700;letter-spacing:3px;color:var(--claret);text-transform:uppercase;flex-shrink:0;}
 .tb-divider{width:1px;height:18px;background:var(--border);flex-shrink:0;}
 .tb-ticker-wrap{flex:1;overflow:hidden;display:flex;align-items:center;}
-.tb-ticker{display:flex;white-space:nowrap;animation:tick 80s linear infinite;font-family:var(--font-mono);font-size:10px;color:var(--muted);}
-.tb-clock{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:2px;flex-shrink:0;}
+.tb-ticker{display:flex;white-space:nowrap;animation:tick 80s linear infinite;font-family:var(--font-mono);font-size: 12px;color:var(--muted);}
+.tb-clock{font-family:var(--font-mono);font-size: 12px;color:var(--muted);letter-spacing:2px;flex-shrink:0;}
 
 .t-body{flex:1;display:grid;grid-template-columns:152px 1fr 200px;overflow:hidden;}
 
 /* ── LEFT NAV ── */
 .left-nav{background:var(--ft-paper);border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;flex-shrink:0;}
-.ln-head{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);padding:0 14px 10px;}
-.nav-btn{display:block;width:100%;text-align:left;padding:9px 14px;border:none;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.5px;transition:all .15s;border-left:3px solid transparent;line-height:1.3;}
+.ln-head{font-family:var(--font-mono);font-size: 12px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);padding:0 14px 10px;}
+.nav-btn{display:block;width:100%;text-align:left;padding:9px 14px;border:none;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size: 12px;color:var(--muted);letter-spacing:.5px;transition:all .15s;border-left:3px solid transparent;line-height:1.3;}
 .nav-btn:hover{background:var(--wheat);color:var(--ink);}
 .nav-btn.active{background:var(--wheat);color:var(--claret);border-left-color:var(--claret);font-weight:700;}
-.nav-key{display:block;font-size:8px;color:var(--dim);margin-bottom:2px;}
+.nav-key{display:block;font-size: 12px;color:var(--dim);margin-bottom:2px;}
 .ln-div{height:1px;background:var(--border);margin:10px 14px;}
 
 /* ── CONTENT ── */
@@ -74,26 +74,26 @@ html,body{height:100%;background:var(--ft-pink);color:var(--ink);font-family:var
 
 /* ── RIGHT PANEL ── */
 .right-panel{border-left:1px solid var(--border);padding:20px 14px;overflow-y:auto;background:var(--ft-paper);}
-.rp-head{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
+.rp-head{font-family:var(--font-mono);font-size: 12px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
 .ind-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
-.ind-lbl{font-family:var(--font-mono);font-size:9px;color:var(--muted);}
-.ind-val{font-family:var(--font-mono);font-size:10px;font-weight:700;}
+.ind-lbl{font-family:var(--font-mono);font-size: 12px;color:var(--muted);}
+.ind-val{font-family:var(--font-mono);font-size: 12px;font-weight:700;}
 .neg{color:var(--warn);}.pos{color:var(--teal);}.neu{color:var(--ink);}.cla{color:var(--claret);}
 .rp-div{height:1px;background:var(--border);margin:14px 0;}
-.bw-chart-title{font-family:var(--font-mono);font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.bw-chart-title{font-family:var(--font-mono);font-size: 12px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
 .bw-row{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
-.bw-lbl{font-family:var(--font-mono);font-size:8px;color:var(--muted);width:58px;flex-shrink:0;line-height:1.2;}
+.bw-lbl{font-family:var(--font-mono);font-size: 12px;color:var(--muted);width:58px;flex-shrink:0;line-height:1.2;}
 .bw-track{flex:1;height:14px;background:var(--wheat);border:1px solid var(--border);overflow:hidden;}
 .bw-fill{height:100%;transition:width 1s ease .3s;}
 .bw-fill.s0{background:var(--teal);}
 .bw-fill.s1{background:#6aaa78;}
 .bw-fill.s2{background:#e08a20;}
 .bw-fill.s3{background:var(--warn);}
-.bw-pct{font-family:var(--font-mono);font-size:8px;color:var(--muted);width:28px;text-align:right;}
-.rp-note{font-family:var(--font-mono);font-size:9px;color:var(--dim);line-height:1.5;margin-top:10px;}
+.bw-pct{font-family:var(--font-mono);font-size: 12px;color:var(--muted);width:28px;text-align:right;}
+.rp-note{font-family:var(--font-mono);font-size: 12px;color:var(--dim);line-height:1.5;margin-top:10px;}
 
 /* ── CONTENT ELEMENTS ── */
-.sig-label{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--claret);margin-bottom:8px;}
+.sig-label{font-family:var(--font-mono);font-size: 12px;letter-spacing:3px;text-transform:uppercase;color:var(--claret);margin-bottom:8px;}
 .sig-head{font-family:var(--font-mono);font-size:clamp(20px,3vw,34px);font-weight:700;letter-spacing:-.5px;line-height:1.05;margin-bottom:10px;}
 .sig-deck{font-size:16px;color:var(--muted);line-height:1.65;margin-bottom:28px;max-width:580px;}
 .data-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:36px;}
@@ -102,65 +102,65 @@ html,body{height:100%;background:var(--ft-pink);color:var(--ink);font-family:var
 .dc.dc-pos{border-top-color:var(--teal);}
 .dc.dc-cla{border-top-color:var(--claret);}
 .dc-num{font-family:var(--font-mono);font-size:26px;font-weight:700;line-height:1;margin-bottom:5px;}
-.dc-key{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.dc-body{font-size:11px;color:var(--ink);line-height:1.5;}
+.dc-key{font-family:var(--font-mono);font-size: 12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.dc-body{font-size: 12px;color:var(--ink);line-height:1.5;}
 
 h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-height:1.2;}
 .prose{font-size:15px;line-height:1.75;color:var(--ink);max-width:640px;margin-bottom:20px;}
 .prose strong{color:var(--claret);font-weight:600;}
 .prose em{font-style:italic;}
-.cite{font-family:var(--font-mono);font-size:10px;color:var(--muted);vertical-align:super;}
+.cite{font-family:var(--font-mono);font-size: 12px;color:var(--muted);vertical-align:super;}
 
 .callout{background:var(--wheat);border-left:4px solid var(--claret);padding:18px 22px;margin:20px 0;max-width:640px;}
-.callout .co-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--claret);margin-bottom:6px;}
+.callout .co-lbl{font-family:var(--font-mono);font-size: 12px;letter-spacing:2px;text-transform:uppercase;color:var(--claret);margin-bottom:6px;}
 .callout p{font-size:15px;line-height:1.6;color:var(--ink);}
 
 .etym{background:var(--panel);border-top:3px solid var(--claret);padding:22px;max-width:620px;margin:24px 0;}
 .etym-word{font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--claret);margin-bottom:3px;}
-.etym-ipa{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-bottom:10px;}
+.etym-ipa{font-family:var(--font-mono);font-size: 12px;color:var(--muted);margin-bottom:10px;}
 .etym-body{font-size:14px;line-height:1.7;color:var(--ink);}
 
 .diag-list{list-style:none;max-width:620px;margin:20px 0;}
 .diag-item{padding:14px 18px;background:var(--panel);border:1px solid var(--border);margin-bottom:7px;cursor:pointer;transition:all .2s;display:flex;align-items:flex-start;gap:12px;}
 .diag-item:hover{border-color:var(--oxford);}
 .diag-item.checked{background:var(--wheat);border-color:var(--claret);}
-.d-box{width:17px;height:17px;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s;}
+.d-box{width:17px;height:17px;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size: 12px;transition:all .2s;}
 .diag-item.checked .d-box{background:var(--claret);border-color:var(--claret);color:#fff;}
 .d-text{font-size:14px;line-height:1.5;color:var(--ink);}
 .diag-item.checked .d-text{color:var(--claret);}
 .diag-score{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:14px;padding:11px 15px;background:var(--wheat);display:inline-block;border:1px solid var(--border);}
 
 .in-session{background:var(--panel);border:1px solid var(--oxford);border-top:3px solid var(--oxford);padding:22px 26px;max-width:620px;margin:24px 0;}
-.is-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--oxford);margin-bottom:10px;}
+.is-lbl{font-family:var(--font-mono);font-size: 12px;letter-spacing:3px;text-transform:uppercase;color:var(--oxford);margin-bottom:10px;}
 .is-title{font-size:18px;font-weight:600;color:var(--ink);margin-bottom:14px;}
 
 .exp-box{background:var(--panel);border:1px solid var(--teal);border-top:3px solid var(--teal);padding:24px 28px;max-width:620px;margin:24px 0;}
-.exp-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.exp-lbl{font-family:var(--font-mono);font-size: 12px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
 .exp-title{font-size:19px;font-weight:600;color:var(--ink);margin-bottom:16px;}
 .exp-step{display:flex;gap:14px;margin-bottom:14px;}
-.exp-n{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--teal);flex-shrink:0;width:22px;margin-top:2px;}
+.exp-n{font-family:var(--font-mono);font-size: 12px;font-weight:700;color:var(--teal);flex-shrink:0;width:22px;margin-top:2px;}
 .exp-t{font-size:14px;line-height:1.6;color:var(--ink);}
-.log-tmpl{font-family:var(--font-mono);font-size:11px;color:var(--oxford);background:var(--ft-pink);padding:11px 14px;margin:14px 0;border:1px solid var(--border);line-height:1.6;}
+.log-tmpl{font-family:var(--font-mono);font-size: 12px;color:var(--oxford);background:var(--ft-pink);padding:11px 14px;margin:14px 0;border:1px solid var(--border);line-height:1.6;}
 
 .mel-box{background:var(--wheat);border:1px solid var(--border);padding:22px;max-width:620px;margin:20px 0;}
-.mel-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.mel-lbl{font-family:var(--font-mono);font-size: 12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
 .mel-text{font-size:15px;line-height:1.7;color:var(--ink);}
 
 .bib-entry{padding:14px 0;border-bottom:1px solid var(--border);max-width:620px;}
 .bib-authors{font-size:12px;color:var(--muted);margin-bottom:3px;}
 .bib-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px;}
 .bib-source{font-size:12px;color:var(--oxford);font-style:italic;}
-.bib-cross{margin-top:4px;font-family:var(--font-mono);font-size:10px;color:var(--teal);}
+.bib-cross{margin-top:4px;font-family:var(--font-mono);font-size: 12px;color:var(--teal);}
 
 .cq-box{background:var(--wheat);border:1px solid var(--border);padding:18px 22px;margin-bottom:14px;max-width:580px;}
-.cq-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.cq-lbl{font-family:var(--font-mono);font-size: 12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
 .cq-text{font-size:15px;color:var(--ink);line-height:1.5;}
 
 .announce-box{border:1px dashed var(--border);padding:18px 22px;margin-bottom:14px;max-width:580px;}
-.announce-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.announce-lbl{font-family:var(--font-mono);font-size: 12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
 .announce-empty{font-size:13px;color:var(--dim);font-style:italic;}
 
-.meta-hint{position:fixed;bottom:6px;right:10px;font-family:var(--font-mono);font-size:9px;color:var(--dim);z-index:200;letter-spacing:.5px;}
+.meta-hint{position:fixed;bottom:6px;right:10px;font-family:var(--font-mono);font-size: 12px;color:var(--dim);z-index:200;letter-spacing:.5px;}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);}
@@ -168,32 +168,32 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
 /* bandwidth chart in F2 */
 .content-bw{max-width:580px;margin:24px 0;}
 .cbw-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.cbw-lbl{font-family:var(--font-mono);font-size:10px;color:var(--muted);width:160px;flex-shrink:0;}
+.cbw-lbl{font-family:var(--font-mono);font-size: 12px;color:var(--muted);width:160px;flex-shrink:0;}
 .cbw-track{flex:1;height:22px;background:var(--wheat);border:1px solid var(--border);overflow:hidden;display:flex;}
 .cbw-task{background:var(--oxford);height:100%;opacity:.85;flex-shrink:0;min-width:0;}
 .cbw-stress{background:var(--warn);height:100%;opacity:.8;flex-shrink:0;min-width:0;}
-.cbw-pct{font-family:var(--font-mono);font-size:10px;color:var(--muted);width:36px;text-align:right;}
+.cbw-pct{font-family:var(--font-mono);font-size: 12px;color:var(--muted);width:36px;text-align:right;}
 .cbw-legend{display:flex;gap:20px;margin-top:8px;}
-.cbl-item{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:9px;color:var(--muted);}
+.cbl-item{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size: 12px;color:var(--muted);}
 .cbl-swatch{width:10px;height:10px;flex-shrink:0;}
 
 /* ── MOBILE NAV (hidden on desktop) ── */
 .mob-nav{display:none;overflow-x:auto;gap:6px;padding:10px 14px;background:var(--wheat);border-bottom:1px solid var(--border);flex-shrink:0;-webkit-overflow-scrolling:touch;}
-.mob-btn{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--panel);color:var(--muted);border:1px solid var(--border);padding:7px 14px;white-space:nowrap;cursor:pointer;flex-shrink:0;}
+.mob-btn{font-family:var(--font-mono);font-size: 12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--panel);color:var(--muted);border:1px solid var(--border);padding:7px 14px;white-space:nowrap;cursor:pointer;flex-shrink:0;}
 .mob-btn.active{background:var(--claret);color:#fff;border-color:var(--claret);}
-.mob-lib{font-family:var(--font-mono);font-size:10px;color:var(--oxford);border:1px solid var(--oxford);padding:7px 14px;white-space:nowrap;cursor:pointer;flex-shrink:0;background:transparent;text-decoration:none;display:inline-flex;align-items:center;}
+.mob-lib{font-family:var(--font-mono);font-size: 12px;color:var(--oxford);border:1px solid var(--oxford);padding:7px 14px;white-space:nowrap;cursor:pointer;flex-shrink:0;background:transparent;text-decoration:none;display:inline-flex;align-items:center;}
 
 /* ── MOBILE LAYOUT ── */
 @media(max-width:700px){
   /* Entry: push content down from top, padded above ticker */
   #entry{justify-content:flex-start;overflow-y:auto;padding:28px 20px 56px;-webkit-overflow-scrolling:touch;}
-  .e-wordmark{font-size:8px;letter-spacing:3px;margin-bottom:18px;}
-  .e-issue{font-size:9px;margin-bottom:10px;}
+  .e-wordmark{font-size: 12px;letter-spacing:3px;margin-bottom:18px;}
+  .e-issue{font-size: 12px;margin-bottom:10px;}
   .e-title{font-size:clamp(22px,7vw,36px);margin-bottom:10px;}
   .e-sub{max-width:100%;font-size:13px;margin-bottom:18px;}
   .e-hr{width:180px;margin-bottom:16px;}
-  .e-clock{font-size:11px;letter-spacing:2px;margin-bottom:18px;}
-  .e-btn{width:100%;max-width:320px;padding:16px 20px;font-size:11px;}
+  .e-clock{font-size: 12px;letter-spacing:2px;margin-bottom:18px;}
+  .e-btn{width:100%;max-width:320px;padding:16px 20px;font-size: 12px;}
 
   /* Terminal: collapse to single-column, surface mobile nav */
   .t-body{grid-template-columns:1fr;display:flex;flex-direction:column;}
@@ -209,21 +209,21 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
   .callout p{font-size:14px;}
   .diag-item{padding:12px 14px;}
   .d-text{font-size:13px;}
-  .diag-score{font-size:11px;width:100%;display:block;box-sizing:border-box;}
+  .diag-score{font-size: 12px;width:100%;display:block;box-sizing:border-box;}
   .in-session,.exp-box,.mel-box,.etym{padding:16px 14px;}
   .content-bw{max-width:100%;}
-  .cbw-lbl{width:90px;font-size:9px;}
+  .cbw-lbl{width:90px;font-size: 12px;}
   .cbw-pct{display:none;}
   .bib-entry,.cq-box,.announce-box{max-width:100%;}
 }
 
 /* ── Signal-OS Enhancement Layer ── */
 .sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
-.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size:11px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
+.sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size: 12px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
 .sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
 .sos-btn.active{background:#8B2020;border-color:#8B2020;color:#fff;}
-.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size:10px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
-.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size:10px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
+.sos-progress{background:rgba(20,20,20,0.88);color:#a0c080;border:1px solid rgba(128,200,100,0.25);border-radius:12px;padding:8px 14px;font-size: 12px;letter-spacing:1.5px;font-family:monospace;backdrop-filter:blur(8px);text-align:right;}
+.sos-lib{background:rgba(20,20,20,0.88);color:#c0a060;border:1px solid rgba(200,160,80,0.25);border-radius:24px;padding:8px 16px;font-size: 12px;letter-spacing:2px;text-decoration:none;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;display:inline-block;}
 .sos-lib:hover{background:rgba(200,160,80,0.15);border-color:rgba(200,160,80,0.5);}
 .sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
 .sos-read-dot.seen{opacity:1;}
@@ -316,7 +316,7 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
         <span class="nav-key">⌂</span>CURRENT ISSUE
       </a>
       <div class="ln-div"></div>
-      <div style="padding:8px 14px;font-family:var(--font-mono);font-size:9px;color:var(--dim);line-height:1.6;">
+      <div style="padding:8px 14px;font-family:var(--font-mono);font-size: 12px;color:var(--dim);line-height:1.6;">
         MAY 17, 2026<br>
         LIVING INCOME<br>
         8 SOURCES
@@ -374,7 +374,7 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
           <div class="etym-body">From Latin <em>salarium</em> — variously interpreted as the salt allowance paid to Roman soldiers, or the money given to soldiers to purchase salt, a critical and scarce preservative. The word carries the oldest documented living wage negotiation in the Western record: Roman military administrators and soldiers arguing, in 55 BCE, about what a person's full presence in service was worth.<br><br>We've been having the same argument for two thousand years. What's changed is that now the practitioner is often arguing it alone — with themselves — five minutes before a session begins.</div>
         </div>
 
-        <div style="margin-top:16px;font-family:var(--font-mono);font-size:10px;color:var(--dim);">
+        <div style="margin-top:16px;font-family:var(--font-mono);font-size: 12px;color:var(--dim);">
           → Navigate using F2–F6 in the left panel, or keyboard keys 1–6 for each section.
         </div>
       </div>
@@ -396,7 +396,7 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
         <p class="prose">What this means in session: the practitioner is not distracted in an obvious way. They are present. They ask good questions. They follow the protocol. What they lose is the expensive kind of attention — the peripheral, ambient reading of the room that distinguishes good facilitation from great facilitation.</p>
 
         <div class="content-bw" id="bw-chart">
-          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:12px;">SESSION BANDWIDTH MODEL</div>
+          <div style="font-family:var(--font-mono);font-size: 12px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:12px;">SESSION BANDWIDTH MODEL</div>
           <div class="cbw-row">
             <div class="cbw-lbl">Secure state</div>
             <div class="cbw-track">
@@ -433,7 +433,7 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
             <div class="cbl-item"><div class="cbl-swatch" style="background:var(--oxford)"></div>Available for session</div>
             <div class="cbl-item"><div class="cbl-swatch" style="background:var(--warn)"></div>Financial scarcity tax</div>
           </div>
-          <div style="font-family:var(--font-mono);font-size:9px;color:var(--dim);margin-top:8px;">Illustrative model based on Mullainathan &amp; Shafir (2013). Percentage estimates are directional, not clinical thresholds.</div>
+          <div style="font-family:var(--font-mono);font-size: 12px;color:var(--dim);margin-top:8px;">Illustrative model based on Mullainathan &amp; Shafir (2013). Percentage estimates are directional, not clinical thresholds.</div>
         </div>
 
         <p class="prose">The particularly insidious feature of the transfer collapse is that the <strong>practitioner cannot feel it happening</strong>. The research on scarcity shows that people under financial stress consistently overestimate their own cognitive performance — the tunnel feels like focus. This is why the collapse must be detected through behavior, not self-report. <span class="cite">[1]</span></p>
@@ -598,13 +598,13 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
         </div>
 
         <div class="bib-entry" style="border-top:2px solid var(--claret);">
-          <div class="bib-authors" style="color:var(--teal);font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;">CROSS-DOMAIN FURTHER READING</div>
+          <div class="bib-authors" style="color:var(--teal);font-family:var(--font-mono);font-size: 12px;letter-spacing:2px;text-transform:uppercase;">CROSS-DOMAIN FURTHER READING</div>
           <div class="bib-title">Keller, Thomas. The French Laundry Cookbook. Artisan, 1999.</div>
           <div class="bib-source">Not a cookbook — a philosophy of mise en place as total professional discipline. The sections on labor, preparation, and the cost of a service experience are the best practitioner pricing manual never written for practitioners.</div>
           <div class="bib-cross">CROSS-DOMAIN: Culinary / Kitchen Economics</div>
         </div>
         <div class="bib-entry">
-          <div class="bib-authors" style="color:var(--teal);font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;">FURTHER READING — OUTSIDE YOUR DOMAIN</div>
+          <div class="bib-authors" style="color:var(--teal);font-family:var(--font-mono);font-size: 12px;letter-spacing:2px;text-transform:uppercase;">FURTHER READING — OUTSIDE YOUR DOMAIN</div>
           <div class="bib-title">Waldman, Katy. "The Invisible Labor of Being Expensive." The New Yorker, 2023.</div>
           <div class="bib-source">On the cognitive and social costs of pricing yourself above market — the cultural labor of asking for what the work is worth. Practitioner-relevant though not practitioner-targeted.</div>
           <div class="bib-cross">CROSS-DOMAIN: Cultural Economics / Labor</div>
@@ -633,13 +633,13 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
           <div class="announce-empty">Reserved for founding member acknowledgments.</div>
         </div>
 
-        <div style="font-family:var(--font-mono);font-size:9px;color:var(--dim);padding:20px 0;border-top:1px solid var(--border);margin-top:24px;max-width:620px;">
+        <div style="font-family:var(--font-mono);font-size: 12px;color:var(--dim);padding:20px 0;border-top:1px solid var(--border);margin-top:24px;max-width:620px;">
           MELIORISM2.COM · ISSUE 017 · MAY 17, 2026 · THE TRANSFER COLLAPSE<br>
           Non-profit practitioner intelligence. Fiscal sponsorship → 501(c)(3).<br>
           A percentage of Meliorism2.com proceeds supports Cherokee At Large Nation (San Francisco) and native communities.<br><br>
-          <a href="/archive/index.html" style="color:var(--oxford);text-decoration:none;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;">↗ THE LIBRARY — ALL ISSUES</a>
+          <a href="/archive/index.html" style="color:var(--oxford);text-decoration:none;font-family:var(--font-mono);font-size: 12px;letter-spacing:1px;">↗ THE LIBRARY — ALL ISSUES</a>
           &nbsp;·&nbsp;
-          <a href="/" style="color:var(--oxford);text-decoration:none;font-family:var(--font-mono);font-size:9px;letter-spacing:1px;">⌂ CURRENT ISSUE</a>
+          <a href="/" style="color:var(--oxford);text-decoration:none;font-family:var(--font-mono);font-size: 12px;letter-spacing:1px;">⌂ CURRENT ISSUE</a>
         </div>
       </div>
 
@@ -654,10 +654,10 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
       <div class="ind-row"><span class="ind-lbl">CRISIS STATE</span><span class="ind-val neg">−40%</span></div>
       <div class="rp-div"></div>
       <div class="rp-head">BRIEFING DATA</div>
-      <div class="ind-row"><span class="ind-lbl">DIMENSION</span><span class="ind-val cla" style="font-size:8px">LIVING INCOME</span></div>
+      <div class="ind-row"><span class="ind-lbl">DIMENSION</span><span class="ind-val cla" style="font-size: 12px">LIVING INCOME</span></div>
       <div class="ind-row"><span class="ind-lbl">ISSUE</span><span class="ind-val neu">017</span></div>
       <div class="ind-row"><span class="ind-lbl">SOURCES</span><span class="ind-val neu">8</span></div>
-      <div class="ind-row"><span class="ind-lbl">HOOK</span><span class="ind-val" style="font-size:8px;color:var(--oxford)">WORLD TELECOM</span></div>
+      <div class="ind-row"><span class="ind-lbl">HOOK</span><span class="ind-val" style="font-size: 12px;color:var(--oxford)">WORLD TELECOM</span></div>
       <div class="rp-div"></div>
       <div class="bw-chart-title">LABOR COST % TARGET</div>
       <div class="bw-row">
@@ -682,7 +682,7 @@ h2.sh{font-size:22px;font-weight:600;color:var(--ink);margin-bottom:18px;line-he
       </div>
       <div class="rp-note">Labor cost as % of revenue by sector. Solo practitioners often run 60–80% — unsustainably above industry benchmarks — without realizing it.</div>
       <div class="rp-div"></div>
-      <div style="font-family:var(--font-mono);font-size:9px;color:var(--dim);line-height:1.7;">
+      <div style="font-family:var(--font-mono);font-size: 12px;color:var(--dim);line-height:1.7;">
         FORMAT:<br>PRACTITIONER'S<br>BLOOMBERG<br><br>
         REGISTER:<br>LIGHT / FT-PINK<br><br>
         INTERACTION:<br>TAB NAVIGATION<br>+ DIAGNOSTIC<br>CHECKLIST

@@ -38,22 +38,22 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
 
 /* ── Status bar ── */
 .sb{position:fixed;top:0;left:0;right:0;z-index:200;height:34px;background:var(--navy);display:flex;align-items:center;padding:0 18px;gap:14px;}
-.sb-logo{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:rgba(255,255,255,0.9);text-decoration:none;letter-spacing:0.08em;}
+.sb-logo{font-family:'JetBrains Mono',monospace;font-size: 12px;font-weight:500;color:rgba(255,255,255,0.9);text-decoration:none;letter-spacing:0.08em;}
 .sb-pipe{color:rgba(255,255,255,0.2);}
-.sb-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,0.4);}
+.sb-meta{font-family:'JetBrains Mono',monospace;font-size: 12px;color:rgba(255,255,255,0.4);}
 .sb-r{margin-left:auto;display:flex;align-items:center;gap:10px;}
-.sb-clock{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,0.38);}
-.sb-lib{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;color:rgba(255,255,255,0.75);text-decoration:none;border:1px solid rgba(255,255,255,0.22);padding:3px 10px;letter-spacing:0.06em;transition:all 0.15s;}
+.sb-clock{font-family:'JetBrains Mono',monospace;font-size: 12px;color:rgba(255,255,255,0.38);}
+.sb-lib{font-family:'Space Grotesk',sans-serif;font-size: 12px;font-weight:600;color:rgba(255,255,255,0.75);text-decoration:none;border:1px solid rgba(255,255,255,0.22);padding:3px 10px;letter-spacing:0.06em;transition:all 0.15s;}
 .sb-lib:hover{background:rgba(255,255,255,0.1);}
 
 /* ── Entry screen ── */
 #entry{position:fixed;inset:0;z-index:100;padding-top:34px;background:var(--manila);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;padding-bottom:80px;transition:opacity 0.5s ease;}
 .e-wrap{width:min(600px,calc(100% - 56px));padding:0 28px;}
-.e-class{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--red);margin-bottom:36px;display:flex;align-items:center;gap:14px;}
+.e-class{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.22em;color:var(--red);margin-bottom:36px;display:flex;align-items:center;gap:14px;}
 .e-class::before,.e-class::after{content:'';flex:1;height:1px;background:var(--red);opacity:0.28;}
-.e-case{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-dim);margin-bottom:24px;line-height:2;border:1px solid var(--border);padding:14px 18px;background:rgba(255,255,255,0.4);}
+.e-case{font-family:'JetBrains Mono',monospace;font-size: 12px;color:var(--ink-dim);margin-bottom:24px;line-height:2;border:1px solid var(--border);padding:14px 18px;background:rgba(255,255,255,0.4);}
 .e-title{font-size:clamp(52px,10vw,88px);font-weight:700;letter-spacing:-0.04em;color:var(--ink);line-height:0.92;margin-bottom:10px;}
-.e-sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:36px;}
+.e-sub{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:36px;}
 .e-brief{font-family:'Source Serif 4',serif;font-size:16px;font-weight:300;line-height:1.8;color:var(--ink-mid);margin-bottom:36px;border-left:3px solid var(--red);padding-left:20px;}
 .e-btn{display:inline-flex;align-items:center;gap:12px;background:var(--red);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.14em;padding:14px 28px;border:none;cursor:pointer;text-transform:uppercase;transition:all 0.2s;}
 .e-btn:hover{background:#6B1818;}
@@ -61,9 +61,9 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
 /* ── Operations Board ── */
 #board{position:fixed;inset:0;z-index:90;padding-top:34px;overflow-y:auto;padding-bottom:80px;display:none;opacity:0;transition:opacity 0.4s;}
 .board-header{padding:20px 28px 4px;display:flex;justify-content:space-between;align-items:flex-end;}
-.board-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:var(--ink-dim);}
+.board-title{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.14em;color:var(--ink-dim);}
 .timer-wrap{text-align:right;}
-.timer-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-dim);display:block;margin-bottom:2px;}
+.timer-label{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.1em;color:var(--ink-dim);display:block;margin-bottom:2px;}
 .case-timer{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:var(--red);letter-spacing:0.04em;}
 
 /* ── Cork board ── */
@@ -88,27 +88,27 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
 .fc-tab.tan{background:var(--tan);}
 .fc-tab.ink{background:var(--ink);}
 .fc-body{padding:16px 16px 10px;}
-.fc-code{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.14em;color:var(--ink-dim);margin-bottom:8px;text-transform:uppercase;}
+.fc-code{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.14em;color:var(--ink-dim);margin-bottom:8px;text-transform:uppercase;}
 .fc-title{font-size:14px;font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:9px;}
 .fc-teaser{font-family:'Source Serif 4',serif;font-size:12px;font-weight:300;line-height:1.65;color:var(--ink-mid);}
 .fc-foot{padding:10px 16px 12px;border-top:1px solid var(--ink-faint);display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
-.fc-open{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--ink-dim);}
+.fc-open{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.12em;color:var(--ink-dim);}
 
 /* ── File panel ── */
 #fp{position:fixed;top:34px;right:0;bottom:0;width:min(700px,100%);z-index:160;background:var(--paper);box-shadow:-8px 0 40px rgba(0,0,0,0.22);transform:translateX(102%);transition:transform 0.34s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;overflow:hidden;}
 #fp.open{transform:translateX(0);}
 .fp-top{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.fp-code{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.13em;color:var(--ink-dim);}
-.fp-x{background:none;border:1px solid var(--border);padding:5px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--ink-mid);transition:all 0.15s;}
+.fp-code{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.13em;color:var(--ink-dim);}
+.fp-x{background:none;border:1px solid var(--border);padding:5px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.1em;color:var(--ink-mid);transition:all 0.15s;}
 .fp-x:hover{background:var(--ink);color:var(--paper);}
 .fp-scroll{flex:1;overflow-y:auto;padding:32px 32px 60px;}
 .fp-scroll h2{font-size:clamp(22px,4vw,32px);font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:6px;}
-.fp-scroll .byline{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--ink-dim);margin-bottom:28px;}
-.fp-scroll h3{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-dim);margin:28px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.fp-scroll .byline{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.12em;color:var(--ink-dim);margin-bottom:28px;}
+.fp-scroll h3{font-size: 12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-dim);margin:28px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
 .fp-scroll p{font-family:'Source Serif 4',serif;font-size:15px;font-weight:300;line-height:1.78;color:var(--ink-mid);margin-bottom:16px;}
 .fp-scroll strong{font-weight:600;color:var(--ink);}
 .fp-scroll em{font-style:italic;}
-.cite{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--tan);padding-left:12px;margin:14px 0;}
+.cite{font-family:'JetBrains Mono',monospace;font-size: 12px;color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--tan);padding-left:12px;margin:14px 0;}
 .rule{display:block;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;padding:13px 16px;border-left:4px solid;margin:16px 0;line-height:1.5;}
 .rule.r{border-color:var(--red);background:var(--red-f);}
 .rule.n{border-color:var(--navy);background:var(--navy-f);}
@@ -122,7 +122,7 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
 
 /* ── Footer ── */
 .site-footer{position:fixed;bottom:0;left:0;right:0;height:38px;background:var(--paper);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;z-index:50;}
-.site-footer a{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.13em;color:var(--ink-dim);text-decoration:none;}
+.site-footer a{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.13em;color:var(--ink-dim);text-decoration:none;}
 
 /* ── Mobile ── */
 @media(max-width:768px){
@@ -176,7 +176,7 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
 
   <!-- 90-second signal strip -->
   <div style="background:#8B2020;color:#f5f0e8;padding:14px 28px;display:flex;align-items:baseline;gap:24px;border-bottom:2px solid rgba(0,0,0,0.2);">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;opacity:0.75;white-space:nowrap;">90-SECOND SIGNAL</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:3px;opacity:0.75;white-space:nowrap;">90-SECOND SIGNAL</span>
     <span style="font-family:'Source Serif 4',serif;font-size:15px;font-weight:400;line-height:1.55;">Expert practitioners earn more because they see what's actually happening in the room before anyone names it. This is <em>anticipatory cognition</em> — a trainable neurological skill, not a personality trait. Every factual claim below is sourced. The 7-day drill builds the library.</span>
   </div>
 
