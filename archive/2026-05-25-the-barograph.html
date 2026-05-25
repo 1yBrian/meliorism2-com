@@ -5,6 +5,7 @@
 <!-- meliorism2:format: The Barograph -->
 <!-- meliorism2:dimension: Somatic · Body Intelligence -->
 <!-- meliorism2:sources: 5 -->
+<!-- meliorism2:architecture: horizontal-swipe -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,7 +74,6 @@ html,body{
 .entry-bg{
   position:absolute;inset:0;
   background:url('the-barograph-hero.jpg') center center / cover no-repeat;
-  /* Fallback: deep amber-sepia gradient when image absent */
   background-color:#2a1e0f;
   transform:scale(1.04);
   animation:kb 14s ease-out forwards;
@@ -83,7 +83,6 @@ html,body{
   to{transform:scale(1.0);}
 }
 
-/* Sepia / amber tint layer — reinforces instrument aesthetic even with photo */
 .entry-tint{
   position:absolute;inset:0;
   background:rgba(90,55,15,0.18);
@@ -100,7 +99,6 @@ html,body{
   );
 }
 
-/* Decorative barograph trace line across entry */
 .entry-trace{
   position:absolute;
   bottom:220px;left:0;right:0;
@@ -202,18 +200,92 @@ html,body{
   position:fixed;inset:0;top:36px;bottom:40px;
   display:none;opacity:0;
   transition:opacity 0.6s ease;
-  overflow-y:auto;
+  overflow:hidden;
   background:var(--bg);
 }
 #main-panel.visible{
   display:block;opacity:1;
 }
 
-.content-wrapper{
-  max-width:820px;padding:50px 40px;margin:0 auto;
+/* ── SECTIONS RAIL ── */
+.sections-rail{
+  display:flex;
+  flex-direction:row;
+  width:700%;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
 }
 
-/* ── HEADER ── */
+.card{
+  width:calc(100% / 7);
+  flex-shrink:0;
+  height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.card-inner{
+  max-width:820px;
+  padding:50px 40px 80px;
+  margin:0 auto;
+}
+
+@media(max-width:768px){
+  .card-inner{padding:30px 20px 80px;}
+}
+
+/* ── READING PROGRESS BAR ── */
+.reading-progress{
+  position:fixed;
+  bottom:40px;left:0;right:0;
+  height:36px;
+  background:var(--dark-band);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:14px;
+  z-index:900;
+}
+
+.progress-trace{
+  flex:1;
+  height:2px;
+  background:rgba(176,125,58,0.15);
+  border-radius:1px;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  position:absolute;
+  top:0;left:0;height:100%;
+  background:var(--amber);
+  transition:width 0.45s cubic-bezier(0.4,0,0.2,1);
+  border-radius:1px;
+}
+
+.progress-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.62rem;letter-spacing:0.18em;
+  color:var(--cream);opacity:0.7;
+  white-space:nowrap;
+  min-width:80px;text-align:right;
+}
+
+.nav-prev,.nav-next{
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+}
+.nav-prev:hover,.nav-next:hover{color:var(--amber);}
+.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+
+/* ── CARD 0: SIGNAL HEADER ── */
 .metadata{
   text-align:center;margin-bottom:50px;
   border-bottom:2px solid var(--border-h);
@@ -254,7 +326,7 @@ h1{
   border:1px solid var(--border);
 }
 
-/* ── 90-SECOND SIGNAL (HIGHLIGHT) ── */
+/* ── 90-SECOND SIGNAL ── */
 .highlight{
   background:linear-gradient(135deg,#f5ede0 0%,#faf7f2 100%);
   border-left:4px solid var(--amber);
@@ -276,14 +348,28 @@ h1{
   font-size:1.2rem;line-height:1.65;color:var(--text);
 }
 
-/* ── SECTIONS ── */
-.section{
-  margin:54px 0;padding-bottom:30px;
+/* ── BEGIN READING PROMPT ── */
+.begin-prompt{
+  margin-top:40px;
+  text-align:center;
+  padding:24px 0 10px;
+  border-top:1px solid var(--border);
 }
-.section[data-section]{
-  scroll-margin-top:60px;
+.begin-prompt button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s;
+}
+.begin-prompt button:hover{
+  color:var(--amber-d);
+  border-bottom-color:rgba(122,85,32,0.5);
 }
 
+/* ── SECTION NUMBER BAND ── */
 .section-number{
   font-size:0.75rem;text-transform:uppercase;letter-spacing:0.16em;
   display:block;
@@ -291,6 +377,10 @@ h1{
   color:var(--cream);
   padding:11px 16px;
   margin:0 -40px 24px;
+}
+
+@media(max-width:768px){
+  .section-number{margin:0 -20px 20px;}
 }
 
 h2{
@@ -340,7 +430,6 @@ p{
     transparent 100%
   );
 }
-/* Simulated pressure dip */
 .trace-rule::before{
   content:'';
   display:block;
@@ -391,7 +480,7 @@ p{
   font-size:0.95rem;margin-bottom:0;
 }
 
-/* ── CONCEPT BOX (amber tinted) ── */
+/* ── CONCEPT BOX ── */
 .concept-box{
   background:linear-gradient(135deg,#f8f0e2 0%,#faf7f2 100%);
   border:1px solid rgba(176,125,58,0.2);
@@ -435,7 +524,7 @@ p{
   border:1px solid var(--border);
   border-radius:2px;
   background:var(--bg);
-  transition:border-color 0.2s, background 0.2s;
+  transition:border-color 0.2s,background 0.2s;
 }
 .response-option:hover{
   border-color:var(--amber);
@@ -475,6 +564,7 @@ p{
   color:var(--amber);
 }
 
+/* ── FOOTER BAR ── */
 .footer-bar{
   position:fixed;bottom:0;left:0;right:0;z-index:1000;
   height:40px;background:var(--bg);
@@ -491,14 +581,12 @@ a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,
 a:hover{background:rgba(139,111,71,0.06);}
 
 /* ── RESPONSIVE ── */
-@media(max-width:768px){
+@media(max-width:640px){
   #entry{align-items:flex-start;overflow-y:auto;}
   .entry-content{padding:28px 20px 80px;}
   .entry-title{font-size:2.6rem;}
-  .content-wrapper{padding:30px 20px 80px;}
   h1{font-size:1.9rem;}
   h2{font-size:1.4rem;}
-  .section-number{margin:0 -20px 20px;}
 }
 </style>
 </head>
@@ -533,228 +621,272 @@ a:hover{background:rgba(139,111,71,0.06);}
   </div>
 </div>
 
-<!-- MAIN CONTENT PANEL -->
+<!-- MAIN PANEL -->
 <div id="main-panel">
-  <div class="content-wrapper">
 
-    <!-- HEADER -->
-    <div class="metadata">
-      <div class="date-tag">May 25, 2026 · Memorial Day Sunday</div>
-      <div class="issue-format-badge">The Barograph · Issue 025</div>
-      <h1>The Barograph</h1>
-      <p class="subtitle">On the body as instrument, and why the practitioner's first job is to become a better reader of it</p>
-    </div>
+  <div class="sections-rail" id="sections-rail">
 
-    <img src="the-barograph-hero.jpg" alt="Antique barograph on aged oak, amber lamp, ink trace showing slow descent" class="hero-image">
+    <!-- CARD 0: THE SIGNAL -->
+    <div class="card" id="card-signal">
+      <div class="card-inner">
 
-    <!-- 90-SECOND SIGNAL -->
-    <div class="highlight">
-      <span class="highlight-label">90-Second Signal</span>
-      <p>A barograph does not decide what the weather means. It records what is. Your nervous system works the same way — it has already logged the room's atmospheric pressure before you consciously decided anything was worth noticing. That sternum tightening, that shortened breath, that faint pull of unease before you've named its source: those are readings, not noise. The practitioner's work is not to override them with professional composure. It is to learn to read the scroll while it is still moving.</p>
-    </div>
-
-    <!-- SECTION 1: THE PHENOMENON -->
-    <div class="section" data-section="phenomenon">
-      <span class="section-number">§ 01 · The Phenomenon</span>
-      <h2>The Barograph Is Already Running</h2>
-
-      <p>This is Memorial Day weekend. If you are in a room with people right now — a leadership team, a coaching cohort, a training session, a classroom — some of them are carrying somatic weight they have not named. Veterans. Military families. People for whom the holiday surfaces grief suppressed under years of professional comportment. You may not know which ones. They may not have said anything. But the body has broadcast it, and if your instrument is calibrated, you have already received it.</p>
-
-      <p>The barograph is a drum barometer: a brass and glass instrument that draws continuous ink lines on a slowly-rotating paper scroll. It does not decide what the pressure means. It does not interpret, recommend, or react. It records. The scroll accumulates its trace over hours, and what you see — when you return to read it — is the shape of what passed through while everyone was looking elsewhere.</p>
-
-      <p>Practitioners enter rooms the way the barograph sits on its shelf: continuously exposed, continuously receiving. The instrument does not choose when to turn on. The question is only whether the ink is on the paper — whether the practitioner has learned to read what the body already logged.</p>
-
-      <span class="trace-rule"></span>
-
-      <p>This issue is about somatic intelligence: what it is, what the research says, how it works in practice, and what to do when the reading is clear but the room's agenda isn't. We are working from Memorial Day as the context because the stakes are elevated this week in a specific, biological way. The somatic noise in your rooms is higher than it is on a random Tuesday in October. That is not metaphor. That is van der Kolk.</p>
-
-      <div class="margin-note">
-        The image environment for this issue: a close-up of an antique barograph resting on aged oak, one corner of the paper scroll curling slightly. An amber lamp. Brass fittings. The ink trace shows a slow descent over twelve hours.
-      </div>
-    </div>
-
-    <!-- SECTION 2: THE EVIDENCE -->
-    <div class="section" data-section="evidence">
-      <span class="section-number">§ 02 · The Evidence</span>
-      <h2>Three Findings Practitioners Need to Know</h2>
-
-      <p>The research is not new. What is new is applying it operationally — as usable knowledge about how the body logs the room, and what that means for the practitioner.</p>
-
-      <div class="research-block">
-        <span class="researcher">Damasio, 1994 — The Somatic Marker Hypothesis</span>
-        <p>Antonio Damasio's lesion studies at Iowa tracked patients with damage to the ventromedial prefrontal cortex — a region that integrates body-state signals with decision-making. These patients retained full reasoning capacity. They could analyze, compare, and calculate. What they lost was access to somatic markers: body-state changes arising from prior emotional learning — shifts in heart rate, gut tension, peripheral circulation, breath rhythm — that normally constrain and guide choice before deliberation begins. Without somatic markers, the patients became catastrophically indecisive. Not because they were less intelligent, but because the body's input had been severed from the process. The "gut feeling" that something is wrong in a room is not noise to be managed through professional composure. It is a processed signal arriving ahead of verbal report. The body votes first.</p>
-      </div>
-
-      <div class="cite">
-        "The body's signals arrive before the conscious mind has decided they are worth noticing. The decision, in some respects, has already been made."<br>
-        — Damasio, A. <em>Descartes' Error: Emotion, Reason and the Human Brain.</em> Putnam, 1994.
-      </div>
-
-      <div class="research-block">
-        <span class="researcher">Porges, 2011 — Neuroception and the Polyvagal Social Scan</span>
-        <p>Stephen Porges extended the picture with polyvagal theory. The ventral vagal branch of the autonomic nervous system continuously scans the environment for safety cues — not at the level of conscious attention, but subcortically, below awareness. Porges named this process neuroception. The nervous system reads stillness, vocal prosody, eye contact, the subtle constriction of facial musculature, the particular quality of silence when a group moves into defensive state — and it mobilizes response before the practitioner has formed a verbal thought about what is happening. A practitioner who walks into a room and immediately feels their chest tighten has already conducted a neuroception. The room's collective nervous system state has been broadcast and received. The practitioner is not imagining it. The instrument is doing its job.</p>
-      </div>
-
-      <div class="cite">
-        "Neuroception is the neural process, distinct from perception, that evaluates risk in the environment... it occurs without awareness."<br>
-        — Porges, S. W. <em>The Polyvagal Theory.</em> Norton, 2011.
-      </div>
-
-      <div class="research-block">
-        <span class="researcher">van der Kolk, 2014 — Somatic Storage of Traumatic Memory</span>
-        <p>Bessel van der Kolk's decades of research on traumatic memory encoding established that the body stores distress not as narrative but as sensation and motor impulse — tightening, bracing, the suppressed urge to move or flee. This is why commemorative rituals are not merely symbolic: they are collective activations of somatic memory. Memorial Day is not only a cultural event. For people who have lost family to military service, who served themselves, or who carry any form of complicated loss suppressed under professional performance, this weekend surfaces body-state residue that has no narrative form. It does not arrive as a thought. It arrives as a weight, a constriction, a blunting of response. Practitioners working this week are working in a field with elevated somatic noise. That is a clinical and operational fact.</p>
-      </div>
-
-      <div class="cite">
-        "The body keeps the score: if the memory of trauma is encoded in the viscera, in heartbreaking and gut-wrenching emotions... then our first obligation is to help people to tolerate feeling what they feel."<br>
-        — van der Kolk, B. <em>The Body Keeps the Score.</em> Viking, 2014.
-      </div>
-    </div>
-
-    <!-- SECTION 3: THE CONCEPT -->
-    <div class="section" data-section="concept">
-      <span class="section-number">§ 03 · The Concept</span>
-      <h2>The Body Votes First</h2>
-
-      <p>Here is the operational principle that follows from all three findings: the body is not waiting for the rational mind to decide something is wrong. It has already processed the room and is reporting. The practitioner's job is not to manage that report into professional invisibility. The job is to become a better reader of it.</p>
-
-      <div class="concept-box">
-        <span class="cb-label">Somatic Marker (Damasio)</span>
-        <p>A body-state change — change in heart rate, gut tension, breath rhythm, skin conductance, postural shift — arising from prior emotional learning and processed in the ventromedial prefrontal cortex before conscious deliberation begins. It is not raw sensation. It is a processed signal. By the time it surfaces as "something feels off," it has already been through a preliminary evaluation. The marker is upstream of the thought.</p>
-      </div>
-
-      <div class="concept-box">
-        <span class="cb-label">Neuroception (Porges)</span>
-        <p>The subcortical process by which the nervous system scans the social environment for safety or threat, below the threshold of conscious awareness. The practitioner's nervous system reads vocal prosody, facial microexpressions, postural deflation, the particular quality of group silence — and begins mobilizing a response. When a practitioner walks into a room and immediately feels their sternum tighten, that is not anxiety. That is neuroception doing its job accurately. The question is what to do with the reading.</p>
-      </div>
-
-      <p>The integrated picture: you walk into a room. Before you have consciously registered anything unusual, your ventral vagal system has scanned for social threat, your somatic markers have cross-referenced the current body-state against prior learning, and your anterior insula (the interoceptive cortex) has already begun reporting. The reading is on the scroll. The ink is laid down. The only remaining question is whether you have learned to interpret the trace.</p>
-
-      <div class="margin-note">
-        Craig's work on the anterior insula (2009) adds the layer: the body's internal state is mapped there, and disruptions surface as felt sense before they surface as named emotion. The barograph metaphor holds: the instrument is running. The practitioner is the reader.
-      </div>
-
-      <p>What this means practically: the practitioner who walks into a room and overrides the somatic reading with professional composure has not transcended the instrument — they have disconnected from it. The output is still being generated. It is just not being read. The consequence is that the practitioner acts on an agenda that the room has already moved on from, without knowing it.</p>
-    </div>
-
-    <!-- SECTION 4: EDGE CASES -->
-    <div class="section" data-section="edge-cases">
-      <span class="section-number">§ 04 · Edge Cases</span>
-      <h2>Where This Gets Complicated</h2>
-
-      <p>The case for somatic intelligence is strong. The risks of misusing it are real. A practitioner who trusts every body reading without interrogating it is not better calibrated — they are more confident in a process they have not tested. Three complications deserve direct treatment.</p>
-
-      <h3>Neuroception versus Projection</h3>
-
-      <p>Neuroception is the nervous system reading signals in the environment. Projection is the nervous system reading signals from its own prior experience and attributing them to the environment. These feel identical from the inside. A practitioner who carries unresolved traumatic residue around authority, conflict, or loss will fire somatic markers in response to ambiguous stimuli that a practitioner without that history would not register as threatening. The body's report is accurate about its own state. It is not automatically accurate about the cause of that state.</p>
-
-      <p>The distinguishing practice is provisional reading: "I notice X in my body. Before I act on it as information about the room, I'm going to stay with it for ten seconds and see if there's a prior reference." This is a skill, not an instinct. It requires consistent somatic practice — body-based attention over time — to develop the discrimination.</p>
-
-      <h3>Confirmation Bias Dressed as Intuition</h3>
-
-      <p>A practitioner who expects a group to be in distress will find somatic confirmation of it. The body is biased toward pattern completion. If the practitioner entered the room with a theory — "this cohort has been struggling since session two" — the somatic reading will be filtered through that frame. The sternum tightening that in a neutral context would be noted and released becomes evidence for a pre-held conclusion. This is not intuition. This is confirmation bias with somatic texture.</p>
-
-      <p>The mitigation is not to distrust somatic readings — it is to hold them lightly enough that new data can revise them. The instrument logs continuously. A reading taken at entry should be revisited ten minutes in. The scroll updates.</p>
-
-      <h3>The Ethics of Unannounced Reads</h3>
-
-      <p>A practitioner who notices a group's somatic state, names it, and acts on it without transparency with the group has introduced an invisible layer of facilitation. This can be done well — with skill and judgment, the facilitation serves the group even when they don't know it's happening. But it carries risk: the practitioner's read may be wrong, and the group has no way to correct it. The ethical standard is not to read nothing. It is to bring somatic observations into the room with appropriate transparency: "I'm noticing something in the room. Before we continue with the agenda, I want to check in." That one sentence moves the somatic reading from invisible facilitation to collaborative inquiry.</p>
-
-      <div class="margin-note">
-        The distinction between neuroception and projection is one of the most practically important — and least often taught — competencies in practitioner development. Building somatic literacy requires a practice. It does not arrive with training credentials.
-      </div>
-    </div>
-
-    <!-- SECTION 5: ETYMOLOGY -->
-    <div class="section" data-section="etymology">
-      <span class="section-number">§ 05 · Etymology / Roots</span>
-      <h2>What Was Erased</h2>
-
-      <p><em>Somatic</em> comes from the Greek <em>sōma</em> — body. The word carries the whole project: knowledge that originates in, and cannot be separated from, the body that holds it. Not knowledge <em>about</em> the body. Knowledge <em>as</em> the body.</p>
-
-      <p>That distinction matters because something specific happened to body-based knowing in the Western professional tradition. It was not merely deprioritized. It was structurally excluded — and the founding document of that exclusion is René Descartes' 1641 <em>Meditations on First Philosophy</em>. The cogito — <em>I think, therefore I am</em> — installed cognition as the site of identity and erased the body as a legitimate epistemic instrument. What could be thought was real. What could only be felt was suspect.</p>
-
-      <p>Professional training in the Western tradition is built on this foundation. The doctor, the lawyer, the educator, the trainer — all are trained to be intelligences that happen to inhabit bodies, not intelligences that <em>are</em> bodies. The body is managed: regulated, composed, made presentable. It is not listened to.</p>
-
-      <div class="cite">
-        Descartes' legacy in professional practice is not a philosophical position held consciously. It is a structural inheritance — a training environment that rewards the suppression of somatic signal and the performance of disembodied competence. The practitioner who learns to read the body is not recovering something new. They are recovering something that was there before the severance.
-      </div>
-
-      <p>What gets lost in that severance is not a spiritual quality or a New Age sensitivity. What gets lost is an instrument. The practitioner who enters a room without access to somatic intelligence is operating with degraded input — gathering data from cognition and verbal report alone, missing the channel that processes faster and more broadly than either. It is analogous to navigating with the compass covered because the compass felt too imprecise.</p>
-
-      <p>The recovery is not about abandoning cognitive rigor. It is about adding a channel back. Damasio is a neuroscientist. Porges is a physiologist. Van der Kolk is a psychiatrist. The case for somatic intelligence is not mystical. It is mechanistic. The instrument is there. The question is whether it is in use.</p>
-    </div>
-
-    <!-- SECTION 6: WWYD / APPLICATION -->
-    <div class="section" data-section="application">
-      <span class="section-number">§ 06 · Application · What Would You Do?</span>
-      <h2>Seventeen Minutes on the Clock</h2>
-
-      <div class="scenario">
-        <span class="scenario-label">The Scenario</span>
-        You are facilitating a leadership cohort — twelve people, third session of six. You open with a short grounding exercise. The room goes quiet in a way that feels different from thinking-quiet. You notice your own sternum tighten. Your breath shortens before you are conscious of deciding anything. Two people are looking at the table. One person's jaw is visibly set. You have seventeen minutes of designed content before the next break, a slide deck queued, and an agenda you agreed to with the sponsor. Your body said something is wrong four seconds ago. What do you do with that?
-      </div>
-
-      <p>This is the operative question. The barograph has drawn its trace. The reading is on the scroll. Now comes the practitioner's decision: read it, or proceed as if the ink isn't there.</p>
-
-      <div class="response-set">
-        <div class="response-option">
-          <span class="ro-label">The Default Move (and its cost)</span>
-          <p>Proceed with the agenda. Trust the structure. The room is quiet because it's the third session — people are settling in. The sternum tightening is your own nerves. You have seventeen minutes of content that the sponsor paid for. You deliver it. The session closes. The participants fill out evaluation forms. Something real was in the room and it never got air. You will not know what it was.</p>
+        <div class="metadata">
+          <div class="date-tag">May 25, 2026 · Memorial Day Sunday</div>
+          <div class="issue-format-badge">The Barograph · Issue 025</div>
+          <h1>The Barograph</h1>
+          <p class="subtitle">On the body as instrument, and why the practitioner's first job is to become a better reader of it</p>
         </div>
 
-        <div class="response-option">
-          <span class="ro-label">The Over-Read Move (and its cost)</span>
-          <p>Stop the agenda entirely. Name the somatic reading: "Something feels heavy in here — I want to know what's happening for everyone." This surfaces the reading without discipline. If your somatic read is accurate, you've created an opening. If your read is projection — if the "heaviness" is your own Memorial Day activation, not the room's — you've introduced a distraction the group now has to manage. You've used the instrument without checking the calibration first.</p>
+        <img src="the-barograph-hero.jpg" alt="Antique barograph on aged oak, amber lamp, ink trace showing slow descent" class="hero-image">
+
+        <div class="highlight">
+          <span class="highlight-label">90-Second Signal</span>
+          <p>A barograph does not decide what the weather means. It records what is. Your nervous system works the same way — it has already logged the room's atmospheric pressure before you consciously decided anything was worth noticing. That sternum tightening, that shortened breath, that faint pull of unease before you've named its source: those are readings, not noise. The practitioner's work is not to override them with professional composure. It is to learn to read the scroll while it is still moving.</p>
         </div>
 
-        <div class="response-option">
-          <span class="ro-label">The Calibrated Move</span>
-          <p>Pause — visible but brief. Ten seconds. You are checking the read, not suppressing it. Then: a single sentence, open-ended, low-commitment: "Before we move into the next section — I want to take the temperature of the room. How are people actually arriving today?" Not "I sense something heavy." Not a performance of somatic acuity. A permission structure. You've opened the channel. What comes back will tell you whether the instrument was reading the room or reading you. If the room confirms, you've created the conversation. If it doesn't, you've spent thirty seconds and nothing was lost.</p>
+        <div class="begin-prompt">
+          <button onclick="goTo(1)">Begin reading →</button>
         </div>
-      </div>
 
-      <p>The calibrated move is not magical. It is a skill — built through consistent practice of body-based attention before, during, and after facilitation. The practitioner who develops this does not become more intuitive in a mystical sense. They become more accurate in a technical one. The instrument is the same. The reading precision improves.</p>
-
-      <h3>The Deeper Obligation</h3>
-
-      <p>Memorial Day is not the only week this matters. But it is a week when the somatic stakes in the room are objectively elevated — when the people across the table from you are carrying more body-state residue than usual, when the suppression is more effortful, when the silence that feels like thinking-quiet is more likely to be something else. The practitioner who arrives this week with a calibrated instrument arrives differently. Not more emotional. More accurate. Not softer. More useful.</p>
-
-      <p>The barograph does not care about the weather. It records. The practitioner's job is to read the scroll before the paper runs out — before the session closes and the room disperses and whatever was in the air dissipates without ever having been named.</p>
-    </div>
-
-    <!-- BIBLIOGRAPHY -->
-    <div class="bibliography">
-      <h3>Sources</h3>
-
-      <div class="citation">
-        Damasio, Antonio. <em>Descartes' Error: Emotion, Reason and the Human Brain.</em> Putnam, 1994. — Foundational text on the somatic marker hypothesis. Lesion studies establishing the ventromedial prefrontal cortex as the integration site for body-state signals and decision-making.
-      </div>
-
-      <div class="citation">
-        Porges, Stephen W. <em>The Polyvagal Theory: Neurophysiological Foundations of Emotions, Attachment, Communication, and Self-Regulation.</em> Norton, 2011. — Full articulation of polyvagal theory and the concept of neuroception as subcortical social threat detection.
-      </div>
-
-      <div class="citation">
-        van der Kolk, Bessel A. <em>The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma.</em> Viking, 2014. — Research on traumatic memory encoding as somatic sensation and motor impulse rather than narrative. Memorial Day context draws directly from this framework.
-      </div>
-
-      <div class="citation">
-        Craig, A. D. "How do you feel — now? The anterior insula and human awareness." <em>Nature Reviews Neuroscience,</em> vol. 10, no. 1, 2009, pp. 59–70. — Mechanistic account of interoception and the anterior insula's role in surfacing internal body-state as felt sense before named emotion.
-      </div>
-
-      <div class="citation">
-        Levine, Peter A. <em>In an Unspoken Voice: How the Body Releases Trauma and Restores Goodness.</em> North Atlantic Books, 2010. — On the body's incomplete motor responses and their release. Useful complement to van der Kolk on somatic residue and suppressed movement impulse.
       </div>
     </div>
 
-    <!-- DOCUMENT FOOTER -->
-    <div class="doc-footer">
-      Meliorism2.com · Daily briefings for practitioners
+    <!-- CARD 1: THE PHENOMENON -->
+    <div class="card" id="card-phenomenon">
+      <div class="card-inner">
+
+        <span class="section-number">§ 01 · The Phenomenon</span>
+        <h2>The Barograph Is Already Running</h2>
+
+        <p>This is Memorial Day weekend. If you are in a room with people right now — a leadership team, a coaching cohort, a training session, a classroom — some of them are carrying somatic weight they have not named. Veterans. Military families. People for whom the holiday surfaces grief suppressed under years of professional comportment. You may not know which ones. They may not have said anything. But the body has broadcast it, and if your instrument is calibrated, you have already received it.</p>
+
+        <p>The barograph is a drum barometer: a brass and glass instrument that draws continuous ink lines on a slowly-rotating paper scroll. It does not decide what the pressure means. It does not interpret, recommend, or react. It records. The scroll accumulates its trace over hours, and what you see — when you return to read it — is the shape of what passed through while everyone was looking elsewhere.</p>
+
+        <p>Practitioners enter rooms the way the barograph sits on its shelf: continuously exposed, continuously receiving. The instrument does not choose when to turn on. The question is only whether the ink is on the paper — whether the practitioner has learned to read what the body already logged.</p>
+
+        <span class="trace-rule"></span>
+
+        <p>This issue is about somatic intelligence: what it is, what the research says, how it works in practice, and what to do when the reading is clear but the room's agenda isn't. We are working from Memorial Day as the context because the stakes are elevated this week in a specific, biological way. The somatic noise in your rooms is higher than it is on a random Tuesday in October. That is not metaphor. That is van der Kolk.</p>
+
+        <div class="margin-note">
+          The image environment for this issue: a close-up of an antique barograph resting on aged oak, one corner of the paper scroll curling slightly. An amber lamp. Brass fittings. The ink trace shows a slow descent over twelve hours.
+        </div>
+
+      </div>
     </div>
 
+    <!-- CARD 2: THE EVIDENCE -->
+    <div class="card" id="card-evidence">
+      <div class="card-inner">
+
+        <span class="section-number">§ 02 · The Evidence</span>
+        <h2>Three Findings Practitioners Need to Know</h2>
+
+        <p>The research is not new. What is new is applying it operationally — as usable knowledge about how the body logs the room, and what that means for the practitioner.</p>
+
+        <div class="research-block">
+          <span class="researcher">Damasio, 1994 — The Somatic Marker Hypothesis</span>
+          <p>Antonio Damasio's lesion studies at Iowa tracked patients with damage to the ventromedial prefrontal cortex — a region that integrates body-state signals with decision-making. These patients retained full reasoning capacity. They could analyze, compare, and calculate. What they lost was access to somatic markers: body-state changes arising from prior emotional learning — shifts in heart rate, gut tension, peripheral circulation, breath rhythm — that normally constrain and guide choice before deliberation begins. Without somatic markers, the patients became catastrophically indecisive. Not because they were less intelligent, but because the body's input had been severed from the process. The "gut feeling" that something is wrong in a room is not noise to be managed through professional composure. It is a processed signal arriving ahead of verbal report. The body votes first.</p>
+        </div>
+
+        <div class="cite">
+          "The body's signals arrive before the conscious mind has decided they are worth noticing. The decision, in some respects, has already been made."<br>
+          — Damasio, A. <em>Descartes' Error: Emotion, Reason and the Human Brain.</em> Putnam, 1994.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Porges, 2011 — Neuroception and the Polyvagal Social Scan</span>
+          <p>Stephen Porges extended the picture with polyvagal theory. The ventral vagal branch of the autonomic nervous system continuously scans the environment for safety cues — not at the level of conscious attention, but subcortically, below awareness. Porges named this process neuroception. The nervous system reads stillness, vocal prosody, eye contact, the subtle constriction of facial musculature, the particular quality of silence when a group moves into defensive state — and it mobilizes response before the practitioner has formed a verbal thought about what is happening. A practitioner who walks into a room and immediately feels their chest tighten has already conducted a neuroception. The room's collective nervous system state has been broadcast and received. The practitioner is not imagining it. The instrument is doing its job.</p>
+        </div>
+
+        <div class="cite">
+          "Neuroception is the neural process, distinct from perception, that evaluates risk in the environment... it occurs without awareness."<br>
+          — Porges, S. W. <em>The Polyvagal Theory.</em> Norton, 2011.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">van der Kolk, 2014 — Somatic Storage of Traumatic Memory</span>
+          <p>Bessel van der Kolk's decades of research on traumatic memory encoding established that the body stores distress not as narrative but as sensation and motor impulse — tightening, bracing, the suppressed urge to move or flee. This is why commemorative rituals are not merely symbolic: they are collective activations of somatic memory. Memorial Day is not only a cultural event. For people who have lost family to military service, who served themselves, or who carry any form of complicated loss suppressed under professional performance, this weekend surfaces body-state residue that has no narrative form. It does not arrive as a thought. It arrives as a weight, a constriction, a blunting of response. Practitioners working this week are working in a field with elevated somatic noise. That is a clinical and operational fact.</p>
+        </div>
+
+        <div class="cite">
+          "The body keeps the score: if the memory of trauma is encoded in the viscera, in heartbreaking and gut-wrenching emotions... then our first obligation is to help people to tolerate feeling what they feel."<br>
+          — van der Kolk, B. <em>The Body Keeps the Score.</em> Viking, 2014.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: THE CONCEPT -->
+    <div class="card" id="card-concept">
+      <div class="card-inner">
+
+        <span class="section-number">§ 03 · The Concept</span>
+        <h2>The Body Votes First</h2>
+
+        <p>Here is the operational principle that follows from all three findings: the body is not waiting for the rational mind to decide something is wrong. It has already processed the room and is reporting. The practitioner's job is not to manage that report into professional invisibility. The job is to become a better reader of it.</p>
+
+        <div class="concept-box">
+          <span class="cb-label">Somatic Marker (Damasio)</span>
+          <p>A body-state change — change in heart rate, gut tension, breath rhythm, skin conductance, postural shift — arising from prior emotional learning and processed in the ventromedial prefrontal cortex before conscious deliberation begins. It is not raw sensation. It is a processed signal. By the time it surfaces as "something feels off," it has already been through a preliminary evaluation. The marker is upstream of the thought.</p>
+        </div>
+
+        <div class="concept-box">
+          <span class="cb-label">Neuroception (Porges)</span>
+          <p>The subcortical process by which the nervous system scans the social environment for safety or threat, below the threshold of conscious awareness. The practitioner's nervous system reads vocal prosody, facial microexpressions, postural deflation, the particular quality of group silence — and begins mobilizing a response. When a practitioner walks into a room and immediately feels their sternum tighten, that is not anxiety. That is neuroception doing its job accurately. The question is what to do with the reading.</p>
+        </div>
+
+        <p>The integrated picture: you walk into a room. Before you have consciously registered anything unusual, your ventral vagal system has scanned for social threat, your somatic markers have cross-referenced the current body-state against prior learning, and your anterior insula (the interoceptive cortex) has already begun reporting. The reading is on the scroll. The ink is laid down. The only remaining question is whether you have learned to interpret the trace.</p>
+
+        <div class="margin-note">
+          Craig's work on the anterior insula (2009) adds the layer: the body's internal state is mapped there, and disruptions surface as felt sense before they surface as named emotion. The barograph metaphor holds: the instrument is running. The practitioner is the reader.
+        </div>
+
+        <p>What this means practically: the practitioner who walks into a room and overrides the somatic reading with professional composure has not transcended the instrument — they have disconnected from it. The output is still being generated. It is just not being read. The consequence is that the practitioner acts on an agenda that the room has already moved on from, without knowing it.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 4: EDGE CASES -->
+    <div class="card" id="card-edge-cases">
+      <div class="card-inner">
+
+        <span class="section-number">§ 04 · Edge Cases</span>
+        <h2>Where This Gets Complicated</h2>
+
+        <p>The case for somatic intelligence is strong. The risks of misusing it are real. A practitioner who trusts every body reading without interrogating it is not better calibrated — they are more confident in a process they have not tested. Three complications deserve direct treatment.</p>
+
+        <h3>Neuroception versus Projection</h3>
+
+        <p>Neuroception is the nervous system reading signals in the environment. Projection is the nervous system reading signals from its own prior experience and attributing them to the environment. These feel identical from the inside. A practitioner who carries unresolved traumatic residue around authority, conflict, or loss will fire somatic markers in response to ambiguous stimuli that a practitioner without that history would not register as threatening. The body's report is accurate about its own state. It is not automatically accurate about the cause of that state.</p>
+
+        <p>The distinguishing practice is provisional reading: "I notice X in my body. Before I act on it as information about the room, I'm going to stay with it for ten seconds and see if there's a prior reference." This is a skill, not an instinct. It requires consistent somatic practice — body-based attention over time — to develop the discrimination.</p>
+
+        <h3>Confirmation Bias Dressed as Intuition</h3>
+
+        <p>A practitioner who expects a group to be in distress will find somatic confirmation of it. The body is biased toward pattern completion. If the practitioner entered the room with a theory — "this cohort has been struggling since session two" — the somatic reading will be filtered through that frame. The sternum tightening that in a neutral context would be noted and released becomes evidence for a pre-held conclusion. This is not intuition. This is confirmation bias with somatic texture.</p>
+
+        <p>The mitigation is not to distrust somatic readings — it is to hold them lightly enough that new data can revise them. The instrument logs continuously. A reading taken at entry should be revisited ten minutes in. The scroll updates.</p>
+
+        <h3>The Ethics of Unannounced Reads</h3>
+
+        <p>A practitioner who notices a group's somatic state, names it, and acts on it without transparency with the group has introduced an invisible layer of facilitation. This can be done well — with skill and judgment, the facilitation serves the group even when they don't know it's happening. But it carries risk: the practitioner's read may be wrong, and the group has no way to correct it. The ethical standard is not to read nothing. It is to bring somatic observations into the room with appropriate transparency: "I'm noticing something in the room. Before we continue with the agenda, I want to check in." That one sentence moves the somatic reading from invisible facilitation to collaborative inquiry.</p>
+
+        <div class="margin-note">
+          The distinction between neuroception and projection is one of the most practically important — and least often taught — competencies in practitioner development. Building somatic literacy requires a practice. It does not arrive with training credentials.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 5: ETYMOLOGY -->
+    <div class="card" id="card-etymology">
+      <div class="card-inner">
+
+        <span class="section-number">§ 05 · Etymology / Roots</span>
+        <h2>What Was Erased</h2>
+
+        <p><em>Somatic</em> comes from the Greek <em>sōma</em> — body. The word carries the whole project: knowledge that originates in, and cannot be separated from, the body that holds it. Not knowledge <em>about</em> the body. Knowledge <em>as</em> the body.</p>
+
+        <p>That distinction matters because something specific happened to body-based knowing in the Western professional tradition. It was not merely deprioritized. It was structurally excluded — and the founding document of that exclusion is René Descartes' 1641 <em>Meditations on First Philosophy</em>. The cogito — <em>I think, therefore I am</em> — installed cognition as the site of identity and erased the body as a legitimate epistemic instrument. What could be thought was real. What could only be felt was suspect.</p>
+
+        <p>Professional training in the Western tradition is built on this foundation. The doctor, the lawyer, the educator, the trainer — all are trained to be intelligences that happen to inhabit bodies, not intelligences that <em>are</em> bodies. The body is managed: regulated, composed, made presentable. It is not listened to.</p>
+
+        <div class="cite">
+          Descartes' legacy in professional practice is not a philosophical position held consciously. It is a structural inheritance — a training environment that rewards the suppression of somatic signal and the performance of disembodied competence. The practitioner who learns to read the body is not recovering something new. They are recovering something that was there before the severance.
+        </div>
+
+        <p>What gets lost in that severance is not a spiritual quality or a New Age sensitivity. What gets lost is an instrument. The practitioner who enters a room without access to somatic intelligence is operating with degraded input — gathering data from cognition and verbal report alone, missing the channel that processes faster and more broadly than either. It is analogous to navigating with the compass covered because the compass felt too imprecise.</p>
+
+        <p>The recovery is not about abandoning cognitive rigor. It is about adding a channel back. Damasio is a neuroscientist. Porges is a physiologist. Van der Kolk is a psychiatrist. The case for somatic intelligence is not mystical. It is mechanistic. The instrument is there. The question is whether it is in use.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 6: APPLICATION + BIBLIOGRAPHY -->
+    <div class="card" id="card-application">
+      <div class="card-inner">
+
+        <span class="section-number">§ 06 · Application · What Would You Do?</span>
+        <h2>Seventeen Minutes on the Clock</h2>
+
+        <div class="scenario">
+          <span class="scenario-label">The Scenario</span>
+          You are facilitating a leadership cohort — twelve people, third session of six. You open with a short grounding exercise. The room goes quiet in a way that feels different from thinking-quiet. You notice your own sternum tighten. Your breath shortens before you are conscious of deciding anything. Two people are looking at the table. One person's jaw is visibly set. You have seventeen minutes of designed content before the next break, a slide deck queued, and an agenda you agreed to with the sponsor. Your body said something is wrong four seconds ago. What do you do with that?
+        </div>
+
+        <p>This is the operative question. The barograph has drawn its trace. The reading is on the scroll. Now comes the practitioner's decision: read it, or proceed as if the ink isn't there.</p>
+
+        <div class="response-set">
+          <div class="response-option">
+            <span class="ro-label">The Default Move (and its cost)</span>
+            <p>Proceed with the agenda. Trust the structure. The room is quiet because it's the third session — people are settling in. The sternum tightening is your own nerves. You have seventeen minutes of content that the sponsor paid for. You deliver it. The session closes. The participants fill out evaluation forms. Something real was in the room and it never got air. You will not know what it was.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">The Over-Read Move (and its cost)</span>
+            <p>Stop the agenda entirely. Name the somatic reading: "Something feels heavy in here — I want to know what's happening for everyone." This surfaces the reading without discipline. If your somatic read is accurate, you've created an opening. If your read is projection — if the "heaviness" is your own Memorial Day activation, not the room's — you've introduced a distraction the group now has to manage. You've used the instrument without checking the calibration first.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">The Calibrated Move</span>
+            <p>Pause — visible but brief. Ten seconds. You are checking the read, not suppressing it. Then: a single sentence, open-ended, low-commitment: "Before we move into the next section — I want to take the temperature of the room. How are people actually arriving today?" Not "I sense something heavy." Not a performance of somatic acuity. A permission structure. You've opened the channel. What comes back will tell you whether the instrument was reading the room or reading you. If the room confirms, you've created the conversation. If it doesn't, you've spent thirty seconds and nothing was lost.</p>
+          </div>
+        </div>
+
+        <p>The calibrated move is not magical. It is a skill — built through consistent practice of body-based attention before, during, and after facilitation. The practitioner who develops this does not become more intuitive in a mystical sense. They become more accurate in a technical one. The instrument is the same. The reading precision improves.</p>
+
+        <h3>The Deeper Obligation</h3>
+
+        <p>Memorial Day is not the only week this matters. But it is a week when the somatic stakes in the room are objectively elevated — when the people across the table from you are carrying more body-state residue than usual, when the suppression is more effortful, when the silence that feels like thinking-quiet is more likely to be something else. The practitioner who arrives this week with a calibrated instrument arrives differently. Not more emotional. More accurate. Not softer. More useful.</p>
+
+        <p>The barograph does not care about the weather. It records. The practitioner's job is to read the scroll before the paper runs out — before the session closes and the room disperses and whatever was in the air dissipates without ever having been named.</p>
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="bibliography">
+          <h3>Sources</h3>
+
+          <div class="citation">
+            Damasio, Antonio. <em>Descartes' Error: Emotion, Reason and the Human Brain.</em> Putnam, 1994. — Foundational text on the somatic marker hypothesis. Lesion studies establishing the ventromedial prefrontal cortex as the integration site for body-state signals and decision-making.
+          </div>
+
+          <div class="citation">
+            Porges, Stephen W. <em>The Polyvagal Theory: Neurophysiological Foundations of Emotions, Attachment, Communication, and Self-Regulation.</em> Norton, 2011. — Full articulation of polyvagal theory and the concept of neuroception as subcortical social threat detection.
+          </div>
+
+          <div class="citation">
+            van der Kolk, Bessel A. <em>The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma.</em> Viking, 2014. — Research on traumatic memory encoding as somatic sensation and motor impulse rather than narrative. Memorial Day context draws directly from this framework.
+          </div>
+
+          <div class="citation">
+            Craig, A. D. "How do you feel — now? The anterior insula and human awareness." <em>Nature Reviews Neuroscience,</em> vol. 10, no. 1, 2009, pp. 59–70. — Mechanistic account of interoception and the anterior insula's role in surfacing internal body-state as felt sense before named emotion.
+          </div>
+
+          <div class="citation">
+            Levine, Peter A. <em>In an Unspoken Voice: How the Body Releases Trauma and Restores Goodness.</em> North Atlantic Books, 2010. — On the body's incomplete motor responses and their release. Useful complement to van der Kolk on somatic residue and suppressed movement impulse.
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /sections-rail -->
+
+  <!-- PROGRESS + NAV -->
+  <div class="reading-progress" id="reading-progress">
+    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <div class="progress-trace">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
   </div>
-</div>
+
+</div><!-- /main-panel -->
 
 <!-- FOOTER BAR -->
 <div class="footer-bar">
@@ -791,6 +923,53 @@ function openMain(){
   track('enter','entry_screen');
 }
 
+/* ── CARD NAVIGATION ── */
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','etymology','application'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','Etymology','Application'];
+let currentCard=0;
+
+function goTo(index){
+  if(index<0||index>=CARDS.length)return;
+  // Reset scroll position of the card we're leaving
+  const cards=document.querySelectorAll('.card');
+  if(cards[currentCard])cards[currentCard].scrollTop=0;
+  currentCard=index;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  // Progress fill
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
+  // Label
+  const label=document.getElementById('progress-label');
+  if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
+  // Buttons
+  document.getElementById('nav-prev').disabled=index===0;
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  // Track
+  track('navigate',CARDS[index]);
+}
+
+/* ── TOUCH SWIPE ── */
+let touchStartX=0,touchStartY=0;
+document.getElementById('main-panel').addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('main-panel').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44){
+    if(dx<0)goTo(currentCard+1);
+    else goTo(currentCard-1);
+  }
+},{passive:true});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('main-panel').classList.contains('visible'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(currentCard+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(currentCard-1);}
+});
+
 /* ── ENGAGEMENT TRACKING ── */
 const _sos=(()=>{
   const ENDPOINT='https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
@@ -801,11 +980,12 @@ const _sos=(()=>{
   let queue=[];
   let flushTimer=null;
 
-  function scrollPct(){
-    const el=document.getElementById('main-panel')||document.documentElement;
-    const scrolled=el.scrollTop||0;
-    const total=el.scrollHeight-el.clientHeight;
-    return total>0?Math.round((scrolled/total)*100):0;
+  function activeCardScrollPct(){
+    const cards=document.querySelectorAll('.card');
+    const card=cards[currentCard];
+    if(!card)return 0;
+    const total=card.scrollHeight-card.clientHeight;
+    return total>0?Math.round((card.scrollTop/total)*100):0;
   }
 
   function flush(){
@@ -831,6 +1011,8 @@ const _sos=(()=>{
             label:ev.label,
             extra:ev.extra||null,
             referrer:document.referrer||null,
+            card_index:ev.card_index,
+            card_name:CARDS[ev.card_index]||null,
             scroll_pct:ev.scroll_pct,
             viewport_w:window.innerWidth,
             viewport_h:window.innerHeight
@@ -842,7 +1024,12 @@ const _sos=(()=>{
   }
 
   function enqueue(event,label,extra){
-    queue.push({event,label,extra,ts:new Date().toISOString(),scroll_pct:scrollPct()});
+    queue.push({
+      event,label,extra,
+      ts:new Date().toISOString(),
+      card_index:currentCard,
+      scroll_pct:activeCardScrollPct()
+    });
     if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
   }
 
@@ -858,34 +1045,22 @@ function track(event,label,extra){
   _sos.track(event,label,extra);
 }
 
-/* ── INTERSECTION OBSERVER FOR SECTIONS ── */
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      track('view',e.target.dataset.section||e.target.id||'unknown');
-      observer.unobserve(e.target);
-    }
-  });
-},{threshold:0.25});
-
-document.querySelectorAll('[data-section]').forEach(el=>observer.observe(el));
-
-/* ── SCROLL DEPTH TRACKING ── */
-const panel=document.getElementById('main-panel');
-const depths=[25,50,75,90];
-const depthsFired=new Set();
-
-if(panel){
-  panel.addEventListener('scroll',()=>{
-    const pct=Math.round((panel.scrollTop/(panel.scrollHeight-panel.clientHeight))*100);
-    depths.forEach(d=>{
-      if(pct>=d&&!depthsFired.has(d)){
-        depthsFired.add(d);
-        track('scroll_depth',''+d+'pct');
+/* ── PER-CARD SCROLL DEPTH TRACKING ── */
+const cardDepthsFired={};
+document.querySelectorAll('.card').forEach((card,i)=>{
+  cardDepthsFired[i]=new Set();
+  card.addEventListener('scroll',()=>{
+    const total=card.scrollHeight-card.clientHeight;
+    if(total<=0)return;
+    const pct=Math.round((card.scrollTop/total)*100);
+    [25,50,75,90].forEach(d=>{
+      if(pct>=d&&!cardDepthsFired[i].has(d)){
+        cardDepthsFired[i].add(d);
+        track('scroll_depth',CARDS[i]+'_'+d+'pct');
       }
     });
   },{passive:true});
-}
+});
 
 /* ── CLICK TRACKING ── */
 document.addEventListener('click',e=>{
