@@ -1,0 +1,1331 @@
+<!-- meliorism2:date: 2026-05-31 -->
+<!-- meliorism2:slug: the-load-bearing-wall -->
+<!-- meliorism2:title: The Load-Bearing Wall -->
+<!-- meliorism2:concept: Safe spaces protect people from discomfort. Brave spaces ask people to stay in contact with it — and the difference between those two design choices determines whether the room can hold the conversation that actually needs to happen. -->
+<!-- meliorism2:format: The Load-Bearing Wall -->
+<!-- meliorism2:dimension: Brave Spaces -->
+<!-- meliorism2:sources: 5 -->
+<!-- meliorism2:architecture: horizontal-swipe -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · The Load-Bearing Wall</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #faf8f5;
+  --surface:   #f0ebe3;
+  --border:    rgba(139,111,71,0.15);
+  --border-h:  rgba(139,111,71,0.3);
+  --accent:    #8b6f47;
+  --accentf:   rgba(139,111,71,0.5);
+  --amber:     #b07d3a;
+  --amber-l:   #d4a055;
+  --amber-d:   #7a5520;
+  --text:      #2c2c2c;
+  --muted:     rgba(44,44,44,0.85);
+  --dim:       rgba(44,44,44,0.72);
+  --dark-band: #1a1714;
+  --cream:     #c8b99a;
+  --ink:       #1e1a15;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Courier Prime',monospace;
+  overflow:hidden;
+}
+
+/* ── STATUS BAR ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:36px;
+  background:rgba(0,0,0,0.02);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.sb-logo{
+  font-size:0.8rem;letter-spacing:4px;font-weight:700;
+  color:var(--accent);text-decoration:none;border:none;
+}
+.sb-logo:hover{background:transparent;}
+.sb-label{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);flex:1;
+}
+.sb-clock{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);
+}
+
+/* ── ENTRY SCREEN ── */
+#entry{
+  position:fixed;inset:0;top:36px;z-index:800;
+  overflow:hidden;
+  cursor:pointer;
+  transition:opacity 1.2s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg, #0f1a14 0%, #1a2810 35%, #0a120a 70%, #1a1714 100%);
+  transform:scale(1.04);
+  animation:kb 14s ease-out forwards;
+}
+@keyframes kb{
+  from{transform:scale(1.04);}
+  to{transform:scale(1.0);}
+}
+
+.entry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(10,18,10,0.18) 0%,
+    rgba(10,18,10,0.44) 40%,
+    rgba(10,18,10,0.88) 100%
+  );
+}
+
+/* structural cross-hatch detail on entry */
+.entry-structure{
+  position:absolute;inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  opacity:0.08;
+}
+.entry-structure::before{
+  content:'';
+  display:block;
+  position:absolute;
+  top:20%;left:50%;
+  width:2px;height:60%;
+  background:rgba(200,185,154,0.6);
+  transform:translateX(-50%);
+}
+.entry-structure::after{
+  content:'';
+  display:block;
+  position:absolute;
+  top:30%;left:30%;
+  width:40%;height:2px;
+  background:rgba(200,185,154,0.4);
+}
+
+.entry-corner{
+  position:absolute;top:24px;right:32px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;
+  color:rgba(210,180,130,0.85);
+  text-transform:uppercase;text-align:right;line-height:1.9;
+}
+
+.entry-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:44px 56px 52px;
+}
+
+.entry-stamp{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(210,180,130,0.7);
+  display:flex;gap:18px;align-items:center;
+  margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;
+}
+.entry-stamp-sep{opacity:0.35;}
+
+.entry-title{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(3.8rem,9vw,7rem);
+  font-weight:400;line-height:1.0;
+  color:#faf4ec;letter-spacing:-0.02em;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(14px);
+  animation:fadeUp 0.9s ease 0.55s forwards;
+}
+
+.entry-sub{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-style:italic;
+  color:rgba(240,225,195,0.65);
+  margin-bottom:36px;
+  opacity:0;transform:translateY(8px);
+  animation:fadeUp 0.8s ease 0.85s forwards;
+}
+
+.entry-enter{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(210,180,130,0.85);
+  background:none;border:none;border-bottom:1px solid rgba(210,180,130,0.35);
+  padding-bottom:3px;cursor:pointer;
+  opacity:0;animation:fadeUp 0.7s ease 1.3s forwards;
+  transition:color 0.2s,border-color 0.2s;
+}
+.entry-enter:hover{
+  color:#faf4ec;
+  border-bottom-color:rgba(250,240,210,0.7);
+}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:640px){
+  .entry-content{padding:32px 24px 40px;}
+  .entry-corner{display:none;}
+  .entry-stamp{flex-wrap:wrap;gap:10px;}
+}
+
+/* ── MAIN PANEL ── */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+  overflow:hidden;
+  background:var(--bg);
+}
+#main-panel.visible{
+  display:block;opacity:1;
+}
+
+/* ── SECTIONS RAIL ── */
+.sections-rail{
+  display:flex;
+  flex-direction:row;
+  width:700%;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+.card{
+  width:calc(100% / 7);
+  flex-shrink:0;
+  height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.card-inner{
+  max-width:820px;
+  padding:50px 40px 80px;
+  margin:0 auto;
+}
+
+@media(max-width:768px){
+  .card-inner{padding:30px 20px 80px;}
+}
+
+/* ── READING PROGRESS BAR ── */
+.reading-progress{
+  position:fixed;
+  bottom:40px;left:0;right:0;
+  height:36px;
+  background:var(--dark-band);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:14px;
+  z-index:900;
+}
+
+.progress-trace{
+  flex:1;
+  height:2px;
+  background:rgba(176,125,58,0.15);
+  border-radius:1px;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  position:absolute;
+  top:0;left:0;height:100%;
+  background:var(--amber);
+  transition:width 0.45s cubic-bezier(0.4,0,0.2,1);
+  border-radius:1px;
+}
+
+.progress-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;
+  color:var(--cream);opacity:0.7;
+  white-space:nowrap;
+  min-width:80px;text-align:right;
+}
+
+.nav-prev,.nav-next{
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+}
+.nav-prev:hover,.nav-next:hover{color:var(--amber);}
+.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+
+/* ── CARD 0: SIGNAL HEADER ── */
+.metadata{
+  text-align:center;margin-bottom:50px;
+  border-bottom:2px solid var(--border-h);
+  padding-bottom:30px;color:var(--dim);
+}
+
+.date-tag{
+  font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.issue-format-badge{
+  display:inline-block;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(176,125,58,0.35);
+  padding:3px 10px;
+  margin-bottom:16px;
+}
+
+h1{
+  font-family:'Crimson Text',serif;
+  font-size:2.6rem;font-weight:normal;
+  margin:16px 0 10px;color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.subtitle{
+  font-size:0.95rem;color:var(--dim);
+  margin-top:10px;font-style:italic;
+  font-family:'Crimson Text',serif;
+}
+
+/* ── 90-SECOND SIGNAL ── */
+.highlight{
+  background:linear-gradient(135deg,#f5ede0 0%,#faf7f2 100%);
+  border-left:4px solid var(--amber);
+  padding:26px 28px;margin:40px 0;
+  border-radius:2px;
+  border-top:1px solid rgba(176,125,58,0.15);
+  border-bottom:1px solid rgba(176,125,58,0.15);
+  border-right:1px solid rgba(176,125,58,0.08);
+}
+
+.highlight-label{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:var(--amber);margin-bottom:12px;font-weight:700;
+  display:block;
+}
+
+.highlight p{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;line-height:1.75;color:var(--text);
+  margin-bottom:1em;
+}
+.highlight p:last-child{margin-bottom:0;}
+
+/* ── BEGIN READING PROMPT ── */
+.begin-prompt{
+  margin-top:40px;
+  text-align:center;
+  padding:24px 0 10px;
+  border-top:1px solid var(--border);
+}
+.begin-prompt button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s;
+}
+.begin-prompt button:hover{
+  color:var(--amber-d);
+  border-bottom-color:rgba(122,85,32,0.5);
+}
+
+/* ── SECTION NUMBER BAND ── */
+.section-number{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.16em;
+  display:block;
+  background:var(--dark-band);
+  color:var(--cream);
+  padding:11px 16px;
+  margin:0 -40px 24px;
+}
+
+@media(max-width:768px){
+  .section-number{margin:0 -20px 20px;}
+}
+
+h2{
+  font-family:'Crimson Text',serif;
+  font-size:1.9rem;font-weight:normal;
+  margin-bottom:18px;color:var(--text);
+  border-bottom:1px solid var(--border-h);
+  padding-bottom:10px;
+  letter-spacing:-0.01em;
+}
+
+h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.15rem;font-weight:600;
+  margin-top:24px;margin-bottom:10px;color:var(--ink);
+}
+
+p{
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;line-height:1.75;
+  margin-bottom:1.1em;
+}
+
+/* ── STRUCTURAL DIVIDER ── */
+.wall-rule{
+  display:block;
+  position:relative;
+  height:32px;
+  margin:28px 0 20px;
+  overflow:hidden;
+}
+.wall-rule::after{
+  content:'';
+  display:block;
+  position:absolute;
+  top:50%;left:0;right:0;
+  height:2px;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(139,111,71,0.12) 5%,
+    rgba(139,111,71,0.45) 20%,
+    rgba(139,111,71,0.65) 35%,
+    rgba(139,111,71,0.65) 65%,
+    rgba(139,111,71,0.45) 80%,
+    rgba(139,111,71,0.12) 95%,
+    transparent 100%
+  );
+}
+.wall-rule::before{
+  content:'LOAD-BEARING';
+  display:block;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;
+  color:rgba(139,111,71,0.4);
+  background:var(--bg);
+  padding:0 12px;
+}
+
+/* ── CALLOUT / CITE ── */
+.cite{
+  font-size:0.95rem;
+  color:var(--text);
+  border-left:3px solid var(--amber);
+  padding:12px 18px;
+  margin:18px 0 26px;
+  display:block;
+  letter-spacing:0.3px;
+  line-height:1.75;
+  background:rgba(176,125,58,0.04);
+  font-family:'Crimson Text',serif;
+}
+.cite em{font-style:italic;}
+
+/* ── MARGIN NOTE ── */
+.margin-note{
+  position:relative;margin-left:16px;padding-left:18px;
+  border-left:2px dashed var(--accentf);
+  font-size:0.95rem;color:var(--muted);
+  font-style:italic;margin-top:18px;margin-bottom:18px;
+  line-height:1.65;
+  font-family:'Crimson Text',serif;
+}
+
+/* ── RESEARCH BLOCK ── */
+.research-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.research-block .researcher{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;display:block;font-weight:700;
+}
+.research-block p{
+  font-size:1.05rem;margin-bottom:0;
+}
+
+/* ── CONCEPT BOX ── */
+.concept-box{
+  background:linear-gradient(135deg,#f8f0e2 0%,#faf7f2 100%);
+  border:1px solid rgba(176,125,58,0.2);
+  border-left:4px solid var(--amber-d);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.concept-box .cb-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber-d);margin-bottom:10px;display:block;font-weight:700;
+}
+.concept-box p{font-size:1.05rem;margin-bottom:0;}
+
+/* ── PULL QUOTE ── */
+.pull-quote{
+  margin:32px 0;
+  padding:28px 32px;
+  border-top:2px solid var(--amber);
+  border-bottom:1px solid var(--border);
+}
+.pull-quote p{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(1.4rem,2.5vw,2rem);
+  line-height:1.45;
+  color:var(--ink);
+  font-style:italic;
+  margin-bottom:0;
+}
+
+/* ── SCENARIO BOX ── */
+.scenario{
+  background:#f8f4ee;
+  border:1px solid rgba(176,125,58,0.25);
+  padding:28px 30px;
+  margin:28px 0;
+  border-radius:2px;
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;
+  line-height:1.75;
+  color:var(--ink);
+  border-top:3px solid var(--amber);
+}
+.scenario-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:14px;display:block;font-weight:700;
+}
+
+/* ── RESPONSE OPTIONS ── */
+.response-set{
+  margin:24px 0;
+}
+.response-option{
+  padding:16px 20px;
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:var(--bg);
+  transition:border-color 0.2s,background 0.2s;
+}
+.response-option:hover{
+  border-color:var(--amber);
+  background:rgba(176,125,58,0.03);
+  cursor:default;
+}
+.response-option .ro-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:8px;font-weight:700;
+}
+.response-option p{font-size:1.05rem;line-height:1.75;margin-bottom:0;}
+
+/* ── CHOOSE YOUR ROLE INTERACTION ── */
+.role-gate{
+  background:var(--surface);
+  border:1px solid var(--border-h);
+  border-top:3px solid var(--accent);
+  padding:28px 30px;
+  margin:36px 0 28px;
+  border-radius:2px;
+}
+.role-gate-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+  display:block;
+  font-weight:700;
+}
+.role-gate-heading{
+  font-family:'Crimson Text',serif;
+  font-size:1.25rem;
+  color:var(--ink);
+  margin-bottom:20px;
+  font-weight:600;
+  line-height:1.45;
+}
+.role-options{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.role-btn{
+  font-family:'Crimson Text',serif;
+  font-size:1.05rem;
+  line-height:1.5;
+  text-align:left;
+  padding:14px 18px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:2px;
+  cursor:pointer;
+  color:var(--text);
+  transition:border-color 0.2s,background 0.2s,color 0.2s;
+}
+.role-btn:hover{
+  border-color:var(--amber);
+  background:rgba(176,125,58,0.04);
+  color:var(--ink);
+}
+.role-btn.selected{
+  border-color:var(--amber);
+  background:linear-gradient(135deg,#f8f0e2 0%,#faf7f2 100%);
+  color:var(--ink);
+}
+.role-btn .role-check{
+  display:inline-block;
+  width:14px;
+  margin-right:8px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;
+  color:var(--amber);
+}
+
+.role-frame{
+  display:none;
+  margin-top:18px;
+  padding:16px 20px;
+  background:rgba(139,111,71,0.06);
+  border-left:3px solid var(--accent);
+  font-family:'Crimson Text',serif;
+  font-size:1.05rem;
+  line-height:1.7;
+  color:var(--ink);
+  font-style:italic;
+  border-radius:0 2px 2px 0;
+}
+.role-frame.active{display:block;}
+
+.role-continue{
+  display:none;
+  margin-top:16px;
+  text-align:right;
+}
+.role-continue.active{display:block;}
+.role-continue button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s;
+}
+.role-continue button:hover{color:var(--amber-d);}
+
+#wwyd-scenario{
+  display:none;
+}
+#wwyd-scenario.active{display:block;}
+
+/* ── BIBLIOGRAPHY ── */
+.bibliography{
+  margin-top:54px;padding-top:30px;
+  border-top:2px solid var(--border-h);
+}
+.bibliography h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-weight:normal;
+  margin-bottom:20px;color:var(--text);
+}
+.citation{
+  margin-bottom:14px;line-height:1.75;
+  padding-left:20px;text-indent:-20px;
+  font-size:0.9rem;
+  font-family:'Crimson Text',serif;
+}
+.citation em{font-style:italic;}
+
+/* ── FOOTER ── */
+.doc-footer{
+  margin-top:60px;padding-top:30px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.8rem;letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+/* ── FOOTER BAR ── */
+.footer-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:40px;background:var(--bg);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  font-size:0.8rem;letter-spacing:2px;
+}
+.footer-bar a{color:var(--accent);text-decoration:none;border:none;}
+.footer-bar a:hover{color:var(--amber);background:transparent;}
+.footer-sep{color:var(--border-h);}
+
+/* ── GENERAL LINKS ── */
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,71,0.3);}
+a:hover{background:rgba(139,111,71,0.06);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  #entry{align-items:flex-start;overflow-y:auto;}
+  .entry-content{padding:28px 20px 80px;}
+  .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
+  h1{font-size:1.9rem;}
+  h2{font-size:1.4rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div style="width:1px;height:12px;background:var(--border);"></div>
+  <div class="sb-label">THE LOAD-BEARING WALL · BRAVE SPACES · SAT 05.31</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div id="entry" onclick="openMain()">
+  <div class="entry-bg"></div>
+  <div class="entry-structure"></div>
+  <div class="entry-overlay"></div>
+  <div class="entry-corner">The Load-Bearing Wall<br>Brave Spaces</div>
+  <div class="entry-content">
+    <div class="entry-stamp">
+      <span>Meliorism2.com</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>May 31, 2026</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>Brave Spaces</span>
+    </div>
+    <h1 class="entry-title">The Load-<br>Bearing<br>Wall</h1>
+    <p class="entry-sub">The wall that keeps the ceiling up is not the wall you decorate.</p>
+    <button class="entry-enter" onclick="openMain()">Test the wall →</button>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div id="main-panel">
+
+  <div class="sections-rail" id="sections-rail">
+
+    <!-- CARD 0: THE SIGNAL -->
+    <div class="card" id="card-signal">
+      <div class="card-inner">
+
+        <div class="metadata">
+          <div class="date-tag">May 31, 2026 · Saturday</div>
+          <div class="issue-format-badge">The Load-Bearing Wall · Issue 031</div>
+          <h1>The Load-Bearing Wall</h1>
+          <p class="subtitle">On the design difference between safe spaces and brave spaces — and why getting it wrong has structural consequences</p>
+        </div>
+
+        <div class="highlight">
+          <span class="highlight-label">90-Second Signal</span>
+          <p>A safe space removes the discomfort. A brave space holds the discomfort steady so the person inside it can choose whether to stay in contact with it.</p>
+          <p>The load-bearing distinction: safe space design optimizes for the absence of harm. Brave space design optimizes for the capacity to be present with difficulty. Both are real design choices. Only one of them can hold the conversation that actually needs to happen.</p>
+          <p>The wall that keeps the ceiling up is not the wall you decorate.</p>
+        </div>
+
+        <div class="begin-prompt">
+          <button onclick="goTo(1)">BEGIN READING →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 1: THE PHENOMENON -->
+    <div class="card" id="card-phenomenon">
+      <div class="card-inner">
+
+        <span class="section-number">§ 01 · The Phenomenon</span>
+        <h2>The Room That Can't Hold the Conversation</h2>
+
+        <p>This is the closing issue of the week. The week opened on the body as instrument — The Barograph and its reading of atmospheric pressure before the mind decides what the weather means. It moved through nervous system regulation in The Pressure Log, tracked co-presence across distance in The Tide Chart, and arrives here: at the design question that makes all of it possible.</p>
+
+        <p>What kind of space are you actually building?</p>
+
+        <p>Not the space you intend to build. Not the language in your participant guide. The actual structure — the design choices that determine whether the room can hold the conversation that arrives when someone tells the truth, when a simulation goes badly, when the silence goes on longer than anyone planned for. Can the ceiling stay up?</p>
+
+        <span class="wall-rule"></span>
+
+        <p>The distinction between safe space and brave space entered facilitation practice through a specific paper: Brian Arao and Kristi Clemens, writing in 2013, observed that the standard promise of "safe space" was producing rooms that were comfortable but not transformative. Participants stayed polite. The real conversations didn't happen. The room felt fine. Nothing changed.</p>
+
+        <p>Their argument was precise: the problem was not that safety was overvalued. It was that safety had been confused with comfort. A safe space, as typically designed, removes the conditions that produce discomfort. That is not the same as safety. It is more like anesthetic — the room doesn't hurt, but it also can't register what is actually happening.</p>
+
+        <div class="pull-quote">
+          <p>"The absence of discomfort is not the presence of safety. It is the presence of numbness."</p>
+        </div>
+
+        <p>Brave space design runs a different premise. It accepts that discomfort is not a sign the room has failed. It is a sign the room is working. The design question is not how to remove the discomfort — it is how to build a container that can hold it without collapsing, so the people inside it can choose whether to stay in contact with what is difficult rather than retreating behind civility.</p>
+
+        <p>This is a structural question. Not a values question, not a facilitation style, not a warmth parameter. The practitioner who understands it architecturally — as a question about what the room can hold — is working at a different level than the one who understands it as tone management.</p>
+
+        <div class="margin-note">
+          This issue closes the week. The week's sequence — body as instrument, nervous system regulation, co-presence, container design — is a practitioner's architecture for staying present with difficulty. The brave space question is what the whole sequence has been building toward.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 2: THE EVIDENCE -->
+    <div class="card" id="card-evidence">
+      <div class="card-inner">
+
+        <span class="section-number">§ 02 · The Evidence</span>
+        <h2>Three Findings on What Brave Space Actually Requires</h2>
+
+        <p>The research is not only about facilitation. It is about the structural conditions under which people can remain present with difficulty — and what collapses when those conditions are absent.</p>
+
+        <div class="research-block">
+          <span class="researcher">Edmondson, 2018 — Psychological Safety Is Not Comfort</span>
+          <p>Amy Edmondson's research on psychological safety in organizational teams establishes a finding that directly complicates the "safe space" default: the highest-performing teams were not the most comfortable ones. They were the ones where members felt they could raise problems, admit mistakes, and disagree with each other without fear of punishment — but this produced visible tension, not comfort. Edmondson is explicit: psychological safety is not about being nice, avoiding conflict, or removing friction. It is about the belief that the room will not punish risk-taking. Teams that optimized for comfort produced environments where people withheld the very information that would have made the team better. The ceiling stayed up, but only because no one was asking it to hold anything.</p>
+        </div>
+
+        <div class="cite">
+          "Psychological safety is not about being nice. It's about candor. It's about making it possible for the difficult truth to land in the room."<br>
+          — Edmondson, A. C. <em>The Fearless Organization.</em> Wiley, 2018.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">hooks, 1994 — Comfort and Transformation Are Mutually Exclusive</span>
+          <p>bell hooks, writing about pedagogy in <em>Teaching to Transgress</em>, argues that classrooms which prioritize comfort produce conditions where transformation cannot occur. Her framing is direct: if the purpose of the room is education — genuine change in how someone understands the world — then discomfort is not incidental. It is the medium. The moment a practitioner redesigns the room to prevent discomfort, they have redesigned it away from its stated purpose. hooks makes a further point that practitioners consistently underweight: comfort is not neutral. Prioritizing comfort serves those for whom the default arrangement is already comfortable. Safe space design, in this reading, is not apolitical. It preserves the existing order in the room.</p>
+        </div>
+
+        <div class="cite">
+          "If the academy is not a place where transformation can happen, what are we defending when we call it safe?"<br>
+          — hooks, b. <em>Teaching to Transgress.</em> Routledge, 1994.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Brown, 2017 — The Room Replicates at Scale</span>
+          <p>Adrienne Maree Brown's work on emergent strategy introduces the fractal principle: the conditions you create in a small room replicate at scale. Brave space design is not a facilitation technique. It is a political position about what rooms are for. A practitioner who designs brave space is making a claim that transformation is worth the discomfort it requires — and that claim lives not in the opening statement or the ground rules but in the structural decisions: who speaks first, what is permitted to surface, whether silence is read as threat or as working, whether disagreement is managed into resolution or held long enough to reveal what is actually underneath it. The fractal cuts both ways: a room designed for comfort produces a culture designed for comfort. At scale, that means less candor, less change, less of what the room was supposedly convened for.</p>
+        </div>
+
+        <div class="cite">
+          "How we are at the small scale is how we are at the large scale."<br>
+          — Brown, A. M. <em>Emergent Strategy.</em> AK Press, 2017.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: THE CONCEPT -->
+    <div class="card" id="card-concept">
+      <div class="card-inner">
+
+        <span class="section-number">§ 03 · The Concept</span>
+        <h2>The Structural Distinction</h2>
+
+        <p>Here is the practitioner-usable architecture, built completely.</p>
+
+        <p>A building has two kinds of walls. Decorative walls can be removed: the room looks different, furniture moves differently, light falls at a new angle. Nothing structural changes. The ceiling stays where it is. Load-bearing walls are different. They are in the wall because the ceiling needs them there. Remove one and the ceiling follows it down.</p>
+
+        <p>The distinction between safe space and brave space is exactly this.</p>
+
+        <div class="concept-box">
+          <span class="cb-label">Safe Space (Decorative Wall)</span>
+          <p>Designed to prevent discomfort. Ground rules prohibit challenge, protect privacy, ensure no one is made to feel attacked. The room feels secure. Participants can engage without risk of being confronted with something they don't want to hear. The ceiling stays up. But the ceiling was never going to come down — because nothing in the room was asking it to hold any real weight. The "safety" is real, but so is what it costs: the conversations that need the discomfort to be present don't happen. The room is fine. Nothing changes.</p>
+        </div>
+
+        <div class="concept-box">
+          <span class="cb-label">Brave Space (Load-Bearing Wall)</span>
+          <p>Designed to hold discomfort, not remove it. The ground rules don't promise comfort — they promise that discomfort will be taken seriously, that no one will be abandoned in it, that the container will remain present for what surfaces. Participants are asked to stay in contact with difficulty rather than retreat from it. This is not the removal of protection. It is a different kind of protection — one that treats people as capable of remaining present with hard things rather than needing to be shielded from them. The wall is load-bearing because transformation actually puts weight on it.</p>
+        </div>
+
+        <span class="wall-rule"></span>
+
+        <p>The operational implication: every design choice in a facilitated room either increases or decreases the load-bearing capacity. The practitioner who opens a session by asking "what do we need to feel safe?" is designing one kind of room. The practitioner who opens by asking "what do we need to stay in the room when it gets hard?" is designing another.</p>
+
+        <div class="concept-box">
+          <span class="cb-label">Brave Space: The Four Operating Principles (Arao & Clemens)</span>
+          <p><strong>Controversy with civility:</strong> Divergent perspectives are expected, not suppressed. The room can hold disagreement without resolving it prematurely.<br><br>
+          <strong>Own your intentions and impact:</strong> Good intentions do not absolve harmful impact. Both are real; both deserve airtime.<br><br>
+          <strong>Challenge by choice:</strong> Participants choose their level of engagement — but the choice is acknowledged, not assumed. Staying quiet is a choice with a cost; so is speaking.<br><br>
+          <strong>Respect:</strong> Redefined from "don't challenge anyone" to "take seriously what surfaces, including discomfort."</p>
+        </div>
+
+        <p>The practitioner who internalizes this framework does not walk into a room looking for discomfort to introduce. They walk in looking for discomfort that is already present — the silence that is working, the participant with the crossed arms, the conversation that keeps almost starting and then doesn't — and they build the container capable of holding it rather than routing around it.</p>
+
+        <p>The wall that keeps the ceiling up is the one that looks most like it's in the way. That is not a design flaw. That is the point.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 4: EDGE CASES -->
+    <div class="card" id="card-edge-cases">
+      <div class="card-inner">
+
+        <span class="section-number">§ 04 · Edge Cases</span>
+        <h2>Where Brave Space Goes Wrong</h2>
+
+        <p>The brave space framework is usable and important. It is also regularly misused. Three edge cases deserve direct treatment — not as exceptions that undermine the framework but as correctives that make it more precise.</p>
+
+        <h3>"Brave" as Cover for Harm</h3>
+
+        <p>The most common misuse: invoking brave space to justify putting people through experiences they did not consent to, in service of someone else's growth agenda. "We're practicing brave space here" becomes a preemptive silencer — used to dismiss complaints from participants who felt genuinely harmed rather than productively uncomfortable. The distinction matters: productive discomfort is discomfort in service of the participant's own development, with genuine choice in how deeply to engage. Harm is what happens when a participant is pushed past their window of tolerance by a practitioner who mistakes distress for growth. Brave space design does not remove the practitioner's responsibility to track that distinction in real time. It makes the responsibility more demanding, not less.</p>
+
+        <div class="margin-note">
+          The window of tolerance concept (Siegel, 1999) is critical here. Brave space works inside the window — where the nervous system can remain regulated while engaging with difficult material. Outside the window, brave space becomes exposure without container. The practitioner's job is to keep people inside, not to remove the boundary.
+        </div>
+
+        <h3>Brave Space Without Earned Trust</h3>
+
+        <p>A brave space cannot be declared. It has to be built. A practitioner who opens a first session by announcing brave space norms — without the prior relationship, demonstrated consistency, or observable track record that makes those norms credible — is not building a brave space. They are describing one. The participants will hear the description and act accordingly: they will protect themselves, say the expected things, and wait to see if the frame is actually structural or decorative. Brave space is not a ground rule. It is a cumulative design outcome, built from a sequence of moments where the container proved it could hold what arrived.</p>
+
+        <h3>The Asymmetry of Who Carries the Discomfort</h3>
+
+        <p>This is the ethical tension hooks makes most visible: brave space can become a mechanism through which people with less structural power are asked to bear a disproportionate share of the discomfort in service of the growth of people with more. The person of color asked to explain racism to a white colleague in a "brave" workshop is being asked to perform an emotional and epistemic labor that the framing distributes unevenly. The practitioner's obligation is to notice who is carrying what in the room — and to name it when the distribution is reproducing the same structure that the space was supposedly designed to interrupt. A brave space that preserves existing power distributions has not removed the decorative wall. It has just painted it a different color.</p>
+
+        <div class="margin-note">
+          The test: who is most uncomfortable in this room, and in whose service is that discomfort? If the answer is "participants with less power, in service of participants with more," the design has failed regardless of what the ground rules say.
+        </div>
+
+        <h3>When Safe Space Is Actually the Right Call</h3>
+
+        <p>There are rooms where brave space is not appropriate. A crisis intervention is not a brave space. A first-session disclosure from a participant with acute trauma history is not the moment to invoke brave space norms. A room with active interpersonal hostility that has not yet been surfaced and named is not ready for brave space design. The practitioner's judgment about when the container can hold what brave space requires — and when stabilization comes first — is not a compromise of the framework. It is the framework working correctly. Load-bearing walls are not installed in every room. The structural question is which rooms need them and where.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 5: THE ROOTS -->
+    <div class="card" id="card-roots">
+      <div class="card-inner">
+
+        <span class="section-number">§ 05 · The Roots</span>
+        <h2>Where These Words Came From</h2>
+
+        <p><em>Safe space</em> emerged in feminist consciousness-raising groups and LGBTQ+ organizing in the 1960s and 1970s. The original usage was specific: a space where people from marginalized communities could speak without fear of judgment, exposure, or harm from hostile outsiders. The protection was real and necessary — a room where a gay man in 1968 could say what he was without risking his job or his safety was doing something that mattered. The word "safe" was accurate.</p>
+
+        <p>The term migrated into broader institutional use — diversity trainings, corporate workshops, higher education classrooms — and something shifted in the migration. The original safe space was a refuge from structural threat. The institutional safe space became a refuge from interpersonal discomfort. These are not the same thing. The conflation is not trivial: it took a practice designed to protect people from genuine external threat and applied it in rooms where the primary obstacle to transformation was people's reluctance to stay in contact with difficulty.</p>
+
+        <div class="cite">
+          The original safe space was a tactical shelter — a place you could exist without being hunted. The institutional safe space became a comfort guarantee. The word traveled intact while the design changed entirely.
+        </div>
+
+        <p><em>Brave space</em> as a formal frame enters the record with Arao and Clemens in 2013. Their argument was not that safe space was wrong but that it had been mistranslated in institutional practice — that "safety" had come to mean "no one will be made uncomfortable," which was not safety at all. It was the removal of the exact conditions under which transformation could happen.</p>
+
+        <p>The word <em>brave</em> is worth sitting with. It carries connotations of heroism, of exceptional individuals doing exceptional things under pressure. That is not the design intent. The brave in brave space is quieter than that. It is the ordinary courage required to stay in the room when the room asks something of you — to remain present with a perspective that unsettles your existing frame, to speak when speech carries a cost, to hear something you did not want to know. This is not heroism. It is practice. It is what the room is built to produce.</p>
+
+        <p>Bourdieu's concept of habitus is useful here: the durable dispositions that shape what a practitioner can perceive as a problem, what they reach for as a solution, and what they cannot see. The practitioner whose habitus was formed in institutional safe space design will reach for comfort-preservation as an automatic response to room tension. The practitioner whose habitus has been formed by working in brave space design will reach for something different — not the removal of the tension but the question of what the tension is carrying and whether the container can hold it long enough to find out.</p>
+
+        <div class="margin-note">
+          Bourdieu's point is that habitus is acquired through practice over time. It cannot be installed through a training module. The practitioner who wants to work at the level of brave space design has to build it through repeated experience of staying in rooms where the ceiling was actually being tested.
+        </div>
+
+        <p>The lineage, then: safe space from the margins, made institutional, made comfort-optimized, mistranslated along the way. Brave space as a correction — not a rejection of safety but a reorientation of what safety is actually for. Both names are imprecise. The distinction they point toward is not.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 6: APPLICATION + WWYD -->
+    <div class="card" id="card-application">
+      <div class="card-inner">
+
+        <span class="section-number">§ 06 · Application · What Would You Do?</span>
+        <h2>Forty Minutes In, Marcus Has Not Spoken</h2>
+
+        <!-- CHOOSE YOUR ROLE INTERACTION -->
+        <div class="role-gate" id="role-gate">
+          <span class="role-gate-label">Before You Read This Scenario</span>
+          <p class="role-gate-heading">Which position are you in right now?</p>
+          <div class="role-options">
+            <button class="role-btn" data-role="designer" onclick="selectRole(this)">
+              <span class="role-check" data-role-check="designer"> </span>
+              I design the space — I set the container conditions before anyone arrives
+            </button>
+            <button class="role-btn" data-role="facilitator" onclick="selectRole(this)">
+              <span class="role-check" data-role-check="facilitator"> </span>
+              I facilitate inside someone else's container — the design isn't mine
+            </button>
+            <button class="role-btn" data-role="participant" onclick="selectRole(this)">
+              <span class="role-check" data-role-check="participant"> </span>
+              I'm in the room as a participant — trying to decide whether to stay in contact
+            </button>
+          </div>
+
+          <div class="role-frame" id="frame-designer">
+            The question for you is upstream of the scenario: what did Kezia put in the design that either gave her permission to make this move — or didn't? The container is already set before minute one. What she can do at minute forty is bounded by what the room was built to hold.
+          </div>
+          <div class="role-frame" id="frame-facilitator">
+            The question for you is about range of motion: you didn't set the container, but you're in it. What does Kezia actually have permission to do, given the design someone else built? And what do you reach for when the design didn't anticipate this?
+          </div>
+          <div class="role-frame" id="frame-participant">
+            The question for you is whether the room is actually asking you to stay, or just performing that it does. You are the Marcus test — the proof of whether the brave space design is structural or decorative. What tells you?
+          </div>
+
+          <div class="role-continue" id="role-continue">
+            <button onclick="revealScenario()">Read the scenario →</button>
+          </div>
+        </div>
+
+        <!-- WWYD SCENARIO (hidden until role selected) -->
+        <div id="wwyd-scenario">
+
+          <div class="scenario">
+            <span class="scenario-label">The Scenario — Kezia, 40 Minutes In</span>
+            Kezia is 40 minutes into a debrief on a simulation that went badly. The simulation was designed to surface how teams manage decision-making under pressure. It surfaced that instead. A participant named Marcus has been silent since the 15-minute mark — arms crossed, jaw set, eyes on the table. Two other participants, Priya and Leon, are filling the silence with increasingly abstract analysis: the simulation structure, the time constraints, whether the scenario was realistic. Their abstractions are competent and are going nowhere. Kezia has a choice. She can push for Marcus's voice directly — naming his silence, inviting him in, risking a defensive shutdown that makes the room worse. Or she can let the abstraction continue — nothing breaks, nothing is resolved, Marcus stays invisible, the session closes politely. She has 10 seconds. What does she do?
+          </div>
+
+          <div id="wwyd-role-frame" style="margin-bottom:20px;padding:14px 18px;background:rgba(139,111,71,0.06);border-left:3px solid var(--accent);font-family:'Crimson Text',serif;font-size:1.05rem;line-height:1.7;color:var(--ink);font-style:italic;border-radius:0 2px 2px 0;display:none;"></div>
+
+          <p>This is the operational question. The brave space design has been declared. The ground rules included something about "staying in contact with difficulty." Now the difficulty has arrived in the specific form of a person who has gone somewhere private, and the room is routing around him rather than toward him. Can the container actually hold this?</p>
+
+          <div class="response-set">
+            <div class="response-option">
+              <span class="ro-label">The Abstraction Route (Safe Space Move)</span>
+              <p>Let Priya and Leon continue. Redirect gently toward the debrief questions. The session closes. Marcus fills out an evaluation form. His score for facilitation quality is either fine or not — Kezia won't know which, or why. The room didn't break. The ceiling stayed up. What was present in the room from the 15-minute mark to the close never got named. It will surface somewhere else, in some other form, in some other session.</p>
+            </div>
+
+            <div class="response-option">
+              <span class="ro-label">The Direct Summons (Brave Space Without Container)</span>
+              <p>Name Marcus directly. "Marcus, you've been quiet. I want to hear from you." This is a brave space move in form. Whether it works depends entirely on what was built in the first 40 minutes. If the container is real — if Marcus has reason to believe that his answer will be received, that the room won't collapse around whatever he says, that Kezia has the capacity to hold what he actually thinks — this might open something. If the container is decorative, this move will produce one of two things: a polite deflection ("I'm fine, I was just listening") or a rupture that confirms what Marcus already suspected. The move is not wrong. The container determines whether it lands.</p>
+            </div>
+
+            <div class="response-option">
+              <span class="ro-label">The Structural Move (Brave Space With Container)</span>
+              <p>Pause the abstraction. Not Marcus — the abstraction. "I want to slow down for a second. Before we keep analyzing the structure, I want to check in on where people actually landed." This is not a summons. It is an invitation extended to the room, which makes it available to Marcus without isolating him. It acknowledges that something is present without naming it by its address. If the container is real, Marcus can choose to enter through that door. If he doesn't, Kezia has at least interrupted the routing-around and named the room's tendency without putting the weight of that naming onto one person. The brave space design is now visibly structural — the ceiling is being tested, and it's still up.</p>
+            </div>
+          </div>
+
+          <p>The structural move is not always available. It requires that Kezia trust the pause — that she can hold the silence that follows the redirect without rushing to fill it, and that she can receive whatever Marcus brings or doesn't bring without needing it to resolve into something clean. This is not a technique. It is a practitioner's capacity. It is built, the same way brave space is built: through the accumulated practice of staying in rooms where the ceiling was being tested.</p>
+
+          <h3>The Week's Closing Frame</h3>
+
+          <p>The Barograph established that the body is already reading the room before the mind has formed a thought about it. The Pressure Log worked through what happens when the nervous system is the instrument and the practitioner is also in the pressure field. The Tide Chart tracked the quality of presence across the distance between people. This issue arrives at the question underneath all of them: what kind of room is it? Is the container real or decorative? Can it hold what arrives — or does it only hold what was already manageable?</p>
+
+          <p>Brave space design is the answer to a question most practitioners don't ask explicitly enough: not "what do I want to happen in this room?" but "what does this room need to be capable of holding?" Those are different design briefs. The second one produces the load-bearing wall. The first produces the wall you decorate.</p>
+
+        </div><!-- /wwyd-scenario -->
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="bibliography">
+          <h3>Sources</h3>
+
+          <div class="citation">
+            Arao, Brian, and Kristi Clemens. "From Safe Spaces to Brave Spaces: A New Way to Frame Dialogue Around Diversity and Social Justice." <em>The Art of Effective Facilitation,</em> edited by Lisa M. Landreman, Stylus Publishing, 2013, pp. 135–150. — The founding text for the brave space framework. Establishes the four operating principles: controversy with civility, own your intentions and impact, challenge by choice, and respect.
+          </div>
+
+          <div class="citation">
+            Edmondson, Amy C. <em>The Fearless Organization: Creating Psychological Safety in the Workplace for Learning, Innovation, and Growth.</em> Wiley, 2018. — Research on psychological safety as a condition for candor and learning, distinct from comfort. High-performing teams are not comfortable teams; they are teams where risk-taking is structurally supported.
+          </div>
+
+          <div class="citation">
+            Bourdieu, Pierre. <em>The Logic of Practice.</em> Stanford University Press, 1990. — On habitus: the durable dispositions that shape what a practitioner can perceive as a problem, what they reach for as a solution, and what they cannot see. Used here to account for why brave space design requires practice, not only intention.
+          </div>
+
+          <div class="citation">
+            hooks, bell. <em>Teaching to Transgress: Education as the Practice of Freedom.</em> Routledge, 1994. — On the difference between comfort and safety, and why classrooms that prioritize comfort produce conditions where transformation cannot occur. Foundational text for the asymmetry analysis in §04.
+          </div>
+
+          <div class="citation">
+            Brown, Adrienne Maree. <em>Emergent Strategy: Shaping Change, Changing Worlds.</em> AK Press, 2017. — On fractal design: the conditions you create in a small room replicate at scale. Brave space design is not a facilitation technique — it is a political position about what rooms are for.
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /sections-rail -->
+
+  <!-- PROGRESS + NAV -->
+  <div class="reading-progress" id="reading-progress">
+    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <div class="progress-trace">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
+  </div>
+
+</div><!-- /main-panel -->
+
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+</div>
+
+<script>
+/* ── UTC CLOCK ── */
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');
+  if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+/* ── ENTRY → MAIN ── */
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },800);
+
+  track('enter','entry_screen');
+}
+
+/* ── CARD NAVIGATION ── */
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application'];
+let currentCard=0;
+
+function goTo(index){
+  if(index<0||index>=CARDS.length)return;
+  const cards=document.querySelectorAll('.card');
+  if(cards[currentCard])cards[currentCard].scrollTop=0;
+  currentCard=index;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
+  const label=document.getElementById('progress-label');
+  if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
+  document.getElementById('nav-prev').disabled=index===0;
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  track('navigate',CARDS[index]);
+}
+
+/* ── TOUCH SWIPE ── */
+let touchStartX=0,touchStartY=0;
+document.getElementById('main-panel').addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('main-panel').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44){
+    if(dx<0)goTo(currentCard+1);
+    else goTo(currentCard-1);
+  }
+},{passive:true});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('main-panel').classList.contains('visible'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(currentCard+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(currentCard-1);}
+});
+
+/* ── CHOOSE YOUR ROLE INTERACTION ── */
+const ROLE_FRAMES={
+  designer:{
+    id:'frame-designer',
+    wwyd:'You designed this room. The question is whether what you built at the start gave Kezia permission to make this move — or whether the design left her without it. Look at the structural move: does it depend on something you put in the container before minute one?'
+  },
+  facilitator:{
+    id:'frame-facilitator',
+    wwyd:'You are Kezia. The design isn\'t yours — you\'re operating inside someone else\'s container. What do you actually have permission to do here? And what do you reach for when the design didn\'t anticipate Marcus?'
+  },
+  participant:{
+    id:'frame-participant',
+    wwyd:'You are Marcus. The room has just paused. Kezia has interrupted the abstraction and opened a door. The question is whether this room was built to hold what you\'d actually say if you answered honestly — or whether it just looks like it was.'
+  }
+};
+
+// Restore from localStorage if returning
+(function initRole(){
+  const saved=localStorage.getItem('meliorism2_lbw_role');
+  if(saved&&ROLE_FRAMES[saved]){
+    // restore silently — don't auto-reveal scenario, let user re-engage
+    const btn=document.querySelector('[data-role="'+saved+'"]');
+    if(btn)btn.classList.add('selected');
+    const checkEl=document.querySelector('[data-role-check="'+saved+'"]');
+    if(checkEl)checkEl.textContent='✓';
+    document.getElementById(ROLE_FRAMES[saved].id).classList.add('active');
+    document.getElementById('role-continue').classList.add('active');
+    // Check if they had also revealed the scenario
+    const scenarioRevealed=localStorage.getItem('meliorism2_lbw_scenario');
+    if(scenarioRevealed==='true'){
+      revealScenario(true);
+    }
+  }
+})();
+
+function selectRole(btn){
+  const role=btn.getAttribute('data-role');
+
+  // Clear all selections
+  document.querySelectorAll('.role-btn').forEach(b=>{
+    b.classList.remove('selected');
+    const c=b.querySelector('.role-check');
+    if(c)c.textContent=' ';
+  });
+  document.querySelectorAll('.role-frame').forEach(f=>f.classList.remove('active'));
+
+  // Apply selection
+  btn.classList.add('selected');
+  const check=btn.querySelector('.role-check');
+  if(check)check.textContent='✓';
+  document.getElementById(ROLE_FRAMES[role].id).classList.add('active');
+  document.getElementById('role-continue').classList.add('active');
+
+  // Persist
+  localStorage.setItem('meliorism2_lbw_role',''+role);
+
+  track('role_select','choose_your_role',role);
+}
+
+function revealScenario(silent){
+  const gate=document.getElementById('role-gate');
+  const scenario=document.getElementById('wwyd-scenario');
+  const role=localStorage.getItem('meliorism2_lbw_role');
+
+  if(gate)gate.style.display='none';
+  if(scenario)scenario.classList.add('active');
+
+  // Inject role-specific framing into WWYD
+  if(role&&ROLE_FRAMES[role]){
+    const frameEl=document.getElementById('wwyd-role-frame');
+    if(frameEl){
+      frameEl.textContent=ROLE_FRAMES[role].wwyd;
+      frameEl.style.display='block';
+    }
+  }
+
+  localStorage.setItem('meliorism2_lbw_scenario','true');
+  if(!silent)track('reveal','wwyd_scenario',role||'none');
+}
+
+/* ── ENGAGEMENT TRACKING ── */
+const _sos=(()=>{
+  const ENDPOINT='https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY='sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const SESSION_ID=Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,10);
+  const ISSUE_NUMBER='031';
+  const ISSUE_SLUG='the-load-bearing-wall';
+  let queue=[];
+  let flushTimer=null;
+
+  function activeCardScrollPct(){
+    const cards=document.querySelectorAll('.card');
+    const card=cards[currentCard];
+    if(!card)return 0;
+    const total=card.scrollHeight-card.clientHeight;
+    return total>0?Math.round((card.scrollTop/total)*100):0;
+  }
+
+  function flush(){
+    if(!queue.length)return;
+    const batch=queue.splice(0);
+    batch.forEach(ev=>{
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{
+          'apikey':API_KEY,
+          'Authorization':'Bearer '+API_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'return=minimal'
+        },
+        body:JSON.stringify({
+          title:'meliorism2.com | '+ISSUE_SLUG+' | '+ev.event+' | '+ev.label,
+          occurred_at:ev.ts,
+          reflection:SESSION_ID,
+          notes:JSON.stringify({
+            issue_number:ISSUE_NUMBER,
+            issue_slug:ISSUE_SLUG,
+            event:ev.event,
+            label:ev.label,
+            extra:ev.extra||null,
+            referrer:document.referrer||null,
+            card_index:ev.card_index,
+            card_name:CARDS[ev.card_index]||null,
+            scroll_pct:ev.scroll_pct,
+            viewport_w:window.innerWidth,
+            viewport_h:window.innerHeight
+          })
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    });
+  }
+
+  function enqueue(event,label,extra){
+    queue.push({
+      event,label,extra,
+      ts:new Date().toISOString(),
+      card_index:currentCard,
+      scroll_pct:activeCardScrollPct()
+    });
+    if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
+  }
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden')flush();
+  });
+
+  return{track:enqueue};
+})();
+
+function track(event,label,extra){
+  console.log('[meliorism2]',event,label,extra||'');
+  _sos.track(event,label,extra);
+}
+
+/* ── PER-CARD SCROLL DEPTH TRACKING ── */
+const cardDepthsFired={};
+document.querySelectorAll('.card').forEach((card,i)=>{
+  cardDepthsFired[i]=new Set();
+  card.addEventListener('scroll',()=>{
+    const total=card.scrollHeight-card.clientHeight;
+    if(total<=0)return;
+    const pct=Math.round((card.scrollTop/total)*100);
+    [25,50,75,90].forEach(d=>{
+      if(pct>=d&&!cardDepthsFired[i].has(d)){
+        cardDepthsFired[i].add(d);
+        track('scroll_depth',CARDS[i]+'_'+d+'pct');
+      }
+    });
+  },{passive:true});
+});
+
+/* ── CLICK TRACKING ── */
+document.addEventListener('click',e=>{
+  if(e.target.closest('.response-option')){
+    const lbl=e.target.closest('.response-option').querySelector('.ro-label');
+    track('interact','response_option',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.research-block')){
+    const lbl=e.target.closest('.research-block').querySelector('.researcher');
+    track('interact','research_block',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('a[href*="archive"]')){
+    track('click','archive_link');
+  }
+});
+</script>
+</body>
+</html>
