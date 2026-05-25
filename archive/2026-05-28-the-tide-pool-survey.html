@@ -1,0 +1,1231 @@
+<!-- meliorism2:slug: the-tide-pool-survey -->
+<!-- meliorism2:date: 2026-05-28 -->
+<!-- meliorism2:issue: 028 -->
+<!-- meliorism2:dimension: Witnessing Authentic Humanity -->
+<!-- meliorism2:format: Tide Pool Survey -->
+<!-- meliorism2:architecture: horizontal-swipe -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · The Tide Pool Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #faf8f5;
+  --surface:   #f0ebe3;
+  --border:    rgba(139,111,71,0.15);
+  --border-h:  rgba(139,111,71,0.3);
+  --accent:    #8b6f47;
+  --accentf:   rgba(139,111,71,0.5);
+  --amber:     #b07d3a;
+  --amber-l:   #d4a055;
+  --amber-d:   #7a5520;
+  --text:      #2c2c2c;
+  --muted:     rgba(44,44,44,0.85);
+  --dim:       rgba(44,44,44,0.72);
+  --dark-band: #1a1714;
+  --cream:     #c8b99a;
+  --ink:       #1e1a15;
+  --tide-blue: #1a3a4a;
+  --tide-mid:  #0f2030;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Courier Prime',monospace;
+  overflow:hidden;
+}
+
+/* ── STATUS BAR ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:36px;
+  background:rgba(0,0,0,0.02);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.sb-logo{
+  font-size:0.8rem;letter-spacing:4px;font-weight:700;
+  color:var(--accent);text-decoration:none;border:none;
+}
+.sb-logo:hover{background:transparent;}
+.sb-label{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);flex:1;
+}
+.sb-clock{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);
+}
+
+/* ── ENTRY SCREEN ── */
+#entry{
+  position:fixed;inset:0;top:36px;z-index:800;
+  overflow:hidden;
+  cursor:pointer;
+  transition:opacity 1.2s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-bg{
+  position:absolute;inset:0;
+  background: url('the-tide-pool-survey-hero.jpg') center center / cover no-repeat, linear-gradient(160deg, #0a1520 0%, #0f2030 35%, #0a1518 70%, #1a1714 100%);
+  transform:scale(1.04);
+  animation:kb 14s ease-out forwards;
+}
+@keyframes kb{
+  from{transform:scale(1.04);}
+  to{transform:scale(1.0);}
+}
+
+.entry-tint{
+  position:absolute;inset:0;
+  background:rgba(10,30,50,0.22);
+  mix-blend-mode:multiply;
+}
+
+.entry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(5,15,30,0.22) 0%,
+    rgba(5,15,30,0.44) 40%,
+    rgba(5,15,30,0.88) 100%
+  );
+}
+
+.entry-trace{
+  position:absolute;
+  bottom:220px;left:0;right:0;
+  height:2px;
+  overflow:hidden;
+  pointer-events:none;
+}
+.entry-trace::after{
+  content:'';
+  display:block;
+  position:absolute;top:0;left:-100%;
+  width:300%;height:100%;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(100,180,200,0.0) 10%,
+    rgba(100,180,200,0.2) 30%,
+    rgba(100,180,200,0.4) 40%,
+    rgba(100,180,200,0.25) 55%,
+    rgba(100,180,200,0.1) 70%,
+    transparent 90%
+  );
+  animation:traceSlide 3.5s ease 1.2s forwards;
+  transform:translateX(-40%);
+}
+@keyframes traceSlide{
+  to{transform:translateX(80%);}
+}
+
+.entry-corner{
+  position:absolute;top:24px;right:32px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;
+  color:rgba(180,210,220,0.85);
+  text-transform:uppercase;text-align:right;line-height:1.9;
+}
+
+.entry-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:44px 56px 52px;
+}
+
+.entry-stamp{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(180,210,220,0.7);
+  display:flex;gap:18px;align-items:center;
+  margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;
+}
+.entry-stamp-sep{opacity:0.35;}
+
+.entry-title{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(3.8rem,9vw,7rem);
+  font-weight:400;line-height:1.0;
+  color:#eef4f8;letter-spacing:-0.02em;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(14px);
+  animation:fadeUp 0.9s ease 0.55s forwards;
+}
+
+.entry-sub{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-style:italic;
+  color:rgba(210,230,240,0.65);
+  margin-bottom:36px;
+  opacity:0;transform:translateY(8px);
+  animation:fadeUp 0.8s ease 0.85s forwards;
+}
+
+.entry-enter{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(180,210,220,0.85);
+  background:none;border:none;border-bottom:1px solid rgba(180,210,220,0.35);
+  padding-bottom:3px;cursor:pointer;
+  opacity:0;animation:fadeUp 0.7s ease 1.3s forwards;
+  transition:color 0.2s,border-color 0.2s;
+}
+.entry-enter:hover{
+  color:#eef4f8;
+  border-bottom-color:rgba(210,235,245,0.7);
+}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:640px){
+  .entry-content{padding:32px 24px 40px;}
+  .entry-corner{display:none;}
+  .entry-stamp{flex-wrap:wrap;gap:10px;}
+  .entry-trace{bottom:190px;}
+}
+
+/* ── MAIN PANEL ── */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+  overflow:hidden;
+  background:var(--bg);
+}
+#main-panel.visible{
+  display:block;opacity:1;
+}
+
+/* ── SECTIONS RAIL ── */
+.sections-rail{
+  display:flex;
+  flex-direction:row;
+  width:700%;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+.card{
+  width:calc(100% / 7);
+  flex-shrink:0;
+  height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.card-inner{
+  max-width:820px;
+  padding:50px 40px 80px;
+  margin:0 auto;
+}
+
+@media(max-width:768px){
+  .card-inner{padding:30px 20px 80px;}
+}
+
+/* ── READING PROGRESS BAR ── */
+.reading-progress{
+  position:fixed;
+  bottom:40px;left:0;right:0;
+  height:36px;
+  background:var(--dark-band);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:14px;
+  z-index:900;
+}
+
+.progress-trace{
+  flex:1;
+  height:2px;
+  background:rgba(176,125,58,0.15);
+  border-radius:1px;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  position:absolute;
+  top:0;left:0;height:100%;
+  background:var(--amber);
+  transition:width 0.45s cubic-bezier(0.4,0,0.2,1);
+  border-radius:1px;
+}
+
+.progress-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;
+  color:var(--cream);opacity:0.7;
+  white-space:nowrap;
+  min-width:80px;text-align:right;
+}
+
+.nav-prev,.nav-next{
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+}
+.nav-prev:hover,.nav-next:hover{color:var(--amber);}
+.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+
+/* ── CARD 0: SIGNAL HEADER ── */
+.metadata{
+  text-align:center;margin-bottom:50px;
+  border-bottom:2px solid var(--border-h);
+  padding-bottom:30px;color:var(--dim);
+}
+
+.date-tag{
+  font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.issue-format-badge{
+  display:inline-block;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(176,125,58,0.35);
+  padding:3px 10px;
+  margin-bottom:16px;
+}
+
+h1{
+  font-family:'Crimson Text',serif;
+  font-size:2.6rem;font-weight:normal;
+  margin:16px 0 10px;color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.subtitle{
+  font-size:0.95rem;color:var(--dim);
+  margin-top:10px;font-style:italic;
+  font-family:'Crimson Text',serif;
+}
+
+/* ── HERO IMAGE ── */
+.hero-image{
+  width:100%;display:block;margin:0 0 40px;
+  opacity:0.9;
+  border:1px solid var(--border);
+}
+
+/* ── 90-SECOND SIGNAL ── */
+.highlight{
+  background:linear-gradient(135deg,#f5ede0 0%,#faf7f2 100%);
+  border-left:4px solid var(--amber);
+  padding:26px 28px;margin:40px 0;
+  border-radius:2px;
+  border-top:1px solid rgba(176,125,58,0.15);
+  border-bottom:1px solid rgba(176,125,58,0.15);
+  border-right:1px solid rgba(176,125,58,0.08);
+}
+
+.highlight-label{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:var(--amber);margin-bottom:12px;font-weight:700;
+  display:block;
+}
+
+.highlight p{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;line-height:1.65;color:var(--text);
+}
+
+/* ── BEGIN READING PROMPT ── */
+.begin-prompt{
+  margin-top:40px;
+  text-align:center;
+  padding:24px 0 10px;
+  border-top:1px solid var(--border);
+}
+.begin-prompt button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s;
+}
+.begin-prompt button:hover{
+  color:var(--amber-d);
+  border-bottom-color:rgba(122,85,32,0.5);
+}
+
+/* ── SECTION NUMBER BAND ── */
+.section-number{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.16em;
+  display:block;
+  background:var(--dark-band);
+  color:var(--cream);
+  padding:11px 16px;
+  margin:0 -40px 24px;
+}
+
+@media(max-width:768px){
+  .section-number{margin:0 -20px 20px;}
+}
+
+h2{
+  font-family:'Crimson Text',serif;
+  font-size:1.9rem;font-weight:normal;
+  margin-bottom:18px;color:var(--text);
+  border-bottom:1px solid var(--border-h);
+  padding-bottom:10px;
+  letter-spacing:-0.01em;
+}
+
+h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.15rem;font-weight:600;
+  margin-top:24px;margin-bottom:10px;color:var(--ink);
+}
+
+p{
+  font-size:1.0rem;line-height:1.75;
+  margin-bottom:1.1em;
+}
+
+/* ── TIDE POOL VIEWPORT — newsletter-impossible element ── */
+.tide-pool-viewport{
+  position:relative;
+  width:260px;height:260px;
+  margin:36px auto 28px;
+}
+
+.tide-pool-circle{
+  width:260px;height:260px;
+  border-radius:50%;
+  background:radial-gradient(ellipse at 40% 40%,
+    rgba(20,60,90,0.88) 0%,
+    rgba(10,30,55,0.96) 55%,
+    rgba(5,15,35,1.0) 100%
+  );
+  overflow:hidden;
+  position:relative;
+  z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  padding:28px;
+}
+
+.tide-pool-quote{
+  font-family:'Crimson Text',serif;
+  font-size:1.05rem;line-height:1.65;
+  color:rgba(210,235,245,0.9);
+  text-align:center;
+  font-style:italic;
+  position:relative;
+  z-index:3;
+}
+
+/* water shimmer inside the circle */
+.tide-pool-circle::before{
+  content:'';
+  position:absolute;inset:0;
+  border-radius:50%;
+  background:linear-gradient(
+    135deg,
+    rgba(80,160,200,0.06) 0%,
+    transparent 40%,
+    rgba(50,130,180,0.04) 70%,
+    transparent 100%
+  );
+  animation:shimmer 6s ease-in-out infinite alternate;
+  z-index:1;
+}
+
+@keyframes shimmer{
+  0%{opacity:0.4;transform:scale(1.0) rotate(0deg);}
+  50%{opacity:0.8;transform:scale(1.03) rotate(3deg);}
+  100%{opacity:0.5;transform:scale(1.0) rotate(-2deg);}
+}
+
+/* ripple rings around the viewport */
+.tide-pool-viewport::before,
+.tide-pool-viewport::after{
+  content:'';
+  position:absolute;
+  border-radius:50%;
+  border:1px solid rgba(100,180,210,0.25);
+  animation:ripple-out 4s ease-out infinite;
+}
+.tide-pool-viewport::before{
+  inset:-8px;
+  animation-delay:0s;
+}
+.tide-pool-viewport::after{
+  inset:-20px;
+  animation-delay:2s;
+  border-color:rgba(100,180,210,0.12);
+}
+
+@keyframes ripple-out{
+  0%{opacity:0.7;transform:scale(1.0);}
+  60%{opacity:0.3;}
+  100%{opacity:0;transform:scale(1.06);}
+}
+
+/* ── TIDE RULE (wave-break divider) ── */
+.tide-rule{
+  display:block;
+  position:relative;
+  height:28px;
+  margin:28px 0 20px;
+  overflow:hidden;
+}
+.tide-rule::after{
+  content:'';
+  display:block;
+  position:absolute;
+  top:50%;left:0;right:0;
+  height:1px;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(100,160,190,0.1) 5%,
+    rgba(100,160,190,0.3) 20%,
+    rgba(100,160,190,0.5) 40%,
+    rgba(100,160,190,0.45) 55%,
+    rgba(100,160,190,0.3) 72%,
+    rgba(100,160,190,0.12) 88%,
+    transparent 100%
+  );
+}
+.tide-rule::before{
+  content:'◎';
+  display:block;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:0.9rem;
+  color:rgba(100,160,190,0.4);
+  line-height:1;
+}
+
+/* ── CALLOUT / CITE ── */
+.cite{
+  font-size:0.9rem;
+  color:var(--text);
+  border-left:3px solid var(--amber);
+  padding:12px 18px;
+  margin:18px 0 26px;
+  display:block;
+  letter-spacing:0.3px;
+  line-height:1.75;
+  background:rgba(176,125,58,0.04);
+}
+.cite em{font-style:italic;}
+
+/* ── MARGIN NOTE ── */
+.margin-note{
+  position:relative;margin-left:16px;padding-left:18px;
+  border-left:2px dashed var(--accentf);
+  font-size:0.875rem;color:var(--muted);
+  font-style:italic;margin-top:18px;margin-bottom:18px;
+  line-height:1.65;
+}
+
+/* ── RESEARCH BLOCK ── */
+.research-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.research-block .researcher{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;display:block;font-weight:700;
+}
+.research-block p{
+  font-size:0.95rem;margin-bottom:0;
+}
+
+/* ── CONCEPT BOX ── */
+.concept-box{
+  background:linear-gradient(135deg,#f8f0e2 0%,#faf7f2 100%);
+  border:1px solid rgba(176,125,58,0.2);
+  border-left:4px solid var(--amber-d);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.concept-box .cb-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber-d);margin-bottom:10px;display:block;font-weight:700;
+}
+.concept-box p{font-size:0.95rem;margin-bottom:0;}
+
+/* ── SCENARIO BOX ── */
+.scenario{
+  background:#f8f4ee;
+  border:1px solid rgba(176,125,58,0.25);
+  padding:28px 30px;
+  margin:28px 0;
+  border-radius:2px;
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;
+  line-height:1.75;
+  color:var(--ink);
+  border-top:3px solid var(--amber);
+}
+.scenario-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:14px;display:block;font-weight:700;
+}
+
+/* ── ROLE GATE ── */
+.role-gate{
+  margin:28px 0;
+}
+.role-tabs{
+  display:flex;gap:0;margin-bottom:0;
+  border-bottom:2px solid var(--border-h);
+}
+.role-tab{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  padding:10px 18px;
+  background:none;border:none;
+  color:var(--dim);cursor:pointer;
+  border-bottom:2px solid transparent;
+  margin-bottom:-2px;
+  transition:color 0.2s,border-color 0.2s;
+}
+.role-tab.active{
+  color:var(--amber);
+  border-bottom-color:var(--amber);
+}
+.role-tab:hover:not(.active){color:var(--accent);}
+.role-panel{
+  display:none;
+  padding:20px 24px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-top:none;
+  font-size:0.95rem;
+  line-height:1.75;
+}
+.role-panel.active{display:block;}
+.role-panel p{font-size:0.95rem;margin-bottom:0.9em;}
+.role-panel p:last-child{margin-bottom:0;}
+.role-panel strong{color:var(--ink);}
+
+/* ── RESPONSE OPTIONS ── */
+.response-set{
+  margin:24px 0;
+}
+.response-option{
+  padding:16px 20px;
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:var(--bg);
+  transition:border-color 0.2s,background 0.2s;
+}
+.response-option:hover{
+  border-color:var(--amber);
+  background:rgba(176,125,58,0.03);
+  cursor:default;
+}
+.response-option .ro-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:8px;font-weight:700;
+}
+.response-option p{font-size:1.0rem;line-height:1.75;margin-bottom:0;}
+
+/* ── BIBLIOGRAPHY ── */
+.bibliography{
+  margin-top:54px;padding-top:30px;
+  border-top:2px solid var(--border-h);
+  font-size:0.9rem;
+}
+.bibliography h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-weight:normal;
+  margin-bottom:20px;color:var(--text);
+}
+.citation{
+  margin-bottom:14px;line-height:1.75;
+  padding-left:20px;text-indent:-20px;
+  font-size:0.875rem;
+}
+
+/* ── FOOTER ── */
+.doc-footer{
+  margin-top:60px;padding-top:30px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.8rem;letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+/* ── FOOTER BAR ── */
+.footer-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:40px;background:var(--bg);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  font-size:0.8rem;letter-spacing:2px;
+}
+.footer-bar a{color:var(--accent);text-decoration:none;border:none;}
+.footer-bar a:hover{color:var(--amber);background:transparent;}
+.footer-sep{color:var(--border-h);}
+
+/* ── GENERAL LINKS ── */
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,71,0.3);}
+a:hover{background:rgba(139,111,71,0.06);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  #entry{align-items:flex-start;overflow-y:auto;}
+  .entry-content{padding:28px 20px 80px;}
+  .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
+  h1{font-size:1.9rem;}
+  h2{font-size:1.4rem;}
+  .tide-pool-viewport{width:220px;height:220px;}
+  .tide-pool-circle{width:220px;height:220px;}
+}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div style="width:1px;height:12px;background:var(--border);"></div>
+  <div class="sb-label">THE TIDE POOL SURVEY · WITNESSING · THU 05.28</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div id="entry" onclick="openMain()">
+  <div class="entry-bg"></div>
+  <div class="entry-tint"></div>
+  <div class="entry-overlay"></div>
+  <div class="entry-trace"></div>
+  <div class="entry-corner">The Tide Pool Survey<br>Witnessing Authentic Humanity</div>
+  <div class="entry-content">
+    <div class="entry-stamp">
+      <span>Meliorism2.com</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>May 28, 2026</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>Issue 028</span>
+    </div>
+    <h1 class="entry-title">The<br>Tide Pool<br>Survey</h1>
+    <p class="entry-sub">The moment you stop managing a person and start actually encountering them is the moment the room changes.</p>
+    <button class="entry-enter" onclick="openMain()">Begin the survey →</button>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div id="main-panel">
+
+  <div class="sections-rail" id="sections-rail">
+
+    <!-- CARD 0: THE SIGNAL -->
+    <div class="card" id="card-signal">
+      <div class="card-inner">
+
+        <div class="metadata">
+          <div class="date-tag">May 28, 2026 · Thursday</div>
+          <div class="issue-format-badge">◎ Tide Pool Survey · Issue 028</div>
+          <h1>The Tide Pool Survey</h1>
+          <p class="subtitle">On the difference between managing a person and actually encountering one — and what becomes possible when the distinction holds</p>
+        </div>
+
+        <img src="the-tide-pool-survey-hero.jpg" alt="A naturalist crouching still at a coastal tide pool, late afternoon light, clear water revealing small complex life below the surface" class="hero-image">
+
+        <div class="highlight">
+          <span class="highlight-label">90-Second Signal</span>
+          <p>There is a word for what happens when you fully register that the person across from you has an inner life as dense and irreducible as your own. John Koenig named it <em>sonder</em>: the vertigo of recognizing that every passerby is living a life as vivid, as complicated, as full of private grief and private joy as yours. Most practitioners have heard this concept. Fewer have felt it in session. The gap between intellectual empathy and phenomenological encounter is not a gap in knowledge. It is a gap in practice. The naturalist who crouches at a tide pool does not try to change what's there. They go still. They look at what's actually present — the small, the peripheral, the easily missed. The practitioner who learns to survey rather than manage makes a different kind of contact. And the room changes.</p>
+        </div>
+
+        <div class="begin-prompt">
+          <button onclick="goTo(1)">Begin reading →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 1: THE PHENOMENON -->
+    <div class="card" id="card-phenomenon">
+      <div class="card-inner">
+
+        <span class="section-number">§ 01 · The Phenomenon</span>
+        <h2>Managing vs. Encountering</h2>
+
+        <p>Walk into any competently run professional development session and you will see management operating at a high level. The facilitator tracks time. The facilitator reads the room for energy dips and adjusts. The facilitator names dynamics, bridges silences, surfaces what is unsaid. These are real skills. They are also, almost entirely, I-It operations — in Martin Buber's terms, a set of techniques for relating to participants as objects to be moved through a process.</p>
+
+        <p>The I-It relation is not contemptuous. It is simply instrumental. The participant is a learner to be developed, a problem to be solved, a behavior to be changed. The practitioner holds a theory of the participant and manages toward it. What gets missed in this mode is not information. It is presence. The participant's full subjecthood — the irreducible density of their actual inner life — never enters the room. Not because it isn't there, but because the practitioner's frame doesn't have a place to put it.</p>
+
+        <div class="tide-pool-viewport" aria-hidden="true">
+          <div class="tide-pool-circle">
+            <p class="tide-pool-quote">"The basic word I-Thou can only be spoken with one's whole being."<br><em>— Martin Buber, 1923</em></p>
+          </div>
+        </div>
+
+        <p>Observable differences between managing and encountering are not subtle. In managing mode: the practitioner asks questions from a model; they already know the approximate range of acceptable answers; their next move is queued before the response lands. In encountering mode: the practitioner asks from genuine not-knowing; they receive the response as if it might be surprising; their next move arrives after, not before, the other person has finished.</p>
+
+        <p>The behavioral gap is small. The relational gap is total.</p>
+
+        <span class="tide-rule"></span>
+
+        <p>Buber's I-Thou relation does not mean dissolving professional structure or losing the thread of the session. It means that, within the structure, the practitioner holds the other's full subjecthood as present — not as something to be managed but as something to be encountered. The client, the participant, the learner: not a type, not a case, not a learner profile. A person. With a life going on behind the eyes that is as complex as yours and that you can only partially see, ever.</p>
+
+        <div class="margin-note">
+          The naturalist's posture matters here. Crouching at a tide pool, the naturalist does not arrive with an agenda. They go still. They allow what is present to become visible. The survey stance is not passive — it requires sustained attention, peripheral awareness, and the discipline not to impose meaning prematurely.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 2: THE EVIDENCE -->
+    <div class="card" id="card-evidence">
+      <div class="card-inner">
+
+        <span class="section-number">§ 02 · The Evidence</span>
+        <h2>Three Research Findings</h2>
+
+        <p>The philosophical case for genuine encounter is old. The empirical case is newer and more specific about the mechanisms. Three bodies of work are directly operational for practitioners.</p>
+
+        <div class="research-block">
+          <span class="researcher">Buber, 1923 — I-Thou vs. I-It Encounter</span>
+          <p>Martin Buber's <em>I and Thou</em> (1923) established the foundational distinction between two modes of relation. In I-It mode, the other is an object — a thing with properties, a role to be played, a function to be served. In I-Thou mode, the other is encountered as a full subject — present, irreducible, not reducible to any description. Buber was not writing psychology; he was writing philosophy. But the operational implication holds: most professional practice is architecturally I-It by design. The participant is a learner. The client is a case. The coaching model tells you what category of thing they are. Genuine encounter — I-Thou — requires the practitioner to step outside the model long enough to be with the actual person. This is not a skill trained in most practitioner development programs. It is treated as a given, or as a personality trait. Buber's analysis suggests it is neither: it is a mode of attention that can be cultivated and that, when present, changes the quality of contact fundamentally.</p>
+        </div>
+
+        <div class="cite">
+          "The Thou meets me. But I step into direct relation with it. Hence the relation means being chosen and choosing, suffering and action in one."<br>
+          — Buber, Martin. <em>I and Thou.</em> Trans. Walter Kaufmann, Scribner, 1970.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Gallese, 2003 — Embodied Simulation and the Shared Manifold</span>
+          <p>Vittorio Gallese's work on mirror neuron systems and embodied simulation provides the neurological substrate for what Buber was describing philosophically. Gallese's "shared manifold hypothesis" proposes that intersubjectivity — the capacity to experience another's inner state as meaningfully one's own — is grounded in embodied simulation: the same neural circuits that fire when we perform an action fire when we witness another performing it. This is not metaphor. This is mechanism. What this means for practitioners: genuine encounter is not an attitude or a philosophy. It is a neurological event. When a practitioner is fully present — not processing the session through a model, not queuing their next move, not managing their own affective state into professional neutrality — their nervous system is literally co-creating the client's experience. The practitioner who has learned to go still and survey is making a different kind of neural contact than one who is managing from a framework.</p>
+        </div>
+
+        <div class="cite">
+          "Intersubjectivity should be conceived as the result of a direct, automatic, and unconscious simulation process... the shared manifold of intersubjectivity."<br>
+          — Gallese, Vittorio. "The Roots of Empathy." <em>Psychopathology,</em> vol. 36, no. 4, 2003.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Stern, 2004 — Now Moments and the Windows of Contact</span>
+          <p>Daniel Stern's work on present-moment experience in psychotherapy identified what he called "now moments" — brief windows of 1–10 seconds where genuine contact between two people becomes possible. Now moments are not manufactured by technique. They arise from what Stern called "intersubjective contact": a moment when both parties are present to what is actually happening between them, not to their respective roles. What closes them: the practitioner returning to technique. The participant retreating into performed competence. Either party looking away from what is actually present. Stern's clinical observation was that these moments are almost always missed in professional practice — not because practitioners lack warmth, but because professional training installs reflexes that redirect attention away from the present moment and back toward the model. The practitioner who has learned the survey stance creates the conditions for now moments to be held rather than immediately dissolved.</p>
+        </div>
+
+        <div class="cite">
+          "A now moment is experienced as having a high level of vividness, presentness, and urgency... it calls out for a response that is not scripted."<br>
+          — Stern, Daniel N. <em>The Present Moment in Psychotherapy and Everyday Life.</em> W.W. Norton, 2004.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: THE CONCEPT -->
+    <div class="card" id="card-concept">
+      <div class="card-inner">
+
+        <span class="section-number">§ 03 · The Concept</span>
+        <h2>The Survey Stance</h2>
+
+        <p>The naturalist at the tide pool is not passive. Going still is an active discipline. The survey stance — the mode of attention that makes genuine encounter possible — rests on four practitioner capacities. These are not personality traits. They are practices. They can be trained.</p>
+
+        <div class="concept-box">
+          <span class="cb-label">Capacity One: Stillness</span>
+          <p>Not physical stillness — internal stillness. The practitioner's own agenda, model, and queued-next-move have gone quiet enough that what is actually present can register. This does not mean having no model. It means holding the model lightly enough that anomalous data — the answer that doesn't fit, the flicker that contradicts the frame — can get through. The naturalist who crouches at the tide pool has read the field guides. They have not become the field guide.</p>
+        </div>
+
+        <div class="concept-box">
+          <span class="cb-label">Capacity Two: Peripheral Attention</span>
+          <p>What the client doesn't say is part of the data. What appears at the edges of the answer — the micro-expression before the fluent response, the brief hesitation before the pivot, the slight shift in posture when a particular subject surface — is often more informative than the answer itself. Peripheral attention is not surveillance. It is the naturalist's peripheral vision: trained to catch movement at the edge of the pool without losing the center. Most professional training trains central attention — the content of what is said. Peripheral attention must be developed separately.</p>
+        </div>
+
+        <div class="concept-box">
+          <span class="cb-label">Capacity Three: Tolerance for Ambiguity</span>
+          <p>The survey stance requires the practitioner to stay with what they don't understand longer than professional training usually allows. Most facilitation training installs a reflex to resolve ambiguity quickly — name it, frame it, move it somewhere productive. The practitioner who can hold an unexplained signal without immediately interpreting it creates space for the signal to clarify. The naturalist who sees something unfamiliar in the tide pool does not immediately classify it. They go closer. They look longer. They let the thing reveal itself rather than assigning it to the nearest category.</p>
+        </div>
+
+        <div class="concept-box">
+          <span class="cb-label">Capacity Four: Suspension of Agenda</span>
+          <p>Agenda suspension is not the same as having no agenda. It is the capacity to set the agenda down — briefly, deliberately — when what is actually present requires it. The practitioner who has built this capacity can deviate from the session plan in response to what is real in the room without losing the thread of the work. This is the most demanding capacity because it requires trust: trust that the genuine encounter, when held, will serve the work better than the plan that was displaced by it. Buber's I-Thou is not a threat to professional structure. It is the condition under which professional structure becomes genuinely useful.</p>
+        </div>
+
+        <span class="tide-rule"></span>
+
+        <p>These four capacities do not arrive together. Stillness is often first. Peripheral attention builds on stillness. Tolerance for ambiguity follows. Agenda suspension is last, and the hardest, because it requires the practitioner to trust that the relationship can hold the departure from plan. This is not a personality development arc. It is a technical skill set with a development sequence.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 4: EDGE CASES -->
+    <div class="card" id="card-edge-cases">
+      <div class="card-inner">
+
+        <span class="section-number">§ 04 · Edge Cases</span>
+        <h2>When the Survey Stance Requires Limits</h2>
+
+        <p>The case for full encountering is strong. Three situations require the practitioner to hold it differently — not abandon it, but modulate it with precision.</p>
+
+        <h3>Trauma-Informed Contexts</h3>
+
+        <p>Full I-Thou contact can be retraumatizing for people whose trauma history is bound to being fully seen. For survivors of certain relational traumas — invasive care, coercive intimacy, settings where being witnessed meant being harmed — the practitioner's direct, unmediated presence can activate threat responses. In trauma-informed practice, the principle is titration: genuine encounter offered in doses the client can metabolize, not as an ambient condition. The naturalist at a traumatized tide pool moves slowly, approaches from the side, gives the life in the pool time to register that the presence arriving is not a threat. Full contact is still the goal. The path to it requires patience and sensitivity to cues that the dose is too much.</p>
+
+        <h3>When the Practitioner's Own Material Is Activated</h3>
+
+        <p>Genuine encounter is bidirectional. When the practitioner goes fully present to another person's inner life, their own inner life becomes part of the field. If the practitioner carries unresolved material that resonates with what the client is carrying — grief, shame, a particular configuration of family-of-origin dynamics — the encounter will activate it. The practitioner who has not done sufficient personal work in the domain of presence will find that full witnessing collapses into projection, merger, or rescue impulse. The edge case here is not a reason to avoid full contact. It is a reason to maintain a reflective practice alongside it: regular supervision, peer consultation, or personal therapy, so that the practitioner's material has somewhere to go that is not the client's session.</p>
+
+        <h3>Time and Professional Constraints</h3>
+
+        <p>A fifty-minute coaching session does not afford unlimited survey time. A group facilitation with a sponsor-approved agenda is not a research expedition. The practitioner operating in real professional constraints cannot linger at every tide pool they encounter. The operational question is not whether to survey but how to develop the efficiency of the survey: the capacity to register what is present quickly, hold it accurately, and make a calibrated decision about whether to pursue it within the session or note it for another time. Amy Edmondson's work on psychological safety is directly relevant here: the practitioner who builds enough safety in the working relationship creates conditions where the client or participant can flag what is real without waiting to be invited. Genuine encounter becomes a distributed rather than a unilateral practice.</p>
+
+        <div class="margin-note">
+          Professional distance, when it protects the client from the practitioner's unprocessed material, is not a failure of encounter. It is a form of care. The distinction is between distance-as-protection and distance-as-management. The former serves the client. The latter serves the practitioner's comfort.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 5: THE ROOTS -->
+    <div class="card" id="card-roots">
+      <div class="card-inner">
+
+        <span class="section-number">§ 05 · The Roots</span>
+        <h2>Witnessing Across Traditions</h2>
+
+        <p>The idea that a practitioner's quality of presence is itself a professional instrument is not new. It has appeared independently across multiple traditions — and has been systematically diluted in every institutional translation. Tracking the arc tells us what is always at risk of being lost.</p>
+
+        <h3>Quaker Meeting: Witnessing as Spiritual Discipline</h3>
+
+        <p>Quaker Meeting practice — gathered silence in which members speak only when moved by genuine inner prompting — is one of the oldest western institutional forms of what Buber would later call I-Thou attention. The practice requires participants to hold each other's presence without interpretation, agenda, or response until the prompting is authentic. What made the original practice radical was the structural refusal to install a mediator: no priest, no liturgy, no queue of scripted responses. The gathered attention was the instrument. In contemporary Quaker-influenced organizational practice — much of which has borrowed the form while losing the interior discipline — what gets retained is the silence. What gets lost is the quality of attention that the silence was designed to produce.</p>
+
+        <h3>Carl Rogers: Unconditional Positive Regard</h3>
+
+        <p>Rogers' three core conditions — congruence, unconditional positive regard, and empathic understanding — were, in their original formulation, phenomenological claims. Rogers was not prescribing attitudes. He was describing what was already present in encounters he had observed to be therapeutic. Unconditional positive regard is not warmth toward the client-as-type. It is the practitioner's full acceptance of the client's actual experience, including the experience that is incoherent, contradictory, or difficult to sit with. The institutional translation: person-centered approaches are now routinely taught as listening techniques. The conditions become skills to demonstrate. The phenomenological ground — genuine encounter with the full subjecthood of the other — gets replaced with its behavioral approximation. The approximation is teachable. The real thing requires something it cannot guarantee: that the practitioner is genuinely present to who is actually there.</p>
+
+        <h3>Somatic Therapy: Presence as Contact</h3>
+
+        <p>Body-oriented therapeutic traditions — Somatic Experiencing, Hakomi, sensorimotor psychotherapy — have held witnessing as a formal therapeutic capacity more consistently than most talk-based approaches. In these frameworks, the therapist's quality of presence is not background context for the intervention. It is the primary vehicle of contact. The therapist's regulated nervous system creates the conditions for the client's dysregulated system to co-regulate. The therapist who is managing their own affect into professional neutrality is not a neutral instrument. They are an unavailable one. What gets lost in institutional translation here: somatic approaches require the practitioner to do sustained personal body-based work. The training is personal, not just technical. When somatic language migrates into mainstream coaching and facilitation — "hold space," "be present," "check in with your body" — the language travels without the discipline that gave it meaning.</p>
+
+        <span class="tide-rule"></span>
+
+        <p>The pattern across all three traditions is consistent: genuine witnessing requires an interior discipline that institutional training cannot guarantee and often does not require. What gets transmitted is the form. What requires personal cultivation — and a practice independent of credentials — is the substance.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 6: APPLICATION + WWYD + BIBLIOGRAPHY -->
+    <div class="card" id="card-application">
+      <div class="card-inner">
+
+        <span class="section-number">§ 06 · Application · What Would You Do?</span>
+        <h2>The Flicker</h2>
+
+        <div class="scenario">
+          <span class="scenario-label">The Scenario — Yemi and Darius</span>
+          Yemi is midway through a coaching session with Darius. She has asked him what he wants from his career. The answer comes back polished, fluent, and completely hollow — the kind of answer that has been rehearsed into smoothness by years of performance reviews, 360 feedback cycles, and conversations in which the expected answer was already known. Yemi has heard this answer, or a version of it, many times. She is nodding. She is about to follow the answer. Then something catches. Just before Darius launched into his fluent response, there was a micro-expression — a brief flicker around his eyes, a tightening and then release, like something almost surfaced and was immediately covered. The flicker lasted less than a second. Yemi noticed it the way you notice a movement at the edge of a tide pool: peripherally, without intending to. She cannot prove she saw it. She does not know what it means. The fluent answer is running. Darius is in full professional register. What does Yemi do with a flicker she can't prove she saw?
+        </div>
+
+        <p>This is the operative question. The survey has registered something. The tide pool showed movement. The standard coaching move is to follow the answer — the model suggests the next question. The witnessing move is to honor the flicker — to make space for what almost surfaced before it was covered. These are not equal choices.</p>
+
+        <!-- ROLE GATE -->
+        <div class="role-gate">
+          <div class="role-tabs">
+            <button class="role-tab active" onclick="switchRole('designer',this)">Designer</button>
+            <button class="role-tab" onclick="switchRole('facilitator',this)">Facilitator</button>
+            <button class="role-tab" onclick="switchRole('participant',this)">Participant</button>
+          </div>
+          <div class="role-panel active" id="role-designer">
+            <p><strong>If you design coaching programs or practitioner development:</strong> The flicker scenario exposes a gap in most coach training curricula. We teach observation of explicit signals — affect, posture, pace — but rarely teach practitioners what to do with data they can't verify. The result is that the most important signals in a session — the ones that appear only when something real is about to surface — get systematically ignored because they don't fit into the evidence standard the training has installed. Design recommendation: build practitioner development sequences that explicitly train peripheral attention and the calibrated response to ambiguous data. This is not a soft skill. It is a technical capacity with observable behavioral indicators. It can be assessed.</p>
+            <p>The deeper design question: what would a practitioner development program look like that treated genuine encounter — not technique — as the primary competency? Rogers had an answer. Buber had an answer. Most contemporary training programs do not.</p>
+          </div>
+          <div class="role-panel" id="role-facilitator">
+            <p><strong>If you facilitate groups or coach individuals:</strong> The flicker is yours to work with — but how you work with it matters. You have three real options, and the choice between them is a precision instrument, not a values statement.</p>
+            <p>You can follow the fluent answer. This is not laziness. It is a legitimate choice in some contexts: early in a relationship, in a session with insufficient time, when Darius has given no indication that he wants to go deeper. Following the answer keeps the session moving and preserves the relationship for another time.</p>
+            <p>You can name what you noticed — directly. "Before you answered, I caught something. Can I check it out?" This is high-access, high-risk. It requires that your relationship with Darius can hold the interruption, that your read of the flicker is accurate enough to be worth the disruption, and that Darius is actually ready for contact at this depth.</p>
+            <p>You can create a permission structure without naming the flicker. "That answer makes sense. I'm curious — if there's a version of that answer that you haven't said out loud yet, what would it sound like?" This is a container. You're not claiming you saw something. You're opening a door. If the flicker was real and Darius is ready, the door will open. If it wasn't, nothing is lost.</p>
+          </div>
+          <div class="role-panel" id="role-participant">
+            <p><strong>If you are a coaching client or participant in facilitated work:</strong> You have been Darius. You know what the fluent answer feels like from the inside — the practiced smoothness, the way it lands well in professional contexts, the thing it covers. You also know what it feels like when a practitioner follows the fluent answer without catching the flicker: a faint deflation, not grief exactly, more like the sense that the room wasn't quite real enough for what you almost said.</p>
+            <p>What makes it safe to let the flicker surface is not the practitioner's technique. It is the quality of their presence — Edmondson's psychological safety, yes, but more specifically: the sense that the practitioner is fully with you, that they are not managing you toward an outcome, that the room is genuinely held. You can feel the difference between a practitioner who is surveying and one who is running a protocol. The body knows it before the mind names it. When someone is actually there, the flicker has somewhere to go.</p>
+          </div>
+        </div>
+
+        <div class="response-set">
+          <div class="response-option">
+            <span class="ro-label">Response A — Follow the Answer</span>
+            <p>Yemi nods. She takes the fluent response at face value and builds her next question from it. The session continues on plan. The flicker disappears. Darius leaves having received a technically competent session. The moment when something real was almost present passed without being acknowledged. This is not negligence. It is the default, and the default is sometimes right. Yemi's judgment about whether this was one of those times is the actual professional act.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">Response B — Name the Flicker Directly</span>
+            <p>Yemi pauses. "Before you went there — I noticed something. Just for a second, before the answer. I could be wrong. But I want to ask: is there a version of this question you haven't answered yet?" This is I-Thou in real time. It carries risk: if Yemi's read was projection and not perception, she has introduced noise. If her read was accurate and the relationship can hold it, she has made the kind of contact that Stern calls a now moment. The session goes somewhere real. The difference between these outcomes depends entirely on the quality of Yemi's attention and the strength of the working relationship.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">Response C — The Survey Stance in Action</span>
+            <p>Yemi holds the flicker without naming it. She softens her next question: "That's a solid picture of where you're headed. What's the part of it that you haven't quite figured out how to say yet?" No performance of having-seen-something. No claim of special perception. A container, slightly widened. The question creates the conditions for what almost surfaced to try again. If Darius is ready, something real arrives. If he isn't, the session continues. The naturalist doesn't announce that she saw movement in the pool. She goes still, and looks more carefully, and waits.</p>
+          </div>
+        </div>
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="bibliography">
+          <h3>Sources</h3>
+
+          <div class="citation">
+            Buber, Martin. <em>I and Thou.</em> Translated by Walter Kaufmann, Scribner, 1970. — I-Thou vs. I-It encounter as the foundation of genuine witnessing. Originally published 1923.
+          </div>
+
+          <div class="citation">
+            Koenig, John. <em>The Dictionary of Obscure Sorrows.</em> Simon &amp; Schuster, 2021. — "Sonder" as the phenomenological shock of recognizing full subjecthood in others.
+          </div>
+
+          <div class="citation">
+            Gallese, Vittorio. "The Roots of Empathy: The Shared Manifold Hypothesis and the Neural Basis of Intersubjectivity." <em>Psychopathology,</em> vol. 36, no. 4, 2003, pp. 171–180. — Embodied simulation as the neurological basis for genuine encounter.
+          </div>
+
+          <div class="citation">
+            Stern, Daniel N. <em>The Present Moment in Psychotherapy and Everyday Life.</em> W.W. Norton, 2004. — "Now moments" — the brief windows where genuine contact becomes possible, and what closes them.
+          </div>
+
+          <div class="citation">
+            Edmondson, Amy C. <em>The Fearless Organization: Creating Psychological Safety in the Workplace for Learning, Innovation, and Growth.</em> Wiley, 2018. — What makes it safe enough for a person to be actually visible rather than performing competence.
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /sections-rail -->
+
+  <!-- PROGRESS + NAV -->
+  <div class="reading-progress" id="reading-progress">
+    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <div class="progress-trace">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
+  </div>
+
+</div><!-- /main-panel -->
+
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+</div>
+
+<script>
+/* ── UTC CLOCK ── */
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');
+  if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+/* ── ENTRY → MAIN ── */
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },800);
+
+  track('enter','entry_screen');
+}
+
+/* ── CARD NAVIGATION ── */
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application'];
+let currentCard=0;
+
+function goTo(index){
+  if(index<0||index>=CARDS.length)return;
+  const cards=document.querySelectorAll('.card');
+  if(cards[currentCard])cards[currentCard].scrollTop=0;
+  currentCard=index;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
+  const label=document.getElementById('progress-label');
+  if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
+  document.getElementById('nav-prev').disabled=index===0;
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  track('navigate',CARDS[index]);
+}
+
+/* ── ROLE GATE ── */
+function switchRole(role,btn){
+  document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.role-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel=document.getElementById('role-'+role);
+  if(panel)panel.classList.add('active');
+  track('interact','role_tab',role);
+}
+
+/* ── TOUCH SWIPE ── */
+let touchStartX=0,touchStartY=0;
+document.getElementById('main-panel').addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('main-panel').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44){
+    if(dx<0)goTo(currentCard+1);
+    else goTo(currentCard-1);
+  }
+},{passive:true});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('main-panel').classList.contains('visible'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(currentCard+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(currentCard-1);}
+});
+
+/* ── ENGAGEMENT TRACKING ── */
+const _sos=(()=>{
+  const ENDPOINT='https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY='sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const SESSION_ID=Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,10);
+  const ISSUE_NUMBER='028';
+  const ISSUE_SLUG='the-tide-pool-survey';
+  let queue=[];
+  let flushTimer=null;
+
+  function activeCardScrollPct(){
+    const cards=document.querySelectorAll('.card');
+    const card=cards[currentCard];
+    if(!card)return 0;
+    const total=card.scrollHeight-card.clientHeight;
+    return total>0?Math.round((card.scrollTop/total)*100):0;
+  }
+
+  function flush(){
+    if(!queue.length)return;
+    const batch=queue.splice(0);
+    batch.forEach(ev=>{
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{
+          'apikey':API_KEY,
+          'Authorization':'Bearer '+API_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'return=minimal'
+        },
+        body:JSON.stringify({
+          title:'meliorism2.com | '+ISSUE_SLUG+' | '+ev.event+' | '+ev.label,
+          occurred_at:ev.ts,
+          reflection:SESSION_ID,
+          notes:JSON.stringify({
+            issue_number:ISSUE_NUMBER,
+            issue_slug:ISSUE_SLUG,
+            event:ev.event,
+            label:ev.label,
+            extra:ev.extra||null,
+            referrer:document.referrer||null,
+            card_index:ev.card_index,
+            card_name:CARDS[ev.card_index]||null,
+            scroll_pct:ev.scroll_pct,
+            viewport_w:window.innerWidth,
+            viewport_h:window.innerHeight
+          })
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    });
+  }
+
+  function enqueue(event,label,extra){
+    queue.push({
+      event,label,extra,
+      ts:new Date().toISOString(),
+      card_index:currentCard,
+      scroll_pct:activeCardScrollPct()
+    });
+    if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
+  }
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden')flush();
+  });
+
+  return{track:enqueue};
+})();
+
+function track(event,label,extra){
+  console.log('[meliorism2]',event,label,extra||'');
+  _sos.track(event,label,extra);
+}
+
+/* ── PER-CARD SCROLL DEPTH TRACKING ── */
+const cardDepthsFired={};
+document.querySelectorAll('.card').forEach((card,i)=>{
+  cardDepthsFired[i]=new Set();
+  card.addEventListener('scroll',()=>{
+    const total=card.scrollHeight-card.clientHeight;
+    if(total<=0)return;
+    const pct=Math.round((card.scrollTop/total)*100);
+    [25,50,75,90].forEach(d=>{
+      if(pct>=d&&!cardDepthsFired[i].has(d)){
+        cardDepthsFired[i].add(d);
+        track('scroll_depth',CARDS[i]+'_'+d+'pct');
+      }
+    });
+  },{passive:true});
+});
+
+/* ── CLICK TRACKING ── */
+document.addEventListener('click',e=>{
+  if(e.target.closest('.response-option')){
+    const lbl=e.target.closest('.response-option').querySelector('.ro-label');
+    track('interact','response_option',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.research-block')){
+    const lbl=e.target.closest('.research-block').querySelector('.researcher');
+    track('interact','research_block',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('a[href*="archive"]')){
+    track('click','archive_link');
+  }
+});
+</script>
+</body>
+</html>
