@@ -1,0 +1,1499 @@
+<!-- meliorism2:slug: the-confessional-booth-schematic -->
+<!-- meliorism2:date: 2026-06-03 -->
+<!-- meliorism2:issue: 034 -->
+<!-- meliorism2:dimension: Brave Spaces -->
+<!-- meliorism2:format: Confessional Booth Schematic -->
+<!-- meliorism2:architecture: horizontal-swipe -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · The Confessional Booth Schematic</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #faf8f5;
+  --surface:   #f0ebe3;
+  --border:    rgba(139,111,71,0.15);
+  --border-h:  rgba(139,111,71,0.3);
+  --accent:    #8b6f47;
+  --accentf:   rgba(139,111,71,0.5);
+  --amber:     #b07d3a;
+  --amber-l:   #d4a055;
+  --amber-d:   #7a5520;
+  --text:      #2c2c2c;
+  --muted:     rgba(44,44,44,0.85);
+  --dim:       rgba(44,44,44,0.72);
+  --dark-band: #1a1714;
+  --cream:     #c8b99a;
+  --ink:       #1a1714;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Courier Prime',monospace;
+  overflow:hidden;
+}
+
+/* ── STATUS BAR ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:36px;
+  background:rgba(0,0,0,0.02);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.sb-logo{
+  font-size:0.8rem;letter-spacing:4px;font-weight:700;
+  color:var(--accent);text-decoration:none;border:none;
+}
+.sb-logo:hover{background:transparent;}
+.sb-label{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);flex:1;
+}
+.sb-clock{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);
+}
+
+/* ── ENTRY SCREEN ── */
+#entry{
+  position:fixed;inset:0;top:36px;z-index:800;
+  overflow:hidden;
+  cursor:pointer;
+  transition:opacity 1.2s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-bg{
+  position:absolute;inset:0;
+  background:url('the-confessional-booth-schematic-hero.jpg') center center / cover no-repeat,
+             linear-gradient(160deg, #100a1a 0%, #1a1025 35%, #0a0810 70%, #1a1714 100%);
+  transform:scale(1.04);
+  animation:kb 14s ease-out forwards;
+}
+@keyframes kb{
+  from{transform:scale(1.04);}
+  to{transform:scale(1.0);}
+}
+
+.entry-tint{
+  position:absolute;inset:0;
+  background:rgba(20,10,35,0.22);
+  mix-blend-mode:multiply;
+}
+
+.entry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(8,4,16,0.22) 0%,
+    rgba(8,4,16,0.44) 40%,
+    rgba(8,4,16,0.88) 100%
+  );
+}
+
+.entry-trace{
+  position:absolute;
+  bottom:220px;left:0;right:0;
+  height:2px;
+  overflow:hidden;
+  pointer-events:none;
+}
+.entry-trace::after{
+  content:'';
+  display:block;
+  position:absolute;top:0;left:-100%;
+  width:300%;height:100%;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(139,111,71,0.0) 10%,
+    rgba(139,111,71,0.3) 30%,
+    rgba(139,111,71,0.5) 40%,
+    rgba(139,111,71,0.3) 55%,
+    rgba(139,111,71,0.15) 70%,
+    transparent 90%
+  );
+  animation:traceSlide 3.5s ease 1.2s forwards;
+  transform:translateX(-40%);
+}
+@keyframes traceSlide{
+  to{transform:translateX(80%);}
+}
+
+.entry-corner{
+  position:absolute;top:24px;right:32px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;
+  color:rgba(200,185,154,0.85);
+  text-transform:uppercase;text-align:right;line-height:1.9;
+}
+
+.entry-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:44px 56px 52px;
+}
+
+.entry-stamp{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(200,185,154,0.7);
+  display:flex;gap:18px;align-items:center;
+  margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;
+}
+.entry-stamp-sep{opacity:0.35;}
+
+.entry-title{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(3.8rem,9vw,7rem);
+  font-weight:400;line-height:1.0;
+  color:#faf4ec;letter-spacing:-0.02em;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(14px);
+  animation:fadeUp 0.9s ease 0.55s forwards;
+}
+
+.entry-sub{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-style:italic;
+  color:rgba(230,215,185,0.65);
+  margin-bottom:36px;
+  opacity:0;transform:translateY(8px);
+  animation:fadeUp 0.8s ease 0.85s forwards;
+}
+
+.entry-enter{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(200,185,154,0.85);
+  background:none;border:none;border-bottom:1px solid rgba(200,185,154,0.35);
+  padding-bottom:3px;cursor:pointer;
+  opacity:0;animation:fadeUp 0.7s ease 1.3s forwards;
+  transition:color 0.2s,border-color 0.2s;
+}
+.entry-enter:hover{
+  color:#faf4ec;
+  border-bottom-color:rgba(240,225,190,0.7);
+}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:640px){
+  .entry-content{padding:32px 24px 40px;}
+  .entry-corner{display:none;}
+  .entry-stamp{flex-wrap:wrap;gap:10px;}
+  .entry-trace{bottom:190px;}
+}
+
+/* ── MAIN PANEL ── */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+  overflow:hidden;
+  background:var(--bg);
+}
+#main-panel.visible{
+  display:block;opacity:1;
+}
+
+/* ── SECTIONS RAIL ── */
+.sections-rail{
+  display:flex;
+  flex-direction:row;
+  width:700%;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+.card{
+  width:calc(100% / 7);
+  flex-shrink:0;
+  height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.card-inner{
+  max-width:820px;
+  padding:50px 40px 80px;
+  margin:0 auto;
+}
+
+@media(max-width:768px){
+  .card-inner{padding:30px 20px 80px;}
+}
+
+/* ── READING PROGRESS BAR ── */
+.reading-progress{
+  position:fixed;
+  bottom:40px;left:0;right:0;
+  height:36px;
+  background:var(--dark-band);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:14px;
+  z-index:900;
+}
+
+.progress-trace{
+  flex:1;
+  height:2px;
+  background:rgba(176,125,58,0.15);
+  border-radius:1px;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  position:absolute;
+  top:0;left:0;height:100%;
+  background:var(--amber);
+  transition:width 0.45s cubic-bezier(0.4,0,0.2,1);
+  border-radius:1px;
+}
+
+.progress-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;
+  color:var(--cream);opacity:0.7;
+  white-space:nowrap;
+  min-width:90px;text-align:right;
+}
+
+.nav-prev,.nav-next{
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+}
+.nav-prev:hover,.nav-next:hover{color:var(--amber);}
+.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+
+/* ── CARD 0: SIGNAL HEADER ── */
+.metadata{
+  text-align:center;margin-bottom:50px;
+  border-bottom:2px solid var(--border-h);
+  padding-bottom:30px;color:var(--dim);
+}
+
+.date-tag{
+  font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.issue-format-badge{
+  display:inline-block;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(176,125,58,0.35);
+  padding:3px 10px;
+  margin-bottom:16px;
+}
+
+h1{
+  font-family:'Crimson Text',serif;
+  font-size:2.6rem;font-weight:normal;
+  margin:16px 0 10px;color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.subtitle{
+  font-size:0.95rem;color:var(--dim);
+  margin-top:10px;font-style:italic;
+  font-family:'Crimson Text',serif;
+}
+
+/* ── HERO IMAGE ── */
+.hero-image{
+  width:100%;display:block;margin:0 0 40px;
+  opacity:0.9;
+  border:1px solid var(--border);
+}
+
+/* ── 90-SECOND SIGNAL ── */
+.highlight{
+  background:linear-gradient(135deg,#f5ede0 0%,#faf7f2 100%);
+  border-left:4px solid var(--amber);
+  padding:26px 28px;margin:40px 0;
+  border-radius:2px;
+  border-top:1px solid rgba(176,125,58,0.15);
+  border-bottom:1px solid rgba(176,125,58,0.15);
+  border-right:1px solid rgba(176,125,58,0.08);
+}
+
+.highlight-label{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:var(--amber);margin-bottom:12px;font-weight:700;
+  display:block;
+}
+
+.highlight p{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;line-height:1.65;color:var(--text);
+}
+
+/* ── BEGIN READING PROMPT ── */
+.begin-prompt{
+  margin-top:40px;
+  text-align:center;
+  padding:24px 0 10px;
+  border-top:1px solid var(--border);
+}
+.begin-prompt button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s;
+}
+.begin-prompt button:hover{
+  color:var(--amber-d);
+  border-bottom-color:rgba(122,85,32,0.5);
+}
+
+/* ── SECTION NUMBER BAND ── */
+.section-number{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.16em;
+  display:block;
+  background:var(--dark-band);
+  color:var(--cream);
+  padding:11px 16px;
+  margin:0 -40px 24px;
+}
+
+@media(max-width:768px){
+  .section-number{margin:0 -20px 20px;}
+}
+
+h2{
+  font-family:'Crimson Text',serif;
+  font-size:1.9rem;font-weight:normal;
+  margin-bottom:18px;color:var(--text);
+  border-bottom:1px solid var(--border-h);
+  padding-bottom:10px;
+  letter-spacing:-0.01em;
+}
+
+h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.15rem;font-weight:600;
+  margin-top:24px;margin-bottom:10px;color:var(--ink);
+}
+
+p{
+  font-size:1.0rem;line-height:1.75;
+  margin-bottom:1.1em;
+}
+
+/* ── DIVIDER RULE ── */
+.divider-rule{
+  display:block;
+  position:relative;
+  height:28px;
+  margin:28px 0 20px;
+  overflow:hidden;
+}
+.divider-rule::after{
+  content:'';
+  display:block;
+  position:absolute;
+  top:50%;left:0;right:0;
+  height:1px;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(139,111,71,0.1) 5%,
+    rgba(139,111,71,0.35) 20%,
+    rgba(139,111,71,0.55) 50%,
+    rgba(139,111,71,0.35) 80%,
+    rgba(139,111,71,0.1) 95%,
+    transparent 100%
+  );
+}
+
+/* ── CALLOUT / CITE ── */
+.cite{
+  font-size:0.9rem;
+  color:var(--text);
+  border-left:3px solid var(--amber);
+  padding:12px 18px;
+  margin:18px 0 26px;
+  display:block;
+  letter-spacing:0.3px;
+  line-height:1.75;
+  background:rgba(176,125,58,0.04);
+}
+.cite em{font-style:italic;}
+
+/* ── MARGIN NOTE ── */
+.margin-note{
+  position:relative;margin-left:16px;padding-left:18px;
+  border-left:2px dashed var(--accentf);
+  font-size:0.875rem;color:var(--muted);
+  font-style:italic;margin-top:18px;margin-bottom:18px;
+  line-height:1.65;
+}
+
+/* ── RESEARCH BLOCK ── */
+.research-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.research-block .researcher{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;display:block;font-weight:700;
+}
+.research-block p{
+  font-size:0.95rem;margin-bottom:0;
+}
+
+/* ── CONCEPT BOX ── */
+.concept-box{
+  background:linear-gradient(135deg,#f8f0e2 0%,#faf7f2 100%);
+  border:1px solid rgba(176,125,58,0.2);
+  border-left:4px solid var(--amber-d);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.concept-box .cb-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber-d);margin-bottom:10px;display:block;font-weight:700;
+}
+.concept-box p{font-size:0.95rem;margin-bottom:0;}
+
+/* ── SCENARIO BOX ── */
+.scenario{
+  background:#f8f4ee;
+  border:1px solid rgba(176,125,58,0.25);
+  padding:28px 30px;
+  margin:28px 0;
+  border-radius:2px;
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;
+  line-height:1.75;
+  color:var(--ink);
+  border-top:3px solid var(--amber);
+}
+.scenario-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:14px;display:block;font-weight:700;
+}
+
+/* ── RESPONSE OPTIONS ── */
+.response-set{
+  margin:24px 0;
+}
+.response-option{
+  padding:16px 20px;
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:var(--bg);
+  transition:border-color 0.2s,background 0.2s;
+}
+.response-option:hover{
+  border-color:var(--amber);
+  background:rgba(176,125,58,0.03);
+  cursor:default;
+}
+.response-option .ro-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:8px;font-weight:700;
+}
+.response-option p{font-size:1.0rem;line-height:1.75;margin-bottom:0;}
+
+/* ── CONFESSIONAL BOOTH SCHEMATIC — CSS ARCHITECTURAL DIAGRAM ── */
+.schematic-wrapper{
+  margin:36px 0 44px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;
+}
+
+.schematic-title{
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:20px;font-weight:700;
+  display:block;border-bottom:1px solid var(--border);
+  padding-bottom:10px;
+}
+
+.schematic-diagram{
+  display:grid;
+  grid-template-columns:1fr 32px 8px 32px 1fr;
+  grid-template-rows:28px auto auto auto 28px;
+  gap:0;
+  border:1.5px solid rgba(139,111,71,0.35);
+  border-radius:3px;
+  overflow:visible;
+  position:relative;
+  background:var(--surface);
+}
+
+/* Roof band */
+.sch-roof{
+  grid-column:1 / -1;
+  grid-row:1;
+  background:var(--dark-band);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cream);opacity:0.9;
+}
+
+/* Left compartment — penitent */
+.sch-left{
+  grid-column:1;
+  grid-row:2 / 5;
+  padding:18px 16px;
+  border-right:1px solid rgba(139,111,71,0.2);
+  min-height:260px;
+}
+.sch-compartment-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;display:block;margin-bottom:10px;
+}
+.sch-person-symbol{
+  display:flex;align-items:flex-end;justify-content:center;
+  height:70px;margin:8px 0 12px;
+  position:relative;
+}
+/* CSS person silhouette */
+.sch-person{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+.sch-head{
+  width:14px;height:14px;border-radius:50%;
+  background:rgba(139,111,71,0.45);
+}
+.sch-body{
+  width:10px;height:26px;
+  background:rgba(139,111,71,0.35);
+  border-radius:1px;
+}
+
+/* Divider column — wooden partition */
+.sch-divider-outer{
+  grid-column:2;
+  grid-row:2 / 5;
+  background:linear-gradient(180deg,
+    rgba(139,111,71,0.08) 0%,
+    rgba(139,111,71,0.18) 20%,
+    rgba(139,111,71,0.22) 50%,
+    rgba(139,111,71,0.18) 80%,
+    rgba(139,111,71,0.08) 100%
+  );
+  border-left:2.5px solid rgba(139,111,71,0.45);
+  border-right:1.5px solid rgba(139,111,71,0.25);
+  position:relative;
+}
+/* Wood grain marks */
+.sch-divider-outer::before,
+.sch-divider-outer::after{
+  content:'';display:block;position:absolute;
+  left:6px;right:6px;height:1px;
+  background:rgba(139,111,71,0.15);
+}
+.sch-divider-outer::before{top:30%;}
+.sch-divider-outer::after{top:65%;}
+
+/* Mesh screen column */
+.sch-mesh{
+  grid-column:3;
+  grid-row:2 / 5;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(139,111,71,0.12) 3px,
+    rgba(139,111,71,0.12) 4px
+  ),
+  repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 3px,
+    rgba(139,111,71,0.12) 3px,
+    rgba(139,111,71,0.12) 4px
+  );
+  border-left:1px dashed rgba(139,111,71,0.3);
+  border-right:1px dashed rgba(139,111,71,0.3);
+}
+
+/* Divider outer right half */
+.sch-divider-inner{
+  grid-column:4;
+  grid-row:2 / 5;
+  background:linear-gradient(180deg,
+    rgba(139,111,71,0.08) 0%,
+    rgba(139,111,71,0.16) 50%,
+    rgba(139,111,71,0.08) 100%
+  );
+  border-left:1.5px solid rgba(139,111,71,0.25);
+  border-right:2.5px solid rgba(139,111,71,0.45);
+}
+
+/* Right compartment — confessor */
+.sch-right{
+  grid-column:5;
+  grid-row:2 / 5;
+  padding:18px 16px;
+  border-left:1px solid rgba(139,111,71,0.2);
+}
+
+/* Entrance bands */
+.sch-entrance-left{
+  grid-column:1;
+  grid-row:5;
+  background:linear-gradient(to bottom,rgba(139,111,71,0.12),rgba(139,111,71,0.0));
+  border-top:1.5px solid rgba(139,111,71,0.3);
+  display:flex;align-items:center;justify-content:center;
+}
+.sch-entrance-right{
+  grid-column:5;
+  grid-row:5;
+  background:linear-gradient(to bottom,rgba(139,111,71,0.12),rgba(139,111,71,0.0));
+  border-top:1.5px solid rgba(139,111,71,0.3);
+  display:flex;align-items:center;justify-content:center;
+}
+.sch-entrance-mid{
+  grid-column:2 / 5;
+  grid-row:5;
+  background:var(--dark-band);
+  opacity:0.4;
+}
+.sch-entrance-label{
+  font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--accent);
+}
+
+/* Annotation lines & labels */
+.schematic-annotations{
+  margin-top:16px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 24px;
+}
+.sch-annotation{
+  padding:10px 12px;
+  border-left:2px solid rgba(139,111,71,0.3);
+  background:rgba(176,125,58,0.03);
+}
+.sch-ann-element{
+  font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--amber);font-weight:700;display:block;
+  margin-bottom:4px;
+}
+.sch-ann-function{
+  font-size:0.8rem;line-height:1.6;color:var(--dim);
+}
+
+/* Full-width annotations for wide items */
+.sch-annotation.full-width{
+  grid-column:1 / -1;
+}
+
+/* ── DRAWING LEGEND DIRECTORY ── */
+.drawing-legend{
+  margin:36px 0 0;
+  border:1.5px solid rgba(139,111,71,0.35);
+  border-radius:2px;
+  overflow:hidden;
+  background:var(--bg);
+}
+.dl-header{
+  background:var(--dark-band);
+  padding:10px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.dl-title{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cream);
+}
+.dl-sub{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.1em;
+  color:rgba(200,185,154,0.4);
+  font-style:italic;
+}
+.dl-col-heads{
+  display:grid;grid-template-columns:36px 52px 1fr 52px;
+  padding:6px 20px;
+  background:rgba(139,111,71,0.07);
+  border-bottom:1px solid var(--border-h);
+  gap:10px;
+}
+.dl-col-head{
+  font-family:'Courier Prime',monospace;
+  font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);font-weight:700;
+}
+.dl-row{
+  display:grid;grid-template-columns:36px 52px 1fr 52px;
+  align-items:center;gap:10px;
+  padding:12px 20px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background 0.15s;
+}
+.dl-row:last-child{border-bottom:none;}
+.dl-row:hover{background:rgba(139,111,71,0.04);}
+.dl-row:hover .dl-row-arrow{opacity:1;}
+.dl-sym{
+  font-family:'Courier Prime',monospace;
+  font-size:0.95rem;
+  color:rgba(139,111,71,0.55);
+  text-align:center;
+}
+.dl-ref{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.08em;
+  color:var(--dim);
+}
+.dl-name{
+  font-family:'Crimson Text',serif;
+  font-size:0.95rem;line-height:1.35;
+  color:var(--text);
+}
+.dl-row-arrow{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;
+  color:var(--amber);
+  opacity:0;
+  transition:opacity 0.15s;
+  text-align:right;
+}
+@media(max-width:640px){
+  .dl-col-heads{grid-template-columns:30px 44px 1fr 36px;}
+  .dl-row{grid-template-columns:30px 44px 1fr 36px;}
+}
+
+/* ── CONTENTS NAV BUTTON ── */
+.nav-contents{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  color:rgba(200,185,154,0.7);
+  cursor:pointer;padding:0 6px;
+  white-space:nowrap;
+  transition:color 0.2s,border-color 0.2s;
+}
+.nav-contents:hover{color:var(--amber);border-color:rgba(176,125,58,0.65);}
+
+/* ── BIBLIOGRAPHY ── */
+.bibliography{
+  margin-top:54px;padding-top:30px;
+  border-top:2px solid var(--border-h);
+  font-size:0.9rem;
+}
+.bibliography h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-weight:normal;
+  margin-bottom:20px;color:var(--text);
+}
+.citation{
+  margin-bottom:14px;line-height:1.75;
+  padding-left:20px;text-indent:-20px;
+  font-size:0.875rem;
+}
+
+/* ── FOOTER ── */
+.doc-footer{
+  margin-top:60px;padding-top:30px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.8rem;letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+/* ── FOOTER BAR ── */
+.footer-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:40px;background:var(--bg);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  font-size:0.8rem;letter-spacing:2px;
+}
+.footer-bar a{color:var(--accent);text-decoration:none;border:none;}
+.footer-bar a:hover{color:var(--amber);background:transparent;}
+.footer-sep{color:var(--border-h);}
+
+/* ── GENERAL LINKS ── */
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,71,0.3);}
+a:hover{background:rgba(139,111,71,0.06);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  #entry{align-items:flex-start;overflow-y:auto;}
+  .entry-content{padding:28px 20px 80px;}
+  .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
+  h1{font-size:1.9rem;}
+  h2{font-size:1.4rem;}
+  .schematic-annotations{grid-template-columns:1fr;}
+  .sch-annotation.full-width{grid-column:1;}
+}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div style="width:1px;height:12px;background:var(--border);"></div>
+  <div class="sb-label">THE CONFESSIONAL BOOTH SCHEMATIC · BRAVE SPACES · WED 06.03</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div id="entry" onclick="openMain()">
+  <div class="entry-bg"></div>
+  <div class="entry-tint"></div>
+  <div class="entry-overlay"></div>
+  <div class="entry-trace"></div>
+  <div class="entry-corner">⊠ The Confessional Booth Schematic<br>Brave Spaces · Issue 034</div>
+  <div class="entry-content">
+    <div class="entry-stamp">
+      <span>Meliorism2.com</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>June 3, 2026</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>Issue 034 · Brave Spaces</span>
+    </div>
+    <h1 class="entry-title">The<br>Confessional<br>Booth<br>Schematic</h1>
+    <p class="entry-sub">Brave spaces aren't built by asking people to be braver. They're built by making failure-naming structurally ordinary.</p>
+    <button class="entry-enter" onclick="openMain()">Enter the schematic →</button>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div id="main-panel">
+
+  <div class="sections-rail" id="sections-rail">
+
+    <!-- CARD 0: THE SIGNAL -->
+    <div class="card" id="card-signal">
+      <div class="card-inner">
+
+        <div class="metadata">
+          <div class="date-tag">June 3, 2026 · Wednesday</div>
+          <div class="issue-format-badge">⊠ The Confessional Booth Schematic · Issue 034</div>
+          <h1>The Confessional Booth Schematic</h1>
+          <p class="subtitle">On what it actually takes to build a room where failure can be named — and why the Cistercians figured it out eight centuries before we had a term for it</p>
+        </div>
+
+        <img src="the-confessional-booth-schematic-hero.jpg" alt="Stone-vaulted chapter house interior, morning light through a single high window, stone benches arranged in a continuous ring, one empty wooden chair at center" class="hero-image">
+
+        <div class="highlight">
+          <span class="highlight-label">90-Second Signal</span>
+          <p>The reason your brave space session didn't work is not that the people in the room lacked courage. It is that you asked courage to do structural work. Courage is a personal resource. It is finite, unevenly distributed, and suppressed under status pressure. Architecture is a collective resource. It holds the same regardless of who is in the room. The Cistercians built a weekly practice in the 12th century where failure was named aloud, without punishment, by everyone including the abbot — not because Cistercian monks were braver than other humans, but because the room was designed so that naming failure was structurally ordinary. The container held the risk. Individual courage didn't have to.</p>
+        </div>
+
+        <!-- DRAWING LEGEND DIRECTORY — architectural vocabulary -->
+        <div class="drawing-legend" role="navigation" aria-label="Article directory">
+          <div class="dl-header">
+            <span class="dl-title">⊠ Drawing Legend — Six Elements</span>
+            <span class="dl-sub">click any element to open</span>
+          </div>
+          <div class="dl-col-heads">
+            <span class="dl-col-head">Sym</span>
+            <span class="dl-col-head">Ref</span>
+            <span class="dl-col-head">Element</span>
+            <span class="dl-col-head"></span>
+          </div>
+
+          <div class="dl-row" onclick="goTo(1);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(1)">
+            <span class="dl-sym">⊞</span>
+            <span class="dl-ref">§ 01</span>
+            <span class="dl-name">The Room Cannot Hold What You're Asking It to Hold</span>
+            <span class="dl-row-arrow">→</span>
+          </div>
+
+          <div class="dl-row" onclick="goTo(2);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(2)">
+            <span class="dl-sym">⊟</span>
+            <span class="dl-ref">§ 02</span>
+            <span class="dl-name">What the Research Has Rediscovered</span>
+            <span class="dl-row-arrow">→</span>
+          </div>
+
+          <div class="dl-row" onclick="goTo(3);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(3)">
+            <span class="dl-sym">⊠</span>
+            <span class="dl-ref">§ 03</span>
+            <span class="dl-name">The Architecture of Ordinary Failure</span>
+            <span class="dl-row-arrow">→</span>
+          </div>
+
+          <div class="dl-row" onclick="goTo(4);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(4)">
+            <span class="dl-sym">⊡</span>
+            <span class="dl-ref">§ 04</span>
+            <span class="dl-name">Three Ways the Structure Fails</span>
+            <span class="dl-row-arrow">→</span>
+          </div>
+
+          <div class="dl-row" onclick="goTo(5);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(5)">
+            <span class="dl-sym">□</span>
+            <span class="dl-ref">§ 05</span>
+            <span class="dl-name">What Was Built Before We Had the Language</span>
+            <span class="dl-row-arrow">→</span>
+          </div>
+
+          <div class="dl-row" onclick="goTo(6);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(6)">
+            <span class="dl-sym">▣</span>
+            <span class="dl-ref">§ 06</span>
+            <span class="dl-name">The Structural Argument to the Sponsor</span>
+            <span class="dl-row-arrow">→</span>
+          </div>
+
+        </div>
+
+        <div class="begin-prompt">
+          <button onclick="goTo(1)">Begin reading →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 1: THE PHENOMENON -->
+    <div class="card" id="card-phenomenon">
+      <div class="card-inner">
+
+        <span class="section-number">§ 01 · The Phenomenon</span>
+        <h2>The Room Cannot Hold What You're Asking It to Hold</h2>
+
+        <p>It is June, which means calibration season. Somewhere in your professional orbit this week, managers are writing performance narratives. Employees are waiting. OD consultants are fielding calls about how to handle difficult feedback conversations. The whole apparatus is in motion — and almost everyone involved is carrying the quiet awareness that something uncomfortable is being named about them, somewhere else, by someone who is not them, and the verdict will arrive later.</p>
+
+        <p>That structure — evaluation displaced outward, verdict deferred, subject absent — is a specific architectural choice. It is not the only possible design. It is not even the most effective design for the thing it claims to be doing. But it is the dominant one, and it produces a predictable outcome: anxiety, performance, and the suppression of honest report.</p>
+
+        <p>The practitioner's task this week is often framed as helping people give and receive feedback well. That framing contains the problem. Feedback quality in calibration season is not primarily a skill issue. It is a structural issue. The room is not built to hold what you're asking it to hold. No amount of "having the conversation well" resolves that.</p>
+
+        <span class="divider-rule"></span>
+
+        <p>The Cistercian monks of the 12th century built a room that could hold it. They called the practice the <em>Capitulum Culparum</em> — the Chapter of Faults. Once a week, in a stone-vaulted space arranged in a continuous ring with no head-of-table position, every member of the community named their own failures aloud. Not their successes. Not their intentions. Their failures. Specific, witnessed, undefended. The abbot went first.</p>
+
+        <p>This issue is a schematic of how that room worked — and why the structural logic applies directly to the problem practitioners are managing this week.</p>
+
+        <div class="margin-note">
+          The image environment for this issue: a stone-vaulted chapter house interior, morning light through a single high window, stone benches arranged in a continuous ring with no head-of-table position, one empty wooden chair at center — spare, architectural, no people. A room built to hold a specific kind of conversation.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 2: THE EVIDENCE -->
+    <div class="card" id="card-evidence">
+      <div class="card-inner">
+
+        <span class="section-number">§ 02 · The Evidence</span>
+        <h2>What the Research Has Rediscovered</h2>
+
+        <p>Two 2025 papers — one in <em>Group Dynamics: Theory, Research, and Practice</em> and one in <em>The Journal of Applied Behavioral Science</em> — independently cite the Chapter of Faults as a pre-modern precedent for after-action review and psychological safety infrastructure. That citation pair is worth pausing on: two research teams, in different journals, working from different frameworks, both arrived at the same medieval practice as evidence for the same structural argument.</p>
+
+        <div class="research-block">
+          <span class="researcher">Waddell — "The Rule of Saint Benedict" (2010, Saint Meinrad Archabbey Press)</span>
+          <p>The primary textual record of the Chapter of Faults practice. Waddell's translation with commentary establishes the conditions that made the practice function: the naming was specific (not general contrition), the audience was the full community (not a dyadic confession), no exculpation was permitted, the abbot participated without exception, and penance was bounded and predictable. What the commentary makes clear is that Benedict's design intent was collective learning, not punitive correction. The practice was not about shame. It was about normalizing the acknowledgment of fallibility as a communal act. The container held because participation was non-negotiable and structurally bounded — not because the monks were unusually virtuous.</p>
+        </div>
+
+        <div class="cite">
+          "The Chapter of Faults is not a mechanism for producing humility. It is a mechanism for producing a community in which fallibility is publicly acknowledged rather than privately concealed."<br>
+          — Waddell, Chrysogonus. <em>The Rule of Saint Benedict.</em> Saint Meinrad Archabbey Press, 2010.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Edmondson — "The Fearless Organization" (2018, Wiley)</span>
+          <p>The anchor reference for psychological safety in contemporary practice. Edmondson's core distinction — between psychological safety as a <em>climate</em> (a structural property of the team environment) and bravery as a <em>dispositional trait</em> (a property of individuals) — is the bridge the 2025 papers use to connect the Cistercian precedent to modern organizational practice. Edmondson explicitly argues that requesting honest speech from individuals without providing structural safety for it is not a psychological safety intervention. It is a courage request. The two are not interchangeable. The Chapter of Faults is, in Edmondson's terms, a climate design — a structural arrangement that made honest speech the norm rather than the exception.</p>
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Weick &amp; Sutcliffe — "Managing the Unexpected" (2015, Wiley)</span>
+          <p>The high-reliability organization (HRO) literature on failure-reporting as system design. Weick and Sutcliffe's argument — that resilient organizations are preoccupied with failure not because their people are braver but because their structures make failure-reporting functionally safe — maps directly onto the Cistercian design. The nuclear plant, the aircraft carrier, the trauma center: the organizations that learn from failure at scale are not populated by people with unusually high risk tolerance. They are populated by systems that impose failure-naming as a structural norm. The Chapter of Faults is the 12th-century version of the pre-flight checklist.</p>
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Schein — "Humble Inquiry" (2013, Berrett-Koehler)</span>
+          <p>On the asymmetry of rank in disclosure. Schein's clinical argument is that status differentials suppress honest reporting not because junior people lack courage but because the structural incentives run in one direction: upward impression management. The abbot-participates requirement in the Chapter of Faults was a direct structural countermeasure. When the person with the most authority in the room names their failure first, they have altered the structural incentive for everyone else. This is not a leadership style choice. It is an architectural intervention. Schein identifies the mechanism clinically; the Cistercians built the solution eight centuries earlier.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: THE CONCEPT (with CSS Schematic) -->
+    <div class="card" id="card-concept">
+      <div class="card-inner">
+
+        <span class="section-number">§ 03 · The Concept</span>
+        <h2>The Architecture of Ordinary Failure</h2>
+
+        <p>The distinction the research is reaching for is simple once named: <strong>structure holds risk so that individuals don't have to.</strong> A brave space is not a space occupied by brave people. It is a space designed so that the act of naming failure is structurally ordinary rather than individually heroic. The Cistercians built one. Here is the schematic.</p>
+
+        <!-- NEWSLETTER-IMPOSSIBLE ELEMENT: CSS Architectural Cross-Section Schematic -->
+        <div class="schematic-wrapper">
+          <span class="schematic-title">⊠ Bounded Disclosure Space — Cross Section · Capitulum Culparum (12th c.)</span>
+
+          <div class="schematic-diagram">
+
+            <!-- Roof -->
+            <div class="sch-roof">CHAPTER HOUSE · VAULTED ENCLOSURE</div>
+
+            <!-- Left: Penitent compartment -->
+            <div class="sch-left">
+              <span class="sch-compartment-label">Participant</span>
+              <div class="sch-person-symbol">
+                <div class="sch-person">
+                  <div class="sch-head"></div>
+                  <div class="sch-body"></div>
+                </div>
+              </div>
+              <p style="font-size:0.8rem;line-height:1.5;color:var(--dim);margin-bottom:0;">Names own failure aloud. No exculpation permitted. Witnessed by community.</p>
+            </div>
+
+            <!-- Wooden divider outer -->
+            <div class="sch-divider-outer"></div>
+
+            <!-- Mesh / grille -->
+            <div class="sch-mesh"></div>
+
+            <!-- Wooden divider inner -->
+            <div class="sch-divider-inner"></div>
+
+            <!-- Right: Confessor (abbot) compartment -->
+            <div class="sch-right">
+              <span class="sch-compartment-label">Abbot</span>
+              <div class="sch-person-symbol">
+                <div class="sch-person">
+                  <div class="sch-head" style="background:rgba(139,111,71,0.7);"></div>
+                  <div class="sch-body" style="background:rgba(139,111,71,0.55);"></div>
+                </div>
+              </div>
+              <p style="font-size:0.8rem;line-height:1.5;color:var(--dim);margin-bottom:0;">Names failure first. Assigns bounded penance. Enacts rank-symmetry requirement.</p>
+            </div>
+
+            <!-- Entrances -->
+            <div class="sch-entrance-left">
+              <span class="sch-entrance-label">Entrance A</span>
+            </div>
+            <div class="sch-entrance-mid"></div>
+            <div class="sch-entrance-right">
+              <span class="sch-entrance-label">Entrance B</span>
+            </div>
+
+          </div><!-- /schematic-diagram -->
+
+          <!-- Annotations: each structural element labeled with its psychological function -->
+          <div class="schematic-annotations">
+
+            <div class="sch-annotation">
+              <span class="sch-ann-element">Physical separation</span>
+              <span class="sch-ann-function">Eliminates hierarchy cues. Neither party can read the other's full body response. Status differentials are partially suspended by the architectural frame.</span>
+            </div>
+
+            <div class="sch-annotation">
+              <span class="sch-ann-element">Acoustic isolation</span>
+              <span class="sch-ann-function">Removes social surveillance. The act of naming is contained within the bounded space. What is said does not echo into unstructured social space.</span>
+            </div>
+
+            <div class="sch-annotation">
+              <span class="sch-ann-element">Ritual timing</span>
+              <span class="sch-ann-function">Signals non-evaluative context. Weekly recurrence installs the practice as structural norm, not exceptional event. Participants enter already knowing the frame.</span>
+            </div>
+
+            <div class="sch-annotation">
+              <span class="sch-ann-element">Rank-symmetry requirement</span>
+              <span class="sch-ann-function">The abbot names their failure first. No opt-out for seniority. Alters structural incentives for everyone else: if the highest-status person is exposed, the cost of exposure is redistributed across the group.</span>
+            </div>
+
+            <div class="sch-annotation">
+              <span class="sch-ann-element">Separate entrances</span>
+              <span class="sch-ann-function">Distinct threshold for each participant. The act of entry is individual and intentional. No one is pulled in by social momentum. Consent is re-enacted with each session.</span>
+            </div>
+
+            <div class="sch-annotation">
+              <span class="sch-ann-element">Witness documentation</span>
+              <span class="sch-ann-function">The community is present. The naming is heard. Memory of the act persists. This is not private confession — it is collective acknowledgment, which makes it structurally different from both.</span>
+            </div>
+
+            <div class="sch-annotation full-width">
+              <span class="sch-ann-element">Bounded penance (consequence design)</span>
+              <span class="sch-ann-function">Consequences exist but are predictable and proportionate. The architecture removes unlimited downside risk. Participants can calculate the cost of naming in advance. This is what makes voluntary disclosure structurally rational rather than individually heroic — the risk is bounded, not eliminated, and the boundary is known.</span>
+            </div>
+
+          </div><!-- /schematic-annotations -->
+        </div><!-- /schematic-wrapper -->
+
+        <p>The schematic argument: every element of the physical design maps onto a structural function in the group's ability to name failure without catastrophic social cost. The Cistercians did not invent this because they were wise about psychology. They invented it because the contemplative life requires continuous collective learning from error, and they needed a container that could hold that practice over centuries, not sessions.</p>
+
+        <div class="margin-note">
+          The contemporary version does not require stone vaulting. It requires the functional equivalents: bounded time, rank-symmetry, predictable consequence, and a ritual frame that signals this space operates by different rules than the adjacent social world. The material is irrelevant. The structural logic is not.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 4: EDGE CASES -->
+    <div class="card" id="card-edge-cases">
+      <div class="card-inner">
+
+        <span class="section-number">§ 04 · Edge Cases</span>
+        <h2>Three Ways the Structure Fails</h2>
+
+        <p>The Cistercian design held for centuries. It has also failed, in historically documented and organizationally familiar ways. Three failure modes are worth naming directly, because practitioners designing brave spaces will encounter all of them.</p>
+
+        <h3>The Punitive Drift</h3>
+
+        <p>The Chapter of Faults worked when penance was bounded, predictable, and proportionate. When abbots began using the practice for punitive correction — assigning consequences that were disproportionate, variable, or designed to humiliate rather than to close the account — participation collapsed. Disclosure rates dropped. The practice survived in name but no longer in function: people named minor infractions and concealed the ones that mattered. The architecture was intact but the consequence design had broken the signal.</p>
+
+        <p>The organizational equivalent: a "lessons learned" session where the findings are later used in performance narratives. The structural logic dissolves the moment participants understand that what they name in the container may follow them out of it. Bounded consequence is not optional. It is the mechanism.</p>
+
+        <h3>The Rank Exception</h3>
+
+        <p>The abbot-participates requirement was non-negotiable in the original design for a reason. When senior figures began exempting themselves — naming token failures, performing humility without genuine disclosure — the structural incentive for everyone else was destroyed. The high-status person's behavior sets the real boundary of the practice, regardless of what the stated rules say. One visible exception communicates that the boundary is negotiable. Once that is known, every subsequent participant must decide individually whether to trust the container. That is a courage request, not a structural design. The whole point of the architecture is to remove that individual calculation from the equation.</p>
+
+        <h3>The One-Time Event</h3>
+
+        <p>The Chapter of Faults was weekly. Not quarterly. Not an annual offsite. Weekly — and the recurrence was not incidental. The ritual timing did two things: it installed the practice as a structural norm (not an exceptional request), and it created a temporal container within which consequences were processed and released before the next session. A one-time brave space event asks participants to carry whatever they disclosed permanently, with no ritual frame for completion. That is not a brave space design. It is a high-stakes disclosure session with no closure architecture. The absence of recurrence is itself a structural failure.</p>
+
+        <div class="cite">
+          The practitioner who designs a single "honest conversation" session has built the walls of the confessional booth without the weekly return appointment. The disclosure happens. The processing does not. What remains is exposure without completion.
+        </div>
+
+        <div class="margin-note">
+          Flanagan's Critical Incident Technique (1954) — the secular institutional translation of structured failure-naming from military to organizational contexts — shares this requirement: the debrief is worth nothing if it happens once. The learning is in the repetition. The structure is in the rhythm.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 5: ROOTS -->
+    <div class="card" id="card-roots">
+      <div class="card-inner">
+
+        <span class="section-number">§ 05 · Roots</span>
+        <h2>What Was Built Before We Had the Language</h2>
+
+        <p><em>Capitulum Culparum</em> — chapter of faults. The Latin is precise. <em>Capitulum</em> means both "chapter" (the meeting itself) and "chapter house" (the room it takes place in). The space and the practice share a name. The room does not exist without the practice; the practice does not exist without the room. This is not coincidence. It is the architectural argument made in etymology: the bounded disclosure space and the disclosure practice are a single thing.</p>
+
+        <p>The practice predates its formal codification. Benedict of Nursia's Rule, written in the 6th century, established the communal framework. The Cistercians formalized the Chapter of Faults structure in the 12th century at Cîteaux, France, and carried it across Europe through the network of abbeys built on the same architectural template. The physical consistency was not aesthetic preference. It was structural insurance: every Cistercian community shared the same spatial design because the spatial design was part of what made the practice function. A monk moving between abbeys arrived already knowing how the room worked.</p>
+
+        <span class="divider-rule"></span>
+
+        <p>The secular translation happened gradually, across centuries and institutions. The military after-action review is a direct functional descendant. The Tavistock Group Relations conference, which emerged from Bion's work at Northfield in the 1940s, builds on the same structural logic: a bounded time, a defined container, rank-symmetry in the sense that the consultant's role is explicit and non-hierarchical, and a ritual close that marks the end of the container's rules. Flanagan's Critical Incident Technique (1954) strips it down to its analytical minimum: structured naming of specific incidents, positive and negative, within a contained review format.</p>
+
+        <p>What each of these inherits from the Cistercian design — knowingly or not — is the same argument: failure-naming requires a container that removes the individual calculation of cost. The container is not a nice-to-have. It is the mechanism. Without it, you are not doing brave space work. You are asking people to be brave.</p>
+
+        <div class="cite">
+          "The distinction between psychological safety as climate and bravery as trait is not primarily a definitional refinement. It is an architectural instruction. Climate is something you design. Trait is something you select for, or wait for, or hope for. The difference determines whether you are building a system or conducting an audition."<br>
+          — Edmondson, Amy C. <em>The Fearless Organization.</em> Wiley, 2018.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 6: APPLICATION + BIBLIOGRAPHY -->
+    <div class="card" id="card-application">
+      <div class="card-inner">
+
+        <span class="section-number">§ 06 · Application · What Would You Do?</span>
+        <h2>The Structural Argument to the Sponsor</h2>
+
+        <div class="scenario">
+          <span class="scenario-label">The Scenario — WWYD</span>
+          Dara Okafor is an OD consultant embedded with a 200-person professional services firm in London. The firm runs June 30 performance calibration cycles. Dara has been asked to design a "lessons learned" session for the senior leadership team: twelve people, two weeks before calibration scores are finalized, with three people currently under informal scrutiny and two committee members in the room who are actively writing calibration narratives about the others.<br><br>
+          The sponsor wants the session to generate "honest reflection." Dara knows that in this configuration — evaluators and evaluated in the same room, two weeks before verdicts are finalized — honest reflection requested as a personal virtue will produce performance. The room will look right. Nothing load-bearing will be said.<br><br>
+          Dara is considering proposing a structural reframe: defer the session until after calibration closes, make it a standing quarterly practice, and require that each participant — including the two calibration committee members — name one decision from the past quarter where their reasoning was wrong and they knew it at the time. No consequences. No rebuttal. Witnessed and documented.<br><br>
+          The sponsor will resist the deferral. What does Dara say?
+        </div>
+
+        <p>This is not a communication skills problem. Dara does not need better words for a bad structural position. Dara needs to make the structural argument — that the room cannot hold what the sponsor is asking it to hold, and that redesigning the container is not a preference but a functional prerequisite for getting the outcome the sponsor says they want.</p>
+
+        <div class="response-set">
+
+          <div class="response-option">
+            <span class="ro-label">The Diplomatic Capitulation (and its cost)</span>
+            <p>Run the session as requested. Design it as skillfully as possible: good facilitation, careful framing, thoughtful prompts. Invite honest reflection. Get performance. Write a thorough report. Preserve the engagement. The sponsor gets a session that looked right. Dara gets a repeat contract. Nothing load-bearing was said, nothing was learned from it, and the structural problem that produced the original anxiety is now slightly more entrenched because a "lessons learned" process ran and produced nothing of consequence.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">The Principled Exit (and its cost)</span>
+            <p>Decline the engagement. Name the structural problem clearly and explain why participation would be professionally irresponsible. Lose the contract. Preserve the standard. This is sometimes the right call. It is not the only available call, and it forfeits the opportunity to move the sponsor's understanding of what brave space work actually requires.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">The Structural Argument (what Dara actually says)</span>
+            <p>Dara says: "I can run this session. Before I design it, I want to be direct with you about what the room can hold right now and what it can't. You have two calibration committee members and three people under scrutiny in the same room, two weeks before scores are finalized. In that configuration, I can generate a session that looks like honest reflection. What I can't generate is honest reflection — because the structural incentives run against it. Disclosure in that room costs the person who discloses more than it costs everyone else, and every participant knows it. What you will get is performance. That is not a failure of facilitation. It is a property of the container."<br><br>
+            "If the outcome you want is actual learning from this year's decisions, the container needs two changes: timing after calibration closes, so the disclosure calculus shifts, and a standing quarterly format, so participants understand they are building a practice rather than taking a one-time risk. The abbot has to go first. That means the committee members name their own decisions before anyone else in the room names theirs. Those are the structural requirements for the container to hold what you're asking it to hold. I can design that session, and I think it will produce what you actually want. The question is whether we can make those changes."</p>
+          </div>
+
+        </div>
+
+        <p>The argument Dara is making is the schematic argument: the container design determines what the room can hold. No amount of facilitation skill compensates for a container that structurally contradicts the disclosure it is designed to produce. The Cistercians knew this. The 2025 research papers rediscovered it. The structural case is available. The practitioner's job is to make it.</p>
+
+        <h3>The Immediate Application</h3>
+
+        <p>Calibration season ends. The anxiety it generates is partly a function of the container design — external evaluation, absent subject, deferred verdict — and that design will run again next year. The practitioner who makes the structural argument this cycle, even once, has introduced a different frame into the sponsor's understanding of what brave space work requires. That is not nothing. Architecture changes slowly. It changes because someone named the mechanism.</p>
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="bibliography">
+          <h3>Sources</h3>
+
+          <div class="citation">
+            Waddell, Chrysogonus. <em>The Rule of Saint Benedict.</em> Saint Meinrad Archabbey Press, 2010. — Primary textual basis for the Chapter of Faults practice; commentary establishes the conditions under which failure-naming was bounded and the distinction between correction-for-learning and correction-for-punishment.
+          </div>
+
+          <div class="citation">
+            Edmondson, Amy C. <em>The Fearless Organization: Creating Psychological Safety in the Workplace for Learning, Innovation, and Growth.</em> Wiley, 2018. — Anchor reference for psychological safety as climate rather than trait; the bridge between the Cistercian structural precedent and contemporary organizational practice.
+          </div>
+
+          <div class="citation">
+            Flanagan, John C. "The Critical Incident Technique." <em>Psychological Bulletin,</em> vol. 51, no. 4, 1954, pp. 327–358. — Mid-century methodological ancestor of after-action review; the secular institutional translation of structured failure-naming from monastic to military to organizational contexts.
+          </div>
+
+          <div class="citation">
+            Weick, Karl E. and Kathleen M. Sutcliffe. <em>Managing the Unexpected: Sustained Performance in a Complex World.</em> 3rd ed. Wiley, 2015. — High-reliability organization literature on failure-reporting as system design; resilient organizations are preoccupied with failure not because their people are braver but because their structures make failure-reporting structurally safe to enact.
+          </div>
+
+          <div class="citation">
+            Schein, Edgar H. <em>Humble Inquiry: The Gentle Art of Asking Instead of Telling.</em> Berrett-Koehler, 2013. — On the asymmetry of rank in disclosure; Schein's argument that status differentials suppress honest reporting is the exact problem the abbot-participates requirement was designed to solve.
+          </div>
+
+          <div class="citation">
+            Bion, Wilfred R. <em>Experiences in Groups and Other Papers.</em> Tavistock Publications, 1961. — The foundational account of group dynamics developed at Northfield Military Hospital and the Tavistock Clinic. Bion's distinction between the work group (task-focused, reality-testing) and the basic-assumption group (defensive, emotionally regressed) identifies the mechanism that structural container design is intended to address: without a bounded and bounded-consequence architecture, groups default to basic-assumption behavior and produce performance rather than honest report. The direct psychological ancestor of both Edmondson's climate concept and the Tavistock Group Relations conference model — itself a secular descendant of the Cistercian chapter structure.
+          </div>
+
+          <div class="citation">
+            Kegan, Robert, and Lisa Laskow Lahey. <em>An Everyone Culture: Becoming a Deliberately Developmental Organization.</em> Harvard Business Review Press, 2016. — The "deliberately developmental organization" (DDO) framework extends the structural argument to the organizational system level. The examples documented here — Decurion, Bridgewater, Next Jump — are modern secular equivalents of the Cistercian design: organizations that have made failure-naming structurally ordinary through explicit, recurring, rank-symmetric disclosure practices. The comparative analysis of DDO versus conventional organizations demonstrates that the structural requirements identified in this issue are not aspirational. They are operational in functioning institutions.
+          </div>
+
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners · ⊠ Issue 034 · Brave Spaces
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /sections-rail -->
+
+  <!-- PROGRESS + NAV -->
+  <div class="reading-progress" id="reading-progress">
+    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <div class="progress-trace">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+    <button class="nav-contents" id="nav-contents" onclick="goTo(0)" title="Back to drawing legend" style="display:none;">↩ Contents</button>
+    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
+  </div>
+
+</div><!-- /main-panel -->
+
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+</div>
+
+<script>
+/* ── UTC CLOCK ── */
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');
+  if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+/* ── ENTRY → MAIN ── */
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },800);
+
+  track('enter','entry_screen');
+}
+
+/* ── CARD NAVIGATION ── */
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','Roots','Application'];
+let currentCard=0;
+
+function goTo(index){
+  if(index<0||index>=CARDS.length)return;
+  const cards=document.querySelectorAll('.card');
+  if(cards[currentCard])cards[currentCard].scrollTop=0;
+  currentCard=index;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
+  const label=document.getElementById('progress-label');
+  if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
+  document.getElementById('nav-prev').disabled=index===0;
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  const contentsBtn=document.getElementById('nav-contents');
+  if(contentsBtn)contentsBtn.style.display=index>0?'inline-block':'none';
+  track('navigate',CARDS[index]);
+}
+
+/* ── TOUCH SWIPE ── */
+let touchStartX=0,touchStartY=0;
+document.getElementById('main-panel').addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('main-panel').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44){
+    if(dx<0)goTo(currentCard+1);
+    else goTo(currentCard-1);
+  }
+},{passive:true});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('main-panel').classList.contains('visible'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(currentCard+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(currentCard-1);}
+});
+
+/* ── ENGAGEMENT TRACKING ── */
+const _sos=(()=>{
+  const ENDPOINT='https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY='sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const SESSION_ID=Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,10);
+  const ISSUE_NUMBER='034';
+  const ISSUE_SLUG='the-confessional-booth-schematic';
+  let queue=[];
+  let flushTimer=null;
+
+  function activeCardScrollPct(){
+    const cards=document.querySelectorAll('.card');
+    const card=cards[currentCard];
+    if(!card)return 0;
+    const total=card.scrollHeight-card.clientHeight;
+    return total>0?Math.round((card.scrollTop/total)*100):0;
+  }
+
+  function flush(){
+    if(!queue.length)return;
+    const batch=queue.splice(0);
+    batch.forEach(ev=>{
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{
+          'apikey':API_KEY,
+          'Authorization':'Bearer '+API_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'return=minimal'
+        },
+        body:JSON.stringify({
+          title:'meliorism2.com | '+ISSUE_SLUG+' | '+ev.event+' | '+ev.label,
+          occurred_at:ev.ts,
+          reflection:SESSION_ID,
+          notes:JSON.stringify({
+            issue_number:ISSUE_NUMBER,
+            issue_slug:ISSUE_SLUG,
+            event:ev.event,
+            label:ev.label,
+            extra:ev.extra||null,
+            referrer:document.referrer||null,
+            card_index:ev.card_index,
+            card_name:CARDS[ev.card_index]||null,
+            scroll_pct:ev.scroll_pct,
+            viewport_w:window.innerWidth,
+            viewport_h:window.innerHeight
+          })
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    });
+  }
+
+  function enqueue(event,label,extra){
+    queue.push({
+      event,label,extra,
+      ts:new Date().toISOString(),
+      card_index:currentCard,
+      scroll_pct:activeCardScrollPct()
+    });
+    if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
+  }
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden')flush();
+  });
+
+  return{track:enqueue};
+})();
+
+function track(event,label,extra){
+  console.log('[meliorism2]',event,label,extra||'');
+  _sos.track(event,label,extra);
+}
+
+/* ── PER-CARD SCROLL DEPTH TRACKING ── */
+const cardDepthsFired={};
+document.querySelectorAll('.card').forEach((card,i)=>{
+  cardDepthsFired[i]=new Set();
+  card.addEventListener('scroll',()=>{
+    const total=card.scrollHeight-card.clientHeight;
+    if(total<=0)return;
+    const pct=Math.round((card.scrollTop/total)*100);
+    [25,50,75,90].forEach(d=>{
+      if(pct>=d&&!cardDepthsFired[i].has(d)){
+        cardDepthsFired[i].add(d);
+        track('scroll_depth',CARDS[i]+'_'+d+'pct');
+      }
+    });
+  },{passive:true});
+});
+
+/* ── CLICK TRACKING ── */
+document.addEventListener('click',e=>{
+  if(e.target.closest('.response-option')){
+    const lbl=e.target.closest('.response-option').querySelector('.ro-label');
+    track('interact','response_option',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.research-block')){
+    const lbl=e.target.closest('.research-block').querySelector('.researcher');
+    track('interact','research_block',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('a[href*="archive"]')){
+    track('click','archive_link');
+  }
+  if(e.target.closest('.sch-annotation')){
+    const lbl=e.target.closest('.sch-annotation').querySelector('.sch-ann-element');
+    track('interact','schematic_annotation',lbl?lbl.textContent.trim():'');
+  }
+});
+</script>
+</body>
+</html>
