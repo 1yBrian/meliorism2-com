@@ -1,0 +1,1660 @@
+<!-- meliorism2:slug: the-site-survey -->
+<!-- meliorism2:date: 2026-06-04 -->
+<!-- meliorism2:issue: 035 -->
+<!-- meliorism2:dimension: In-Person Presence -->
+<!-- meliorism2:format: Site Survey -->
+<!-- meliorism2:architecture: horizontal-swipe -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · The Site Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #faf8f5;
+  --surface:   #f0ebe3;
+  --border:    rgba(139,111,71,0.15);
+  --border-h:  rgba(139,111,71,0.3);
+  --accent:    #8b6f47;
+  --accentf:   rgba(139,111,71,0.5);
+  --amber:     #b07d3a;
+  --amber-l:   #d4a055;
+  --amber-d:   #7a5520;
+  --text:      #2c2c2c;
+  --muted:     rgba(44,44,44,0.85);
+  --dim:       rgba(44,44,44,0.72);
+  --dark-band: #1a1714;
+  --cream:     #c8b99a;
+  --ink:       #1a1714;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Courier Prime',monospace;
+  overflow:hidden;
+}
+
+/* ── STATUS BAR ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:36px;
+  background:rgba(0,0,0,0.02);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.sb-logo{
+  font-size:0.8rem;letter-spacing:4px;font-weight:700;
+  color:var(--accent);text-decoration:none;border:none;
+}
+.sb-logo:hover{background:transparent;}
+.sb-label{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);flex:1;
+}
+.sb-clock{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);
+}
+
+/* ── ENTRY SCREEN ── */
+#entry{
+  position:fixed;inset:0;top:36px;z-index:800;
+  overflow:hidden;
+  cursor:pointer;
+  transition:opacity 1.2s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-bg{
+  position:absolute;inset:0;
+  background:url('the-site-survey-hero.jpg') center center / cover no-repeat,
+             linear-gradient(160deg, #0f1520 0%, #151f2a 35%, #0a1018 70%, #1a1714 100%);
+  transform:scale(1.04);
+  animation:kb 14s ease-out forwards;
+}
+@keyframes kb{
+  from{transform:scale(1.04);}
+  to{transform:scale(1.0);}
+}
+
+.entry-tint{
+  position:absolute;inset:0;
+  background:rgba(15,18,25,0.22);
+  mix-blend-mode:multiply;
+}
+
+.entry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(8,10,16,0.22) 0%,
+    rgba(8,10,16,0.44) 40%,
+    rgba(8,10,16,0.88) 100%
+  );
+}
+
+.entry-grid-overlay{
+  position:absolute;inset:0;
+  pointer-events:none;
+  opacity:0.07;
+  background-image:
+    linear-gradient(rgba(200,185,154,0.8) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,185,154,0.8) 1px, transparent 1px);
+  background-size:48px 48px;
+}
+
+.entry-corner{
+  position:absolute;top:24px;right:32px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;
+  color:rgba(200,185,154,0.85);
+  text-transform:uppercase;text-align:right;line-height:1.9;
+}
+
+.entry-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:44px 56px 52px;
+}
+
+.entry-stamp{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(200,185,154,0.7);
+  display:flex;gap:18px;align-items:center;
+  margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;
+}
+.entry-stamp-sep{opacity:0.35;}
+
+.entry-title{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(3.8rem,9vw,7rem);
+  font-weight:400;line-height:1.0;
+  color:#faf4ec;letter-spacing:-0.02em;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(14px);
+  animation:fadeUp 0.9s ease 0.55s forwards;
+}
+
+.entry-sub{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-style:italic;
+  color:rgba(240,225,195,0.65);
+  margin-bottom:36px;
+  opacity:0;transform:translateY(8px);
+  animation:fadeUp 0.8s ease 0.85s forwards;
+}
+
+.entry-enter{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(200,185,154,0.85);
+  background:none;border:none;border-bottom:1px solid rgba(200,185,154,0.35);
+  padding-bottom:3px;cursor:pointer;
+  opacity:0;animation:fadeUp 0.7s ease 1.3s forwards;
+  transition:color 0.2s,border-color 0.2s;
+}
+.entry-enter:hover{
+  color:#faf4ec;
+  border-bottom-color:rgba(250,240,210,0.7);
+}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:640px){
+  .entry-content{padding:32px 24px 40px;}
+  .entry-corner{display:none;}
+  .entry-stamp{flex-wrap:wrap;gap:10px;}
+}
+
+/* ── MAIN PANEL ── */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+  overflow:hidden;
+  background:var(--bg);
+}
+#main-panel.visible{
+  display:block;opacity:1;
+}
+
+/* ── SECTIONS RAIL ── */
+.sections-rail{
+  display:flex;
+  flex-direction:row;
+  width:700%;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+.card{
+  width:calc(100% / 7);
+  flex-shrink:0;
+  height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.card-inner{
+  max-width:820px;
+  padding:50px 40px 80px;
+  margin:0 auto;
+}
+
+@media(max-width:768px){
+  .card-inner{padding:30px 20px 80px;}
+}
+
+/* ── READING PROGRESS BAR ── */
+.reading-progress{
+  position:fixed;
+  bottom:40px;left:0;right:0;
+  height:36px;
+  background:var(--dark-band);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:14px;
+  z-index:900;
+}
+
+.progress-trace{
+  flex:1;
+  height:2px;
+  background:rgba(176,125,58,0.15);
+  border-radius:1px;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  position:absolute;
+  top:0;left:0;height:100%;
+  background:var(--amber);
+  transition:width 0.45s cubic-bezier(0.4,0,0.2,1);
+  border-radius:1px;
+}
+
+.progress-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;
+  color:var(--cream);opacity:0.7;
+  white-space:nowrap;
+  min-width:80px;text-align:right;
+}
+
+.nav-prev,.nav-next{
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+}
+.nav-prev:hover,.nav-next:hover{color:var(--amber);}
+.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+
+/* ── CARD 0: SIGNAL HEADER ── */
+.metadata{
+  text-align:center;margin-bottom:50px;
+  border-bottom:2px solid var(--border-h);
+  padding-bottom:30px;color:var(--dim);
+}
+
+.date-tag{
+  font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.issue-format-badge{
+  display:inline-block;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(176,125,58,0.35);
+  padding:3px 10px;
+  margin-bottom:16px;
+}
+
+h1{
+  font-family:'Crimson Text',serif;
+  font-size:2.6rem;font-weight:normal;
+  margin:16px 0 10px;color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.subtitle{
+  font-size:0.95rem;color:var(--dim);
+  margin-top:10px;font-style:italic;
+  font-family:'Crimson Text',serif;
+}
+
+/* ── HERO IMAGE ── */
+.hero-image{
+  width:100%;display:block;margin:0 0 40px;
+  opacity:0.9;
+  border:1px solid var(--border);
+}
+
+/* ── 90-SECOND SIGNAL ── */
+.highlight{
+  background:linear-gradient(135deg,#f5ede0 0%,#faf7f2 100%);
+  border-left:4px solid var(--amber);
+  padding:26px 28px;margin:40px 0;
+  border-radius:2px;
+  border-top:1px solid rgba(176,125,58,0.15);
+  border-bottom:1px solid rgba(176,125,58,0.15);
+  border-right:1px solid rgba(176,125,58,0.08);
+}
+
+.highlight-label{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:var(--amber);margin-bottom:12px;font-weight:700;
+  display:block;
+}
+
+.highlight p{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;line-height:1.65;color:var(--text);
+}
+
+/* ── BEGIN READING PROMPT ── */
+.begin-prompt{
+  margin-top:40px;
+  text-align:center;
+  padding:24px 0 10px;
+  border-top:1px solid var(--border);
+}
+.begin-prompt button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s;
+}
+.begin-prompt button:hover{
+  color:var(--amber-d);
+  border-bottom-color:rgba(122,85,32,0.5);
+}
+
+/* ── SECTION NUMBER BAND ── */
+.section-number{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.16em;
+  display:block;
+  background:var(--dark-band);
+  color:var(--cream);
+  padding:11px 16px;
+  margin:0 -40px 24px;
+}
+
+@media(max-width:768px){
+  .section-number{margin:0 -20px 20px;}
+}
+
+h2{
+  font-family:'Crimson Text',serif;
+  font-size:1.9rem;font-weight:normal;
+  margin-bottom:18px;color:var(--text);
+  border-bottom:1px solid var(--border-h);
+  padding-bottom:10px;
+  letter-spacing:-0.01em;
+}
+
+h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.15rem;font-weight:600;
+  margin-top:24px;margin-bottom:10px;color:var(--ink);
+}
+
+p{
+  font-size:1.0rem;line-height:1.75;
+  margin-bottom:1.1em;
+}
+
+/* ── GRID RULE ── */
+.grid-rule{
+  display:block;
+  position:relative;
+  height:28px;
+  margin:28px 0 20px;
+  overflow:hidden;
+}
+.grid-rule::after{
+  content:'';
+  display:block;
+  position:absolute;
+  top:50%;left:0;right:0;
+  height:1px;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(176,125,58,0.15) 5%,
+    rgba(176,125,58,0.4) 20%,
+    rgba(176,125,58,0.6) 35%,
+    rgba(176,125,58,0.55) 50%,
+    rgba(176,125,58,0.45) 65%,
+    rgba(176,125,58,0.3) 80%,
+    rgba(176,125,58,0.1) 95%,
+    transparent 100%
+  );
+}
+.grid-rule::before{
+  content:'⊡';
+  display:block;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:0.8rem;
+  color:rgba(176,125,58,0.4);
+  background:var(--bg);
+  padding:0 8px;
+}
+
+/* ── CALLOUT / CITE ── */
+.cite{
+  font-size:0.9rem;
+  color:var(--text);
+  border-left:3px solid var(--amber);
+  padding:12px 18px;
+  margin:18px 0 26px;
+  display:block;
+  letter-spacing:0.3px;
+  line-height:1.75;
+  background:rgba(176,125,58,0.04);
+}
+.cite em{font-style:italic;}
+
+/* ── MARGIN NOTE ── */
+.margin-note{
+  position:relative;margin-left:16px;padding-left:18px;
+  border-left:2px dashed var(--accentf);
+  font-size:0.875rem;color:var(--muted);
+  font-style:italic;margin-top:18px;margin-bottom:18px;
+  line-height:1.65;
+}
+
+/* ── RESEARCH BLOCK ── */
+.research-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.research-block .researcher{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;display:block;font-weight:700;
+}
+.research-block p{
+  font-size:0.95rem;margin-bottom:0;
+}
+
+/* ── CONCEPT BOX ── */
+.concept-box{
+  background:linear-gradient(135deg,#f8f0e2 0%,#faf7f2 100%);
+  border:1px solid rgba(176,125,58,0.2);
+  border-left:4px solid var(--amber-d);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.concept-box .cb-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber-d);margin-bottom:10px;display:block;font-weight:700;
+}
+.concept-box p{font-size:0.95rem;margin-bottom:0;}
+
+/* ── SCENARIO BOX ── */
+.scenario{
+  background:#f8f4ee;
+  border:1px solid rgba(176,125,58,0.25);
+  padding:28px 30px;
+  margin:28px 0;
+  border-radius:2px;
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;
+  line-height:1.75;
+  color:var(--ink);
+  border-top:3px solid var(--amber);
+}
+.scenario-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:14px;display:block;font-weight:700;
+}
+
+/* ── RESPONSE OPTIONS ── */
+.response-set{
+  margin:24px 0;
+}
+.response-option{
+  padding:16px 20px;
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:var(--bg);
+  transition:border-color 0.2s,background 0.2s;
+}
+.response-option:hover{
+  border-color:var(--amber);
+  background:rgba(176,125,58,0.03);
+  cursor:default;
+}
+.response-option .ro-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:8px;font-weight:700;
+}
+.response-option p{font-size:1.0rem;line-height:1.75;margin-bottom:0;}
+
+/* ── SITE SURVEY DIRECTORY (field log format) ── */
+.survey-directory{
+  margin:36px 0 0;
+  border:1px solid rgba(58,48,40,0.4);
+  border-radius:2px;
+  background:var(--surface);
+  overflow:hidden;
+}
+.surv-dir-header{
+  background:var(--dark-band);
+  padding:10px 20px;
+  display:flex;align-items:center;gap:10px;
+}
+.surv-dir-title{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cream);flex:1;
+}
+.surv-dir-ref{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.1em;
+  color:rgba(200,185,154,0.4);
+}
+.surv-dir-meta{
+  display:flex;
+  border-bottom:1px solid var(--border-h);
+}
+.surv-dir-meta-item{
+  flex:1;
+  padding:7px 16px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--dim);
+  border-right:1px solid var(--border);
+}
+.surv-dir-meta-item:last-child{border-right:none;}
+.surv-dir-meta-item strong{color:var(--amber);font-weight:700;}
+.surv-dir-items{
+  border-top:1px solid var(--border);
+}
+.surv-dir-item{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 20px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background 0.15s;
+}
+.surv-dir-item:last-child{border-bottom:none;}
+.surv-dir-item:hover{background:rgba(176,125,58,0.05);}
+.surv-dir-item:hover .surv-dir-item-arrow{opacity:1;}
+.surv-dir-check{
+  width:13px;height:13px;
+  border:1.5px solid rgba(58,48,40,0.35);
+  border-radius:1px;
+  flex-shrink:0;
+}
+.surv-dir-item-zone{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.1em;
+  color:var(--dim);
+  flex-shrink:0;
+  min-width:42px;
+}
+.surv-dir-item-name{
+  font-family:'Crimson Text',serif;
+  font-size:0.95rem;line-height:1.35;
+  color:var(--text);
+  flex:1;
+}
+.surv-dir-item-arrow{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;
+  color:var(--amber);
+  opacity:0;
+  transition:opacity 0.15s;
+  flex-shrink:0;
+}
+@media(max-width:640px){
+  .surv-dir-meta{flex-direction:column;}
+  .surv-dir-meta-item{border-right:none;border-bottom:1px solid var(--border);}
+  .surv-dir-meta-item:last-child{border-bottom:none;}
+}
+
+/* ── CONTENTS NAV BUTTON ── */
+.nav-contents{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  color:rgba(200,185,154,0.7);
+  cursor:pointer;padding:0 6px;
+  white-space:nowrap;
+  transition:color 0.2s,border-color 0.2s;
+}
+.nav-contents:hover{color:var(--amber);border-color:rgba(176,125,58,0.65);}
+
+/* ── BIBLIOGRAPHY ── */
+.bibliography{
+  margin-top:54px;padding-top:30px;
+  border-top:2px solid var(--border-h);
+  font-size:0.9rem;
+}
+.bibliography h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-weight:normal;
+  margin-bottom:20px;color:var(--text);
+}
+.citation{
+  margin-bottom:14px;line-height:1.75;
+  padding-left:20px;text-indent:-20px;
+  font-size:0.875rem;
+}
+
+/* ── FOOTER ── */
+.doc-footer{
+  margin-top:60px;padding-top:30px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.8rem;letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+/* ── FOOTER BAR ── */
+.footer-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:40px;background:var(--bg);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  font-size:0.8rem;letter-spacing:2px;
+}
+.footer-bar a{color:var(--accent);text-decoration:none;border:none;}
+.footer-bar a:hover{color:var(--amber);background:transparent;}
+.footer-sep{color:var(--border-h);}
+
+/* ── GENERAL LINKS ── */
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,71,0.3);}
+a:hover{background:rgba(139,111,71,0.06);}
+
+/* ══════════════════════════════════════════════════
+   ── §03 FLOOR PLAN REDLINE ANNOTATION (CSS ONLY) ──
+   Newsletter-impossible element. Pure CSS. No images.
+   ══════════════════════════════════════════════════ */
+
+.floorplan-section{
+  margin:32px 0;
+  padding:0;
+}
+
+.floorplan-label{
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber-d);font-weight:700;
+  display:block;margin-bottom:14px;
+}
+
+.floorplan-wrapper{
+  position:relative;
+  width:100%;
+  max-width:620px;
+  margin:0 auto;
+  /* Force a consistent layout context */
+}
+
+/* ── ROOM OUTLINE ── */
+.room{
+  position:relative;
+  width:100%;
+  padding-bottom:72%; /* aspect ratio ~1.39:1 */
+  background:#f5f0e8;
+  border:2.5px solid #3a3028;
+  border-radius:2px;
+  font-family:'Courier Prime',monospace;
+  overflow:visible;
+}
+
+/* Door gap on bottom wall */
+.room::after{
+  content:'';
+  position:absolute;
+  bottom:-3px;left:38%;
+  width:14%;height:3px;
+  background:#f5f0e8;
+  border-left:1px solid #f5f0e8;
+  border-right:1px solid #f5f0e8;
+}
+
+/* Door arc indicator */
+.room-door{
+  position:absolute;
+  bottom:0;left:38%;
+  width:14%;
+  height:0;
+  font-size:0;
+  pointer-events:none;
+}
+.room-door::before{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;
+  width:100%;height:0;
+  border-left:1.5px dashed rgba(58,48,40,0.4);
+  transform-origin:bottom left;
+  transform:rotate(-30deg);
+}
+
+/* Projection screen — front wall */
+.fp-screen{
+  position:absolute;
+  top:5%;left:15%;
+  width:70%;height:6%;
+  background:#d4c9b5;
+  border:2px solid #3a3028;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:#3a3028;font-weight:700;
+}
+
+/* HEAD TABLE — front of room */
+.fp-head-table{
+  position:absolute;
+  top:16%;left:20%;
+  width:60%;height:7%;
+  background:#c8b89a;
+  border:2px solid #3a3028;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;
+  color:#3a3028;font-weight:700;
+}
+
+/* Row of chairs — row 1 */
+.fp-row{
+  position:absolute;
+  display:flex;
+  gap:3.5%;
+}
+.fp-row-1{
+  top:28%;left:8%;
+  width:84%;
+}
+.fp-row-2{
+  top:40%;left:8%;
+  width:84%;
+}
+.fp-row-3{
+  top:52%;left:8%;
+  width:84%;
+}
+.fp-row-4{
+  top:64%;left:8%;
+  width:78%;
+}
+
+.fp-chair{
+  flex:1;
+  height:0;
+  padding-bottom:8%;
+  background:#b0a088;
+  border:1.5px solid #3a3028;
+  border-radius:1px;
+  position:relative;
+}
+.fp-chair::after{
+  content:'';
+  position:absolute;
+  top:2px;left:2px;right:2px;bottom:2px;
+  border:1px dotted rgba(58,48,40,0.3);
+}
+
+/* ── REDLINE ANNOTATIONS ── */
+/* Each annotation has: a line (::before) + a label box (::after or a .ann-text span) */
+
+/* Shared annotation style */
+.ann{
+  position:absolute;
+  pointer-events:none;
+  z-index:10;
+}
+
+/* Annotation line */
+.ann-line{
+  position:absolute;
+  background:#c0392b;
+  transform-origin:0 50%;
+}
+
+/* Annotation text bubble */
+.ann-text{
+  position:absolute;
+  background:rgba(192,57,43,0.08);
+  border:1.5px solid #c0392b;
+  color:#c0392b;
+  font-family:'Courier Prime',monospace;
+  font-size:0.65rem;
+  line-height:1.45;
+  padding:5px 8px;
+  max-width:130px;
+  min-width:90px;
+  border-radius:1px;
+  letter-spacing:0.01em;
+}
+
+/* Arrow head — small triangle at end of annotation line */
+.ann-arrow{
+  position:absolute;
+  width:0;height:0;
+  border-style:solid;
+}
+.ann-arrow-left{
+  border-width:4px 6px 4px 0;
+  border-color:transparent #c0392b transparent transparent;
+}
+.ann-arrow-right{
+  border-width:4px 0 4px 6px;
+  border-color:transparent transparent transparent #c0392b;
+}
+.ann-arrow-down{
+  border-width:6px 4px 0 4px;
+  border-color:#c0392b transparent transparent transparent;
+}
+.ann-arrow-up{
+  border-width:0 4px 6px 4px;
+  border-color:transparent transparent #c0392b transparent;
+}
+
+/* ── Annotation 1: Screen / focal point ── */
+.ann-screen{
+  top:3%;right:3%;
+}
+.ann-screen .ann-line{
+  width:1.5px;
+  height:80px;
+  top:0;right:40px;
+  transform:rotate(35deg);
+}
+.ann-screen .ann-arrow{
+  top:52px;right:14px;
+}
+.ann-screen .ann-text{
+  top:0;right:0;
+  text-align:right;
+}
+
+/* ── Annotation 2: Head table / hierarchy ── */
+.ann-head{
+  top:12%;left:-2%;
+}
+.ann-head .ann-line{
+  width:60px;height:1.5px;
+  top:14px;left:58px;
+}
+.ann-head .ann-arrow{
+  top:11px;left:114px;
+}
+.ann-head .ann-text{
+  top:0;left:0;
+}
+
+/* ── Annotation 3: Row configuration ── */
+.ann-rows{
+  bottom:30%;right:3%;
+}
+.ann-rows .ann-line{
+  width:1.5px;height:60px;
+  top:0;right:38px;
+  transform:rotate(-20deg);
+}
+.ann-rows .ann-arrow{
+  top:46px;right:21px;
+}
+.ann-rows .ann-text{
+  top:0;right:0;
+  text-align:right;
+}
+
+/* ── Annotation 4: Entry / door ── */
+.ann-door{
+  bottom:2%;left:2%;
+}
+.ann-door .ann-line{
+  width:50px;height:1.5px;
+  top:12px;left:55px;
+}
+.ann-door .ann-arrow{
+  top:9px;left:100px;
+}
+.ann-door .ann-text{
+  top:0;left:0;
+}
+
+/* ── Room label ── */
+.room-compass{
+  position:absolute;
+  bottom:6px;right:10px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.65rem;
+  color:rgba(58,48,40,0.45);
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+}
+
+/* ── CONFIGURATION CAPTION ── */
+.config-caption{
+  margin-top:12px;
+  text-align:center;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.config-caption strong{
+  color:var(--amber-d);
+}
+
+/* ── SPATIAL CONFIG TABLE ── */
+.config-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:28px 0;
+  font-size:0.875rem;
+}
+.config-table th{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);
+  border-bottom:2px solid var(--border-h);
+  padding:8px 12px;
+  text-align:left;
+  background:var(--surface);
+}
+.config-table td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  vertical-align:top;
+  line-height:1.6;
+  font-family:'Courier Prime',monospace;
+  font-size:0.85rem;
+  color:var(--text);
+}
+.config-table tr:hover td{
+  background:rgba(176,125,58,0.03);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  #entry{align-items:flex-start;overflow-y:auto;}
+  .entry-content{padding:28px 20px 80px;}
+  .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
+  h1{font-size:1.9rem;}
+  h2{font-size:1.4rem;}
+  .floorplan-wrapper{max-width:100%;}
+  .ann-text{font-size:0.6rem;padding:4px 6px;max-width:100px;min-width:70px;}
+}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div style="width:1px;height:12px;background:var(--border);"></div>
+  <div class="sb-label">THE SITE SURVEY · IN-PERSON PRESENCE · WED 06.04</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div id="entry" onclick="openMain()">
+  <div class="entry-bg"></div>
+  <div class="entry-tint"></div>
+  <div class="entry-overlay"></div>
+  <div class="entry-grid-overlay"></div>
+  <div class="entry-corner">The Site Survey<br>In-Person Presence · ⊡</div>
+  <div class="entry-content">
+    <div class="entry-stamp">
+      <span>Meliorism2.com</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>June 4, 2026</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>Issue 035</span>
+    </div>
+    <h1 class="entry-title">The<br>Site<br>Survey</h1>
+    <p class="entry-sub">Rearranging the room is a learning decision. Neolithic communities already knew this.</p>
+    <button class="entry-enter" onclick="openMain()">Survey the space →</button>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div id="main-panel">
+
+  <div class="sections-rail" id="sections-rail">
+
+    <!-- CARD 0: THE SIGNAL -->
+    <div class="card" id="card-signal">
+      <div class="card-inner">
+
+        <div class="metadata">
+          <div class="date-tag">June 4, 2026 · Wednesday</div>
+          <div class="issue-format-badge">⊡ The Site Survey · Issue 035</div>
+          <h1>The Site Survey</h1>
+          <p class="subtitle">On spatial cognition, behavior settings, and the room that is already teaching before the facilitator speaks</p>
+        </div>
+
+        <img src="the-site-survey-hero.jpg" alt="Pre-dawn hotel conference room mid-reconfiguration — chairs moved to an oval, one fluorescent bank still off, yellow legal pad on the floor with rough furniture diagrams, early light from a single window cutting across the carpet" class="hero-image">
+
+        <div class="highlight">
+          <span class="highlight-label">90-Second Signal</span>
+          <p>A classroom arranged in rows produces passive reception. A circle produces accountability and exposure. The same human beings, same agenda, radically different cognitive activation — based purely on how the furniture sits before they walk in. The facilitator who treats room setup as a pre-session chore is leaving a primary variable unmanaged. Neolithic communities at Çatalhöyük rotated their spatial arrangements on a seasonal basis as a deliberate cognitive reset. The room was curriculum then. It still is.</p>
+        </div>
+
+        <!-- SITE SURVEY DIRECTORY — field log format -->
+        <div class="survey-directory" role="navigation" aria-label="Article directory">
+          <div class="surv-dir-header">
+            <span class="surv-dir-title">⊡ Pre-Inspection Log — Six Zones</span>
+            <span class="surv-dir-ref">Issue 035</span>
+          </div>
+          <div class="surv-dir-meta">
+            <div class="surv-dir-meta-item">Site: <strong>In-Person Presence</strong></div>
+            <div class="surv-dir-meta-item">Date: <strong>June 4, 2026</strong></div>
+            <div class="surv-dir-meta-item">Survey: <strong>Click any zone →</strong></div>
+          </div>
+          <div class="surv-dir-items">
+
+            <div class="surv-dir-item" onclick="goTo(1);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(1)">
+              <div class="surv-dir-check"></div>
+              <span class="surv-dir-item-zone">Z 01</span>
+              <span class="surv-dir-item-name">The Room That Arrives Before You Do</span>
+              <span class="surv-dir-item-arrow">→</span>
+            </div>
+
+            <div class="surv-dir-item" onclick="goTo(2);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(2)">
+              <div class="surv-dir-check"></div>
+              <span class="surv-dir-item-zone">Z 02</span>
+              <span class="surv-dir-item-name">Three Findings That Hold</span>
+              <span class="surv-dir-item-arrow">→</span>
+            </div>
+
+            <div class="surv-dir-item" onclick="goTo(3);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(3)">
+              <div class="surv-dir-check"></div>
+              <span class="surv-dir-item-zone">Z 03</span>
+              <span class="surv-dir-item-name">Room Setup Is Curriculum</span>
+              <span class="surv-dir-item-arrow">→</span>
+            </div>
+
+            <div class="surv-dir-item" onclick="goTo(4);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(4)">
+              <div class="surv-dir-check"></div>
+              <span class="surv-dir-item-zone">Z 04</span>
+              <span class="surv-dir-item-name">Three Complications Worth Naming</span>
+              <span class="surv-dir-item-arrow">→</span>
+            </div>
+
+            <div class="surv-dir-item" onclick="goTo(5);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(5)">
+              <div class="surv-dir-check"></div>
+              <span class="surv-dir-item-zone">Z 05</span>
+              <span class="surv-dir-item-name">The Art of Memory Was Spatial</span>
+              <span class="surv-dir-item-arrow">→</span>
+            </div>
+
+            <div class="surv-dir-item" onclick="goTo(6);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(6)">
+              <div class="surv-dir-check"></div>
+              <span class="surv-dir-item-zone">Z 06</span>
+              <span class="surv-dir-item-name">Ninety Minutes Before the Room Locks</span>
+              <span class="surv-dir-item-arrow">→</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="begin-prompt">
+          <button onclick="goTo(1)">Begin reading →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 1: THE PHENOMENON -->
+    <div class="card" id="card-phenomenon">
+      <div class="card-inner">
+
+        <span class="section-number">§ 01 · The Phenomenon</span>
+        <h2>The Room That Arrives Before You Do</h2>
+
+        <p>Marisol Reyes lands at O'Hare at 10:40 p.m. She has a 7 a.m. start. Between now and then, there is a conference room on the fourth floor of a downtown hotel that is already deciding what tomorrow will produce.</p>
+
+        <p>This is not a metaphor. It is the operating principle of behavior settings: the spatial configuration of a room activates predictable cognitive schemas before any content is introduced, before any facilitator speaks, before any participant has made a single conscious decision about how to behave. The chairs in rows do not merely signal hierarchy. They produce it. The room is already teaching. The question is what it is teaching and whether the facilitator intended that lesson.</p>
+
+        <p>The phenomenon has deep roots — deeper than the modern learning-space literature, deeper than the 1968 ecological psychology that first formalized it. Archaeologists working at Çatalhöyük, a Neolithic settlement in central Turkey occupied from approximately 7500 to 5700 BCE, have found evidence that its residents understood this. They rotated sleeping arrangements and communal furniture positions on a seasonal basis — not randomly, not from aesthetics, but as a deliberate cognitive and social reset mechanism. Specific configurations of bodies in space were associated with specific social functions: mourning, initiation, dispute resolution, knowledge transmission. The room itself was a tool, and its reconfiguration was a curriculum decision.</p>
+
+        <span class="grid-rule"></span>
+
+        <p>Eleven thousand years later, a facilitator arrives the night before a two-day trust-building offsite and finds forty chairs in classroom rows facing a projection screen, one long head table at the front. The room has already made a decision about what tomorrow will produce. The facilitator's job is to recognize that decision — and to decide whether she agrees with it.</p>
+
+        <div class="margin-note">
+          The image environment for this issue: a pre-dawn hotel conference room caught mid-reconfiguration — chairs moved to an oval, one fluorescent bank still off, a yellow legal pad on the floor with rough furniture diagrams, early light from a single window cutting across the carpet. No people. The room is being prepared as an intentional act.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 2: THE EVIDENCE -->
+    <div class="card" id="card-evidence">
+      <div class="card-inner">
+
+        <span class="section-number">§ 02 · The Evidence</span>
+        <h2>Three Findings That Hold</h2>
+
+        <p>The case for spatial cognition as a facilitation variable is not built on preference or intuition. It is built on converging bodies of research — from Neolithic archaeology to environmental psychology to neuroimaging — that point to the same mechanism.</p>
+
+        <div class="research-block">
+          <span class="researcher">Hodder, 2006 — Çatalhöyük and Seasonal Spatial Rotation</span>
+          <p>Ian Hodder's decades-long excavation and analysis of Çatalhöyük produced the foundational account of deliberate spatial cognition at scale. Burials under the floors, hearth positions, and artifact clusters indicate that specific configurations of bodies in space were associated with specific social functions across the community's lifecycle. The rotations were seasonal and intentional. This is not a case of modern practitioners projecting contemporary learning-design theory onto ancient practice. It is a case of an independent civilization arriving at the same conclusion through direct experience: the arrangement of physical space is a cognitive and social instrument, and rotating it produces measurable changes in collective behavior and mental state.</p>
+        </div>
+
+        <div class="cite">
+          "The house at Çatalhöyük was not a passive container. It was an active participant in the social life it housed — a set of spatial affordances that organized behavior, encoded memory, and structured the transmission of knowledge across generations."<br>
+          — Hodder, I. <em>Çatalhöyük: The Leopard's Tale.</em> Thames &amp; Hudson, 2006.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Barker, 1968 — Behavior Settings</span>
+          <p>Roger Barker's ecological psychology introduced the concept of the behavior setting — the idea that spatial configurations carry behavioral scripts that activate predictably regardless of who occupies them. A library reading room activates quiet, focused, individual attention. A gymnasium activates movement, competition, group energy. A classroom in rows activates passive reception and status deference toward the front. These activations do not require instruction or intent. They operate below the level of conscious decision — in the same way that a road activates driving behavior and a kitchen activates food-preparation behavior. Barker documented this systematically across hundreds of settings in a Kansas community over decades. The finding is not theoretical. It is observational and replicable.</p>
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Vartanian et al., 2013 — Neuroimaging of Spatial Features</span>
+          <p>Oshin Vartanian and colleagues at the University of Toronto used neuroimaging to measure how architectural spatial features activate the brain before any content is encountered. Contour, enclosure, ceiling height, and spatial openness activate the amygdala and anterior cingulate cortex in ways that directly shape cognitive state and approach-avoidance behavior. High ceilings with open space activate exploratory, abstract thinking. Low enclosure with crowded configuration activates caution and social threat detection. These activations occur before the occupant has consciously registered the room's features. The room is already teaching before the facilitator speaks — and the mechanism is neurological, not merely psychological.</p>
+        </div>
+
+        <div class="cite">
+          "Architectural features modulate aesthetic experience and approach-avoidance decisions through activation of reward and threat circuitry, suggesting the built environment exerts influence on cognition prior to conscious appraisal."<br>
+          — Vartanian, O. et al. <em>PNAS,</em> 2013.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: THE CONCEPT — with CSS Redline Floor Plan -->
+    <div class="card" id="card-concept">
+      <div class="card-inner">
+
+        <span class="section-number">§ 03 · The Concept</span>
+        <h2>Room Setup Is Curriculum</h2>
+
+        <p>Here is the integrated principle: spatial configuration is not a pre-session logistics decision. It is a first pedagogical act — one that shapes cognitive mode, social structure, and behavioral activation before the facilitator has said a word. The Çatalhöyük evidence, the Barker behavior-setting research, and the Vartanian neuroimaging findings all point to the same mechanism: the arrangement of physical space produces cognitive and behavioral outputs with predictable reliability.</p>
+
+        <p>The practitioner application is precise. The configurations below are not aesthetic choices. Each produces a different cognitive activation profile. Selecting a configuration based on what the room "usually" looks like, or what requires the least setup time, is equivalent to selecting a curriculum based on what was used last year. The room teaches regardless. The only question is whether the facilitator chose the lesson.</p>
+
+        <!-- ── CSS ARCHITECT'S REDLINE ANNOTATION ── -->
+        <div class="floorplan-section">
+          <span class="floorplan-label">⊡ Field Diagram — Classroom Row Configuration · Cognitive Activation Map</span>
+          <div class="floorplan-wrapper">
+            <div class="room">
+
+              <!-- Screen -->
+              <div class="fp-screen">SCREEN</div>
+
+              <!-- Head table -->
+              <div class="fp-head-table">HEAD TABLE</div>
+
+              <!-- Chair rows -->
+              <div class="fp-row fp-row-1">
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+              </div>
+              <div class="fp-row fp-row-2">
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+              </div>
+              <div class="fp-row fp-row-3">
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+              </div>
+              <div class="fp-row fp-row-4">
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+                <div class="fp-chair"></div>
+              </div>
+
+              <!-- Door indicator -->
+              <div class="room-door"></div>
+
+              <!-- Compass / scale note -->
+              <div class="room-compass">NTS · PLAN VIEW</div>
+
+              <!-- ── REDLINE ANNOTATION 1: Screen / focal point ── -->
+              <div class="ann ann-screen" style="position:absolute;top:3%;right:2%;z-index:20;">
+                <div class="ann-text" style="position:relative;text-align:right;">
+                  SINGULAR FOCAL POINT<br>
+                  concentrates authority;<br>
+                  activates passive<br>
+                  reception schema
+                </div>
+                <div style="position:absolute;top:100%;right:46px;width:1.5px;height:44px;background:#c0392b;"></div>
+                <div class="ann-arrow ann-arrow-down" style="position:absolute;top:calc(100% + 44px);right:43px;"></div>
+              </div>
+
+              <!-- ── REDLINE ANNOTATION 2: Head table / hierarchy ── -->
+              <div class="ann" style="position:absolute;top:14%;left:-2%;z-index:20;max-width:135px;">
+                <div class="ann-text" style="position:relative;">
+                  HEAD TABLE<br>
+                  spatially encodes<br>
+                  status hierarchy;<br>
+                  peer trust suppressed
+                </div>
+                <div style="position:absolute;top:50%;left:100%;width:44px;height:1.5px;background:#c0392b;margin-top:-1px;"></div>
+                <div class="ann-arrow ann-arrow-right" style="position:absolute;top:calc(50% - 4px);left:calc(100% + 44px);"></div>
+              </div>
+
+              <!-- ── REDLINE ANNOTATION 3: Row orientation ── -->
+              <div class="ann" style="position:absolute;top:36%;right:1%;z-index:20;max-width:130px;">
+                <div class="ann-text" style="position:relative;text-align:right;">
+                  PARALLEL ROWS<br>
+                  eliminate lateral<br>
+                  eye contact; reduce<br>
+                  peer accountability
+                </div>
+                <div style="position:absolute;top:50%;right:100%;width:38px;height:1.5px;background:#c0392b;margin-top:-1px;"></div>
+                <div class="ann-arrow ann-arrow-left" style="position:absolute;top:calc(50% - 4px);right:calc(100% + 38px);"></div>
+              </div>
+
+              <!-- ── REDLINE ANNOTATION 4: Entry / threshold ── -->
+              <div class="ann" style="position:absolute;bottom:4%;left:2%;z-index:20;max-width:130px;">
+                <div class="ann-text" style="position:relative;">
+                  ENTRY THRESHOLD<br>
+                  no decompression zone;<br>
+                  occupants import<br>
+                  ambient state directly
+                </div>
+                <div style="position:absolute;top:50%;left:100%;width:32px;height:1.5px;background:#c0392b;margin-top:-1px;"></div>
+                <div class="ann-arrow ann-arrow-right" style="position:absolute;top:calc(50% - 4px);left:calc(100% + 32px);"></div>
+              </div>
+
+            </div><!-- /room -->
+            <div class="config-caption"><strong>Configuration A · Classroom Rows</strong> — as found · cognitive activation: passive reception, status deference, low peer accountability</div>
+          </div><!-- /floorplan-wrapper -->
+        </div><!-- /floorplan-section -->
+
+        <p>The table below translates four configurations into their documented cognitive activation profiles, drawing directly from Doorley &amp; Witthoft's practitioner synthesis of spatial design research.</p>
+
+        <table class="config-table">
+          <thead>
+            <tr>
+              <th>Configuration</th>
+              <th>Cognitive Activation</th>
+              <th>Use When</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Classroom rows</td>
+              <td>Passive reception; status hierarchy; low lateral peer contact</td>
+              <td>Content delivery where hierarchy is appropriate; never trust-building</td>
+            </tr>
+            <tr>
+              <td>Circle / oval, no tables</td>
+              <td>Peer-level accountability; exposure; collective ownership</td>
+              <td>Relationship repair; first sessions; any context requiring mutual visibility</td>
+            </tr>
+            <tr>
+              <td>Clusters of 4–6, no focal point</td>
+              <td>Small-group creativity; divergent thinking; permission to dissent</td>
+              <td>Problem-solving; ideation; sessions designed to surface disagreement productively</td>
+            </tr>
+            <tr>
+              <td>Fishbowl (inner circle observed by outer)</td>
+              <td>Activated listening; role differentiation; structured perspective-taking</td>
+              <td>Cross-functional dialogue; any session where one group needs to genuinely hear another</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="margin-note">
+          The Çatalhöyük communities did not have learning-space design literature. They arrived at the same functional insight through direct observation across generations: different spatial arrangements produce different collective behaviors. Barker documented the same mechanism in mid-century Kansas. Vartanian put it in the scanner. The finding is not modern.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 4: EDGE CASES -->
+    <div class="card" id="card-edge-cases">
+      <div class="card-inner">
+
+        <span class="section-number">§ 04 · Edge Cases</span>
+        <h2>Three Complications Worth Naming</h2>
+
+        <p>The case for deliberate spatial configuration is strong. The risks of misapplying it are real. Three complications deserve direct treatment before we reach the field scenario.</p>
+
+        <h3>The Constraint Is Real: When You Cannot Move the Furniture</h3>
+
+        <p>Not every room can be reconfigured. Hotel contracts, AV installations, unionized setup crews, and client event coordinators can all constrain what a facilitator can do with the physical space. The question in those cases is not whether spatial cognition operates — it does, on the existing configuration — but what compensatory interventions can shift the activation profile without moving furniture.</p>
+
+        <p>Lighting is the first lever. A room with only front-panel fluorescents lit activates a different cognitive state than one with ambient or side lighting. Artifact placement matters: a room where participants find materials, name tags, and small objects arranged in a way that invites lateral interaction activates differently than one where everything faces forward. Standing versus seated opening sequences can temporarily override the row schema. None of these are as powerful as reconfiguration. But they are not nothing. The practitioner who cannot move the furniture is not without options. They are working with reduced degrees of freedom.</p>
+
+        <h3>The Configuration Produces Behavior — It Does Not Guarantee It</h3>
+
+        <p>Behavior settings activate behavioral scripts with high reliability. They do not determine behavior with certainty. A circle does not guarantee that participants will engage with peer-level accountability — it creates the spatial conditions under which that behavior is most likely to emerge. A group with a long history of hierarchical interaction may enact hierarchy in a circle until the facilitator actively disrupts that pattern. The configuration is a first intervention, not a complete one. The practitioner who rearranges to a circle and then proceeds with a lecture-style delivery has created a mismatch that will surface as tension or confusion.</p>
+
+        <p>The principle holds both directions: the configuration activates a script, and the facilitation design needs to align with that script or deliberately work against it for named effect.</p>
+
+        <h3>Mid-Session Reconfiguration as an Intervention Tool</h3>
+
+        <p>The Çatalhöyük finding is not only about arrival-night setup. The seasonal rotations suggest that the communities were using mid-cycle reconfiguration as a deliberate reset mechanism — a way of shifting cognitive and social mode within an ongoing process. The practitioner equivalent is mid-session reconfiguration: moving chairs, switching clusters, changing orientation to a focal point, standing versus seated. When energy or cognitive mode needs to shift, the spatial variable is available. It is underused.</p>
+
+        <div class="margin-note">
+          Doorley and Witthoft's practitioner work at the Stanford d.school documented consistent reports from facilitators who used mid-session reconfiguration: participants described the shift as "like a different conversation" even when the agenda item was unchanged. The room change did the cognitive work that a five-minute break would have attempted less efficiently.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 5: ROOTS -->
+    <div class="card" id="card-roots">
+      <div class="card-inner">
+
+        <span class="section-number">§ 05 · Roots</span>
+        <h2>The Art of Memory Was Spatial</h2>
+
+        <p>Before print, before writing, before the codex — the primary technology for knowledge transmission and retention was spatial. The classical method of loci, documented most fully by Frances Yates in <em>The Art of Memory</em>, was not an ancient mnemonic trick. It was the operating system of pre-print learning cultures: knowledge encoded into specific locations in a mentally or physically navigated space, retrieved by moving through that space again. Orators in the Roman tradition were trained to walk — physically or mentally — through a familiar building, depositing arguments in specific rooms, retrieving them by retracing the route during speech.</p>
+
+        <p>The spatial arrangement of the building was not incidental to the knowledge stored in it. It was the structure of the knowledge. Different rooms held different arguments. Different configurations of objects held different sequences of reasoning. The room was not the container of learning. It was the architecture of memory itself.</p>
+
+        <div class="cite">
+          "The art of memory ... consists in a technique of impressing 'places' and 'images' on memory... The first step was to imprint on the memory a series of loci or places. The commonest, though not the only, type of mnemonic place system used was the architectural type."<br>
+          — Yates, F. <em>The Art of Memory.</em> University of Chicago Press, 1966.
+        </div>
+
+        <p>The Çatalhöyük finding extends this lineage deeper than Rome, deeper than Greece. Eleven thousand years ago, communities were using the physical arrangement of their shared space as a cognitive instrument — not only for memory, but for social function, identity, and the transmission of practice across generations. The house was not a shelter. It was a curriculum.</p>
+
+        <p>Roger Barker's behavior-setting research, which emerged from mid-20th century ecological psychology, rediscovered this mechanism through empirical observation. He did not frame it in terms of classical rhetoric or Neolithic archaeology. He framed it in terms of systematic documentation of what people actually do in differently configured spaces. But the finding is the same: the spatial structure activates the behavior. The room is already teaching.</p>
+
+        <p>What the Western professional tradition — built on a Cartesian separation of mind from body, reason from environment — stripped out of practitioner training is this: the physical space you occupy is a cognitive variable. It is not background. It is not neutral. It is actively shaping what is possible to think, feel, and decide in any given session. The practitioner who treats room setup as a logistics question has, without intending to, adopted the Cartesian position. The practitioner who treats it as a curriculum question is recovering something that was known before we had words for it.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 6: APPLICATION + BIBLIOGRAPHY -->
+    <div class="card" id="card-application">
+      <div class="card-inner">
+
+        <span class="section-number">§ 06 · Application · What Would You Do?</span>
+        <h2>Ninety Minutes Before the Room Locks</h2>
+
+        <div class="scenario">
+          <span class="scenario-label">The Scenario</span>
+          Marisol Reyes is an organizational development consultant retained by a mid-size logistics company to facilitate a two-day offsite on cross-functional trust — after a year of remote-first culture and a series of miscommunications between operations and finance. The company has booked a hotel conference room. Marisol arrives the night before and finds the room set: forty chairs in classroom rows facing a projection screen, one long head table at the front. The client's events coordinator tells her not to touch the AV setup, and that the hotel needs a diagram if she moves the furniture. Marisol has ninety minutes before the room locks for the evening. The next morning's first two hours are designed for relationship repair — the exact context where spatial configuration is most load-bearing. Does she leave the rows and adapt her facilitation, move the furniture now and file the diagram, or negotiate for a different room entirely — and on what grounds does she make that call?
+        </div>
+
+        <p>This is not a preference question. The rows will activate status hierarchy and passive reception precisely when she needs peer-level accountability and exposure. Moving to a modified fishbowl or a large oval — no head table — is not an aesthetic preference call. It is a curriculum decision, grounded in the same research tradition that stretches from Çatalhöyük to Barker to Vartanian. The configuration produces the behavior.</p>
+
+        <div class="response-set">
+
+          <div class="response-option">
+            <span class="ro-label">Option A — Leave the Rows</span>
+            <p>Marisol leaves the room as set, trusts her facilitation skills to overcome the spatial activation, and adapts her design to work within the row configuration. She adds more small-group breakouts, more lateral movement, more explicit instructions to turn and face each other. This is not nothing — skilled facilitation can partially compensate for spatial misalignment. But she is working against the primary variable rather than with it. The rows will activate status deference and passive reception with every moment of open plenary. She is paying a spatial tax on everything she wants to build.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">Option B — File the Diagram, Move the Furniture</span>
+            <p>Marisol moves to a large oval — no head table, chairs only, no visible front — and files the hotel's required diagram. When the client's coordinator checks in the next morning, Marisol can name the mechanism: "The configuration produces the behavior. The rows activate status hierarchy and passive reception. If we want trust to be spatially legible in this room, we need the oval." This is not a facilitation preference. It is an evidence-based curriculum decision. The research answer is unambiguous: she files the diagram, moves the furniture, and delivers the program she was retained to deliver.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">Option C — Negotiate for a Different Room</span>
+            <p>If the hotel has a ballroom, an open lounge, or any space that can be configured from scratch, that conversation is worth having the night before — not the morning of. The grounds are the same: the existing configuration will actively undermine the program's stated purpose. Marisol's credibility as the retained expert includes the authority to name a spatial constraint as a program risk. She makes that call based on what is available, what the reconfiguration will require, and whether the client's relationship can absorb the request at 11 p.m. the night before. In most cases, Option B is faster and lower-friction. Option C is available when the constraints on Option B are genuinely immovable.</p>
+          </div>
+
+        </div>
+
+        <p>The deeper obligation is to recognize that Marisol's decision does not begin when she arrives at the hotel. It begins when she accepts the engagement. A pre-visit site survey — the format this issue is named for — is the standard field protocol for practitioners who treat spatial configuration as a curriculum variable. Two questions on a call before the engagement: what room have you booked, and can you send me a diagram or photo of the standard setup? Those two questions change everything that follows, because they move spatial configuration from a constraint to be managed on arrival night into a variable to be designed before the program begins.</p>
+
+        <h3>The Site Survey as Standard Practice</h3>
+
+        <p>The arrival-night scramble is avoidable. The practitioner who conducts a site survey — even a brief one, even by photo — before the engagement has already moved spatial configuration from the logistics column to the curriculum column. The Neolithic communities at Çatalhöyük were doing this across seasons. A skilled facilitator can do it before the hotel confirms the booking.</p>
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="bibliography">
+          <h3>Sources</h3>
+
+          <div class="citation">
+            Hodder, Ian. <em>Çatalhöyük: The Leopard's Tale.</em> Thames &amp; Hudson, 2006. — Foundational archaeological account of the Çatalhöyük site; establishes the seasonal spatial rotation evidence and the interpretation of spatial arrangement as a deliberate cognitive and social instrument.
+          </div>
+
+          <div class="citation">
+            Barker, Roger G. <em>Ecological Psychology: Concepts and Methods for Studying the Environment of Human Behavior.</em> Stanford University Press, 1968. — Introduced the concept of behavior settings; systematic documentation of spatial configurations activating predictable behavioral scripts regardless of occupant identity.
+          </div>
+
+          <div class="citation">
+            Vartanian, Oshin, et al. "Impact of Contour on Aesthetic Judgments and Approach-Avoidance Decisions in Architecture." <em>Proceedings of the National Academy of Sciences,</em> vol. 110, Supplement 2, 2013, pp. 10446–10453. — Neuroimaging study establishing that architectural spatial features activate the amygdala and anterior cingulate cortex in ways that shape cognitive state prior to conscious appraisal.
+          </div>
+
+          <div class="citation">
+            Doorley, Scott, and Scott Witthoft. <em>Make Space: How to Set the Stage for Creative Collaboration.</em> Wiley, 2012. — Practitioner-facing synthesis of spatial design as learning design; specific configurations and their documented cognitive effects; primary source for the configuration activation table in §03.
+          </div>
+
+          <div class="citation">
+            Yates, Frances A. <em>The Art of Memory.</em> University of Chicago Press, 1966. — Classical method of loci tradition establishing that physical spatial structure was the primary encoding tool in pre-print learning cultures; historical lineage for the Çatalhöyük finding beyond a single site.
+          </div>
+
+          <div class="citation">
+            Meier, Brian P., Simone Schnall, Norbert Schwarz, and John A. Bargh. "Embodiment in Social Psychology." <em>Topics in Cognitive Science,</em> 4, 2012, pp. 705–716. — Systematic review of embodied cognition research: bodily states, spatial positioning, and physical environment directly shape social and cognitive processing at sub-conscious levels. Theoretical framework explaining why Barker's behavior settings operate without occupant awareness — the spatial inputs are processed somatically before conscious deliberation engages.
+          </div>
+
+          <div class="citation">
+            McCoy, Janetta Mitchell, and Gary W. Evans. "The Potential Role of the Physical Environment in Fostering Creativity." <em>Creativity Research Journal,</em> 14:3–4, 2002, pp. 409–426. — Empirical study of physical environment as a direct predictor of creative performance and cognitive flexibility. Spatial configuration, ceiling height, and enclosure type showed significant effects on divergent thinking independent of content or facilitation approach. Directly relevant to the configuration selection table in §03.
+          </div>
+
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners · Issue 035 · ⊡
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /sections-rail -->
+
+  <!-- PROGRESS + NAV -->
+  <div class="reading-progress" id="reading-progress">
+    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <div class="progress-trace">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+    <button class="nav-contents" id="nav-contents" onclick="goTo(0)" title="Back to site survey log" style="display:none;">↩ Contents</button>
+    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
+  </div>
+
+</div><!-- /main-panel -->
+
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+</div>
+
+<script>
+/* ── UTC CLOCK ── */
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');
+  if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+/* ── ENTRY → MAIN ── */
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },800);
+
+  track('enter','entry_screen');
+}
+
+/* ── CARD NAVIGATION ── */
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','Roots','Application'];
+let currentCard=0;
+
+function goTo(index){
+  if(index<0||index>=CARDS.length)return;
+  const cards=document.querySelectorAll('.card');
+  if(cards[currentCard])cards[currentCard].scrollTop=0;
+  currentCard=index;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  // Progress fill
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
+  // Label
+  const label=document.getElementById('progress-label');
+  if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
+  // Buttons
+  document.getElementById('nav-prev').disabled=index===0;
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  const contentsBtn=document.getElementById('nav-contents');
+  if(contentsBtn)contentsBtn.style.display=index>0?'inline-block':'none';
+  // Track
+  track('navigate',CARDS[index]);
+}
+
+/* ── TOUCH SWIPE ── */
+let touchStartX=0,touchStartY=0;
+document.getElementById('main-panel').addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('main-panel').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44){
+    if(dx<0)goTo(currentCard+1);
+    else goTo(currentCard-1);
+  }
+},{passive:true});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('main-panel').classList.contains('visible'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(currentCard+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(currentCard-1);}
+});
+
+/* ── ENGAGEMENT TRACKING ── */
+const _sos=(()=>{
+  const ENDPOINT='https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY='sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const SESSION_ID=Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,10);
+  const ISSUE_NUMBER='035';
+  const ISSUE_SLUG='the-site-survey';
+  let queue=[];
+  let flushTimer=null;
+
+  function activeCardScrollPct(){
+    const cards=document.querySelectorAll('.card');
+    const card=cards[currentCard];
+    if(!card)return 0;
+    const total=card.scrollHeight-card.clientHeight;
+    return total>0?Math.round((card.scrollTop/total)*100):0;
+  }
+
+  function flush(){
+    if(!queue.length)return;
+    const batch=queue.splice(0);
+    batch.forEach(ev=>{
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{
+          'apikey':API_KEY,
+          'Authorization':'Bearer '+API_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'return=minimal'
+        },
+        body:JSON.stringify({
+          title:'meliorism2.com | '+ISSUE_SLUG+' | '+ev.event+' | '+ev.label,
+          occurred_at:ev.ts,
+          reflection:SESSION_ID,
+          notes:JSON.stringify({
+            issue_number:ISSUE_NUMBER,
+            issue_slug:ISSUE_SLUG,
+            event:ev.event,
+            label:ev.label,
+            extra:ev.extra||null,
+            referrer:document.referrer||null,
+            card_index:ev.card_index,
+            card_name:CARDS[ev.card_index]||null,
+            scroll_pct:ev.scroll_pct,
+            viewport_w:window.innerWidth,
+            viewport_h:window.innerHeight
+          })
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    });
+  }
+
+  function enqueue(event,label,extra){
+    queue.push({
+      event,label,extra,
+      ts:new Date().toISOString(),
+      card_index:currentCard,
+      scroll_pct:activeCardScrollPct()
+    });
+    if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
+  }
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden')flush();
+  });
+
+  return{track:enqueue};
+})();
+
+function track(event,label,extra){
+  console.log('[meliorism2]',event,label,extra||'');
+  _sos.track(event,label,extra);
+}
+
+/* ── PER-CARD SCROLL DEPTH TRACKING ── */
+const cardDepthsFired={};
+document.querySelectorAll('.card').forEach((card,i)=>{
+  cardDepthsFired[i]=new Set();
+  card.addEventListener('scroll',()=>{
+    const total=card.scrollHeight-card.clientHeight;
+    if(total<=0)return;
+    const pct=Math.round((card.scrollTop/total)*100);
+    [25,50,75,90].forEach(d=>{
+      if(pct>=d&&!cardDepthsFired[i].has(d)){
+        cardDepthsFired[i].add(d);
+        track('scroll_depth',CARDS[i]+'_'+d+'pct');
+      }
+    });
+  },{passive:true});
+});
+
+/* ── CLICK TRACKING ── */
+document.addEventListener('click',e=>{
+  if(e.target.closest('.response-option')){
+    const lbl=e.target.closest('.response-option').querySelector('.ro-label');
+    track('interact','response_option',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.research-block')){
+    const lbl=e.target.closest('.research-block').querySelector('.researcher');
+    track('interact','research_block',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('a[href*="archive"]')){
+    track('click','archive_link');
+  }
+  if(e.target.closest('.config-table tr')){
+    track('interact','config_table_row');
+  }
+});
+</script>
+</body>
+</html>
