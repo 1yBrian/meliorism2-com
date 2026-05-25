@@ -673,6 +673,145 @@ p{
   .baro-section-item:nth-child(6){border-top:1px solid rgba(139,111,71,0.1);border-right:none;}
 }
 
+/* ── SCIENCE FIGURES ── */
+.science-fig{
+  margin:20px 0 24px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  overflow:hidden;
+  background:var(--surface);
+}
+.science-fig-caption{
+  font-family:'Courier Prime',monospace;
+  font-size:0.72rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:rgba(139,111,71,0.6);
+  padding:6px 14px;
+  background:rgba(139,111,71,0.04);
+  border-bottom:1px solid var(--border);
+}
+/* Flow diagram (Damasio) */
+.flow-diagram{
+  padding:18px 14px 12px;
+  display:flex;
+  align-items:center;
+  gap:0;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.flow-node{
+  background:var(--bg);
+  border:1px solid rgba(139,111,71,0.25);
+  padding:8px 12px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--text);
+  text-align:center;
+  line-height:1.4;
+  min-width:90px;
+}
+.flow-node em{
+  display:block;
+  font-style:normal;
+  font-size:0.65rem;
+  color:var(--amber);
+  margin-top:2px;
+  letter-spacing:0.08em;
+}
+.flow-arrow{
+  color:var(--amber);
+  font-size:1.05rem;
+  padding:0 7px;
+  flex-shrink:0;
+  line-height:1;
+}
+.flow-feedback{
+  width:100%;
+  text-align:center;
+  font-family:'Courier Prime',monospace;
+  font-size:0.68rem;
+  color:rgba(139,111,71,0.5);
+  letter-spacing:0.1em;
+  padding:6px 14px 10px;
+  font-style:italic;
+}
+/* Polyvagal ladder (Porges) */
+.vagal-ladder{
+  padding:12px 14px 10px;
+}
+.vagal-band{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  padding:9px 12px;
+  margin-bottom:4px;
+  border-radius:1px;
+}
+.vb-ventral{background:rgba(139,111,71,0.07);border-left:3px solid var(--amber);}
+.vb-sympathetic{background:rgba(139,111,71,0.03);border-left:3px solid rgba(139,111,71,0.3);}
+.vb-dorsal{background:rgba(26,23,20,0.04);border-left:3px solid rgba(44,44,44,0.18);}
+.vb-state{
+  font-family:'Courier Prime',monospace;
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--amber);
+  min-width:96px;
+  flex-shrink:0;
+  padding-top:1px;
+}
+.vb-desc{
+  font-size:0.875rem;
+  color:var(--muted);
+  line-height:1.45;
+}
+.vagal-note{
+  font-family:'Courier Prime',monospace;
+  font-size:0.7rem;
+  color:rgba(139,111,71,0.5);
+  letter-spacing:0.08em;
+  padding:2px 14px 10px;
+  font-style:italic;
+}
+/* Two-mode grid (Fogel) */
+.two-mode{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+.mode-col{
+  padding:13px 15px 14px;
+}
+.mode-col:first-child{
+  border-right:1px solid var(--border);
+}
+.mode-head{
+  font-family:'Courier Prime',monospace;
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+  display:block;
+  margin-bottom:9px;
+}
+.mode-item{
+  font-size:0.875rem;
+  color:var(--muted);
+  line-height:1.5;
+  padding-bottom:5px;
+  border-bottom:1px solid rgba(139,111,71,0.07);
+  margin-bottom:5px;
+}
+.mode-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+@media(max-width:500px){
+  .two-mode{grid-template-columns:1fr;}
+  .mode-col:first-child{border-right:none;border-bottom:1px solid var(--border);}
+}
+
 /* ── NEXT SECTION PROMPT ── */
 .next-section{
   margin-top:48px;
@@ -974,6 +1113,20 @@ a:hover{background:rgba(139,111,71,0.06);}
           <p>Antonio Damasio's lesion studies at Iowa tracked patients with damage to the ventromedial prefrontal cortex — a region that integrates body-state signals with decision-making. These patients retained full reasoning capacity. They could analyze, compare, and calculate. What they lost was access to somatic markers: body-state changes arising from prior emotional learning — shifts in heart rate, gut tension, peripheral circulation, breath rhythm — that normally constrain and guide choice before deliberation begins. Without somatic markers, the patients became catastrophically indecisive. Not because they were less intelligent, but because the body's input had been severed from the process. The "gut feeling" that something is wrong in a room is not noise to be managed through professional composure. It is a processed signal arriving ahead of verbal report. The body votes first.</p>
         </div>
 
+        <div class="science-fig">
+          <div class="science-fig-caption">Fig. 1 — Somatic Marker Loop · Damasio, 1994 · vmPFC = ventromedial prefrontal cortex</div>
+          <div class="flow-diagram">
+            <div class="flow-node">Body<br>State<em>sensation / impulse</em></div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node">Brainstem<em>signal relayed</em></div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node">vmPFC<em>integration site</em></div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node">Pre-conscious<br>Decision Bias<em>marker fires</em></div>
+          </div>
+          <div class="flow-feedback">↺ &nbsp; Damasio's vmPFC lesion patients lost this loop entirely — full reasoning capacity intact, decision-making catastrophically impaired</div>
+        </div>
+
         <div class="cite">
           "The body's signals arrive before the conscious mind has decided they are worth noticing. The decision, in some respects, has already been made."<br>
           — Damasio, A. <em>Descartes' Error: Emotion, Reason and the Human Brain.</em> Putnam, 1994.
@@ -982,6 +1135,25 @@ a:hover{background:rgba(139,111,71,0.06);}
         <div class="research-block">
           <span class="researcher">Porges, 2011 — Neuroception and the Polyvagal Social Scan</span>
           <p>Stephen Porges extended the picture with polyvagal theory. The ventral vagal branch of the autonomic nervous system continuously scans the environment for safety cues — not at the level of conscious attention, but subcortically, below awareness. Porges named this process neuroception. The nervous system reads stillness, vocal prosody, eye contact, the subtle constriction of facial musculature, the particular quality of silence when a group moves into defensive state — and it mobilizes response before the practitioner has formed a verbal thought about what is happening. A practitioner who walks into a room and immediately feels their chest tighten has already conducted a neuroception. The room's collective nervous system state has been broadcast and received. The practitioner is not imagining it. The instrument is doing its job.</p>
+        </div>
+
+        <div class="science-fig">
+          <div class="science-fig-caption">Fig. 2 — Polyvagal Hierarchy · Porges, 2011 · Neuroception triggers downshift below conscious awareness</div>
+          <div class="vagal-ladder">
+            <div class="vagal-band vb-ventral">
+              <span class="vb-state">Ventral Vagal</span>
+              <span class="vb-desc">Safety cues registered. Social engagement active. Practitioner can read the room, connect, and respond with nuance.</span>
+            </div>
+            <div class="vagal-band vb-sympathetic">
+              <span class="vb-state">Sympathetic</span>
+              <span class="vb-desc">Threat cue detected. Mobilization: fight or flight. Social engagement suspended. Facilitation degrades.</span>
+            </div>
+            <div class="vagal-band vb-dorsal">
+              <span class="vb-state">Dorsal Vagal</span>
+              <span class="vb-desc">Inescapable threat. Shutdown, freeze, collapse. Complete withdrawal from social engagement. Room goes flat.</span>
+            </div>
+          </div>
+          <div class="vagal-note">Neuroception operates below conscious awareness — the practitioner's nervous system has already moved before a thought about the room has formed</div>
         </div>
 
         <div class="cite">
@@ -1002,6 +1174,26 @@ a:hover{background:rgba(139,111,71,0.06);}
         <div class="research-block">
           <span class="researcher">Fogel, 2009 — Interoceptive Awareness as a Learnable Skill</span>
           <p>Alan Fogel's research on embodied self-awareness distinguishes two modes of body-based knowing. The first is conceptual body sense: thinking about the body, naming sensations after the fact, interpreting body data through prior categories. The second is participatory body sense: the direct, present-tense experience of body states as they are happening — a felt sense that exists before it is named. Fogel argues that most practitioners are trained in the first mode and underdeveloped in the second. The practical consequence: a practitioner may understand the concept of somatic markers perfectly and still fail to register them in real-time because the participatory channel has not been cultivated. Somatic intelligence is not a natural talent distributed unevenly. It is a capacity that develops with consistent practice. The instrument can be calibrated.</p>
+        </div>
+
+        <div class="science-fig">
+          <div class="science-fig-caption">Fig. 3 — Two Modes of Body Knowing · Fogel, 2009 · The practitioner gap</div>
+          <div class="two-mode">
+            <div class="mode-col">
+              <span class="mode-head">Conceptual</span>
+              <div class="mode-item">Thinking <em>about</em> the body</div>
+              <div class="mode-item">Named and categorized after the fact</div>
+              <div class="mode-item">Filtered through prior frameworks</div>
+              <div class="mode-item">Default mode of most trained practitioners</div>
+            </div>
+            <div class="mode-col">
+              <span class="mode-head">Participatory</span>
+              <div class="mode-item">Direct felt experience, present-tense</div>
+              <div class="mode-item">Pre-verbal — arrives before language</div>
+              <div class="mode-item">Unfiltered signal from the instrument</div>
+              <div class="mode-item">Develops through consistent somatic practice</div>
+            </div>
+          </div>
         </div>
 
         <div class="cite">
