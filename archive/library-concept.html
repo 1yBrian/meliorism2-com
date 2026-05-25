@@ -1,0 +1,1439 @@
+<!--
+DESIGN KIDS REPORT — Library Alternative Concepts
+2026-05-25
+
+OCD DETAILER found:
+1. The issue cards are rectangles arranged in a 3-column grid — the default container for every content site built since 2012. There is no spatial logic, no hierarchy, no sense that one briefing is more urgent or more foundational than another. It's alphabetical tiles in a department store.
+2. The dimension filter is a horizontal pill row with a sticky search bar. This is the exact interaction pattern of Shopify, Dribbble, Medium, and every Notion template ever published. Nothing in the UI signals that these briefings have intellectual weight or relationships to each other.
+3. The color bar on each card — 4px at the top — is the only dimensional differentiation. It's a convention borrowed from Jira ticket labels. It communicates category without communicating meaning. The reader learns nothing from the color.
+4. The hover state is translateY(-3px) with a box-shadow. This is the single most common card hover effect on the web since 2018. It says "this is a card." It does not say "this is a portal."
+5. The library has no sense of time as territory. The dates exist as metadata in the top-left corner — small, muted, secondary. But 26 briefings published across May 2026 is a body of work with rhythm, momentum, and density. The grid makes them feel simultaneous and interchangeable. Nothing in the layout communicates that you are inside a living archive.
+
+ADHD READER found:
+- Stopped scrolling: At card 7 or 8. The grid becomes visually identical past the fold — same rectangle, same color bar, same two-line title truncation. The eye has no new input to chase.
+- What grabbed my eye: "The Switchboard Problem" because "Telephone Exchange" in the format field is weird and specific. Also the 4px purple bar on Brave Spaces cards — it's the highest contrast element on the page and the eye finds it.
+- What I wanted to click: The format labels — "Telephone Exchange," "Museum Room," "Ship's Log," "Laboratory Station." These are the most interesting text on the page and they're rendered at 0.667rem in muted italic. They're buried. If the format IS the environment, the format should BE the environment.
+- What would make me feel inside something: If I could feel the difference between navigating into a "Ship's Log" and navigating into a "Museum Room" before I clicked. Right now both are white rectangles with different text strings.
+
+THE KID said:
+- What's genuinely interesting: The format names. "Telephone Exchange." "Ship's Log." "Naturalist's Field Journal." These sound like actual places. Why don't they look like actual places?
+- What's trying too hard to sound smart: The subtitle "Find the obstacle your client is facing right now." That's a menu description. The whole page is trying to be a sophisticated publication but it's dressed like a SaaS help center.
+- If I could make this into anything: A radio station. Like a big old radio with a dial and you tune between frequencies and each frequency is a dimension. When you land on one, the static clears and the briefings for that dimension appear like they're broadcasting from somewhere. You can hear the needle click between stations. The whole page would feel like tuning in to something already happening.
+
+SIX CONCEPTS:
+
+1. The Broadcast Room — You're inside a 1960s shortwave radio operations center; tuning a physical dial moves between dimensions, briefings appear as incoming transmissions with signal-strength indicators — Medium
+
+2. The Cartography Room — The 26 briefings are regions on a hand-drawn intelligence map; you navigate by panning and zooming, each briefing occupies geographic territory proportional to its source count, and dimension territories share borders — Hard
+
+3. The Situation Room — A briefing center with five standing monitors, each assigned to a dimension; active briefings pulse as incoming intelligence; the reader moves between screens by clicking monitor labels; selected briefings project onto a central reading surface — Medium
+
+4. The Observatory — A dark-field star map where each briefing is a star, brightness = source count, constellation lines connect briefings in the same dimension; you rotate the field with mouse drag, click stars to read — Hard
+
+5. The Pneumatic Post — A 1920s pneumatic tube dispatch office; briefings arrive as capsules through visible tube infrastructure; you route capsules by dimension selector; the selected capsule slides to a reading desk with a satisfying animation — Medium
+
+6. The Signal Log — A real-time intelligence terminal where all 26 briefings scroll as classified transmissions on a green-on-dark teletype display; filters change the incoming channel; hovering a transmission decrypts it into the full card; the cursor blinks — Easy
+
+WINNING CONCEPT: The Situation Room
+WHY: It is the only concept that both (a) uses the five existing dimensions as the primary navigation architecture and (b) delivers genuine environmental specificity without requiring canvas/WebGL. Five monitors, five dimensions, one central reading surface — the reader physically moves between intelligence stations, which is the spatial logic the grid never had.
+VOTE: OCD Detailer → Situation Room (spatial logic solves the "no hierarchy" problem). ADHD Reader → Signal Log (fast, high contrast, satisfying). The Kid → Broadcast Room (the radio dial is cooler). Situation Room wins 1 formal + 1 leaning; The Kid breaks the tie → Situation Room (because "it's like a spy movie").
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Situation Room — Meliorism2 Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf8f5;
+      --accent: #8b6f47;
+      --dark-band: #1a1714;
+      --cream: #c8b99a;
+      --text: #2c2c2c;
+      --surface: #f0ebe4;
+      --border: #d4c8b8;
+      --muted: #7a7068;
+
+      /* Monitor / dimension colors */
+      --wit: #c8a87a;
+      --wit-bg: rgba(200,168,122,0.10);
+      --brave: #6a5a9b;
+      --brave-bg: rgba(106,90,155,0.10);
+      --income: #3a6b4a;
+      --income-bg: rgba(58,107,74,0.10);
+      --presence: #2a4a6b;
+      --presence-bg: rgba(42,74,107,0.10);
+      --gender: #8b5a3a;
+      --gender-bg: rgba(139,90,58,0.10);
+      --somatic: #4a7a6b;
+      --somatic-bg: rgba(74,122,107,0.10);
+    }
+
+    html { font-size: 18px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Crimson Text', Georgia, serif;
+      background: var(--dark-band);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════
+       SITE HEADER
+    ═══════════════════════════════════════════ */
+    .site-header {
+      background: #0f0d0b;
+      padding: 0 48px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #2a2520;
+      position: relative;
+      z-index: 200;
+    }
+
+    .site-logo {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #e8e0d5;
+      text-decoration: none;
+    }
+
+    .site-back {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5a5048;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .site-back:hover { color: var(--accent); }
+
+    /* ═══════════════════════════════════════════
+       SITUATION ROOM WRAPPER
+    ═══════════════════════════════════════════ */
+    .situation-room {
+      min-height: calc(100vh - 52px);
+      display: flex;
+      flex-direction: column;
+      background:
+        /* subtle concrete texture */
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 39px,
+          rgba(0,0,0,0.06) 39px,
+          rgba(0,0,0,0.06) 40px
+        ),
+        linear-gradient(180deg, #1e1b17 0%, #221f1a 100%);
+    }
+
+    /* ═══════════════════════════════════════════
+       ROOM HEADER — classified banner
+    ═══════════════════════════════════════════ */
+    .room-header {
+      background: #0f0d0b;
+      border-bottom: 2px solid #8b6f47;
+      padding: 20px 48px 18px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .room-classification {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8b6f47;
+      margin-bottom: 8px;
+    }
+
+    .room-title {
+      font-family: 'Crimson Text', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 600;
+      color: #e8e0d5;
+      line-height: 1.1;
+    }
+
+    .room-stats {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .room-clock {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      color: #6a8b6a;
+      min-width: 180px;
+      text-align: right;
+    }
+
+    .room-count-display {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: #5a5048;
+      text-align: right;
+    }
+
+    /* ═══════════════════════════════════════════
+       FIVE MONITORS BANK
+    ═══════════════════════════════════════════ */
+    .monitor-bank {
+      padding: 36px 48px 24px;
+      display: flex;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .monitor-station {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.2s;
+      position: relative;
+    }
+
+    /* Monitor frame — CRT aesthetic */
+    .monitor-frame {
+      background: #141210;
+      border: 2px solid #2e2a24;
+      border-radius: 4px 4px 0 0;
+      padding: 14px 14px 10px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      flex: 1;
+    }
+
+    /* CRT scan line effect — only on inactive monitors */
+    .monitor-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.18) 2px,
+        rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 2;
+      transition: opacity 0.3s;
+    }
+
+    .monitor-station.active .monitor-frame::after {
+      opacity: 0.4;
+    }
+
+    /* Monitor glow on hover / active */
+    .monitor-station[data-dim="Witnessing Authentic Humanity"]:hover .monitor-frame,
+    .monitor-station[data-dim="Witnessing Authentic Humanity"].active .monitor-frame {
+      border-color: var(--wit);
+      box-shadow: 0 0 24px rgba(200,168,122,0.25), inset 0 0 40px rgba(200,168,122,0.04);
+    }
+    .monitor-station[data-dim="Brave Spaces"]:hover .monitor-frame,
+    .monitor-station[data-dim="Brave Spaces"].active .monitor-frame {
+      border-color: var(--brave);
+      box-shadow: 0 0 24px rgba(106,90,155,0.3), inset 0 0 40px rgba(106,90,155,0.05);
+    }
+    .monitor-station[data-dim="Living Income"]:hover .monitor-frame,
+    .monitor-station[data-dim="Living Income"].active .monitor-frame {
+      border-color: var(--income);
+      box-shadow: 0 0 24px rgba(58,107,74,0.3), inset 0 0 40px rgba(58,107,74,0.05);
+    }
+    .monitor-station[data-dim="In-Person Presence"]:hover .monitor-frame,
+    .monitor-station[data-dim="In-Person Presence"].active .monitor-frame {
+      border-color: var(--presence);
+      box-shadow: 0 0 24px rgba(42,74,107,0.3), inset 0 0 40px rgba(42,74,107,0.05);
+    }
+    .monitor-station[data-dim="Gender & Generational Difference"]:hover .monitor-frame,
+    .monitor-station[data-dim="Gender & Generational Difference"].active .monitor-frame {
+      border-color: var(--gender);
+      box-shadow: 0 0 24px rgba(139,90,58,0.3), inset 0 0 40px rgba(139,90,58,0.05);
+    }
+
+    /* Monitor screen area */
+    .monitor-screen {
+      background: #0a0908;
+      min-height: 120px;
+      padding: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Phosphor ticker — live entries on the monitor screen */
+    .monitor-ticker {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      line-height: 1.6;
+      color: #4a4440;
+      overflow: hidden;
+      max-height: 110px;
+    }
+
+    .monitor-station.active .monitor-ticker {
+      color: #7a7060;
+    }
+
+    .ticker-line {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.2s;
+    }
+
+    .ticker-line.highlight {
+      color: inherit;
+    }
+
+    /* Dim-colored active ticker lines */
+    .monitor-station[data-dim="Witnessing Authentic Humanity"].active .ticker-line.highlight { color: var(--wit); }
+    .monitor-station[data-dim="Brave Spaces"].active .ticker-line.highlight { color: #9a8acb; }
+    .monitor-station[data-dim="Living Income"].active .ticker-line.highlight { color: #5a9b7a; }
+    .monitor-station[data-dim="In-Person Presence"].active .ticker-line.highlight { color: #5a7aab; }
+    .monitor-station[data-dim="Gender & Generational Difference"].active .ticker-line.highlight { color: #bb8a6a; }
+
+    /* Indicator light — blinking dot */
+    .monitor-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2a2520;
+      margin-bottom: 8px;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .monitor-station.active .monitor-indicator {
+      animation: blink-indicator 1.4s ease-in-out infinite;
+    }
+
+    .monitor-station[data-dim="Witnessing Authentic Humanity"].active .monitor-indicator {
+      background: var(--wit);
+      box-shadow: 0 0 8px var(--wit);
+    }
+    .monitor-station[data-dim="Brave Spaces"].active .monitor-indicator {
+      background: var(--brave);
+      box-shadow: 0 0 8px var(--brave);
+    }
+    .monitor-station[data-dim="Living Income"].active .monitor-indicator {
+      background: var(--income);
+      box-shadow: 0 0 8px var(--income);
+    }
+    .monitor-station[data-dim="In-Person Presence"].active .monitor-indicator {
+      background: var(--presence);
+      box-shadow: 0 0 8px var(--presence);
+    }
+    .monitor-station[data-dim="Gender & Generational Difference"].active .monitor-indicator {
+      background: var(--gender);
+      box-shadow: 0 0 8px var(--gender);
+    }
+
+    @keyframes blink-indicator {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    /* Monitor base / stand */
+    .monitor-base {
+      background: #1a1612;
+      border: 2px solid #2e2a24;
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      padding: 10px 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.25s;
+    }
+
+    .monitor-station[data-dim="Witnessing Authentic Humanity"].active .monitor-base,
+    .monitor-station[data-dim="Witnessing Authentic Humanity"]:hover .monitor-base { border-color: var(--wit); }
+    .monitor-station[data-dim="Brave Spaces"].active .monitor-base,
+    .monitor-station[data-dim="Brave Spaces"]:hover .monitor-base { border-color: var(--brave); }
+    .monitor-station[data-dim="Living Income"].active .monitor-base,
+    .monitor-station[data-dim="Living Income"]:hover .monitor-base { border-color: var(--income); }
+    .monitor-station[data-dim="In-Person Presence"].active .monitor-base,
+    .monitor-station[data-dim="In-Person Presence"]:hover .monitor-base { border-color: var(--presence); }
+    .monitor-station[data-dim="Gender & Generational Difference"].active .monitor-base,
+    .monitor-station[data-dim="Gender & Generational Difference"]:hover .monitor-base { border-color: var(--gender); }
+
+    .monitor-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #5a5048;
+      transition: color 0.25s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .monitor-station.active .monitor-label,
+    .monitor-station:hover .monitor-label { color: #c8bfb5; }
+
+    .monitor-count {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: #3a3530;
+      transition: color 0.25s;
+    }
+    .monitor-station.active .monitor-count { color: #7a7060; }
+
+    /* Monitor stand neck */
+    .monitor-neck {
+      width: 40px;
+      height: 8px;
+      background: #141210;
+      border: 2px solid #2e2a24;
+      border-top: none;
+      margin: 0 auto;
+      border-radius: 0 0 2px 2px;
+    }
+
+    .monitor-foot {
+      width: 80px;
+      height: 6px;
+      background: #141210;
+      border: 2px solid #2e2a24;
+      border-radius: 2px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════
+       ALL-STATION TOGGLE (above monitors)
+    ═══════════════════════════════════════════ */
+    .all-station-bar {
+      padding: 0 48px 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .all-station-btn {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      background: transparent;
+      border: 1.5px solid #3a3530;
+      color: #5a5048;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .all-station-btn:hover,
+    .all-station-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #faf8f5;
+    }
+
+    .all-station-divider {
+      flex: 1;
+      height: 1px;
+      background: #2a2520;
+    }
+
+    .room-search-wrap {
+      position: relative;
+    }
+
+    .room-search {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      padding: 8px 16px 8px 36px;
+      background: #141210;
+      border: 1.5px solid #2e2a24;
+      color: #c8bfb5;
+      outline: none;
+      width: 240px;
+      transition: border-color 0.2s;
+    }
+    .room-search::placeholder { color: #3a3530; font-style: italic; }
+    .room-search:focus { border-color: var(--accent); }
+
+    .room-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.8rem;
+      color: #3a3530;
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════
+       CENTRAL BRIEFING SURFACE
+    ═══════════════════════════════════════════ */
+    .briefing-surface {
+      flex: 1;
+      margin: 0 48px 0;
+      background: var(--bg);
+      border: 2px solid #2e2a24;
+      border-bottom: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Corner screws — purely decorative, impossible in PDF */
+    .briefing-surface::before,
+    .briefing-surface::after {
+      content: '+';
+      position: absolute;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.8rem;
+      color: #3a3530;
+      z-index: 10;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .briefing-surface::before { top: 8px; left: 12px; }
+    .briefing-surface::after { top: 8px; right: 12px; }
+
+    /* Active dimension header strip */
+    .surface-header {
+      padding: 18px 40px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      background: var(--surface);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .surface-active-dim {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .surface-dim-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      transition: background 0.3s;
+    }
+
+    .surface-count {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    /* ═══════════════════════════════════════════
+       BRIEFING LIST — table-style, not a grid
+    ═══════════════════════════════════════════ */
+    .briefing-list {
+      padding: 0;
+      list-style: none;
+    }
+
+    /* Each briefing row */
+    .briefing-row {
+      display: grid;
+      grid-template-columns: 36px 140px 1fr 200px 80px;
+      align-items: center;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: background 0.12s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .briefing-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: transparent;
+      transition: background 0.2s;
+    }
+
+    .briefing-row:hover::before { background: var(--accent); }
+    .briefing-row:hover { background: rgba(139,111,71,0.04); }
+
+    /* Individual row cells */
+    .row-index {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: #b8b0a4;
+      text-align: right;
+      padding: 18px 8px 18px 20px;
+      border-right: 1px solid var(--border);
+    }
+
+    .row-date {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      padding: 18px 16px;
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .row-content {
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-right: 1px solid var(--border);
+    }
+
+    .row-title {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .row-concept {
+      font-family: 'Crimson Text', serif;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .row-format {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      padding: 18px 16px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .format-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+    .briefing-row:hover .format-icon { opacity: 0.8; }
+
+    .row-sources {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: #b8b0a4;
+      padding: 18px 16px;
+      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+
+    /* Source strength bar — impossible to replicate in PDF faithfully */
+    .source-bar {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+    }
+
+    .source-pip {
+      width: 4px;
+      height: 12px;
+      background: #d4c8b8;
+      transition: background 0.2s;
+    }
+
+    .source-pip.lit {
+      background: var(--accent);
+    }
+
+    .briefing-row:hover .source-pip.lit { background: var(--accent); }
+
+    /* ═══════════════════════════════════════════
+       ACTIVE BRIEFING EXPAND PANEL
+       — slides in from right when a row is clicked
+    ═══════════════════════════════════════════ */
+    .briefing-panel {
+      position: fixed;
+      top: 0;
+      right: -520px;
+      width: 500px;
+      max-width: 94vw;
+      height: 100vh;
+      background: var(--bg);
+      border-left: 2px solid var(--accent);
+      z-index: 500;
+      overflow-y: auto;
+      transition: right 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: -16px 0 64px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .briefing-panel.open {
+      right: 0;
+    }
+
+    .panel-header {
+      background: var(--dark-band);
+      padding: 20px 28px;
+      border-bottom: 1px solid #2a2520;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .panel-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .panel-classification {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .panel-close {
+      background: transparent;
+      border: 1px solid #3a3530;
+      color: #5a5048;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .panel-close:hover { border-color: var(--accent); color: var(--accent); }
+
+    .panel-body {
+      padding: 32px 28px;
+      flex: 1;
+    }
+
+    .panel-title {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .panel-format-line {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-format-line::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .panel-concept {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 36px;
+      padding: 24px;
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+    }
+
+    .panel-dim-section {
+      margin-bottom: 28px;
+    }
+
+    .panel-dim-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .panel-dim-name {
+      font-family: 'Crimson Text', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .panel-sources-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .panel-sources-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .panel-source-bar {
+      display: flex;
+      gap: 3px;
+    }
+
+    .panel-pip {
+      width: 6px;
+      height: 18px;
+      background: #d4c8b8;
+    }
+
+    .panel-pip.lit {
+      background: var(--accent);
+    }
+
+    .panel-action {
+      display: inline-block;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      background: var(--dark-band);
+      color: #e8e0d5;
+      text-decoration: none;
+      transition: background 0.2s;
+      border: 1px solid #3a3530;
+    }
+    .panel-action:hover { background: var(--accent); border-color: var(--accent); }
+
+    /* Overlay scrim */
+    .panel-scrim {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      z-index: 499;
+      pointer-events: none;
+      transition: background 0.35s;
+    }
+
+    .panel-scrim.visible {
+      background: rgba(0,0,0,0.5);
+      pointer-events: all;
+    }
+
+    /* ═══════════════════════════════════════════
+       EMPTY STATE inside surface
+    ═══════════════════════════════════════════ */
+    .empty-state {
+      padding: 80px 40px;
+      text-align: center;
+      display: none;
+    }
+    .empty-state.visible { display: block; }
+
+    .empty-title {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .empty-body {
+      font-family: 'Crimson Text', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: #b8b0a4;
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    footer {
+      background: #0f0d0b;
+      border-top: 2px solid #2a2520;
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Courier Prime', monospace;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #c8bfb5;
+    }
+
+    .footer-right {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.07em;
+      color: #5a5048;
+      text-align: right;
+      line-height: 2;
+    }
+
+    .footer-right a { color: #5a5048; text-decoration: none; }
+    .footer-right a:hover { color: var(--accent); }
+
+    /* ═══════════════════════════════════════════
+       ANIMATED SCANLINE — impossible in PDF
+    ═══════════════════════════════════════════ */
+    .scanline-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.015) 3px,
+        rgba(0,0,0,0.015) 4px
+      );
+    }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (max-width: 1100px) {
+      .monitor-bank {
+        padding: 24px 32px 16px;
+        flex-wrap: wrap;
+      }
+      .monitor-station {
+        flex: 1 1 calc(33% - 12px);
+        min-width: 160px;
+      }
+      .site-header, .room-header, .all-station-bar { padding-left: 32px; padding-right: 32px; }
+      .briefing-surface { margin: 0 32px 0; }
+      footer { padding: 24px 32px; }
+
+      .briefing-row {
+        grid-template-columns: 32px 110px 1fr 120px 64px;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .monitor-station { flex: 1 1 calc(50% - 8px); }
+      .briefing-row {
+        grid-template-columns: 28px 1fr 56px;
+      }
+      .row-date { display: none; }
+      .row-format { display: none; }
+      .room-search { width: 160px; }
+      .briefing-surface { margin: 0 20px 0; }
+      .all-station-bar { padding-left: 20px; padding-right: 20px; }
+      .monitor-bank { padding: 20px 20px 12px; }
+      .site-header, .room-header { padding-left: 20px; padding-right: 20px; }
+      footer { padding: 20px; }
+    }
+
+    @media (max-width: 600px) {
+      .monitor-station { flex: 1 1 calc(50% - 6px); }
+      .room-search { width: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scanline — impossible in print -->
+  <div class="scanline-overlay" aria-hidden="true"></div>
+
+  <!-- SITE HEADER -->
+  <header class="site-header">
+    <a href="/" class="site-logo">Meliorism2</a>
+    <a href="/" class="site-back">&#8592; meliorism2.com</a>
+  </header>
+
+  <!-- ROOM HEADER -->
+  <div class="room-header">
+    <div>
+      <div class="room-classification">&#9632; Classified · Practitioner Access Only</div>
+      <h1 class="room-title">The Practitioner's Library</h1>
+    </div>
+    <div class="room-stats">
+      <div class="room-clock" id="room-clock">LOCAL — --:-- --</div>
+      <div class="room-count-display" id="room-count-display">29 BRIEFINGS · 6 STATIONS</div>
+    </div>
+  </div>
+
+  <!-- MONITOR BANK -->
+  <div class="monitor-bank" id="monitor-bank">
+    <!-- Monitors generated by JS -->
+  </div>
+
+  <!-- ALL STATION + SEARCH -->
+  <div class="all-station-bar">
+    <button class="all-station-btn active" id="all-btn" onclick="activateDim('all')">All Stations</button>
+    <div class="all-station-divider"></div>
+    <div class="room-search-wrap">
+      <span class="room-search-icon">&#9906;</span>
+      <input type="search" class="room-search" id="search-input" placeholder="Search transmissions..." autocomplete="off" spellcheck="false" aria-label="Search briefings">
+    </div>
+  </div>
+
+  <!-- CENTRAL BRIEFING SURFACE -->
+  <div class="briefing-surface">
+    <!-- Corner decorations via CSS pseudo-elements -->
+    <div class="surface-header">
+      <div class="surface-active-dim">
+        <span class="surface-dim-dot" id="surface-dot"></span>
+        <span id="surface-dim-label">All Stations Active</span>
+      </div>
+      <div class="surface-count" id="surface-count"></div>
+    </div>
+
+    <ul class="briefing-list" id="briefing-list" role="list" aria-label="Briefings"></ul>
+    <div class="empty-state" id="empty-state">
+      <div class="empty-title">No Transmissions Found</div>
+      <p class="empty-body">Adjust station or clear search.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Meliorism2</div>
+    <div class="footer-right">
+      <div><a href="mailto:dispatch@meliorism2.com">dispatch@meliorism2.com</a></div>
+      <div>&#169; 2026 Meliorist Group &middot; San Francisco</div>
+      <div><a href="/">&#8592; Back to meliorism2.com</a></div>
+    </div>
+  </footer>
+
+  <!-- BRIEFING SIDE PANEL -->
+  <div class="panel-scrim" id="panel-scrim" onclick="closePanel()"></div>
+  <aside class="briefing-panel" id="briefing-panel" aria-label="Briefing detail" role="dialog" aria-modal="true">
+    <div class="panel-header">
+      <div class="panel-meta">
+        <div class="panel-classification">&#9632; Practitioner Briefing</div>
+        <div style="font-family:'Courier Prime',monospace;font-size:0.7rem;color:#5a5048;letter-spacing:0.1em;" id="panel-date-line"></div>
+      </div>
+      <button class="panel-close" onclick="closePanel()">&#10005; Close</button>
+    </div>
+    <div class="panel-body">
+      <h2 class="panel-title" id="panel-title"></h2>
+      <div class="panel-format-line" id="panel-format"></div>
+      <blockquote class="panel-concept" id="panel-concept"></blockquote>
+      <div class="panel-dim-section">
+        <div class="panel-dim-label">Dimension</div>
+        <div class="panel-dim-name" id="panel-dim"></div>
+      </div>
+      <div class="panel-sources-row">
+        <div class="panel-sources-label">Sources</div>
+        <div class="panel-source-bar" id="panel-source-bar"></div>
+        <div style="font-family:'Courier Prime',monospace;font-size:0.68rem;color:var(--muted);" id="panel-source-count"></div>
+      </div>
+      <a href="#" class="panel-action" id="panel-action" target="_blank">Read Full Briefing &#8594;</a>
+    </div>
+  </aside>
+
+  <script>
+    // ── DATA ──
+    const BRIEFINGS = [
+      { date:"2026-05-23", slug:"grief-as-practiced-presence", title:"Grief as Practiced Presence", concept:"Grief in a container means the container is real. The practitioner's job is not to fix it — it's to normalize it, sit with it, and expand everyone's capacity to be in its presence.", format:"Field Notebook", dimension:"Witnessing Authentic Humanity", sources:6, file:"2026-05-23-grief-as-practiced-presence.html" },
+      { date:"2026-05-22", slug:"the-switchboard-problem", title:"The Switchboard Problem", concept:"Brave space facilitation works like telephone exchange infrastructure — the practitioner is the operator, not the content. Your job is to maintain the conditions that make connection across difference structurally possible.", format:"Telephone Exchange", dimension:"Brave Spaces", sources:8, file:"2026-05-22-the-switchboard-problem.html" },
+      { date:"2026-05-01", slug:"when-the-metric-becomes-the-target", title:"When the Metric Becomes the Target", concept:"Goodhart's Law — when a measure becomes a target, it ceases to be a good measure. The practitioner's trap: optimizing for scores instead of transformation.", format:"Data Broadcast", dimension:"Living Income", sources:8, file:"2026-05-01-when-the-metric-becomes-the-target.html" },
+      { date:"2026-05-21", slug:"the-barton-gap", title:"The Barton Gap", concept:"Clara Barton founded the American Red Cross at 59, after decades of being underpaid for work that was unambiguously valuable. The mechanism that kept her rate low is the same one operating in your practice right now.", format:"Records Bureau", dimension:"Living Income", sources:9, file:"2026-05-21-the-barton-gap.html" },
+      { date:"2026-05-31", slug:"the-load-bearing-wall", title:"The Load-Bearing Wall", concept:"Not every challenge in a Brave Space is developmental. Some walls are load-bearing — remove them and the room collapses. The practitioner's job is to tell the difference before pulling anything down.", format:"Load-Bearing Wall", dimension:"Brave Spaces", sources:5, file:"2026-05-31-the-load-bearing-wall.html" },
+      { date:"2026-05-30", slug:"the-provenance-document", title:"The Provenance Document", concept:"Before a practitioner can teach anything, they have to know where it came from — whose field it emerged from, what got erased in translation.", format:"Provenance Document", dimension:"Critical Consciousness", sources:5, file:"2026-05-30-the-provenance-document.html" },
+      { date:"2026-05-27", slug:"the-tide-chart", title:"The Tide Chart", concept:"Co-presence is a biological phenomenon, not a preference. Neural coupling fires in shared physical space in ways that screens cannot replicate.", format:"Tide Chart", dimension:"In-Person Presence", sources:5, file:"2026-05-27-the-tide-chart.html" },
+      { date:"2026-05-29", slug:"the-annotated-estimate", title:"The Annotated Estimate", concept:"The gap between what practitioners are paid for and what they actually produce is a structural argument, not a personal grievance.", format:"Annotated Estimate", dimension:"Living Income", sources:5, file:"2026-05-29-the-annotated-estimate.html" },
+      { date:"2026-05-28", slug:"the-tide-pool-survey", title:"The Tide Pool Survey", concept:"The moment a practitioner stops managing a person and starts actually encountering them is the moment the room changes.", format:"Tide Pool Survey", dimension:"Witnessing Authentic Humanity", sources:5, file:"2026-05-28-the-tide-pool-survey.html" },
+      { date:"2026-05-26", slug:"the-pressure-log", title:"The Pressure Log", concept:"Elite performers track their pressure states before and after high-stakes work. Most practitioners skip the log and wonder why their baseline keeps shifting.", format:"Pressure Log", dimension:"Somatic / Body Intelligence", sources:5, file:"2026-05-26-the-pressure-log.html" },
+      { date:"2026-05-25", slug:"the-barograph", title:"The Barograph", concept:"The somatic practitioner is a pressure instrument before they are a facilitator. What they read in the room — and what they do with that reading — is the discipline.", format:"Barograph", dimension:"Somatic / Body Intelligence", sources:5, file:"2026-05-25-the-barograph.html" },
+      { date:"2026-05-24", slug:"tradecraft", title:"Tradecraft", concept:"Every field has tacit knowledge that only transfers through proximity — the unwritten techniques, instincts, and failure libraries that make an expert different from a novice.", format:"Intelligence Dossier", dimension:"In-Person Presence", sources:7, file:"2026-05-24-tradecraft.html" },
+      { date:"2026-05-20", slug:"the-hive-deliberates", title:"The Hive Deliberates", concept:"Honeybee colonies make better collective decisions than expert panels — not despite having no leader, but because of it. Most facilitators silence the dance before the quorum can form.", format:"Naturalist's Field Journal", dimension:"Gender & Generational Difference", sources:8, file:"2026-05-20-the-hive-deliberates.html" },
+      { date:"2026-05-19", slug:"the-sunk-ship", title:"The Sunk Ship", concept:"Sunk cost fallacy keeps practitioners rowing a sinking boat — because turning back feels like admitting the voyage was wasted. It wasn't. It was data.", format:"Ship's Log", dimension:"In-Person Presence", sources:8, file:"2026-05-19-the-sunk-ship.html" },
+      { date:"2026-05-18", slug:"the-recency-trap", title:"The Recency Trap", concept:"The availability heuristic makes vivid, recent events feel statistically normal. Practitioners calibrate their intuitions on the last dramatic incident — not base rates.", format:"Weather Station", dimension:"Brave Spaces", sources:7, file:"2026-05-18-the-recency-trap.html" },
+      { date:"2026-05-17", slug:"the-transfer-collapse", title:"The Transfer Collapse", concept:"When a practitioner's financial precarity becomes the client's problem — the cognitive tax that crosses the container before either party notices.", format:"Financial Terminal", dimension:"Living Income", sources:8, file:"2026-05-17-the-transfer-collapse.html" },
+      { date:"2026-05-16", slug:"the-stimulated-emission-problem", title:"The Stimulated Emission Problem", concept:"Facilitators are not transmitters. They are pumps. Einstein described the mechanism in 1917. Nobody built it until 1960. The 43-year gap was not a knowledge problem. It was a conditions problem. So is yours.", format:"Laboratory Station", dimension:"Brave Spaces", sources:9, file:"2026-05-16-the-stimulated-emission-problem.html" },
+      { date:"2026-05-15", slug:"the-23-minute-problem", title:"The 23-Minute Problem", concept:"After one interruption, full focus recovery takes 23 minutes 15 seconds. Average task time before the next switch: 9.8 minutes. You design for a learner who no longer exists.", format:"Mission Control", dimension:"In-Person Presence", sources:9, file:"2026-05-15-the-23-minute-problem.html" },
+      { date:"2026-05-14", slug:"the-story-trap", title:"The Story Trap", concept:"Narrative bias makes humans compress experience into stories with heroes, villains, and causes — even when reality has none. Practitioners who understand this stop fighting the story and start working with it.", format:"Museum Room", dimension:"Witnessing Authentic Humanity", sources:8, file:"2026-05-14-the-story-trap.html" },
+      { date:"2026-05-13", slug:"how-to-get-lucky", title:"How to Get Lucky", concept:"Luck is not random. It is the intersection of preparation, pattern recognition, and the willingness to act on weak signals before the evidence is conclusive.", format:"Research Lab", dimension:"Brave Spaces", sources:7, file:"2026-05-13-how-to-get-lucky.html" },
+      { date:"2026-05-12", slug:"leverage-points", title:"Leverage Points", concept:"Donella Meadows identified 12 places to intervene in a system. Most practitioners intervene at the weakest leverage points — numbers and flows — while the real change lives in goals, paradigms, and the power to change paradigms.", format:"Systems Map", dimension:"Living Income", sources:8, file:"2026-05-12-leverage-points.html" },
+      { date:"2026-05-11", slug:"confirmation-bias", title:"Confirmation Bias", concept:"The practitioner who only sees what confirms their model stops learning from clients. Confirmation bias is not a flaw to fix — it is a condition to design around.", format:"Evidence Board", dimension:"Brave Spaces", sources:7, file:"2026-05-11-confirmation-bias.html" },
+      { date:"2026-05-10", slug:"feynman-technique", title:"The Feynman Technique", concept:"If you can't explain it simply, you don't understand it yet. Feynman's method is also a practitioner's diagnostic — use it to find where your client's understanding breaks down.", format:"Chalkboard Session", dimension:"In-Person Presence", sources:6, file:"2026-05-10-feynman-technique.html" },
+      { date:"2026-05-09", slug:"hanlons-razor", title:"Hanlon's Razor", concept:"Never attribute to malice what is adequately explained by ignorance. The practitioner who assumes bad faith stops diagnosing and starts prosecuting.", format:"Investigator's Desk", dimension:"Witnessing Authentic Humanity", sources:6, file:"2026-05-09-hanlons-razor.html" },
+      { date:"2026-05-08", slug:"occams-razor", title:"Occam's Razor", concept:"The simplest explanation that fits the evidence is usually correct. Practitioners who over-engineer their frameworks create complexity their clients cannot enter.", format:"Philosopher's Study", dimension:"Brave Spaces", sources:6, file:"2026-05-08-occams-razor.html" },
+      { date:"2026-05-07", slug:"circle-of-competence", title:"Circle of Competence", concept:"Knowing the boundaries of your expertise is more valuable than the expertise itself. Most practitioners fail not because they lack competence, but because they can't see where their circle ends.", format:"Cartographer's Table", dimension:"In-Person Presence", sources:6, file:"2026-05-07-circle-of-competence.html" },
+      { date:"2026-05-06", slug:"second-order-thinking", title:"Second-Order Thinking", concept:"First-order thinking asks 'what happens next?' Second-order thinking asks 'what happens after what happens next?' Most practitioners are stuck in first-order loops with their clients.", format:"Strategy Room", dimension:"Living Income", sources:7, file:"2026-05-06-second-order-thinking.html" },
+      { date:"2026-05-05", slug:"inversion", title:"Inversion", concept:"Charlie Munger's method: instead of asking how to succeed, ask how to fail — then don't do that. The practitioner's version: name every way this session could go wrong, then design against it.", format:"Inverse Map", dimension:"Brave Spaces", sources:6, file:"2026-05-05-inversion.html" },
+      { date:"2026-05-04", slug:"map-not-territory", title:"Map Is Not Territory", concept:"The model is not the reality. When a practitioner mistakes their framework for the client's actual experience, they stop seeing the client and start seeing the framework.", format:"Cartography Room", dimension:"Witnessing Authentic Humanity", sources:7, file:"2026-05-04-map-not-territory.html" },
+      { date:"2026-05-03", slug:"first-principles", title:"First Principles", concept:"Elon Musk calls it physics thinking — reduce every problem to its fundamental truths, then reason up from there. For practitioners: strip the framework until you find the actual human problem underneath.", format:"Physics Whiteboard", dimension:"In-Person Presence", sources:6, file:"2026-05-03-first-principles.html" },
+      { date:"2026-05-01", slug:"when-the-metric-becomes-the-target", title:"When the Metric Becomes the Target", concept:"Goodhart's Law: when a measure becomes a target, it ceases to be a good measure. In practitioner work, the metric that was meant to track growth becomes the thing clients optimize for instead of the growth itself.", format:"Research Station", dimension:"Living Income", sources:6, file:"2026-05-01-when-the-metric-becomes-the-target.html" },
+      { date:"2026-05-02", slug:"trust-biology-contact-before-contract", title:"Trust Before Thought", concept:"Trust is established physiologically — through mirroring, safety signals, and neurochemistry — before any cognitive agreement is possible. You cannot think your way to trust. You can only create the conditions for it.", format:"Museum Exhibition", dimension:"Witnessing Authentic Humanity", sources:9, file:"2026-05-02-trust-biology-contact-before-contract.html" }
+    ];
+
+    const ISSUES = BRIEFINGS; // all 29 real issues
+
+    // ── DIMENSION CONFIG ──
+    const DIMS = [
+      {
+        key: "Witnessing Authentic Humanity",
+        short: "Witnessing",
+        color: "#c8a87a",
+        darkColor: "rgba(200,168,122,0.9)",
+        cssVar: "--wit"
+      },
+      {
+        key: "Brave Spaces",
+        short: "Brave Spaces",
+        color: "#6a5a9b",
+        darkColor: "rgba(106,90,155,0.9)",
+        cssVar: "--brave"
+      },
+      {
+        key: "Living Income",
+        short: "Living Income",
+        color: "#3a6b4a",
+        darkColor: "rgba(58,107,74,0.9)",
+        cssVar: "--income"
+      },
+      {
+        key: "In-Person Presence",
+        short: "In-Person",
+        color: "#2a4a6b",
+        darkColor: "rgba(42,74,107,0.9)",
+        cssVar: "--presence"
+      },
+      {
+        key: "Gender & Generational Difference",
+        short: "Gender & Gen.",
+        color: "#8b5a3a",
+        darkColor: "rgba(139,90,58,0.9)",
+        cssVar: "--gender"
+      },
+      {
+        key: "Somatic / Body Intelligence",
+        short: "Somatic",
+        color: "#4a7a6b",
+        darkColor: "rgba(74,122,107,0.9)",
+        cssVar: "--somatic"
+      }
+    ];
+
+    // ── FORMAT ICONS (SVG inline) ──
+    function getFormatIcon(format) {
+      // Returns a small SVG appropriate to format type
+      const f = format.toLowerCase();
+      if (f.includes('log') || f.includes('ship')) {
+        return `<svg class="format-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="14" height="16" rx="1"/><line x1="6" y1="7" x2="14" y2="7"/><line x1="6" y1="10" x2="14" y2="10"/><line x1="6" y1="13" x2="11" y2="13"/></svg>`;
+      }
+      if (f.includes('museum') || f.includes('exhibition')) {
+        return `<svg class="format-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 17h16M2 17V9l8-6 8 6v8"/><rect x="7" y="12" width="6" height="5"/></svg>`;
+      }
+      if (f.includes('lab') || f.includes('station') || f.includes('physics')) {
+        return `<svg class="format-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v6l-4 8h12l-4-8V3"/><line x1="6" y1="3" x2="14" y2="3"/></svg>`;
+      }
+      if (f.includes('map') || f.includes('cartograph') || f.includes('territory')) {
+        return `<svg class="format-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l5 2 6-3 5 2v11l-5-2-6 3-5-2V4z"/><line x1="7" y1="6" x2="7" y2="17"/><line x1="13" y1="3" x2="13" y2="14"/></svg>`;
+      }
+      if (f.includes('control') || f.includes('broadcast') || f.includes('terminal') || f.includes('data')) {
+        return `<svg class="format-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="16" height="11" rx="1"/><line x1="5" y1="17" x2="15" y2="17"/><line x1="10" y1="14" x2="10" y2="17"/></svg>`;
+      }
+      if (f.includes('dossier') || f.includes('intelligence') || f.includes('investigat')) {
+        return `<svg class="format-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2h12v16H4z"/><path d="M7 7h6M7 10h6M7 13h4"/><path d="M12 2v4h4"/></svg>`;
+      }
+      if (f.includes('field') || f.includes('notebook') || f.includes('journal')) {
+        return `<svg class="format-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="2" width="12" height="16" rx="1"/><line x1="4" y1="7" x2="16" y2="7"/><line x1="4" y1="11" x2="16" y2="11"/><line x1="4" y1="15" x2="12" y2="15"/><line x1="7" y1="2" x2="7" y2="18"/></svg>`;
+      }
+      if (f.includes('chalkboard') || f.includes('whiteboard') || f.includes('strategy') || f.includes('study')) {
+        return `<svg class="format-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="16" height="11" rx="1"/><line x1="7" y1="17" x2="13" y2="17"/><line x1="10" y1="14" x2="10" y2="17"/><line x1="5" y1="7" x2="15" y2="7"/><line x1="5" y1="10" x2="12" y2="10"/></svg>`;
+      }
+      // Default document icon
+      return `<svg class="format-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="2" width="12" height="16" rx="1"/><line x1="7" y1="7" x2="13" y2="7"/><line x1="7" y1="10" x2="13" y2="10"/><line x1="7" y1="13" x2="10" y2="13"/></svg>`;
+    }
+
+    // ── DATE FORMAT ──
+    function fmtDate(s) {
+      const [y, m, d] = s.split('-').map(Number);
+      return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1] + ' ' + d + ', ' + y;
+    }
+
+    // ── LIVE CLOCK ──
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+      document.getElementById('room-clock').textContent = 'LOCAL — ' + h + ':' + m + ':' + s + ' ' + ampm;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ── BUILD MONITORS ──
+    function buildMonitors() {
+      const bank = document.getElementById('monitor-bank');
+      bank.innerHTML = '';
+
+      DIMS.forEach(dim => {
+        const count = ISSUES.filter(b => b.dimension === dim.key).length;
+        // Get ticker lines (truncated titles)
+        const dimIssues = ISSUES.filter(b => b.dimension === dim.key);
+        const tickerLines = dimIssues.slice(0, 6).map((b, i) =>
+          `<div class="ticker-line${i < 3 ? ' highlight' : ''}">&gt; ${b.title.toUpperCase().substring(0, 28)}</div>`
+        ).join('');
+
+        const el = document.createElement('div');
+        el.className = 'monitor-station';
+        el.dataset.dim = dim.key;
+        el.setAttribute('role', 'button');
+        el.setAttribute('aria-label', 'Filter by ' + dim.short);
+        el.setAttribute('tabindex', '0');
+
+        el.innerHTML = `
+          <div class="monitor-frame">
+            <div class="monitor-screen">
+              <div class="monitor-indicator"></div>
+              <div class="monitor-ticker">${tickerLines}</div>
+            </div>
+          </div>
+          <div class="monitor-base">
+            <div class="monitor-label">${dim.short}</div>
+            <div class="monitor-count">${count} BRIEFINGS</div>
+          </div>
+          <div class="monitor-neck"></div>
+          <div class="monitor-foot"></div>
+        `;
+
+        el.addEventListener('click', () => activateDim(dim.key));
+        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activateDim(dim.key); });
+        bank.appendChild(el);
+      });
+    }
+
+    // ── ACTIVE STATE ──
+    let currentDim = 'all';
+    let currentSearch = '';
+
+    const DIM_COLORS = {};
+    DIMS.forEach(d => DIM_COLORS[d.key] = d.color);
+
+    function activateDim(dimKey) {
+      currentDim = dimKey;
+
+      // Update monitors
+      document.querySelectorAll('.monitor-station').forEach(m => {
+        m.classList.toggle('active', m.dataset.dim === dimKey);
+      });
+
+      // Update all-btn
+      document.getElementById('all-btn').classList.toggle('active', dimKey === 'all');
+
+      // Update surface dot color
+      const dot = document.getElementById('surface-dot');
+      const label = document.getElementById('surface-dim-label');
+      if (dimKey === 'all') {
+        dot.style.background = '#8b6f47';
+        label.textContent = 'All Stations Active';
+      } else {
+        const d = DIMS.find(d => d.key === dimKey);
+        dot.style.background = d.color;
+        label.textContent = d.short + ' — Station Active';
+      }
+
+      renderList();
+    }
+
+    // ── RENDER LIST ──
+    function renderList() {
+      const list = document.getElementById('briefing-list');
+      const empty = document.getElementById('empty-state');
+
+      let filtered = ISSUES;
+      if (currentDim !== 'all') {
+        filtered = filtered.filter(b => b.dimension === currentDim);
+      }
+      if (currentSearch) {
+        const q = currentSearch;
+        filtered = filtered.filter(b =>
+          (b.title + b.concept + b.dimension + b.format).toLowerCase().includes(q)
+        );
+      }
+
+      document.getElementById('surface-count').textContent =
+        filtered.length + ' of ' + ISSUES.length + ' BRIEFINGS';
+      document.getElementById('room-count-display').textContent =
+        ISSUES.length + ' BRIEFINGS · 6 STATIONS';
+
+      if (filtered.length === 0) {
+        list.innerHTML = '';
+        empty.classList.add('visible');
+        return;
+      }
+      empty.classList.remove('visible');
+
+      list.innerHTML = filtered.map((b, i) => {
+        // Source pips — max 9
+        const maxPips = 9;
+        const pipHtml = Array.from({length: maxPips}, (_, pi) =>
+          `<span class="source-pip${pi < b.sources ? ' lit' : ''}"></span>`
+        ).join('');
+
+        const dimColor = DIM_COLORS[b.dimension] || '#8b6f47';
+
+        return `<li>
+          <a class="briefing-row"
+             href="/archive/${b.file}"
+             data-slug="${b.slug}"
+             data-index="${i}"
+             style="--row-dim-color: ${dimColor}"
+             onclick="openPanel(event, ${JSON.stringify(b).replace(/"/g, '&quot;')})"
+          >
+            <span class="row-index">${String(i + 1).padStart(2, '0')}</span>
+            <span class="row-date">${fmtDate(b.date)}</span>
+            <span class="row-content">
+              <span class="row-title">${b.title}</span>
+              <span class="row-concept">${b.concept}</span>
+            </span>
+            <span class="row-format">${getFormatIcon(b.format)} ${b.format}</span>
+            <span class="row-sources">
+              <span class="source-bar">${pipHtml}</span>
+            </span>
+          </a>
+        </li>`;
+      }).join('');
+    }
+
+    // ── PANEL ──
+    function openPanel(e, briefing) {
+      e.preventDefault();
+
+      const panel = document.getElementById('briefing-panel');
+      const scrim = document.getElementById('panel-scrim');
+
+      document.getElementById('panel-date-line').textContent = fmtDate(briefing.date) + ' · ' + briefing.format;
+      document.getElementById('panel-title').textContent = briefing.title;
+      document.getElementById('panel-format').textContent = briefing.format;
+      document.getElementById('panel-concept').textContent = briefing.concept;
+      document.getElementById('panel-dim').textContent = briefing.dimension;
+
+      const maxPips = 9;
+      document.getElementById('panel-source-bar').innerHTML =
+        Array.from({length: maxPips}, (_, i) =>
+          `<span class="panel-pip${i < briefing.sources ? ' lit' : ''}"></span>`
+        ).join('');
+      document.getElementById('panel-source-count').textContent = briefing.sources + ' sources';
+
+      const actionEl = document.getElementById('panel-action');
+      actionEl.href = '/archive/' + briefing.file;
+
+      // Set accent color based on dimension
+      const dim = DIMS.find(d => d.key === briefing.dimension);
+      const c = dim ? dim.color : '#8b6f47';
+      panel.style.borderLeftColor = c;
+      document.querySelectorAll('#panel-source-bar .panel-pip.lit').forEach(p => p.style.background = c);
+      document.getElementById('panel-concept').style.borderLeftColor = c;
+
+      panel.classList.add('open');
+      scrim.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+
+      // Trap focus
+      setTimeout(() => {
+        document.querySelector('.panel-close').focus();
+      }, 350);
+    }
+
+    function closePanel() {
+      document.getElementById('briefing-panel').classList.remove('open');
+      document.getElementById('panel-scrim').classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closePanel();
+    });
+
+    // ── SEARCH ──
+    document.getElementById('search-input').addEventListener('input', function() {
+      currentSearch = this.value.trim().toLowerCase();
+      renderList();
+    });
+
+    // ── INIT ──
+    buildMonitors();
+    activateDim('all');
+    renderList();
+  </script>
+
+</body>
+</html>
