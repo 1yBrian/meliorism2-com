@@ -55,49 +55,97 @@ html,body{
 
 #entry{
   position:fixed;inset:0;top:36px;z-index:800;
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#faf8f5 0%,#f5f3f0 100%);
-  transition:opacity 0.8s ease;
   overflow:hidden;
+  cursor:pointer;
+  transition:opacity 1.2s ease;
 }
 #entry.hidden{opacity:0;pointer-events:none;}
 
-.entry-content{
-  text-align:center;
-  padding:60px;
-  max-width:700px;
+.entry-bg{
+  position:absolute;inset:0;
+  background:url('grief-presence.jpg') center center / cover no-repeat;
+  transform:scale(1.04);
+  animation:kb 14s ease-out forwards;
+}
+@keyframes kb{
+  from{transform:scale(1.04);}
+  to{transform:scale(1.0);}
 }
 
-.entry-tag{
-  font-size: 0.667rem;letter-spacing:3px;text-transform:uppercase;
-  color:var(--accent);margin-bottom:20px;
+.entry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(8,6,4,0.28) 0%,
+    rgba(8,6,4,0.48) 45%,
+    rgba(8,6,4,0.82) 100%
+  );
 }
+
+.entry-corner{
+  position:absolute;top:24px;right:32px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.6rem;letter-spacing:0.16em;
+  color:rgba(210,190,160,0.55);
+  text-transform:uppercase;text-align:right;line-height:1.9;
+}
+
+.entry-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:44px 56px 52px;
+}
+
+.entry-stamp{
+  font-family:'Courier Prime',monospace;
+  font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(210,190,160,0.7);
+  display:flex;gap:18px;align-items:center;
+  margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;
+}
+.entry-stamp-sep{opacity:0.35;}
 
 .entry-title{
   font-family:'Crimson Text',serif;
-  font-size:3.2rem;font-weight:normal;line-height:1.2;
-  color:var(--text);margin:20px 0;
-  letter-spacing:-1px;
+  font-size:clamp(2.6rem,6vw,4.4rem);
+  font-weight:400;line-height:1.08;
+  color:#faf8f5;letter-spacing:-0.02em;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(14px);
+  animation:fadeUp 0.9s ease 0.55s forwards;
 }
 
-.entry-desc{
+.entry-sub{
   font-family:'Crimson Text',serif;
-  font-size:1.1rem;color:var(--dim);
-  margin:20px 0 40px;line-height:1.6;
-  font-style:italic;
+  font-size:1.15rem;font-style:italic;
+  color:rgba(240,235,229,0.68);
+  margin-bottom:36px;
+  opacity:0;transform:translateY(8px);
+  animation:fadeUp 0.8s ease 0.85s forwards;
 }
 
-.entry-btn{
-  background:var(--accent);color:var(--bg);
-  border:none;padding:14px 40px;
-  font-size:0.75rem;font-weight:600;letter-spacing:2px;
-  cursor:pointer;transition:all 0.2s;
+.entry-enter{
   font-family:'Courier Prime',monospace;
+  font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(210,190,160,0.85);
+  background:none;border:none;border-bottom:1px solid rgba(210,190,160,0.35);
+  padding-bottom:3px;cursor:pointer;
+  opacity:0;animation:fadeUp 0.7s ease 1.3s forwards;
+  transition:color 0.2s,border-color 0.2s;
 }
-.entry-btn:hover{
-  background:#6f5437;
-  transform:translate(2px,-2px);
-  box-shadow:0 4px 12px rgba(139,111,71,0.25);
+.entry-enter:hover{
+  color:#faf8f5;
+  border-bottom-color:rgba(250,248,245,0.7);
+}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:640px){
+  .entry-content{padding:32px 24px 40px;}
+  .entry-corner{display:none;}
+  .entry-stamp{flex-wrap:wrap;gap:10px;}
 }
 
 #main-panel{
@@ -278,12 +326,21 @@ a:hover{background:#f0ebe5;}
   <div class="sb-clock" id="clk">--:--:--</div>
 </div>
 
-<div id="entry">
+<div id="entry" onclick="openMain()">
+  <div class="entry-bg"></div>
+  <div class="entry-overlay"></div>
+  <div class="entry-corner">Field Notebook<br>Witnessing</div>
   <div class="entry-content">
-    <div class="entry-tag">Memorial Day Weekend</div>
-    <h1 class="entry-title">Grief as Practiced Presence</h1>
-    <p class="entry-desc">On why loss in the room is not a failure of the container</p>
-    <button class="entry-btn" onclick="openMain()">READ →</button>
+    <div class="entry-stamp">
+      <span>Meliorism2.com</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>May 23, 2026</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>Memorial Day Weekend</span>
+    </div>
+    <h1 class="entry-title">Grief as Practiced<br>Presence</h1>
+    <p class="entry-sub">On why loss in the room is not a failure of the container</p>
+    <button class="entry-enter" onclick="openMain()">Enter the room →</button>
   </div>
 </div>
 
