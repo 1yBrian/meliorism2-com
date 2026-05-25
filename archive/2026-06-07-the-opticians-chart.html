@@ -1,0 +1,1377 @@
+<!-- meliorism2:slug: the-opticians-chart -->
+<!-- meliorism2:date: 2026-06-07 -->
+<!-- meliorism2:issue: 038 -->
+<!-- meliorism2:dimension: Witnessing Authentic Humanity -->
+<!-- meliorism2:format: Optician's Chart -->
+<!-- meliorism2:architecture: horizontal-swipe -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · The Optician's Chart</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #faf8f5;
+  --surface:   #f0ebe3;
+  --border:    rgba(139,111,71,0.15);
+  --border-h:  rgba(139,111,71,0.3);
+  --accent:    #8b6f47;
+  --accentf:   rgba(139,111,71,0.5);
+  --amber:     #b07d3a;
+  --amber-l:   #d4a055;
+  --amber-d:   #7a5520;
+  --text:      #2c2c2c;
+  --muted:     rgba(44,44,44,0.85);
+  --dim:       rgba(44,44,44,0.72);
+  --dark-band: #1a1714;
+  --cream:     #c8b99a;
+  --ink:       #1a1714;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Courier Prime',monospace;
+  overflow:hidden;
+}
+
+/* ── STATUS BAR ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:36px;
+  background:rgba(0,0,0,0.02);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.sb-logo{
+  font-size:0.8rem;letter-spacing:4px;font-weight:700;
+  color:var(--accent);text-decoration:none;border:none;
+}
+.sb-logo:hover{background:transparent;}
+.sb-label{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);flex:1;
+}
+.sb-clock{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);
+}
+
+/* ── ENTRY SCREEN ── */
+#entry{
+  position:fixed;inset:0;top:36px;z-index:800;
+  overflow:hidden;
+  cursor:pointer;
+  transition:opacity 1.2s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-bg{
+  position:absolute;inset:0;
+  background:url('the-opticians-chart-hero.jpg') center center / cover no-repeat,
+             linear-gradient(160deg, #0a1018 0%, #0f1825 35%, #050a10 70%, #1a1714 100%);
+  transform:scale(1.04);
+  animation:kb 14s ease-out forwards;
+}
+@keyframes kb{
+  from{transform:scale(1.04);}
+  to{transform:scale(1.0);}
+}
+
+.entry-tint{
+  position:absolute;inset:0;
+  background:rgba(10,16,24,0.28);
+  mix-blend-mode:multiply;
+}
+
+.entry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(5,10,16,0.18) 0%,
+    rgba(5,10,16,0.46) 40%,
+    rgba(5,10,16,0.88) 100%
+  );
+}
+
+.entry-scan-line{
+  position:absolute;
+  bottom:220px;left:0;right:0;
+  height:1px;
+  overflow:hidden;
+  pointer-events:none;
+}
+.entry-scan-line::after{
+  content:'';
+  display:block;
+  position:absolute;top:0;left:-100%;
+  width:300%;height:100%;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(200,185,154,0.0) 10%,
+    rgba(200,185,154,0.2) 28%,
+    rgba(200,185,154,0.45) 40%,
+    rgba(200,185,154,0.2) 55%,
+    rgba(200,185,154,0.08) 70%,
+    transparent 90%
+  );
+  animation:scanSlide 3.8s ease 1.0s forwards;
+  transform:translateX(-40%);
+}
+@keyframes scanSlide{
+  to{transform:translateX(80%);}
+}
+
+.entry-corner{
+  position:absolute;top:24px;right:32px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;
+  color:rgba(200,185,154,0.8);
+  text-transform:uppercase;text-align:right;line-height:1.9;
+}
+
+.entry-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:44px 56px 52px;
+}
+
+.entry-stamp{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(200,185,154,0.65);
+  display:flex;gap:18px;align-items:center;
+  margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;
+}
+.entry-stamp-sep{opacity:0.35;}
+
+.entry-glyph{
+  font-size:1.1rem;
+  color:rgba(200,185,154,0.5);
+  margin-right:4px;
+  vertical-align:middle;
+}
+
+.entry-title{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(3.8rem,9vw,7rem);
+  font-weight:400;line-height:1.0;
+  color:#faf4ec;letter-spacing:-0.02em;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(14px);
+  animation:fadeUp 0.9s ease 0.55s forwards;
+}
+
+.entry-sub{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-style:italic;
+  color:rgba(240,225,195,0.6);
+  margin-bottom:36px;
+  opacity:0;transform:translateY(8px);
+  animation:fadeUp 0.8s ease 0.85s forwards;
+}
+
+.entry-enter{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(200,185,154,0.85);
+  background:none;border:none;border-bottom:1px solid rgba(200,185,154,0.3);
+  padding-bottom:3px;cursor:pointer;
+  opacity:0;animation:fadeUp 0.7s ease 1.3s forwards;
+  transition:color 0.2s,border-color 0.2s;
+}
+.entry-enter:hover{
+  color:#faf4ec;
+  border-bottom-color:rgba(250,240,210,0.65);
+}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:640px){
+  .entry-content{padding:32px 24px 40px;}
+  .entry-corner{display:none;}
+  .entry-stamp{flex-wrap:wrap;gap:10px;}
+  .entry-scan-line{bottom:190px;}
+}
+
+/* ── MAIN PANEL ── */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+  overflow:hidden;
+  background:var(--bg);
+}
+#main-panel.visible{
+  display:block;opacity:1;
+}
+
+/* ── SECTIONS RAIL ── */
+.sections-rail{
+  display:flex;
+  flex-direction:row;
+  width:700%;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+.card{
+  width:calc(100% / 7);
+  flex-shrink:0;
+  height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.card-inner{
+  max-width:820px;
+  padding:50px 40px 80px;
+  margin:0 auto;
+}
+
+@media(max-width:768px){
+  .card-inner{padding:30px 20px 80px;}
+}
+
+/* ── READING PROGRESS BAR ── */
+.reading-progress{
+  position:fixed;
+  bottom:40px;left:0;right:0;
+  height:36px;
+  background:var(--dark-band);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:14px;
+  z-index:900;
+}
+
+.progress-trace{
+  flex:1;
+  height:2px;
+  background:rgba(176,125,58,0.15);
+  border-radius:1px;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  position:absolute;
+  top:0;left:0;height:100%;
+  background:var(--amber);
+  transition:width 0.45s cubic-bezier(0.4,0,0.2,1);
+  border-radius:1px;
+}
+
+.progress-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;
+  color:var(--cream);opacity:0.7;
+  white-space:nowrap;
+  min-width:80px;text-align:right;
+}
+
+.nav-prev,.nav-next{
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+}
+.nav-prev:hover,.nav-next:hover{color:var(--amber);}
+.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+
+/* ── CARD 0: SIGNAL HEADER ── */
+.metadata{
+  text-align:center;margin-bottom:50px;
+  border-bottom:2px solid var(--border-h);
+  padding-bottom:30px;color:var(--dim);
+}
+
+.date-tag{
+  font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.issue-format-badge{
+  display:inline-block;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(176,125,58,0.35);
+  padding:3px 10px;
+  margin-bottom:16px;
+}
+
+h1{
+  font-family:'Crimson Text',serif;
+  font-size:2.6rem;font-weight:normal;
+  margin:16px 0 10px;color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.subtitle{
+  font-size:0.95rem;color:var(--dim);
+  margin-top:10px;font-style:italic;
+  font-family:'Crimson Text',serif;
+}
+
+/* ── HERO IMAGE ── */
+.hero-image{
+  width:100%;display:block;margin:0 0 40px;
+  opacity:0.9;
+  border:1px solid var(--border);
+}
+
+/* ── 90-SECOND SIGNAL ── */
+.highlight{
+  background:linear-gradient(135deg,#f5ede0 0%,#faf7f2 100%);
+  border-left:4px solid var(--amber);
+  padding:26px 28px;margin:40px 0;
+  border-radius:2px;
+  border-top:1px solid rgba(176,125,58,0.15);
+  border-bottom:1px solid rgba(176,125,58,0.15);
+  border-right:1px solid rgba(176,125,58,0.08);
+}
+
+.highlight-label{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:var(--amber);margin-bottom:12px;font-weight:700;
+  display:block;
+}
+
+.highlight p{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;line-height:1.65;color:var(--text);
+}
+
+/* ── DIRECTORY CHART ── */
+.dir-chart{
+  margin:36px 0 0;
+  border:1px solid var(--border);
+  background:#fdfcfa;
+  padding:28px 30px 24px;
+}
+.dir-chart-header{
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:2px solid var(--ink);
+  padding-bottom:10px;margin-bottom:4px;
+}
+.dir-chart-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--ink);font-weight:700;
+}
+.dir-chart-sub{
+  font-family:'Courier Prime',monospace;
+  font-size:0.7rem;color:rgba(26,26,20,0.4);letter-spacing:0.1em;
+}
+.dir-row{
+  display:flex;align-items:baseline;gap:14px;
+  padding:8px 6px 6px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background 0.15s;
+  position:relative;
+}
+.dir-row:last-child{border-bottom:none;}
+.dir-row:hover{background:rgba(176,125,58,0.05);}
+.dir-row:hover .dir-arrow{opacity:1;}
+.dir-num{
+  font-family:'Courier Prime',monospace;
+  font-size:0.7rem;color:rgba(26,26,20,0.35);
+  letter-spacing:0.1em;flex-shrink:0;width:28px;
+}
+.dir-arrow{
+  margin-left:auto;flex-shrink:0;
+  font-size:0.8rem;color:var(--amber);
+  opacity:0;transition:opacity 0.15s;
+}
+.dir-s1{font-family:'Crimson Text',serif;font-size:1.5rem;line-height:1.15;font-weight:600;color:var(--ink);}
+.dir-s2{font-family:'Crimson Text',serif;font-size:1.3rem;line-height:1.2;font-weight:400;color:var(--ink);}
+.dir-s3{font-family:'Crimson Text',serif;font-size:1.15rem;line-height:1.25;font-weight:400;color:var(--ink);}
+.dir-s4{font-family:'Crimson Text',serif;font-size:1.0rem;line-height:1.3;font-weight:400;color:rgba(26,26,20,0.85);}
+.dir-s5{font-family:'Crimson Text',serif;font-size:0.92rem;line-height:1.35;font-weight:400;color:rgba(26,26,20,0.8);}
+.dir-s6{font-family:'Courier Prime',monospace;font-size:0.82rem;line-height:1.4;letter-spacing:0.04em;color:rgba(26,26,20,0.7);}
+
+/* ── BEGIN READING PROMPT ── */
+.begin-prompt{
+  margin-top:40px;
+  text-align:center;
+  padding:24px 0 10px;
+  border-top:1px solid var(--border);
+}
+.begin-prompt button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s;
+}
+.begin-prompt button:hover{
+  color:var(--amber-d);
+  border-bottom-color:rgba(122,85,32,0.5);
+}
+
+/* ── SECTION NUMBER BAND ── */
+.section-number{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.16em;
+  display:block;
+  background:var(--dark-band);
+  color:var(--cream);
+  padding:11px 16px;
+  margin:0 -40px 24px;
+}
+
+@media(max-width:768px){
+  .section-number{margin:0 -20px 20px;}
+}
+
+h2{
+  font-family:'Crimson Text',serif;
+  font-size:1.9rem;font-weight:normal;
+  margin-bottom:18px;color:var(--text);
+  border-bottom:1px solid var(--border-h);
+  padding-bottom:10px;
+  letter-spacing:-0.01em;
+}
+
+h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.15rem;font-weight:600;
+  margin-top:24px;margin-bottom:10px;color:var(--ink);
+}
+
+p{
+  font-size:1.0rem;line-height:1.75;
+  margin-bottom:1.1em;
+}
+
+/* ── CALLOUT / CITE ── */
+.cite{
+  font-size:0.9rem;
+  color:var(--text);
+  border-left:3px solid var(--amber);
+  padding:12px 18px;
+  margin:18px 0 26px;
+  display:block;
+  letter-spacing:0.3px;
+  line-height:1.75;
+  background:rgba(176,125,58,0.04);
+}
+.cite em{font-style:italic;}
+
+/* ── MARGIN NOTE ── */
+.margin-note{
+  position:relative;margin-left:16px;padding-left:18px;
+  border-left:2px dashed var(--accentf);
+  font-size:0.875rem;color:var(--muted);
+  font-style:italic;margin-top:18px;margin-bottom:18px;
+  line-height:1.65;
+}
+
+/* ── RESEARCH BLOCK ── */
+.research-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.research-block .researcher{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;display:block;font-weight:700;
+}
+.research-block p{
+  font-size:0.95rem;margin-bottom:0;
+}
+
+/* ── CONCEPT BOX ── */
+.concept-box{
+  background:linear-gradient(135deg,#f8f0e2 0%,#faf7f2 100%);
+  border:1px solid rgba(176,125,58,0.2);
+  border-left:4px solid var(--amber-d);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.concept-box .cb-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber-d);margin-bottom:10px;display:block;font-weight:700;
+}
+.concept-box p{font-size:0.95rem;margin-bottom:0;}
+
+/* ── SCENARIO BOX ── */
+.scenario{
+  background:#f8f4ee;
+  border:1px solid rgba(176,125,58,0.25);
+  padding:28px 30px;
+  margin:28px 0;
+  border-radius:2px;
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;
+  line-height:1.75;
+  color:var(--ink);
+  border-top:3px solid var(--amber);
+}
+.scenario-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:14px;display:block;font-weight:700;
+}
+
+/* ── RESPONSE OPTIONS ── */
+.response-set{
+  margin:24px 0;
+}
+.response-option{
+  padding:16px 20px;
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:var(--bg);
+  transition:border-color 0.2s,background 0.2s;
+}
+.response-option:hover{
+  border-color:var(--amber);
+  background:rgba(176,125,58,0.03);
+  cursor:default;
+}
+.response-option .ro-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:8px;font-weight:700;
+}
+.response-option p{font-size:1.0rem;line-height:1.75;margin-bottom:0;}
+
+/* ── SURVEY STANCE GRID ── */
+.survey-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin:24px 0;
+}
+@media(max-width:640px){
+  .survey-grid{grid-template-columns:1fr;}
+}
+.survey-cell{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:3px solid var(--amber);
+  padding:16px 18px;
+  border-radius:2px;
+}
+.survey-cell .sc-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber-d);margin-bottom:8px;display:block;font-weight:700;
+}
+.survey-cell p{font-size:0.9rem;line-height:1.65;margin-bottom:0;}
+
+/* ── OPTICIAN'S CHART — CSS EYE CHART (§03 newsletter-impossible element) ── */
+.eye-chart-container{
+  margin:36px 0;
+  background:#f9f6f0;
+  border:1px solid rgba(139,111,71,0.2);
+  border-radius:2px;
+  padding:32px 28px 28px;
+  position:relative;
+}
+.eye-chart-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:22px;display:block;text-align:center;font-weight:700;
+}
+.eye-chart-sublabel{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.12em;
+  color:var(--dim);text-align:center;margin-bottom:28px;display:block;
+  font-style:italic;
+}
+.chart-row{
+  display:block;
+  text-align:center;
+  font-family:'Courier Prime',monospace;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.18em;
+  line-height:1.3;
+  margin-bottom:4px;
+  color:var(--ink);
+  position:relative;
+  cursor:default;
+  transition:color 0.2s;
+}
+/* Row sizes — Snellen gradient */
+.chart-row.r1{ font-size:2.4rem; letter-spacing:0.06em; margin-bottom:6px; }
+.chart-row.r2{ font-size:1.65rem; letter-spacing:0.08em; margin-bottom:5px; }
+.chart-row.r3{ font-size:1.2rem;  letter-spacing:0.10em; margin-bottom:4px; }
+.chart-row.r4{ font-size:0.95rem; letter-spacing:0.12em; margin-bottom:3px; }
+.chart-row.r5{ font-size:0.85rem; letter-spacing:0.14em; margin-bottom:3px; }
+.chart-row.r6{ font-size:0.8rem;  letter-spacing:0.16em; margin-bottom:2px; }
+.chart-row.r7{ font-size:0.8rem;  letter-spacing:0.18em; margin-bottom:2px; }
+
+/* Hover reveal — expert read vs actual */
+.chart-row .reveal{
+  display:none;
+  position:absolute;
+  left:50%;transform:translateX(-50%);
+  top:100%;margin-top:6px;
+  width:420px;
+  max-width:90vw;
+  background:var(--dark-band);
+  color:var(--cream);
+  font-family:'Crimson Text',serif;
+  font-size:0.9rem;
+  font-weight:400;
+  letter-spacing:0;
+  text-transform:none;
+  text-align:left;
+  padding:14px 18px;
+  border-radius:2px;
+  z-index:50;
+  line-height:1.65;
+  pointer-events:none;
+  box-shadow:0 4px 18px rgba(0,0,0,0.22);
+}
+.chart-row .reveal .rv-expert{
+  font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:6px;font-weight:700;
+  font-family:'Courier Prime',monospace;
+}
+.chart-row .reveal .rv-actual{
+  font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(200,185,154,0.6);display:block;margin-bottom:6px;font-weight:700;
+  font-family:'Courier Prime',monospace;
+  margin-top:10px;
+}
+.chart-row:hover .reveal{display:block;}
+.chart-row:hover{color:var(--amber);}
+
+/* stagger the reveal boxes for bottom rows so they open upward */
+.chart-row.r5 .reveal,
+.chart-row.r6 .reveal,
+.chart-row.r7 .reveal{
+  top:auto;bottom:100%;margin-top:0;margin-bottom:6px;
+}
+
+.eye-chart-note{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  color:var(--dim);text-align:center;margin-top:22px;
+  display:block;font-style:italic;
+}
+
+/* ── BIBLIOGRAPHY ── */
+.bibliography{
+  margin-top:54px;padding-top:30px;
+  border-top:2px solid var(--border-h);
+  font-size:0.9rem;
+}
+.bibliography h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-weight:normal;
+  margin-bottom:20px;color:var(--text);
+}
+.citation{
+  margin-bottom:14px;line-height:1.75;
+  padding-left:20px;text-indent:-20px;
+  font-size:0.875rem;
+}
+
+/* ── FOOTER ── */
+.doc-footer{
+  margin-top:60px;padding-top:30px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.8rem;letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+/* ── FOOTER BAR ── */
+.footer-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:40px;background:var(--bg);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  font-size:0.8rem;letter-spacing:2px;
+}
+.footer-bar a{color:var(--accent);text-decoration:none;border:none;}
+.footer-bar a:hover{color:var(--amber);background:transparent;}
+.footer-sep{color:var(--border-h);}
+
+/* ── GENERAL LINKS ── */
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,71,0.3);}
+a:hover{background:rgba(139,111,71,0.06);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  #entry{align-items:flex-start;overflow-y:auto;}
+  .entry-content{padding:28px 20px 80px;}
+  .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
+  h1{font-size:1.9rem;}
+  h2{font-size:1.4rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div style="width:1px;height:12px;background:var(--border);"></div>
+  <div class="sb-label">THE OPTICIAN'S CHART · WITNESSING · SAT 06.07</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div id="entry" onclick="openMain()">
+  <div class="entry-bg"></div>
+  <div class="entry-tint"></div>
+  <div class="entry-overlay"></div>
+  <div class="entry-scan-line"></div>
+  <div class="entry-corner">The Optician's Chart<br>Witnessing Authentic Humanity</div>
+  <div class="entry-content">
+    <div class="entry-stamp">
+      <span>Meliorism2.com</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>June 7, 2026</span>
+      <span class="entry-stamp-sep">·</span>
+      <span><span class="entry-glyph">◎</span> Issue 038</span>
+    </div>
+    <h1 class="entry-title">The<br>Optician's<br>Chart</h1>
+    <p class="entry-sub">What the practitioner sees in the first 400 milliseconds may be a category, not a person.</p>
+    <button class="entry-enter" onclick="openMain()">Test your acuity →</button>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div id="main-panel">
+
+  <div class="sections-rail" id="sections-rail">
+
+    <!-- CARD 0: THE SIGNAL -->
+    <div class="card" id="card-signal">
+      <div class="card-inner">
+
+        <div class="metadata">
+          <div class="date-tag">June 7, 2026 · Saturday</div>
+          <div class="issue-format-badge">◎ The Optician's Chart · Issue 038</div>
+          <h1>The Optician's Chart</h1>
+          <p class="subtitle">On expertise as perceptual speed, and where the clarity ends</p>
+        </div>
+
+        <img src="the-opticians-chart-hero.jpg" alt="Long narrow optical examination room, single illuminated chart at the far end, practitioner seated and leaning forward, mid-blink, clinical light" class="hero-image">
+
+        <div class="highlight">
+          <span class="highlight-label">90-Second Signal</span>
+          <p>A fire commander pulls his crew from a burning building before he can articulate why. He later reconstructs what he already knew: the fire was too quiet, the floor heat was in the wrong location for the scenario he thought he was in. His recognition system had already filed a mismatch. His instinct was not a feeling. It was a hypothesis. The Optician's Chart is the instrument that tells you where your expert pattern recognition ends and assumption begins — not to undermine the skill, but to measure its edges. You cannot correct a reading you cannot locate.</p>
+        </div>
+
+        <div class="dir-chart" role="navigation" aria-label="Article directory">
+          <div class="dir-chart-header">
+            <span class="dir-chart-label">Six Articles in This Issue</span>
+            <span class="dir-chart-sub">Click any row to jump directly →</span>
+          </div>
+          <div class="dir-row" onclick="goTo(1);event.stopPropagation();" role="link" tabindex="0">
+            <span class="dir-num">§ 01</span>
+            <span class="dir-s1">The Commander Who Knew Before He Knew</span>
+            <span class="dir-arrow">→</span>
+          </div>
+          <div class="dir-row" onclick="goTo(2);event.stopPropagation();" role="link" tabindex="0">
+            <span class="dir-num">§ 02</span>
+            <span class="dir-s2">Three Frameworks That Explain What Is Happening</span>
+            <span class="dir-arrow">→</span>
+          </div>
+          <div class="dir-row" onclick="goTo(3);event.stopPropagation();" role="link" tabindex="0">
+            <span class="dir-num">§ 03</span>
+            <span class="dir-s3">The Optician's Chart</span>
+            <span class="dir-arrow">→</span>
+          </div>
+          <div class="dir-row" onclick="goTo(4);event.stopPropagation();" role="link" tabindex="0">
+            <span class="dir-num">§ 04</span>
+            <span class="dir-s4">Four Ways This Goes Wrong</span>
+            <span class="dir-arrow">→</span>
+          </div>
+          <div class="dir-row" onclick="goTo(5);event.stopPropagation();" role="link" tabindex="0">
+            <span class="dir-num">§ 05</span>
+            <span class="dir-s5">The Lineage of Encounter</span>
+            <span class="dir-arrow">→</span>
+          </div>
+          <div class="dir-row" onclick="goTo(6);event.stopPropagation();" role="link" tabindex="0">
+            <span class="dir-num">§ 06</span>
+            <span class="dir-s6">MINUTE FIVE</span>
+            <span class="dir-arrow">→</span>
+          </div>
+        </div>
+
+        <div class="begin-prompt">
+          <button onclick="goTo(1)">Begin reading →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 1: THE PHENOMENON -->
+    <div class="card" id="card-phenomenon">
+      <div class="card-inner">
+
+        <span class="section-number">§ 01 · The Phenomenon</span>
+        <h2>The Commander Who Knew Before He Knew</h2>
+
+        <p>Gary Klein spent years studying how people make decisions under pressure — firefighters, military commanders, neonatal nurses, chess players. What he found undermined the prevailing model of expert decision-making as deliberative analysis. Experts do not typically generate options and evaluate them. They recognize the situation as a familiar type and simulate a course of action. Klein called this Recognition-Primed Decision making, or RPD.</p>
+
+        <p>The story that anchors the model: a fire commander leads his crew into a house fire. He calls for a hose line into the kitchen — the apparent seat of the fire. The water does not knock down the flames the way it should. Something is off. He orders his crew to evacuate. Moments later the floor collapses. The fire was in the basement. He had been reading the first floor as the scenario; his body had been quietly receiving data that didn't match. Too quiet. Heat in the wrong room. The anomalies were processed before he could name them. His instruction to evacuate came from a recognition system that had already concluded: this situation is not what I think it is.</p>
+
+        <p>Klein's work was published in 1998. Recent research from the Max Planck Institute for Human Development (April 2026) puts empirical floor under what Klein's fieldwork described: experienced practitioners make pattern-recognition decisions in under 400 milliseconds — faster than conscious deliberation can form. The Max Planck finding confirms the mechanism Klein identified in the field. The commander's evacuation call was not instinct in the mystical sense. It was pattern recognition operating at sub-second speed, below verbal thought, surfacing as a felt anomaly before the mind had words for it.</p>
+
+        <p>For practitioners — coaches, facilitators, OD consultants, therapists — this is both the gift and the complication. The same perceptual speed that allows a seasoned facilitator to read a room in seconds, that lets a coach notice the thing the client didn't say, is also the mechanism that can render a new person invisible. If the recognition system fires in 400 milliseconds, and the person in front of you matches a familiar category in those 400 milliseconds, the system may stop looking. The category has been assigned. The file is closed. And the person — who is specific, irreducible, and present — may never be encountered at all.</p>
+
+        <div class="margin-note">
+          Klein's fieldwork covered military commanders and firefighters because their decisions carry observable consequences — the building either stays up or it doesn't. The practitioner's miscategorizations rarely collapse floors. They disappear into the session and surface later, if at all, as a client who didn't return.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 2: THE EVIDENCE -->
+    <div class="card" id="card-evidence">
+      <div class="card-inner">
+
+        <span class="section-number">§ 02 · The Evidence</span>
+        <h2>Three Frameworks That Explain What Is Happening</h2>
+
+        <p>The 400-millisecond finding is the floor. Three frameworks fill in the architecture above it.</p>
+
+        <div class="research-block">
+          <span class="researcher">Klein, 1998 — Recognition-Primed Decision Model</span>
+          <p>Klein's extensive fieldwork established that experts do not choose between options — they recognize a situation as an instance of a familiar type and run a rapid mental simulation: would this action work here? If yes, they act. The efficiency is real and functional. A novice nurse watching vital signs has to consciously evaluate each indicator. An experienced nurse reads the combination as a pattern — "this patient is turning" — before the indicators individually cross any threshold. Klein's contribution was to show that this recognition is fallible in a specific, predictable way: it fails when the current situation departs from the practitioner's experiential base in ways the practitioner does not notice. The recognition fires accurately for the category. The category is wrong.</p>
+        </div>
+
+        <div class="cite">
+          "The situation provides its own solution once it is recognized. The real work of experts is not choosing among options. It is pattern matching — and pattern matching fails at the edges of experience."<br>
+          — Klein, G. <em>Sources of Power: How People Make Decisions.</em> MIT Press, 1998.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Kahneman, 2011 — System 1 / System 2</span>
+          <p>Daniel Kahneman's framework remains the most widely accessible vocabulary for the fast/slow distinction. System 1 is the automatic, associative, fast-pattern mind — the mechanism Klein studied in domain-specific form. System 2 is the deliberative, effortful, slow-reasoning mind. The practitioner's expertise lives in System 1. The Max Planck finding puts a number on it: under 400 milliseconds. What matters operationally is Kahneman's central finding about the relationship between the two: System 2 rarely corrects System 1 proactively. It tends to endorse. The practitioner who relies on expertise without deliberate System 2 engagement does not check the recognition. The check has to be designed in. It does not happen automatically.</p>
+        </div>
+
+        <div class="cite">
+          "System 1 operates automatically and quickly, with little or no effort and no sense of voluntary control... System 2 allocates attention to the effortful mental activities that demand it, including complex computations."<br>
+          — Kahneman, D. <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux, 2011.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">McGilchrist, 2009 — Hemispheric Attention</span>
+          <p>Iain McGilchrist's hemispheric model adds a neurological vocabulary for the deliberate gear-shift the issue proposes. The left hemisphere drives rapid categorization — it takes the world apart into labeled pieces and acts efficiently within known types. The right hemisphere sustains open attention to what is novel, present, and irreducible. Both are necessary. McGilchrist's argument is not that categorization is wrong — it is that the left hemisphere's drive to foreclose on the novel, to file the new encounter into existing types, structurally resists the right hemisphere's capacity for genuine encounter. The practitioner who wants to see the person, not the category, is asking the right hemisphere to stay open past the moment when the left hemisphere has already filed the case. That requires a deliberate act — not once in training, but in each session, in each first minute.</p>
+        </div>
+
+        <div class="cite">
+          "The left hemisphere yields a world that is... ultimately a hall of mirrors, reflecting only what we already know. The right hemisphere alone can bring us into contact with the new."<br>
+          — McGilchrist, I. <em>The Master and His Emissary.</em> Yale University Press, 2009.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Max Planck Institute for Human Development — "Expert Practitioners and Sub-Second Pattern Recognition" (April 2026)</span>
+          <p>The most recent finding in this chain: experienced practitioners — coaches, facilitators, therapists, organizational development consultants — make pattern-recognition decisions in under 400 milliseconds. The study frames this as a tribute to expertise: the seasoned practitioner reads a room the way a chess grandmaster reads a board, with perceptual speed that a novice cannot replicate. The implication that the researchers did not pursue — and that this issue addresses directly — is that the same sub-second recognition that grants expertise its efficiency is also the mechanism by which a new person gets sorted into an old category before the conversation begins.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: THE CONCEPT — CSS EYE CHART (newsletter-impossible element) -->
+    <div class="card" id="card-concept">
+      <div class="card-inner">
+
+        <span class="section-number">§ 03 · The Concept</span>
+        <h2>The Optician's Chart</h2>
+
+        <p>A standard Snellen eye chart tests visual acuity at distance: the top row is legible to most; each descending row requires sharper focus to resolve. The Optician's Chart below runs the same logic through practitioner perception. The top row names the distinctions that expert recognition handles without effort — the obvious reads that 400-millisecond pattern matching resolves accurately almost every time. Each descending row requires more sustained attention, finer discrimination, and greater willingness to hold the read provisionally. The bottom rows mark the boundary where expertise ends and assumption begins.</p>
+
+        <p>Hover each row to reveal the expert read and what was actually present.</p>
+
+        <div class="eye-chart-container">
+          <span class="eye-chart-label">◎ PRACTITIONER ACUITY — CALIBRATION INSTRUMENT</span>
+          <span class="eye-chart-sublabel">Hover each row to reveal expert read vs. what was actually present</span>
+
+          <!-- Row 1 — largest, most obvious -->
+          <span class="chart-row r1">
+            ENGAGED · DISENGAGED
+            <span class="reveal">
+              <span class="rv-expert">Expert read at 400ms</span>
+              Active eye contact, forward lean, verbal responsiveness = engaged. Averted gaze, slumped posture, clipped answers = disengaged.
+              <span class="rv-actual">What was actually present</span>
+              Engagement style is culturally and neurologically variable. Direct eye contact is not universal attentiveness. The clipped answer may be depth-processing, not withdrawal.
+            </span>
+          </span>
+
+          <!-- Row 2 -->
+          <span class="chart-row r2">
+            RESISTANT · RECEPTIVE
+            <span class="reveal">
+              <span class="rv-expert">Expert read at 400ms</span>
+              Arms crossed, short responses, challenge questions = resistant. Open posture, affirmative language = receptive.
+              <span class="rv-actual">What was actually present</span>
+              Arms crossed can signal cold, discomfort, or habitual posture. Challenge questions can signal deep investment, not opposition. The resistant category forecloses on what it most needs to hear.
+            </span>
+          </span>
+
+          <!-- Row 3 -->
+          <span class="chart-row r3">
+            LOW TRUST · HIGH TRUST
+            <span class="reveal">
+              <span class="rv-expert">Expert read at 400ms</span>
+              Surface answers, deflecting personal questions, watching the room = low trust. Disclosure, vulnerability, self-referencing = high trust.
+              <span class="rv-actual">What was actually present</span>
+              Surface answers can signal an introverted processing style, cultural norms about professional disclosure, or a considered decision that this is not the venue. High disclosure can mask that the person is performing safety, not feeling it.
+            </span>
+          </span>
+
+          <!-- Row 4 -->
+          <span class="chart-row r4">
+            DEFENDED · OPEN · PERFORMING · PRESENT
+            <span class="reveal">
+              <span class="rv-expert">Expert read at 400ms</span>
+              Practiced smoothness, managed emotional range, quick pivots = performing. Rougher edges, visible uncertainty, inconsistency = present.
+              <span class="rv-actual">What was actually present</span>
+              Practiced smoothness is often the product of genuine mastery, not performance. Rougher edges can be exhaustion, grief, or neurodivergent communication style — not authenticity.
+            </span>
+          </span>
+
+          <!-- Row 5 -->
+          <span class="chart-row r5">
+            NOT HERE BY CHOICE · HERE BY MANDATE · AMBIVALENT · WAITING
+            <span class="reveal">
+              <span class="rv-expert">Expert read at 400ms</span>
+              Late arrival, minimal eye contact, clipped answers in the first four minutes = not here by choice.
+              <span class="rv-actual">What was actually present</span>
+              The late arrival was managing a childcare emergency. The clipped answers were not defiance — they were the residue of a conversation that ended two minutes before entering the room. The category closed before the person arrived.
+            </span>
+          </span>
+
+          <!-- Row 6 -->
+          <span class="chart-row r6">
+            EXHAUSTION · GRIEF · SHUTDOWN · PREPARATION · STILLNESS · WAITING TO BE SEEN
+            <span class="reveal">
+              <span class="rv-expert">Expert read at 400ms</span>
+              Muted affect, longer pauses, reduced verbal output = shutdown or low engagement.
+              <span class="rv-actual">What was actually present</span>
+              These six states produce nearly identical surface behavior. Expertise distinguishes "engaged/disengaged" at 400ms. Distinguishing grief from preparation requires slowing down past the first read and staying curious past the point where the pattern felt complete.
+            </span>
+          </span>
+
+          <!-- Row 7 — finest grain -->
+          <span class="chart-row r7">
+            THE THING THAT DOES NOT FIT THE PATTERN · THE ANOMALY · THE SIGNAL INSIDE THE NOISE
+            <span class="reveal">
+              <span class="rv-expert">Expert read at 400ms</span>
+              The pattern fired. The category was assigned. The file was closed.
+              <span class="rv-actual">What was actually present</span>
+              A flicker. A pause that was slightly too long. A quality of stillness that did not match the type. Something the recognition system noted and moved past. Klein's commander felt it. The question is whether you do too — and whether you have designed a practice that keeps you looking past the point when the 400ms system says it already knows.
+            </span>
+          </span>
+
+          <span class="eye-chart-note">This element is not reproducible in email. It exists only in the browser version.</span>
+        </div>
+
+        <p>The chart does not argue against expertise. The top rows are real — the obvious distinctions that expert recognition handles accurately and quickly are the foundation of effective practice. The argument is about scope: expert acuity is calibrated to the practitioner's experiential population. The chart measures where that calibration ends. Every practitioner has a row where the letters stop resolving. The work is to know which row is yours.</p>
+
+        <div class="concept-box">
+          <span class="cb-label">The Calibration Move</span>
+          <p>After the 400ms read: name it internally as a hypothesis, not a finding. "My system says: defended, low trust, not here by choice." Then ask one question — not to confirm the hypothesis, but to test it. Leave enough space in the question that a different answer can arrive. The Cistercian Chapter of Faults (see §05) is the communal version of this: a structured ritual for naming what you got wrong, in community, without punishment. The practitioner's version is quieter and more personal. The principle is identical: build a regular practice of correcting the fast-pattern mind before the error compounds.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 4: EDGE CASES -->
+    <div class="card" id="card-edge-cases">
+      <div class="card-inner">
+
+        <span class="section-number">§ 04 · Edge Cases</span>
+        <h2>Four Ways This Goes Wrong</h2>
+
+        <p>The case for treating expert recognition as provisional is strong. The ways practitioners misapply that principle are specific and worth naming directly.</p>
+
+        <h3>Overcorrecting into Permanent Suspension</h3>
+
+        <p>The practitioner who reads this issue and decides to hold every perception as provisional indefinitely has not increased their acuity — they have disabled the instrument. The firefighter who questions every recognition becomes the one who walks into the burning room while everyone else has already left. Expert recognition is functional. The argument here is about naming it as a working hypothesis and building a checking practice, not about dismantling the perceptual speed that makes expertise useful in the first place. The chart above shows where the obvious rows are. Use them.</p>
+
+        <h3>The Surveillance Problem</h3>
+
+        <p>A practitioner who becomes hypervigilant about their own pattern recognition can introduce a different distortion: the person across the table begins to feel observed rather than encountered. The Witnessing dimension is not about increased practitioner attention directed at the client. It is about genuine contact — the kind that requires the practitioner to be present as a subject, not a monitoring system. The calibration move is quiet. It is internal. It does not announce itself as a protocol.</p>
+
+        <h3>Confusing Calibration with Uncertainty</h3>
+
+        <p>Naming a read as provisional is not the same as signaling uncertainty to the client. "I'm not sure what I'm seeing" is not the move. The move is internal: the recognition fires, you note it, you hold it lightly, you stay curious. The client does not need to know you are running a calibration check. They need to know you are still looking at them — which is precisely what the calibration check ensures.</p>
+
+        <h3>The Survey Stance as Armor</h3>
+
+        <p>The four capacities of Survey Stance (§03) can be practiced as technique rather than contact — as a checklist the practitioner runs to produce the appearance of witnessing without the risk of genuine encounter. McGilchrist's distinction is relevant here: left-hemisphere competence can mimic right-hemisphere openness. The check is whether the practitioner is willing to be changed by what they see. Genuine encounter is not safe. The category that gets revised may be one the practitioner has carried for years. A practitioner who enters every session prepared to have a prior belief corrected is practicing witnessing. One who enters with a protocol for producing the appearance of it is not.</p>
+
+        <div class="margin-note">
+          The most expensive miscategorization is usually not the obvious one — "defensive" when the person is open, "low trust" when the person is cautious. The most expensive one is the fine-grained read: "grief" when it's exhaustion, "ready" when it's shutdown. These are the bottom rows of the chart. They require sustained attention past the point where pattern recognition says the work is done.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 5: ROOTS / ETYMOLOGY -->
+    <div class="card" id="card-roots">
+      <div class="card-inner">
+
+        <span class="section-number">§ 05 · Roots</span>
+        <h2>The Lineage of Encounter</h2>
+
+        <p>The challenge the Optician's Chart names — how to move from category to person, from fast recognition to genuine contact — is not a new problem in the helping professions. Two philosophers put the structure of genuine encounter into language, and both remain relevant.</p>
+
+        <p>Martin Buber drew the distinction between I-It and I-Thou relationships. An I-It relationship is one in which the other is encountered as an object — as a category, a function, a type. The practitioner who assigns a category in 400 milliseconds and proceeds on that basis is operating in I-It mode, even when the category is accurate. An I-Thou relationship requires the practitioner to encounter the other as a subject — irreducible, present, not fully knowable in advance. Buber did not argue that I-It relationships were wrong. He argued that the I-Thou encounter was a different kind of event — one that required the practitioner to remain genuinely open to being changed by the contact. That openness is what expert pattern recognition, operating at speed, can foreclose.</p>
+
+        <div class="cite">
+          "The Thou meets me through grace — it is not found by seeking... The Thou meets me. But I step into direct relation with it."<br>
+          — Buber, M. <em>I and Thou.</em> Trans. Walter Kaufmann. Scribner, 1970 (original 1923).
+        </div>
+
+        <p>The word <em>sonder</em> — coined by John Koenig in <em>The Dictionary of Obscure Sorrows</em> — names the realization that every passerby is living a life as complex, vivid, and fully inhabited as your own. It is not a philosophical category. It is an experiential one: the sudden collapse of the category "stranger" or "client" into the recognition of a particular life. Sonder is what happens when the Optician's Chart reaches its bottom row and the practitioner does not look away. The person who arrived as a type becomes irreducible. That shift is not something the 400-millisecond recognition system produces. It has to be invited.</p>
+
+        <p>The Cistercian Chapter of Faults, recovered as a pedagogical container by Kassor and colleagues (2025), offers the institutional form. In Cistercian communities, monks gathered regularly to name — publicly and without punishment — the ways their perception had failed: the assumptions they had acted on, the judgments that preceded the evidence, the moments when category closed before encounter could begin. The ritual is pre-modern, but the structure is precise. It is a designed practice for correcting the fast-pattern mind in community. A practitioner who builds a personal version — a regular protocol for naming what the 400ms system got wrong — is recovering the same technology in a contemporary form.</p>
+
+        <div class="cite">
+          "The Chapter of Faults functions not as punishment but as a container for the examination of perception itself — a communal instrument for catching the moment when pattern recognition served the self rather than the community."<br>
+          — Kassor, C., et al. "The Chapter of Faults as Pedagogical Container." <em>Journal of Contemplative Education,</em> Vol. 9, 2025.
+        </div>
+
+        <p>Buber and sonder locate the problem in encounter. The Cistercian practice locates the remedy in regularity. The Optician's Chart is the instrument that sits between them: it measures where expert clarity ends, so that the practitioner knows where the deliberate act of looking is required.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 6: WWYD + BIBLIOGRAPHY -->
+    <div class="card" id="card-application">
+      <div class="card-inner">
+
+        <span class="section-number">§ 06 · Application · What Would You Do?</span>
+        <h2>Minute Five</h2>
+
+        <div class="scenario">
+          <span class="scenario-label">The Scenario</span>
+          You are coaching a mid-level manager who arrived seven minutes late, gave a clipped apology, and has answered your first two questions with short, surface-level responses. Within the first four minutes, you have formed a clear read: defended, low trust, probably not here by choice. You've worked with dozens of people who opened exactly this way.
+
+          You are now in minute five.
+
+          Your 400ms system has already filed this person. Your question queue is already adjusting to account for resistance. And you notice — just barely — that there is something in the texture of their pauses that doesn't fit the pattern. Not defiance. Something closer to exhaustion. Or grief. You are not sure.
+
+          What do you do with that flicker?
+        </div>
+
+        <p>The flicker is the bottom row of the chart. Your recognition system logged the category — defended, low trust, probably not here by choice — and filed the case. But something in the next four minutes produced a data point that did not resolve into the existing pattern. Klein's commander felt this in a burning building. You are feeling it in a coaching conversation. The question is the same: do you trust the pattern, or do you follow the anomaly?</p>
+
+        <div class="response-set">
+          <div class="response-option">
+            <span class="ro-label">Trust the Pattern</span>
+            <p>Continue with the adjusted question queue. The resistance framework is serving you — you've navigated fifty similar openings with it. The anomalous pause is noise. By minute twelve you are somewhere productive, or at least you are generating the appearance of progress. The person across the table has been managed professionally. They have not been seen. They may not notice. You may not notice. The session closes without incident and without contact.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">Abandon the Pattern Entirely</span>
+            <p>Stop the question queue. Name what you're sensing: "I'm noticing something in your pauses that feels different from resistance — I'm curious what's actually present for you right now." This can work. It can also land as an intrusion — the practitioner's pattern-recognition performing transparency. If you are right, the door opens. If you are projecting — if the "grief" you sensed was yours, not theirs — you have introduced a distraction the client now has to manage on top of whatever brought them seven minutes late.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">Name the Flicker Provisionally</span>
+            <p>Hold the anomaly as a working hypothesis. Do not act on it immediately. Instead, alter the next question — not to address the grief hypothesis, but to create space for it to confirm or disconfirm. Something slower. Something that invites them to bring whatever is actually present rather than answering the question you planned. "What's most important for you to take from today?" leaves room for the answer to arrive from somewhere you didn't predict. You stay curious past the point where the recognition system said it was done. This is the Survey Stance in practice: the flicker is not ignored, and it is not performed. It is held long enough to become information.</p>
+          </div>
+        </div>
+
+        <h3>The Four Survey Stance Capacities</h3>
+
+        <p>Survey Stance is the practitioner's deliberate gear-shift — the move from fast-pattern recognition to genuine encounter. It is not a technique deployed at the start of a session. It is a practiced orientation that keeps the practitioner looking past the point when the 400ms system says the work is done. Four capacities sustain it:</p>
+
+        <div class="survey-grid">
+          <div class="survey-cell">
+            <span class="sc-label">Provisional Naming</span>
+            <p>Treat every first read as a working hypothesis. "My system says defended." Not "this person is defended." The distinction is internal. It keeps the file open.</p>
+          </div>
+          <div class="survey-cell">
+            <span class="sc-label">Anomaly Attention</span>
+            <p>Train the recognition system to notice what doesn't fit the pattern, not just what confirms it. The flicker is data. The bottom row of the chart is where the most important information lives.</p>
+          </div>
+          <div class="survey-cell">
+            <span class="sc-label">Curiosity Past Completion</span>
+            <p>The recognition system signals completion: "I know this type." Survey Stance asks the question anyway. Not to challenge the expertise — to confirm that the category is serving the person, not replacing them.</p>
+          </div>
+          <div class="survey-cell">
+            <span class="sc-label">Designed Correction Practice</span>
+            <p>Build a regular protocol — after sessions, weekly, with a peer — for naming what the fast-pattern mind got wrong. The Cistercian Chapter of Faults is the communal ancestor. The practitioner's version is quieter and more frequent. Without it, the correction relies on the person across the table being confident enough to tell you when you've filed them wrong. Most people are not.</p>
+          </div>
+        </div>
+
+        <p>The Optician's Chart is not a test you pass. It is an instrument you calibrate. The top rows measure what expertise reliably delivers. The bottom rows mark the boundary where looking longer is required — where the practitioner who is willing to be changed by the encounter sees something the recognition system, operating at full speed, would have missed.</p>
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="bibliography">
+          <h3>Sources</h3>
+
+          <div class="citation">
+            Klein, Gary. <em>Sources of Power: How People Make Decisions.</em> MIT Press, 1998. — Foundational fieldwork on Recognition-Primed Decision making. The firefighter story that anchors §01 is documented here. Establishes that expert recognition is fast, accurate within its experiential base, and predictably fallible at the edges.
+          </div>
+
+          <div class="citation">
+            Max Planck Institute for Human Development. "Expert Practitioners and Sub-Second Pattern Recognition." April 2026. — Empirical confirmation of Klein's RPD mechanism in professional practice contexts; establishes the 400ms threshold that runs throughout this issue.
+          </div>
+
+          <div class="citation">
+            Kahneman, Daniel. <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux, 2011. — System 1 / System 2 framework; the most accessible scaffolding for the fast/slow distinction. Used in §02 to establish why expert recognition rarely self-corrects without deliberate design.
+          </div>
+
+          <div class="citation">
+            McGilchrist, Iain. <em>The Master and His Emissary: The Divided Brain and the Making of the Western World.</em> Yale University Press, 2009. — Hemispheric model distinguishing rapid left-hemisphere categorization from sustained right-hemisphere openness to the novel; provides the neurological vocabulary for the deliberate gear-shift §03 proposes.
+          </div>
+
+          <div class="citation">
+            Buber, Martin. <em>I and Thou.</em> Trans. Walter Kaufmann. Scribner, 1970 (original 1923). — Foundational distinction between I-It and I-Thou encounter; §05 draws on this as the philosophical lineage of genuine contact versus categorical management.
+          </div>
+
+          <div class="citation">
+            Koenig, John. <em>The Dictionary of Obscure Sorrows.</em> Simon &amp; Schuster, 2021. — Origin of the term <em>sonder</em> as used in §05: the experiential collapse of "type" into irreducible particular life.
+          </div>
+
+          <div class="citation">
+            Kassor, Constance, et al. "The Chapter of Faults as Pedagogical Container." <em>Journal of Contemplative Education,</em> Vol. 9, 2025. — One of the 2025 papers recovering the Cistercian Chapter of Faults as a structured, non-punitive practice for correcting fast-pattern errors in community. Used in §05 as the institutional form of the correction practice.
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /sections-rail -->
+
+  <!-- PROGRESS + NAV -->
+  <div class="reading-progress" id="reading-progress">
+    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <div class="progress-trace">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+    <button class="nav-contents" id="nav-contents" onclick="goTo(0)" title="Back to issue contents" style="display:none;background:none;border:none;color:rgba(200,185,154,0.6);font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.12em;cursor:pointer;padding:0 6px;transition:color 0.2s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='rgba(200,185,154,0.6)'">↩ Contents</button>
+    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
+  </div>
+
+</div><!-- /main-panel -->
+
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+</div>
+
+<script>
+/* ── UTC CLOCK ── */
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');
+  if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+/* ── ENTRY → MAIN ── */
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },800);
+
+  track('enter','entry_screen');
+}
+
+/* ── CARD NAVIGATION ── */
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','Roots','Application'];
+let currentCard=0;
+
+function goTo(index){
+  if(index<0||index>=CARDS.length)return;
+  const cards=document.querySelectorAll('.card');
+  if(cards[currentCard])cards[currentCard].scrollTop=0;
+  currentCard=index;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
+  const label=document.getElementById('progress-label');
+  if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
+  document.getElementById('nav-prev').disabled=index===0;
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  const contentsBtn=document.getElementById('nav-contents');
+  if(contentsBtn)contentsBtn.style.display=index>0?'inline-block':'none';
+  track('navigate',CARDS[index]);
+}
+
+/* ── TOUCH SWIPE ── */
+let touchStartX=0,touchStartY=0;
+document.getElementById('main-panel').addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('main-panel').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44){
+    if(dx<0)goTo(currentCard+1);
+    else goTo(currentCard-1);
+  }
+},{passive:true});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('main-panel').classList.contains('visible'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(currentCard+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(currentCard-1);}
+});
+
+/* ── ENGAGEMENT TRACKING ── */
+const _sos=(()=>{
+  const ENDPOINT='https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY='sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const SESSION_ID=Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,10);
+  const ISSUE_NUMBER='038';
+  const ISSUE_SLUG='the-opticians-chart';
+  let queue=[];
+  let flushTimer=null;
+
+  function activeCardScrollPct(){
+    const cards=document.querySelectorAll('.card');
+    const card=cards[currentCard];
+    if(!card)return 0;
+    const total=card.scrollHeight-card.clientHeight;
+    return total>0?Math.round((card.scrollTop/total)*100):0;
+  }
+
+  function flush(){
+    if(!queue.length)return;
+    const batch=queue.splice(0);
+    batch.forEach(ev=>{
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{
+          'apikey':API_KEY,
+          'Authorization':'Bearer '+API_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'return=minimal'
+        },
+        body:JSON.stringify({
+          title:'meliorism2.com | '+ISSUE_SLUG+' | '+ev.event+' | '+ev.label,
+          occurred_at:ev.ts,
+          reflection:SESSION_ID,
+          notes:JSON.stringify({
+            issue_number:ISSUE_NUMBER,
+            issue_slug:ISSUE_SLUG,
+            event:ev.event,
+            label:ev.label,
+            extra:ev.extra||null,
+            referrer:document.referrer||null,
+            card_index:ev.card_index,
+            card_name:CARDS[ev.card_index]||null,
+            scroll_pct:ev.scroll_pct,
+            viewport_w:window.innerWidth,
+            viewport_h:window.innerHeight
+          })
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    });
+  }
+
+  function enqueue(event,label,extra){
+    queue.push({
+      event,label,extra,
+      ts:new Date().toISOString(),
+      card_index:currentCard,
+      scroll_pct:activeCardScrollPct()
+    });
+    if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
+  }
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden')flush();
+  });
+
+  return{track:enqueue};
+})();
+
+function track(event,label,extra){
+  console.log('[meliorism2]',event,label,extra||'');
+  _sos.track(event,label,extra);
+}
+
+/* ── PER-CARD SCROLL DEPTH TRACKING ── */
+const cardDepthsFired={};
+document.querySelectorAll('.card').forEach((card,i)=>{
+  cardDepthsFired[i]=new Set();
+  card.addEventListener('scroll',()=>{
+    const total=card.scrollHeight-card.clientHeight;
+    if(total<=0)return;
+    const pct=Math.round((card.scrollTop/total)*100);
+    [25,50,75,90].forEach(d=>{
+      if(pct>=d&&!cardDepthsFired[i].has(d)){
+        cardDepthsFired[i].add(d);
+        track('scroll_depth',CARDS[i]+'_'+d+'pct');
+      }
+    });
+  },{passive:true});
+});
+
+/* ── CLICK TRACKING ── */
+document.addEventListener('click',e=>{
+  if(e.target.closest('.response-option')){
+    const lbl=e.target.closest('.response-option').querySelector('.ro-label');
+    track('interact','response_option',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.research-block')){
+    const lbl=e.target.closest('.research-block').querySelector('.researcher');
+    track('interact','research_block',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.chart-row')){
+    const row=e.target.closest('.chart-row');
+    const rowClass=Array.from(row.classList).find(c=>c.startsWith('r')&&c.length===2);
+    track('interact','eye_chart_row',rowClass||'unknown');
+  }
+  if(e.target.closest('a[href*="archive"]')){
+    track('click','archive_link');
+  }
+});
+
+/* ── EYE CHART HOVER TRACKING ── */
+document.querySelectorAll('.chart-row').forEach(row=>{
+  const rowClass=Array.from(row.classList).find(c=>c.startsWith('r')&&c.length===2);
+  row.addEventListener('mouseenter',()=>{
+    track('hover','eye_chart_reveal',rowClass||'unknown');
+  },{passive:true});
+});
+</script>
+</body>
+</html>
