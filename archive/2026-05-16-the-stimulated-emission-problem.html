@@ -88,11 +88,17 @@ body{overflow:hidden;}
 .lw-track{flex:1;height:2px;background:rgba(255,255,255,0.06);margin:0 16px;position:relative;}
 .lw-beam{position:absolute;left:-60%;top:50%;transform:translateY(-50%);height:2px;width:55%;background:linear-gradient(90deg,transparent,var(--blue),rgba(42,109,181,0.3));box-shadow:0 0 8px 2px rgba(42,109,181,0.55);animation:beam 2.8s ease-in-out infinite;}
 @keyframes beam{0%{left:-60%;opacity:0;}18%{opacity:1;}82%{opacity:1;}100%{left:100%;opacity:0;}}
-.lw-node{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:1.5px solid;display:flex;align-items:center;justify-content:center;font-size: 12px;font-weight:700;background:var(--ink);z-index:2;}
+.lw-node{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:1.5px solid;display:flex;align-items:center;justify-content:center;font-size: 12px;font-weight:700;background:var(--ink);z-index:2;cursor:pointer;transition:transform 0.2s,box-shadow 0.3s;}
+.lw-node:hover{transform:translateY(-50%) scale(1.25);}
 .lw-node.blue{left:calc(22% - 15px);border-color:var(--blue);color:var(--blue);box-shadow:var(--blue-glow);}
 .lw-node.amber{left:calc(50% - 15px);border-color:var(--amber);color:var(--amber);box-shadow:var(--amber-glow);}
 .lw-node.violet{left:calc(78% - 15px);border-color:var(--violet);color:var(--violet);box-shadow:var(--violet-glow);}
-.lw-nlabel{position:absolute;top:calc(100% + 5px);left:50%;transform:translateX(-50%);font-size: 12px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.25);white-space:nowrap;}
+.lw-node.blue:hover{box-shadow:0 0 28px rgba(42,109,181,0.75);}
+.lw-node.amber:hover{box-shadow:0 0 28px rgba(193,127,36,0.75);}
+.lw-node.violet:hover{box-shadow:0 0 28px rgba(94,63,143,0.75);}
+.lw-nlabel{position:absolute;top:calc(100% + 5px);left:50%;transform:translateX(-50%);font-size: 11px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.65);white-space:nowrap;pointer-events:none;}
+.lw-node-hint{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);font-size:10px;color:rgba(255,255,255,0.35);white-space:nowrap;letter-spacing:0.05em;pointer-events:none;opacity:0;transition:opacity 0.2s;}
+.lw-node:hover .lw-node-hint{opacity:1;}
 .lw-caption{position:absolute;bottom:8px;right:14px;font-size: 12px;color:rgba(255,255,255,0.18);letter-spacing:0.1em;text-transform:uppercase;}
 .lw-output{flex-shrink:0;font-size: 12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);text-shadow:var(--blue-glow);}
 
@@ -105,7 +111,7 @@ body{overflow:hidden;}
 .s-accent.blue{background:var(--blue);}
 .s-accent.amber{background:var(--amber);}
 .s-accent.violet{background:var(--violet);}
-.s-num{font-size: 12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);margin-bottom:7px;}
+.s-num{font-size: 12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,31,44,0.5);margin-bottom:7px;}
 .s-name{font-family:'Fraunces',Georgia,serif;font-size:clamp(18px,2.2vw,26px);font-weight:400;line-height:1.2;color:var(--ink);margin-bottom:5px;}
 .s-sub{font-size: 12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px;}
 .s-sub.blue{color:var(--blue);text-shadow:var(--blue-glow);}
@@ -124,7 +130,13 @@ body{overflow:hidden;}
 .lab-back{font-size: 12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);cursor:pointer;padding:5px 10px;border:1px solid var(--border);transition:all 0.15s;background:none;}
 .lab-back:hover{border-color:var(--ink);color:var(--ink);}
 .lab-htitle{font-family:'Fraunces',Georgia,serif;font-size:15px;font-weight:400;color:var(--ink);}
-.lab-hdim{margin-left:auto;font-size: 12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);padding:3px 9px;border:1px solid var(--border);}
+.lab-hdim{font-size: 12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);padding:3px 9px;border:1px solid var(--border);}
+.lab-next-btn{margin-left:auto;font-size: 12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;padding:5px 14px;border:none;transition:all 0.15s;display:flex;align-items:center;gap:6px;}
+.lab-next-btn:hover{opacity:0.75;}
+.lab-next-btn.blue{background:var(--blue);color:#fff;}
+.lab-next-btn.amber{background:var(--amber);color:#fff;}
+.lab-next-btn.violet{background:var(--violet);color:#fff;}
+.lab-next-btn.neutral{background:var(--ink);color:var(--lab);}
 .lab-side{border-right:1px solid var(--border);display:flex;flex-direction:column;padding:18px 0;background:var(--white);overflow-y:auto;}
 .ls-btn{padding:13px 16px;cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:background 0.15s;border-left:3px solid transparent;background:none;border-top:none;border-right:none;border-bottom:none;text-align:left;width:100%;}
 .ls-btn:hover{background:rgba(26,31,44,0.03);}
@@ -245,7 +257,7 @@ body{overflow:hidden;}
     </div>
     <div class="e-signal">
       <div class="e-signal-label">The 90-Second Signal</div>
-      <p class="e-signal-body">Facilitators pump. They do not transmit. The laser proves it: Einstein described stimulated emission in 1917, but nobody built a working laser for 43 years — not because the theory was wrong, but because the conditions weren't assembled. Your room has the same problem. Most facilitation fails at population inversion (the room is at ground state), miscalibrates the pump (wrong frequency for this group), or skips the cavity (no container to build coherence). Three stations. One mechanism. Your job is conditions, not content.</p>
+      <p class="e-signal-body">Most facilitation fails before the first word is spoken — because the conditions weren't assembled. The laser proves this exactly: Einstein had the theory in 1917. The first working device appeared in 1960. Forty-three years. Not a knowledge gap. A conditions gap. Your room has the same architecture: three conditions, in sequence. <strong>Population inversion</strong> first — the state where more atoms are energized than at rest; in a room, more engagement than resistance, before you begin. <strong>Calibrated pump</strong> second — the energy source that raises atoms to an excited state; in a room, the facilitation method tuned to this specific group, not a generic one. <strong>Optical cavity</strong> third — two mirrors facing each other, bouncing light back and forth until coherence builds; in a room, the structure and agreements that hold the conversation so it doesn't scatter. Your job is conditions, not content.</p>
     </div>
     <button class="e-cta" onclick="initLab()">Enter Laboratory</button>
     <p class="e-hint">Three stations · Origins · Field Work (story, industry, nature). Enter any station or start from the overview.</p>
@@ -260,9 +272,9 @@ body{overflow:hidden;}
       <span class="lw-year">Ground State</span>
       <div class="lw-track">
         <div class="lw-beam"></div>
-        <div class="lw-node blue">↑N<span class="lw-nlabel">Pop. Inversion</span></div>
-        <div class="lw-node amber">⊕<span class="lw-nlabel">Pump</span></div>
-        <div class="lw-node violet">⟷<span class="lw-nlabel">Cavity</span></div>
+        <div class="lw-node blue" onclick="openStation('s1')" title="Station 01 · Population Inversion — enter this station">↑N<span class="lw-nlabel">Pop. Inversion</span><span class="lw-node-hint">Open Station 01</span></div>
+        <div class="lw-node amber" onclick="openStation('s2')" title="Station 02 · Calibrated Pump — enter this station">⊕<span class="lw-nlabel">Pump</span><span class="lw-node-hint">Open Station 02</span></div>
+        <div class="lw-node violet" onclick="openStation('s3')" title="Station 03 · Optical Cavity — enter this station">⟷<span class="lw-nlabel">Cavity</span><span class="lw-node-hint">Open Station 03</span></div>
       </div>
       <span class="lw-output">COHERENT BEAM →</span>
       <span class="lw-caption">LASER · Light Amplification by Stimulated Emission of Radiation</span>
@@ -273,7 +285,7 @@ body{overflow:hidden;}
         <div class="s-num">Station 01 · Population Inversion</div>
         <h2 class="s-name">You Can't Energize What Hasn't Been Raised</h2>
         <div class="s-sub blue">Population Dynamics</div>
-        <p class="s-preview">More atoms must occupy the excited state than ground state before stimulated emission can cascade. In a room, more activation must exist than torpor before new insight can propagate. Most facilitators pump before inverting.</p>
+        <p class="s-preview"><strong>Population inversion:</strong> the state where more atoms are energized than at rest. A laser cannot fire until this condition is met — the medium literally cannot emit coherent light. In a room: more engagement than resistance, more openness than defense. Most facilitators skip straight to stimulating insight. They pump before inverting. The sequence matters.</p>
         <div class="s-enter blue">Enter Station <span>→</span></div>
       </div>
       <div class="s-card" onclick="openStation('s2');track('open-s2')">
@@ -281,7 +293,7 @@ body{overflow:hidden;}
         <div class="s-num">Station 02 · Calibrated Pump</div>
         <h2 class="s-name">The Energy Source Must Match the Medium</h2>
         <div class="s-sub amber">Frequency Matching</div>
-        <p class="s-preview">A pump at the wrong frequency wastes energy and produces no light. Facilitation methods tuned to the wrong group — wrong history, wrong readiness, wrong fear — produce the same result: heat without coherence.</p>
+        <p class="s-preview"><strong>The pump</strong> is the energy source — not a water pump, but the mechanism that raises atoms from a resting state to an excited one. It operates at a specific frequency. Pump at the wrong frequency and the medium cannot absorb the energy: it produces heat, not light. Facilitation methods work the same way. The right approach with the wrong group, at the wrong moment, generates activity but not insight.</p>
         <div class="s-enter amber">Enter Station <span>→</span></div>
       </div>
       <div class="s-card" onclick="openStation('s3');track('open-s3')">
@@ -289,7 +301,7 @@ body{overflow:hidden;}
         <div class="s-num">Station 03 · Optical Cavity</div>
         <h2 class="s-name">Coherence Requires Boundaries and Resonance</h2>
         <div class="s-sub violet">Container Design</div>
-        <p class="s-preview">Two mirrors trap light, forcing it back through the excited medium. Each pass stimulates more emission. Coherence builds. Without the cavity, energy scatters. Structure is not constraint. Structure is the mechanism.</p>
+        <p class="s-preview"><strong>The optical cavity</strong> is two mirrors facing each other across the lasing medium. Light bounces between them, passing through the excited atoms on each pass, stimulating more emission each time. Without the cavity, energy radiates in all directions and is lost. The mirrors are not a constraint on the laser — they are what makes it a laser. Structure, in a brave space, works identically.</p>
         <div class="s-enter violet">Enter Station <span>→</span></div>
       </div>
     </div>
@@ -301,6 +313,7 @@ body{overflow:hidden;}
         <button class="lab-back" onclick="closeStation()">← Overview</button>
         <span class="lab-htitle" id="lab-htitle">The Stimulated Emission Problem</span>
         <span class="lab-hdim">Brave Spaces · Issue 016</span>
+        <button class="lab-next-btn blue" id="lab-next-btn" onclick="advanceStation()">Next Station →</button>
       </div>
       <div class="lab-side">
         <button class="ls-btn on blue" id="nav-s1" onclick="switchStation('s1')">
@@ -707,6 +720,36 @@ function closeStation(){
   setTimeout(function(){ov.classList.remove('gone');},10);
   track('overview-returned');
 }
+
+var STATION_ORDER=['s1','s2','s3','s4','s5'];
+var NEXT_LABELS={s1:'Calibrated Pump',s2:'Optical Cavity',s3:'Origins',s4:'Field Work',s5:null};
+var NEXT_COLORS={s1:'amber',s2:'violet',s3:'neutral',s4:'neutral',s5:null};
+
+function getCurrentStation(){
+  var active=document.querySelector('.s-pane.on');
+  return active?active.id:null;
+}
+
+function advanceStation(){
+  var cur=getCurrentStation();
+  var idx=STATION_ORDER.indexOf(cur);
+  if(idx===-1||idx===STATION_ORDER.length-1){closeStation();return;}
+  switchStation(STATION_ORDER[idx+1]);
+  updateNextBtn(STATION_ORDER[idx+1]);
+}
+
+function updateNextBtn(id){
+  var btn=document.getElementById('lab-next-btn');if(!btn)return;
+  var next=NEXT_LABELS[id];
+  var col=NEXT_COLORS[id]||'neutral';
+  btn.className='lab-next-btn '+col;
+  if(next){btn.textContent='Next: '+next+' →';btn.style.display='flex';}
+  else{btn.textContent='← Back to Overview';btn.className='lab-next-btn neutral';}
+}
+
+// Override switchStation to keep button in sync
+var _origSwitch=switchStation;
+switchStation=function(id){_origSwitch(id);updateNextBtn(id);};
 
 var io=new IntersectionObserver(function(entries){
   entries.forEach(function(e){if(e.isIntersecting)track('read-'+e.target.className.split(' ')[0]);});
