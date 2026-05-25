@@ -4,7 +4,7 @@
 <!-- meliorism2:concept: The instrument is already running. The body logs atmospheric pressure before the mind decides what the weather means. The practitioner's work is to become a better reader of its trace. -->
 <!-- meliorism2:format: The Barograph -->
 <!-- meliorism2:dimension: Somatic · Body Intelligence -->
-<!-- meliorism2:sources: 5 -->
+<!-- meliorism2:sources: 7 -->
 <!-- meliorism2:architecture: horizontal-swipe -->
 <!DOCTYPE html>
 <html lang="en">
@@ -564,6 +564,194 @@ p{
   color:var(--amber);
 }
 
+/* ── NAV CONTENTS ── */
+.nav-contents{
+  display:none;
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+  white-space:nowrap;
+}
+.nav-contents:hover{color:var(--amber);}
+
+/* ── BAROGRAPH READING LOG DIRECTORY ── */
+.baro-log{
+  background:#f5f0e6;
+  border:1px solid rgba(139,111,71,0.3);
+  border-radius:2px;
+  overflow:hidden;
+  margin:32px 0 28px;
+}
+.baro-log-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 16px;
+  background:var(--dark-band);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;
+  letter-spacing:0.16em;
+  color:var(--cream);
+}
+.baro-log-header-right{
+  opacity:0.55;
+  font-size:0.75rem;
+}
+.baro-trace-area{
+  position:relative;
+  height:72px;
+  background-image:
+    repeating-linear-gradient(to bottom,transparent,transparent 17px,rgba(139,111,71,0.09) 18px),
+    linear-gradient(to bottom,#f2ece0,#f8f4ec);
+}
+.baro-trace-svg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  overflow:visible;
+}
+.baro-tick-lines line{
+  stroke:rgba(139,111,71,0.18);
+  stroke-width:1;
+}
+.baro-trace-path{
+  fill:none;
+  stroke:rgba(176,125,58,0.65);
+  stroke-width:1.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.baro-trace-fill{
+  fill:rgba(176,125,58,0.07);
+  stroke:none;
+}
+.baro-sections{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  border-top:1px solid rgba(139,111,71,0.15);
+}
+.baro-section-item{
+  padding:10px 10px 12px;
+  border-right:1px solid rgba(139,111,71,0.1);
+  cursor:pointer;
+  transition:background 0.18s;
+  min-width:0;
+}
+.baro-section-item:last-child{border-right:none;}
+.baro-section-item:hover{background:rgba(139,111,71,0.07);}
+.baro-time{
+  font-family:'Courier Prime',monospace;
+  font-size:0.7rem;
+  color:rgba(139,111,71,0.55);
+  display:block;
+  margin-bottom:3px;
+  letter-spacing:0.1em;
+}
+.baro-sec-ref{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;
+  color:var(--amber);
+  display:block;
+  margin-bottom:3px;
+  font-weight:700;
+}
+.baro-sec-name{
+  font-family:'Crimson Text',serif;
+  font-size:0.9rem;
+  color:var(--text);
+  line-height:1.3;
+  display:block;
+}
+@media(max-width:640px){
+  .baro-sections{grid-template-columns:repeat(3,1fr);}
+  .baro-section-item:nth-child(3){border-right:none;}
+  .baro-section-item:nth-child(4){border-top:1px solid rgba(139,111,71,0.1);}
+  .baro-section-item:nth-child(5){border-top:1px solid rgba(139,111,71,0.1);}
+  .baro-section-item:nth-child(6){border-top:1px solid rgba(139,111,71,0.1);border-right:none;}
+}
+
+/* ── INTERACTIVE BODY TRACE ── */
+.body-trace-wrapper{
+  margin:28px 0;
+  border:1px solid rgba(139,111,71,0.2);
+  border-radius:2px;
+  overflow:hidden;
+  background:#f6f1e7;
+}
+.bt-header{
+  padding:8px 16px;
+  background:var(--surface);
+  border-bottom:1px solid rgba(139,111,71,0.12);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;
+  letter-spacing:0.14em;
+  color:var(--amber);
+  text-transform:uppercase;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.bt-status{
+  font-size:0.75rem;
+  color:rgba(176,125,58,0.55);
+  letter-spacing:0.08em;
+}
+.bt-trace-area{
+  position:relative;
+  height:64px;
+  background-image:repeating-linear-gradient(
+    to bottom,transparent,transparent 15px,rgba(139,111,71,0.07) 16px
+  );
+  overflow:hidden;
+}
+.bt-trace-line{
+  position:absolute;
+  top:0;left:0;
+  height:100%;width:100%;
+}
+.bt-trace-path{
+  fill:none;stroke:rgba(176,125,58,0.7);stroke-width:1.5;
+  stroke-dasharray:600;
+  stroke-dashoffset:600;
+  stroke-linecap:round;
+  animation:traceReveal 2.4s ease 0.6s forwards;
+}
+.bt-trace-fill-path{
+  fill:rgba(176,125,58,0.08);stroke:none;
+  opacity:0;
+  animation:traceFill 0.8s ease 2.8s forwards;
+}
+@keyframes traceReveal{
+  to{stroke-dashoffset:0;}
+}
+@keyframes traceFill{
+  to{opacity:1;}
+}
+.bt-labels{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  border-top:1px solid rgba(139,111,71,0.1);
+}
+.bt-label-item{
+  padding:8px 10px;
+  border-right:1px solid rgba(139,111,71,0.08);
+  font-family:'Courier Prime',monospace;
+  font-size:0.72rem;
+  letter-spacing:0.06em;
+  color:var(--dim);
+  line-height:1.35;
+}
+.bt-label-item:last-child{border-right:none;}
+.bt-label-item strong{
+  display:block;
+  color:var(--amber);
+  font-size:0.7rem;
+  margin-bottom:2px;
+}
+
 /* ── FOOTER BAR ── */
 .footer-bar{
   position:fixed;bottom:0;left:0;right:0;z-index:1000;
@@ -644,6 +832,62 @@ a:hover{background:rgba(139,111,71,0.06);}
           <p>A barograph does not decide what the weather means. It records what is. Your nervous system works the same way — it has already logged the room's atmospheric pressure before you consciously decided anything was worth noticing. That sternum tightening, that shortened breath, that faint pull of unease before you've named its source: those are readings, not noise. The practitioner's work is not to override them with professional composure. It is to learn to read the scroll while it is still moving.</p>
         </div>
 
+        <!-- BAROGRAPH READING LOG DIRECTORY -->
+        <div class="baro-log">
+          <div class="baro-log-header">
+            <span>BAROGRAPH · READING LOG</span>
+            <span class="baro-log-header-right">ISSUE 025 · MAY 25, 2026</span>
+          </div>
+          <div class="baro-trace-area">
+            <svg class="baro-trace-svg" viewBox="0 0 600 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Vertical tick marks at section boundaries -->
+              <g class="baro-tick-lines">
+                <line x1="100" y1="0" x2="100" y2="72"/>
+                <line x1="200" y1="0" x2="200" y2="72"/>
+                <line x1="300" y1="0" x2="300" y2="72"/>
+                <line x1="400" y1="0" x2="400" y2="72"/>
+                <line x1="500" y1="0" x2="500" y2="72"/>
+              </g>
+              <!-- Trace fill (area under curve) -->
+              <path class="baro-trace-fill" d="M 0 44 C 28 41,72 37,100 36 C 128 35,172 41,200 43 C 228 45,272 50,300 47 C 328 44,372 33,400 36 C 428 39,472 41,500 39 C 528 37,572 54,600 51 L 600 72 L 0 72 Z"/>
+              <!-- Main trace line -->
+              <path class="baro-trace-path" d="M 0 44 C 28 41,72 37,100 36 C 128 35,172 41,200 43 C 228 45,272 50,300 47 C 328 44,372 33,400 36 C 428 39,472 41,500 39 C 528 37,572 54,600 51"/>
+            </svg>
+          </div>
+          <div class="baro-sections">
+            <div class="baro-section-item" onclick="goTo(1)">
+              <span class="baro-time">T+00:00</span>
+              <span class="baro-sec-ref">§ 01</span>
+              <span class="baro-sec-name">The Barograph Is Already Running</span>
+            </div>
+            <div class="baro-section-item" onclick="goTo(2)">
+              <span class="baro-time">T+01:00</span>
+              <span class="baro-sec-ref">§ 02</span>
+              <span class="baro-sec-name">Damasio, Porges, and the Body's Prior Vote</span>
+            </div>
+            <div class="baro-section-item" onclick="goTo(3)">
+              <span class="baro-time">T+02:00</span>
+              <span class="baro-sec-ref">§ 03</span>
+              <span class="baro-sec-name">The Body Votes First</span>
+            </div>
+            <div class="baro-section-item" onclick="goTo(4)">
+              <span class="baro-time">T+03:00</span>
+              <span class="baro-sec-ref">§ 04</span>
+              <span class="baro-sec-name">Three Ways the Instrument Lies to Itself</span>
+            </div>
+            <div class="baro-section-item" onclick="goTo(5)">
+              <span class="baro-time">T+04:00</span>
+              <span class="baro-sec-ref">§ 05</span>
+              <span class="baro-sec-name">What Was Erased</span>
+            </div>
+            <div class="baro-section-item" onclick="goTo(6)">
+              <span class="baro-time">T+05:00</span>
+              <span class="baro-sec-ref">§ 06</span>
+              <span class="baro-sec-name">Seventeen Minutes on the Clock</span>
+            </div>
+          </div>
+        </div>
+
         <div class="begin-prompt">
           <button onclick="goTo(1)">Begin reading →</button>
         </div>
@@ -680,7 +924,7 @@ a:hover{background:rgba(139,111,71,0.06);}
       <div class="card-inner">
 
         <span class="section-number">§ 02 · The Evidence</span>
-        <h2>Three Findings Practitioners Need to Know</h2>
+        <h2>Damasio, Porges, and What the Body Logged Before You Noticed</h2>
 
         <p>The research is not new. What is new is applying it operationally — as usable knowledge about how the body logs the room, and what that means for the practitioner.</p>
 
@@ -714,6 +958,16 @@ a:hover{background:rgba(139,111,71,0.06);}
           — van der Kolk, B. <em>The Body Keeps the Score.</em> Viking, 2014.
         </div>
 
+        <div class="research-block">
+          <span class="researcher">Fogel, 2009 — Interoceptive Awareness as a Learnable Skill</span>
+          <p>Alan Fogel's research on embodied self-awareness distinguishes two modes of body-based knowing. The first is conceptual body sense: thinking about the body, naming sensations after the fact, interpreting body data through prior categories. The second is participatory body sense: the direct, present-tense experience of body states as they are happening — a felt sense that exists before it is named. Fogel argues that most practitioners are trained in the first mode and underdeveloped in the second. The practical consequence: a practitioner may understand the concept of somatic markers perfectly and still fail to register them in real-time because the participatory channel has not been cultivated. Somatic intelligence is not a natural talent distributed unevenly. It is a capacity that develops with consistent practice. The instrument can be calibrated.</p>
+        </div>
+
+        <div class="cite">
+          "Participatory body sense is a direct, present-moment experience of the self as a living body... it is different from thinking about the body."<br>
+          — Fogel, Alan. <em>Body Sense: The Science and Practice of Embodied Self-Awareness.</em> Norton, 2009. p.4.
+        </div>
+
       </div>
     </div>
 
@@ -736,10 +990,32 @@ a:hover{background:rgba(139,111,71,0.06);}
           <p>The subcortical process by which the nervous system scans the social environment for safety or threat, below the threshold of conscious awareness. The practitioner's nervous system reads vocal prosody, facial microexpressions, postural deflation, the particular quality of group silence — and begins mobilizing a response. When a practitioner walks into a room and immediately feels their sternum tighten, that is not anxiety. That is neuroception doing its job accurately. The question is what to do with the reading.</p>
         </div>
 
+        <!-- INTERACTIVE BODY TRACE — newsletter-impossible -->
+        <div class="body-trace-wrapper">
+          <div class="bt-header">
+            <span>Live Body Trace · Room Entry Sequence</span>
+            <span class="bt-status">Recording…</span>
+          </div>
+          <div class="bt-trace-area">
+            <svg class="bt-trace-line" viewBox="0 0 600 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="bt-trace-fill-path" d="M 0 38 C 60 32,120 28,180 30 C 240 32,300 36,360 26 C 420 16,480 22,540 28 L 600 30 L 600 64 L 0 64 Z"/>
+              <path class="bt-trace-path" d="M 0 38 C 60 32,120 28,180 30 C 240 32,300 36,360 26 C 420 16,480 22,540 28 L 600 30"/>
+            </svg>
+          </div>
+          <div class="bt-labels">
+            <div class="bt-label-item"><strong>Entry</strong>Door opens. Chest registers before eyes process.</div>
+            <div class="bt-label-item"><strong>Scan</strong>Neuroception reads prosody, posture, silence quality.</div>
+            <div class="bt-label-item"><strong>Marker</strong>Somatic markers cross-ref prior learning. Signal arrives.</div>
+            <div class="bt-label-item"><strong>Spike</strong>Anterior insula flags elevation. Sternum tightens.</div>
+            <div class="bt-label-item"><strong>Lag</strong>Conscious mind begins forming a thought. 400ms behind.</div>
+            <div class="bt-label-item"><strong>Decision</strong>Read and act — or override and proceed. The choice point.</div>
+          </div>
+        </div>
+
         <p>The integrated picture: you walk into a room. Before you have consciously registered anything unusual, your ventral vagal system has scanned for social threat, your somatic markers have cross-referenced the current body-state against prior learning, and your anterior insula (the interoceptive cortex) has already begun reporting. The reading is on the scroll. The ink is laid down. The only remaining question is whether you have learned to interpret the trace.</p>
 
         <div class="margin-note">
-          Craig's work on the anterior insula (2009) adds the layer: the body's internal state is mapped there, and disruptions surface as felt sense before they surface as named emotion. The barograph metaphor holds: the instrument is running. The practitioner is the reader.
+          Craig's work on the anterior insula (2009) adds the layer: the body's internal state is mapped there, and disruptions surface as felt sense before they surface as named emotion. The barograph metaphor holds: the instrument is running. The practitioner is the reader. Mehling et al. (2012) operationalize this into eight measurable facets — body listening, trusting, self-regulation, noticing — confirming that interoceptive awareness is not a fixed trait but a developable capacity.
         </div>
 
         <p>What this means practically: the practitioner who walks into a room and overrides the somatic reading with professional composure has not transcended the instrument — they have disconnected from it. The output is still being generated. It is just not being read. The consequence is that the practitioner acts on an agenda that the room has already moved on from, without knowing it.</p>
@@ -752,7 +1028,7 @@ a:hover{background:rgba(139,111,71,0.06);}
       <div class="card-inner">
 
         <span class="section-number">§ 04 · Edge Cases</span>
-        <h2>Where This Gets Complicated</h2>
+        <h2>Three Ways the Instrument Lies to Itself</h2>
 
         <p>The case for somatic intelligence is strong. The risks of misusing it are real. A practitioner who trusts every body reading without interrogating it is not better calibrated — they are more confident in a process they have not tested. Three complications deserve direct treatment.</p>
 
@@ -865,6 +1141,14 @@ a:hover{background:rgba(139,111,71,0.06);}
           <div class="citation">
             Levine, Peter A. <em>In an Unspoken Voice: How the Body Releases Trauma and Restores Goodness.</em> North Atlantic Books, 2010. — On the body's incomplete motor responses and their release. Useful complement to van der Kolk on somatic residue and suppressed movement impulse.
           </div>
+
+          <div class="citation">
+            Fogel, Alan. <em>Body Sense: The Science and Practice of Embodied Self-Awareness.</em> W. W. Norton, 2009. — Distinguishes conceptual body sense (thinking about the body) from participatory body sense (direct felt experience of the body in real time). Argues that somatic intelligence is a learnable practice, not a fixed capacity. Primary source for the calibration framework in § 02.
+          </div>
+
+          <div class="citation">
+            Mehling, Wolf E., Cynthia Price, Jennifer J. Daubenmier, Mike Acree, Elizabeth Bartmess, and Anita Stewart. "The Multidimensional Assessment of Interoceptive Awareness (MAIA)." <em>PLOS ONE,</em> vol. 7, no. 11, 2012, e48230. — Validation of an eight-facet scale measuring body awareness in practitioners and trainees, including noticing, not-distracting, attention regulation, body listening, and trusting. Empirical support for the practitioner calibration model in § 03.
+          </div>
         </div>
 
         <div class="doc-footer">
@@ -879,6 +1163,7 @@ a:hover{background:rgba(139,111,71,0.06);}
   <!-- PROGRESS + NAV -->
   <div class="reading-progress" id="reading-progress">
     <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <button class="nav-contents" id="nav-contents" onclick="goTo(0)">↩ Contents</button>
     <div class="progress-trace">
       <div class="progress-fill" id="progress-fill" style="width:0%"></div>
     </div>
@@ -944,6 +1229,8 @@ function goTo(index){
   // Buttons
   document.getElementById('nav-prev').disabled=index===0;
   document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  const contentsBtn=document.getElementById('nav-contents');
+  if(contentsBtn)contentsBtn.style.display=index>0?'inline-block':'none';
   // Track
   track('navigate',CARDS[index]);
 }
