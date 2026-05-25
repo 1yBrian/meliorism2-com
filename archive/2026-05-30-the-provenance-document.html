@@ -1,0 +1,1296 @@
+<!-- meliorism2:slug: the-provenance-document -->
+<!-- meliorism2:date: 2026-05-30 -->
+<!-- meliorism2:issue: 030 -->
+<!-- meliorism2:dimension: Critical Consciousness -->
+<!-- meliorism2:format: Provenance Document -->
+<!-- meliorism2:architecture: horizontal-swipe -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · The Provenance Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #faf8f5;
+  --surface:   #f0ebe3;
+  --border:    rgba(139,111,71,0.15);
+  --border-h:  rgba(139,111,71,0.3);
+  --accent:    #8b6f47;
+  --accentf:   rgba(139,111,71,0.5);
+  --amber:     #b07d3a;
+  --amber-l:   #d4a055;
+  --amber-d:   #7a5520;
+  --text:      #2c2c2c;
+  --muted:     rgba(44,44,44,0.85);
+  --dim:       rgba(44,44,44,0.72);
+  --dark-band: #1a1714;
+  --cream:     #c8b99a;
+  --ink:       #1a1714;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Courier Prime',monospace;
+  overflow:hidden;
+}
+
+/* ── STATUS BAR ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:36px;
+  background:rgba(0,0,0,0.02);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.sb-logo{
+  font-size:0.8rem;letter-spacing:4px;font-weight:700;
+  color:var(--accent);text-decoration:none;border:none;
+}
+.sb-logo:hover{background:transparent;}
+.sb-label{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);flex:1;
+}
+.sb-clock{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);
+}
+
+/* ── ENTRY SCREEN ── */
+#entry{
+  position:fixed;inset:0;top:36px;z-index:800;
+  overflow:hidden;
+  cursor:pointer;
+  transition:opacity 1.2s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-bg{
+  position:absolute;inset:0;
+  background: url('the-provenance-document-hero.jpg') center center / cover no-repeat, linear-gradient(160deg, #1a1005 0%, #0f1a14 35%, #1a1005 70%, #1a1714 100%);
+  transform:scale(1.04);
+  animation:kb 14s ease-out forwards;
+}
+@keyframes kb{
+  from{transform:scale(1.04);}
+  to{transform:scale(1.0);}
+}
+
+.entry-tint{
+  position:absolute;inset:0;
+  background:rgba(26,16,5,0.25);
+  mix-blend-mode:multiply;
+}
+
+.entry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(12,8,3,0.22) 0%,
+    rgba(12,8,3,0.44) 40%,
+    rgba(12,8,3,0.86) 100%
+  );
+}
+
+.entry-trace{
+  position:absolute;
+  bottom:220px;left:0;right:0;
+  height:2px;
+  overflow:hidden;
+  pointer-events:none;
+}
+.entry-trace::after{
+  content:'';
+  display:block;
+  position:absolute;top:0;left:-100%;
+  width:300%;height:100%;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(180,120,40,0.0) 10%,
+    rgba(180,120,40,0.3) 30%,
+    rgba(180,120,40,0.5) 40%,
+    rgba(180,120,40,0.3) 55%,
+    rgba(180,120,40,0.15) 70%,
+    transparent 90%
+  );
+  animation:traceSlide 3.5s ease 1.2s forwards;
+  transform:translateX(-40%);
+}
+@keyframes traceSlide{
+  to{transform:translateX(80%);}
+}
+
+.entry-corner{
+  position:absolute;top:24px;right:32px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;
+  color:rgba(210,180,130,0.85);
+  text-transform:uppercase;text-align:right;line-height:1.9;
+}
+
+.entry-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:44px 56px 52px;
+}
+
+.entry-stamp{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(210,180,130,0.7);
+  display:flex;gap:18px;align-items:center;
+  margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;
+}
+.entry-stamp-sep{opacity:0.35;}
+
+.entry-title{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(3.8rem,9vw,7rem);
+  font-weight:400;line-height:1.0;
+  color:#faf4ec;letter-spacing:-0.02em;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(14px);
+  animation:fadeUp 0.9s ease 0.55s forwards;
+}
+
+.entry-sub{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-style:italic;
+  color:rgba(240,225,195,0.65);
+  margin-bottom:36px;
+  opacity:0;transform:translateY(8px);
+  animation:fadeUp 0.8s ease 0.85s forwards;
+}
+
+.entry-enter{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(210,180,130,0.85);
+  background:none;border:none;border-bottom:1px solid rgba(210,180,130,0.35);
+  padding-bottom:3px;cursor:pointer;
+  opacity:0;animation:fadeUp 0.7s ease 1.3s forwards;
+  transition:color 0.2s,border-color 0.2s;
+}
+.entry-enter:hover{
+  color:#faf4ec;
+  border-bottom-color:rgba(250,240,210,0.7);
+}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:640px){
+  .entry-content{padding:32px 24px 40px;}
+  .entry-corner{display:none;}
+  .entry-stamp{flex-wrap:wrap;gap:10px;}
+  .entry-trace{bottom:190px;}
+}
+
+/* ── MAIN PANEL ── */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+  overflow:hidden;
+  background:var(--bg);
+}
+#main-panel.visible{
+  display:block;opacity:1;
+}
+
+/* ── SECTIONS RAIL ── */
+.sections-rail{
+  display:flex;
+  flex-direction:row;
+  width:700%;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+.card{
+  width:calc(100% / 7);
+  flex-shrink:0;
+  height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.card-inner{
+  max-width:820px;
+  padding:50px 40px 80px;
+  margin:0 auto;
+}
+
+@media(max-width:768px){
+  .card-inner{padding:30px 20px 80px;}
+}
+
+/* ── READING PROGRESS BAR ── */
+.reading-progress{
+  position:fixed;
+  bottom:40px;left:0;right:0;
+  height:36px;
+  background:var(--dark-band);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:14px;
+  z-index:900;
+}
+
+.progress-trace{
+  flex:1;
+  height:2px;
+  background:rgba(176,125,58,0.15);
+  border-radius:1px;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  position:absolute;
+  top:0;left:0;height:100%;
+  background:var(--amber);
+  transition:width 0.45s cubic-bezier(0.4,0,0.2,1);
+  border-radius:1px;
+}
+
+.progress-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;
+  color:var(--cream);opacity:0.7;
+  white-space:nowrap;
+  min-width:80px;text-align:right;
+}
+
+.nav-prev,.nav-next{
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+}
+.nav-prev:hover,.nav-next:hover{color:var(--amber);}
+.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+
+/* ── CARD 0: SIGNAL HEADER ── */
+.metadata{
+  text-align:center;margin-bottom:50px;
+  border-bottom:2px solid var(--border-h);
+  padding-bottom:30px;color:var(--dim);
+}
+
+.date-tag{
+  font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.issue-format-badge{
+  display:inline-block;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(176,125,58,0.35);
+  padding:3px 10px;
+  margin-bottom:16px;
+}
+
+h1{
+  font-family:'Crimson Text',serif;
+  font-size:2.6rem;font-weight:normal;
+  margin:16px 0 10px;color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.subtitle{
+  font-size:0.95rem;color:var(--dim);
+  margin-top:10px;font-style:italic;
+  font-family:'Crimson Text',serif;
+}
+
+/* ── HERO IMAGE ── */
+.hero-image{
+  width:100%;display:block;margin:0 0 40px;
+  opacity:0.9;
+  border:1px solid var(--border);
+}
+
+/* ── 90-SECOND SIGNAL ── */
+.highlight{
+  background:linear-gradient(135deg,#f5ede0 0%,#faf7f2 100%);
+  border-left:4px solid var(--amber);
+  padding:26px 28px;margin:40px 0;
+  border-radius:2px;
+  border-top:1px solid rgba(176,125,58,0.15);
+  border-bottom:1px solid rgba(176,125,58,0.15);
+  border-right:1px solid rgba(176,125,58,0.08);
+}
+
+.highlight-label{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:var(--amber);margin-bottom:12px;font-weight:700;
+  display:block;
+}
+
+.highlight p{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;line-height:1.65;color:var(--text);
+}
+
+/* ── BEGIN READING PROMPT ── */
+.begin-prompt{
+  margin-top:40px;
+  text-align:center;
+  padding:24px 0 10px;
+  border-top:1px solid var(--border);
+}
+.begin-prompt button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s;
+}
+.begin-prompt button:hover{
+  color:var(--amber-d);
+  border-bottom-color:rgba(122,85,32,0.5);
+}
+
+/* ── SECTION NUMBER BAND ── */
+.section-number{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.16em;
+  display:block;
+  background:var(--dark-band);
+  color:var(--cream);
+  padding:11px 16px;
+  margin:0 -40px 24px;
+}
+
+@media(max-width:768px){
+  .section-number{margin:0 -20px 20px;}
+}
+
+h2{
+  font-family:'Crimson Text',serif;
+  font-size:1.9rem;font-weight:normal;
+  margin-bottom:18px;color:var(--text);
+  border-bottom:1px solid var(--border-h);
+  padding-bottom:10px;
+  letter-spacing:-0.01em;
+}
+
+h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.15rem;font-weight:600;
+  margin-top:24px;margin-bottom:10px;color:var(--ink);
+}
+
+p{
+  font-size:1.0rem;line-height:1.75;
+  margin-bottom:1.1em;
+}
+
+/* ── DIVIDER RULE ── */
+.trace-rule{
+  display:block;
+  position:relative;
+  height:28px;
+  margin:28px 0 20px;
+  overflow:hidden;
+}
+.trace-rule::after{
+  content:'';
+  display:block;
+  position:absolute;
+  top:50%;left:0;right:0;
+  height:1px;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(176,125,58,0.15) 5%,
+    rgba(176,125,58,0.4) 20%,
+    rgba(176,125,58,0.6) 35%,
+    rgba(176,125,58,0.55) 50%,
+    rgba(176,125,58,0.45) 65%,
+    rgba(176,125,58,0.3) 80%,
+    rgba(176,125,58,0.1) 95%,
+    transparent 100%
+  );
+}
+
+/* ── CALLOUT / CITE ── */
+.cite{
+  font-size:0.9rem;
+  color:var(--text);
+  border-left:3px solid var(--amber);
+  padding:12px 18px;
+  margin:18px 0 26px;
+  display:block;
+  letter-spacing:0.3px;
+  line-height:1.75;
+  background:rgba(176,125,58,0.04);
+}
+.cite em{font-style:italic;}
+
+/* ── MARGIN NOTE ── */
+.margin-note{
+  position:relative;margin-left:16px;padding-left:18px;
+  border-left:2px dashed var(--accentf);
+  font-size:0.875rem;color:var(--muted);
+  font-style:italic;margin-top:18px;margin-bottom:18px;
+  line-height:1.65;
+}
+
+/* ── RESEARCH BLOCK ── */
+.research-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.research-block .researcher{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;display:block;font-weight:700;
+}
+.research-block p{
+  font-size:0.95rem;margin-bottom:0;
+}
+
+/* ── CONCEPT BOX ── */
+.concept-box{
+  background:linear-gradient(135deg,#f8f0e2 0%,#faf7f2 100%);
+  border:1px solid rgba(176,125,58,0.2);
+  border-left:4px solid var(--amber-d);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.concept-box .cb-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber-d);margin-bottom:10px;display:block;font-weight:700;
+}
+.concept-box p{font-size:0.95rem;margin-bottom:0;}
+
+/* ── SCENARIO BOX ── */
+.scenario{
+  background:#f8f4ee;
+  border:1px solid rgba(176,125,58,0.25);
+  padding:28px 30px;
+  margin:28px 0;
+  border-radius:2px;
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;
+  line-height:1.75;
+  color:var(--ink);
+  border-top:3px solid var(--amber);
+}
+.scenario-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:14px;display:block;font-weight:700;
+}
+
+/* ── RESPONSE OPTIONS ── */
+.response-set{
+  margin:24px 0;
+}
+.response-option{
+  padding:16px 20px;
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:var(--bg);
+  transition:border-color 0.2s,background 0.2s;
+}
+.response-option:hover{
+  border-color:var(--amber);
+  background:rgba(176,125,58,0.03);
+  cursor:default;
+}
+.response-option .ro-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:8px;font-weight:700;
+}
+.response-option p{font-size:1.0rem;line-height:1.75;margin-bottom:0;}
+
+/* ── ROLE GATE ── */
+.role-gate{
+  display:flex;gap:10px;flex-wrap:wrap;
+  margin:24px 0 28px;
+}
+.role-chip{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--cream);
+  background:var(--dark-band);
+  border:1px solid rgba(200,185,154,0.2);
+  padding:5px 14px;
+  border-radius:2px;
+  cursor:default;
+  transition:border-color 0.2s,color 0.2s;
+}
+.role-chip:hover{
+  border-color:var(--amber);
+  color:var(--amber-l);
+}
+
+/* ── BIBLIOGRAPHY ── */
+.bibliography{
+  margin-top:54px;padding-top:30px;
+  border-top:2px solid var(--border-h);
+  font-size:0.9rem;
+}
+.bibliography h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-weight:normal;
+  margin-bottom:20px;color:var(--text);
+}
+.citation{
+  margin-bottom:14px;line-height:1.75;
+  padding-left:20px;text-indent:-20px;
+  font-size:0.875rem;
+}
+
+/* ── PROVENANCE CHAIN (CSS-only) ── */
+.provenance-chain{
+  margin:32px 0;
+  font-family:'Courier Prime',monospace;
+  position:relative;
+}
+
+.prov-step{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  margin-bottom:0;
+}
+
+.prov-spine{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  flex-shrink:0;
+  width:36px;
+}
+
+.prov-node{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--amber);
+  border:2px solid var(--amber-d);
+  flex-shrink:0;
+  position:relative;
+  animation:nodePulse 3s ease-in-out infinite;
+}
+
+.prov-step:nth-child(2) .prov-node{animation-delay:0.4s;}
+.prov-step:nth-child(3) .prov-node{animation-delay:0.8s;}
+.prov-step:nth-child(4) .prov-node{animation-delay:1.2s;}
+
+@keyframes nodePulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(176,125,58,0);}
+  50%{box-shadow:0 0 0 4px rgba(176,125,58,0.18);}
+}
+
+.prov-link{
+  width:2px;
+  flex:1;
+  min-height:52px;
+  background:repeating-linear-gradient(
+    to bottom,
+    var(--amber) 0px,
+    var(--amber) 4px,
+    transparent 4px,
+    transparent 10px
+  );
+  margin:2px 0;
+  animation:chainDraw 1.2s ease forwards;
+  transform-origin:top center;
+  animation-fill-mode:both;
+}
+
+.prov-step:nth-child(1) .prov-link{animation-delay:0.1s;}
+.prov-step:nth-child(2) .prov-link{animation-delay:0.5s;}
+.prov-step:nth-child(3) .prov-link{animation-delay:0.9s;}
+
+@keyframes chainDraw{
+  from{transform:scaleY(0);}
+  to{transform:scaleY(1);}
+}
+
+.prov-card{
+  flex:1;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:3px solid var(--amber);
+  padding:14px 18px 16px;
+  margin-bottom:8px;
+  border-radius:2px;
+}
+
+.prov-card-label{
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--amber);
+  display:block;margin-bottom:6px;font-weight:700;
+}
+
+.prov-card-title{
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;color:var(--ink);
+  display:block;margin-bottom:6px;font-weight:600;
+}
+
+.prov-card-note{
+  font-size:0.875rem;color:var(--muted);
+  line-height:1.6;
+}
+
+.prov-transfer-label{
+  font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(176,125,58,0.55);
+  padding:4px 0 4px 10px;
+  border-left:2px dashed rgba(176,125,58,0.25);
+  margin:0 0 8px 17px;
+  display:block;
+}
+
+/* ── FOOTER ── */
+.doc-footer{
+  margin-top:60px;padding-top:30px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.8rem;letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+/* ── FOOTER BAR ── */
+.footer-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:40px;background:var(--bg);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  font-size:0.8rem;letter-spacing:2px;
+}
+.footer-bar a{color:var(--accent);text-decoration:none;border:none;}
+.footer-bar a:hover{color:var(--amber);background:transparent;}
+.footer-sep{color:var(--border-h);}
+
+/* ── GENERAL LINKS ── */
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,71,0.3);}
+a:hover{background:rgba(139,111,71,0.06);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  #entry{align-items:flex-start;overflow-y:auto;}
+  .entry-content{padding:28px 20px 80px;}
+  .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
+  h1{font-size:1.9rem;}
+  h2{font-size:1.4rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div style="width:1px;height:12px;background:var(--border);"></div>
+  <div class="sb-label">THE PROVENANCE DOCUMENT · CRITICAL CONSCIOUSNESS · SAT 05.30</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div id="entry" onclick="openMain()">
+  <div class="entry-bg"></div>
+  <div class="entry-tint"></div>
+  <div class="entry-overlay"></div>
+  <div class="entry-trace"></div>
+  <div class="entry-corner">The Provenance Document<br>Critical Consciousness · ⊞</div>
+  <div class="entry-content">
+    <div class="entry-stamp">
+      <span>Meliorism2.com</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>May 30, 2026</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>Issue 030</span>
+    </div>
+    <h1 class="entry-title">The<br>Provenance<br>Document</h1>
+    <p class="entry-sub">Before you teach a framework, know where it came from — whose field it emerged from, and what got erased in translation.</p>
+    <button class="entry-enter" onclick="openMain()">Trace the provenance →</button>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div id="main-panel">
+
+  <div class="sections-rail" id="sections-rail">
+
+    <!-- CARD 0: THE SIGNAL -->
+    <div class="card" id="card-signal">
+      <div class="card-inner">
+
+        <div class="metadata">
+          <div class="date-tag">May 30, 2026 · Saturday</div>
+          <div class="issue-format-badge">⊞ Provenance Document · Issue 030</div>
+          <h1>The Provenance Document</h1>
+          <p class="subtitle">On what it means to know where your frameworks actually came from</p>
+        </div>
+
+        <img src="the-provenance-document-hero.jpg" alt="Aged auction house provenance documents, ink stamps, chain of custody records on cream paper" class="hero-image">
+
+        <div class="highlight">
+          <span class="highlight-label">90-Second Signal</span>
+          <p>Today is May 30. Five days ago was Africa Day — the anniversary of the founding of the African Union, marked annually to honor the continuity of the African liberation movement. Most practitioners who work with frameworks developed by African, Indigenous, or non-Western thinkers will not have marked it. Not because they object to it. Because they don't know which of their frameworks those are.</p>
+          <p style="margin-top:1em;">Provenance in the art world is a documented chain of custody: who held a work, under what conditions, how it passed between hands. A work without provenance is a work whose full history is unknown — and whose value, in the full sense, cannot be assessed. The same logic applies to practitioner knowledge. Most frameworks in circulation today have origins that are not reflected in how they are taught, cited, or sold. Something changed in the translation. This issue is about learning to ask what.</p>
+          <p style="margin-top:1em;">Provenance work is not about guilt. It is about accuracy. Knowing what the map is actually a map of.</p>
+        </div>
+
+        <div class="begin-prompt">
+          <button onclick="goTo(1)">Begin reading →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 1: THE PHENOMENON -->
+    <div class="card" id="card-phenomenon">
+      <div class="card-inner">
+
+        <span class="section-number">§ 01 · The Phenomenon</span>
+        <h2>Three Frameworks, Three Missing Chains of Custody</h2>
+
+        <p>The practitioner field runs on borrowed frameworks. That is not a problem. Knowledge travels. Disciplines cross-pollinate. The problem is when the travel goes undocumented — when a framework arrives in a training room stripped of its origin context, carrying none of the conditions that gave it meaning, and the practitioners using it have no idea what was left behind at the border.</p>
+
+        <h3>Paulo Freire and the Corporate Training Sector</h3>
+
+        <p>Paulo Freire developed critical consciousness — <em>conscientização</em> — in the context of Brazilian adult literacy education in the 1960s, working with landless peasants in the Northeast of Brazil under a military dictatorship. The framework was not a professional development model. It was a theory of how oppressed people come to recognize the structures that constrain their lives so they can act collectively to change them. Freire was working in a context of radical material inequality. The "learner" he had in mind could not read. The "educator" he critiqued was the state apparatus and the Church.</p>
+
+        <p>When Freire's vocabulary — dialogue, banking model of education, praxis, liberation — traveled into organizational development and corporate training in the 1990s and 2000s, it underwent a specific transformation. The structural analysis was removed. What remained were the facilitation aesthetics: inquiry over lecture, participant voice, collaborative learning. The power question — who benefits from this structure, and who is kept in place by it — largely disappeared. A framework built to destabilize hierarchy became a technique deployed by organizations to improve engagement while the hierarchy remained intact.</p>
+
+        <span class="trace-rule"></span>
+
+        <h3>Nonviolent Communication and Its Suppressed Lineage</h3>
+
+        <p>Marshall Rosenberg developed Nonviolent Communication (NVC) drawing heavily on Carl Rogers' person-centered therapy, which itself drew on Abraham Maslow's humanistic psychology and the existentialist tradition — Buber, Sartre, the European philosophical heritage. Rosenberg trained as a psychologist under Rogers at the University of Chicago. The framework has a clear intellectual genealogy, and that genealogy is predominantly Western, academic, and middle-class in its assumptions about how emotions should be expressed, what constitutes a "need," and what resolution looks like.</p>
+
+        <p>NVC's adoption in social justice contexts, mediation practice, and corporate facilitation frequently proceeds without this context. Practitioners trained in NVC are often unaware that the framework's model of emotional expression encodes specific cultural assumptions about interiority, self-disclosure, and conflict that are not universal — and that communities with different relational norms may experience NVC protocol as a form of emotional colonization rather than liberation.</p>
+
+        <span class="trace-rule"></span>
+
+        <h3>Somatic Practice and De-attributed Knowledge</h3>
+
+        <p>The body-based knowledge now marketed in professional wellness contexts as somatic coaching, trauma-informed facilitation, and embodied leadership has multiple lineages. Some is traceable through Western clinical research — Porges, van der Kolk, Levine. But significant portions of what practitioners now call "somatic knowledge" — particularly around grief, collective trauma, ancestral wounding, and intergenerational resilience — were developed in communities of color, in Indigenous healing traditions, and by practitioners like Resmaa Menakem whose direct intellectual contribution is frequently absent from the certification curricula that sell access to that knowledge.</p>
+
+        <p>Menakem's work on racialized trauma and somatic healing, developed in a specific lineage of Black church tradition, community organizing, and clinical practice, circulates in wellness markets largely stripped of its originating context and community. The body knowledge travels. The attribution does not always follow.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 2: THE EVIDENCE -->
+    <div class="card" id="card-evidence">
+      <div class="card-inner">
+
+        <span class="section-number">§ 02 · The Evidence</span>
+        <h2>Three Research Anchors</h2>
+
+        <p>The phenomenon has a mechanism. It has documented consequences. And it has a body of scholarship — much of it developed outside the institutions that train most practitioners — that explains why provenance erasure is not accidental.</p>
+
+        <div class="research-block">
+          <span class="researcher">Bourdieu, 1990 — Habitus and the Invisible Provenance</span>
+          <p>Pierre Bourdieu's concept of habitus describes the embodied dispositions through which practitioners perceive, evaluate, and act in the world — dispositions acquired through social position, education, class, and cultural formation, operating below the level of conscious choice. Habitus is not what you believe. It is what you cannot see because it is the lens through which you see everything else. A practitioner whose habitus was formed in Western academic institutions will experience certain citation practices, certain knowledge forms, and certain intellectual authorities as simply "rigorous" or "serious" — without perceiving that what they are recognizing as rigor is the product of a specific institutional genealogy that excluded other knowledge traditions. The practitioner who has never been trained to question this will not notice that the frameworks they reach for all come from the same quadrant of the map.</p>
+        </div>
+
+        <div class="cite">
+          "The conditionings associated with a particular class of conditions of existence produce habitus, systems of durable, transposable dispositions... principles which generate and organize practices."<br>
+          — Bourdieu, Pierre. <em>The Logic of Practice.</em> Stanford University Press, 1990. p. 53.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Tuck &amp; Yang, 2012 — When the Language Travels Without the Commitment</span>
+          <p>Eve Tuck and K. Wayne Yang's 2012 paper "Decolonization Is Not a Metaphor" is the most-cited piece in settler colonial studies, and one of the most selectively read. Their central argument is that when "decolonization" is adopted as a metaphor for social justice work — diversity initiatives, inclusive pedagogy, equity frameworks — it performs a substitution: the metaphor does the emotional and rhetorical work of decolonization while the material question (the land, the sovereignty, the concrete redistribution of what was taken) goes unaddressed. The paper's application to practitioner knowledge is direct: when practitioners adopt the language of liberation frameworks without the material commitments that gave that language its meaning, they are performing the same substitution. The vocabulary travels. The analysis that required something from the practitioner does not.</p>
+        </div>
+
+        <div class="cite">
+          "When metaphor invades decolonization, it kills the very possibility of decolonization; it recenters whiteness, it resettles theory, it extends innocence to the settler, it entertains a settler future."<br>
+          — Tuck, Eve, and K. Wayne Yang. "Decolonization Is Not a Metaphor." <em>Decolonization: Indigeneity, Education &amp; Society,</em> vol. 1, no. 1, 2012. p. 3.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Menakem, 2017 — De-attributed Somatic Knowledge</span>
+          <p>Resmaa Menakem's <em>My Grandmother's Hands</em> documents somatic knowledge — embodied knowing about trauma, resilience, and healing — developed within Black American communities, tracing it through the body memories of slavery, Jim Crow, and contemporary police violence. Menakem argues that this knowledge has always existed in the bodies of Black Americans; what professional wellness culture has done is formalize adjacent concepts in clinical language, apply them in predominantly white institutional settings, and frequently failed to acknowledge the communities in which the original practice lived. Menakem's work is not only a framework. It is a provenance document: a deliberate act of attribution, returning somatic knowledge to its source community before it is absorbed into the market without acknowledgment.</p>
+        </div>
+
+        <div class="cite">
+          "White body supremacy doesn't just live in our heads. It lives and breathes in our bodies."<br>
+          — Menakem, Resmaa. <em>My Grandmother's Hands.</em> Central Recovery Press, 2017. p. 5.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: THE CONCEPT -->
+    <div class="card" id="card-concept">
+      <div class="card-inner">
+
+        <span class="section-number">§ 03 · The Concept</span>
+        <h2>Building a Provenance Document</h2>
+
+        <p>In the art world, a provenance document is not an opinion about a work's quality. It is a factual record: who held it, when, under what conditions, and how it moved. The chain of custody is what allows a work to be assessed in full — including whether it was stolen, whether its value was suppressed during certain periods, and whose hands held it before the auction house.</p>
+
+        <p>A practitioner's provenance document for a framework they use is the same kind of record. Five questions structure it:</p>
+
+        <div class="concept-box">
+          <span class="cb-label">Question 1 — Who Developed It?</span>
+          <p>Not the trainer who taught you the certification. Not the consultant who packaged it. The originating thinker or community. What is their name? What is their institutional and social position? What community did they come from and write for?</p>
+        </div>
+
+        <div class="concept-box">
+          <span class="cb-label">Question 2 — In What Conditions?</span>
+          <p>What problem were they solving? What was the material context? Were they working in a clinical setting, a liberation movement, a research university, a community of practice with no institutional affiliation? Context shapes the framework's assumptions about who holds power and what change looks like.</p>
+        </div>
+
+        <div class="concept-box">
+          <span class="cb-label">Question 3 — For Whom?</span>
+          <p>Who was the intended user of this framework? Who was the intended beneficiary? A framework designed to serve oppressed communities may function very differently when deployed by the institution those communities are navigating.</p>
+        </div>
+
+        <div class="concept-box">
+          <span class="cb-label">Question 4 — What Problem Were They Solving?</span>
+          <p>Not the problem the certification now sells it as solving. The original problem. If that problem no longer exists in your context, or if your context is the entity the framework was developed to challenge, that gap is worth knowing.</p>
+        </div>
+
+        <div class="concept-box">
+          <span class="cb-label">Question 5 — What Changed in the Travel?</span>
+          <p>What was dropped between the original context and your current use? What was added by the institutions that packaged it for market? What structural analysis was removed? What material commitment was converted into a facilitation technique?</p>
+        </div>
+
+        <span class="trace-rule"></span>
+
+        <h3>The Chain of Custody — A Framework in Transit</h3>
+
+        <p>Below: a single framework traced through the five-question provenance chain. This is what the record looks like when it is kept.</p>
+
+        <!-- PROVENANCE CHAIN: CSS-ANIMATED -->
+        <div class="provenance-chain" aria-label="Provenance chain for Paulo Freire's critical consciousness framework">
+
+          <div class="prov-step">
+            <div class="prov-spine">
+              <div class="prov-node"></div>
+              <div class="prov-link"></div>
+            </div>
+            <div>
+              <div class="prov-card">
+                <span class="prov-card-label">Origin Context · 1960s Brazil</span>
+                <span class="prov-card-title">Paulo Freire — Critical Consciousness</span>
+                <span class="prov-card-note">Developed for illiterate landless peasants in Northeast Brazil. Purpose: collective recognition of structural oppression. Audience: people with no institutional power. The dialogue was not a facilitation technique — it was a political act.</span>
+              </div>
+              <span class="prov-transfer-label">↓ Transfer · 1970s–80s · Academic adoption, North America and Europe</span>
+            </div>
+          </div>
+
+          <div class="prov-step">
+            <div class="prov-spine">
+              <div class="prov-node"></div>
+              <div class="prov-link"></div>
+            </div>
+            <div>
+              <div class="prov-card">
+                <span class="prov-card-label">Institutional Adoption · Schools of Education</span>
+                <span class="prov-card-title">Critical Pedagogy as Academic Discipline</span>
+                <span class="prov-card-note">Freire's work enters teacher education programs in the United States and Europe. The vocabulary — dialogue, praxis, banking model — is preserved. The material context (a military dictatorship, land hunger, mass illiteracy) is progressively dropped. The framework becomes a theory of good teaching rather than a tool for collective political action.</span>
+              </div>
+              <span class="prov-transfer-label">↓ Transfer · 1990s–2000s · Organizational development and L&amp;D market</span>
+            </div>
+          </div>
+
+          <div class="prov-step">
+            <div class="prov-spine">
+              <div class="prov-node"></div>
+              <div class="prov-link"></div>
+            </div>
+            <div>
+              <div class="prov-card">
+                <span class="prov-card-label">Market Packaging · Corporate L&amp;D</span>
+                <span class="prov-card-title">Dialogic Facilitation and Participatory Methods</span>
+                <span class="prov-card-note">The aesthetics of dialogue, participant voice, and collaborative inquiry are retained. The power analysis — who holds structural power in this room, and whose interests does the current structure serve — is largely absent. The question "what are we collectively trying to change?" has become "how can we improve employee engagement?" The framework is now a service sold to the organizations Freire was analyzing.</span>
+              </div>
+              <span class="prov-transfer-label">↓ Transfer · 2010s–present · Practitioner toolkits and certification programs</span>
+            </div>
+          </div>
+
+          <div class="prov-step">
+            <div class="prov-spine">
+              <div class="prov-node"></div>
+            </div>
+            <div>
+              <div class="prov-card" style="border-left-color:var(--amber-d);border-left-width:4px;">
+                <span class="prov-card-label">Current Practitioner Use · 2026</span>
+                <span class="prov-card-title">You — In the Training Room</span>
+                <span class="prov-card-note">The practitioner knows "Freirean facilitation" as a style. They may or may not know Freire's name. They almost certainly do not know he was exiled from Brazil for this work. They are using a tool developed to challenge institutional power inside an institution, deployed in a workshop, for a fee, without structural change as the goal. The chain of custody is this document. Most practitioners have never seen it.</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /provenance-chain -->
+
+      </div>
+    </div>
+
+    <!-- CARD 4: EDGE CASES -->
+    <div class="card" id="card-edge-cases">
+      <div class="card-inner">
+
+        <span class="section-number">§ 04 · Edge Cases</span>
+        <h2>Four Places Provenance Work Gets Complicated</h2>
+
+        <p>The case for building provenance documents is strong. The complications are real. A practitioner who performs attribution without structural change has done something different — and possibly something worse — than a practitioner who simply did not know.</p>
+
+        <h3>When Provenance Becomes Performative Citation</h3>
+
+        <p>Adding a land acknowledgment at the start of a workshop, or citing Freire in a footnote, while delivering the same unchanged curriculum is the Tuck and Yang problem in practice. The attribution is real. The structural implications of the attribution — the question of whether this framework should be used here, in this form, for this client — remain unexamined. Performative citation is a form of laundering: it gives the practitioner the feeling of having addressed the provenance question while leaving the provenance question entirely intact. The test is whether the provenance information changed anything about the design.</p>
+
+        <h3>Time Constraints in Professional Development Contexts</h3>
+
+        <p>The practical objection is real: a practitioner facilitating a two-day retreat has limited capacity to deliver a seminar in the intellectual history of their toolkit. This is true. The response is not that practitioners must deliver the full provenance document in every session. It is that the practitioner should hold it themselves — should know it — before they teach. What a participant needs is different from what a practitioner needs. The practitioner who knows the provenance and chooses not to foreground it in every context has made a judgment call. The practitioner who does not know has made an omission.</p>
+
+        <h3>When the Original Developers Are No Longer Accessible</h3>
+
+        <p>Some frameworks carry Indigenous, oral, or community-based origins where individual authorship was never the organizing principle. Attributing to a named author who does not exist, or to a community that has not consented to that attribution, can be its own form of distortion. The provenance document in these cases records what is knowable, acknowledges what is not, and does not substitute a convenient citation for a genuine unknown. "This practice has roots in [tradition/community]; the lineage as I received it traces to [specific teacher or source]; I am uncertain about earlier transmission" is an honest provenance document. Silence is not.</p>
+
+        <h3>When the Provenance Reveals the Framework Should Not Be Used Here</h3>
+
+        <p>This is the most consequential edge case. A provenance document can conclude that a framework is not appropriate for a particular context — that what it does in this setting is the opposite of what it was designed to do, or that deploying it here requires a form of structural honesty the contracting organization has not agreed to. A practitioner who concludes this has a decision to make. That is a harder position than not knowing. But it is an accurate position. The provenance document does not always produce a green light.</p>
+
+        <div class="margin-note">
+          The bell hooks question is live here: "Teaching to Transgress" is not a facilitation manual. It is a practitioner examining whether their own pedagogy reproduces the hierarchies it claims to challenge. The provenance document is not a compliance exercise. It is that examination.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 5: THE ROOTS -->
+    <div class="card" id="card-roots">
+      <div class="card-inner">
+
+        <span class="section-number">§ 05 · The Roots</span>
+        <h2>Why Citation Culture Developed the Way It Did</h2>
+
+        <p>The Western academic citation system — the footnote, the bibliography, the DOI — is a technology with a history. It developed primarily in European universities from the 17th century onward as a mechanism for establishing priority: who said something first, and in which institutional context. The system was designed to track ownership of ideas within a community of scholars who were, predominantly, European, male, literate in Latin and Greek, and embedded in institutional structures funded by states and churches that controlled access to education.</p>
+
+        <p>What the citation system was not designed to do is acknowledge knowledge that existed outside those institutions — oral traditions, community practices, embodied knowledge, the accumulated observations of people who were systematically excluded from the universities doing the citing. The citation apparatus was built for a particular community. It performs well within that community. It has significant gaps outside it.</p>
+
+        <div class="cite">
+          "The decision about whose knowledge counts — whose gets the footnote, whose gets the curriculum, whose gets the certification revenue — is not a neutral technical question. It is a question about whose institutions hold the power of legitimation."<br>
+          — Drawing on hooks, bell. <em>Teaching to Transgress.</em> Routledge, 1994. pp. 12–14.
+        </div>
+
+        <h3>The Practitioner's Habitus and the Blind Spot</h3>
+
+        <p>Bourdieu's contribution is the mechanism: practitioners do not consciously decide to ignore non-Western knowledge. Their habitus — the set of dispositions formed through their educational and professional training — simply does not perceive that knowledge as a legitimate citation source. It does not look like a peer-reviewed journal article. It does not have a DOI. It comes from a community or tradition that the practitioner's training did not include in its canon. The practitioner reaches for the Bourdieu and not the Menakem not because they have weighed both and chosen. They reach for the Bourdieu because the Bourdieu looks like what "serious research" looks like to them. The Menakem does not, yet, occupy the same perceptual category.</p>
+
+        <p>This is not fixed. Habitus is formed — which means it can be reformed. The practitioner who builds a deliberate provenance practice, who reads outside their training's canon, who asks the five questions before deploying a framework, is doing the thing that habitus makes difficult: seeing the lens.</p>
+
+        <h3>Africa Day and the Practitioner's Canon</h3>
+
+        <p>Africa Day (May 25) marks the 1963 founding of the Organisation of African Unity — the predecessor to the African Union — and the continuity of the African liberation movement. The frameworks that emerged from that movement — Ubuntu philosophy, African communitarian ethics, the intellectual tradition of thinkers like Frantz Fanon, Steve Biko, Chinua Achebe, Ngugi wa Thiong'o — are rarely included in practitioner certification curricula in Europe or North America. They are not absent because no practitioner knowledge was developed there. They are absent because the citation system was not built to route through those institutions.</p>
+
+        <p>A practitioner who builds a provenance document for their toolkit is, in part, conducting an audit: which of these frameworks could have come from that tradition, or did come from it and had the attribution removed in transit? Which could not have — and what does that tell them about the limits of their current canon?</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 6: APPLICATION + BIBLIOGRAPHY -->
+    <div class="card" id="card-application">
+      <div class="card-inner">
+
+        <span class="section-number">§ 06 · Application · What Would You Do?</span>
+        <h2>Camille, Two Days Before the Retreat</h2>
+
+        <div class="scenario">
+          <span class="scenario-label">The Scenario</span>
+          Camille is a leadership development consultant. She is two days from facilitating a two-day leadership retreat. Her design uses Appreciative Inquiry, three Liberating Structures activities, and a brief introduction to Nonviolent Communication for a team working through a difficult transition. She has used all three tools for four years. During her final prep call, a colleague asks: "Do you know where any of these actually came from?" Camille realizes she does not. She knows the tools work. She does not know who developed them, in what context, for whom, or what was changed in the process of packaging them for corporate facilitation. She has 48 hours. Three paths.
+        </div>
+
+        <p>Read your role before you read the options:</p>
+
+        <div class="role-gate">
+          <span class="role-chip">You design and teach tools you haven't traced</span>
+          <span class="role-chip">Your work has been taught without your name</span>
+          <span class="role-chip">You've had your own work de-attributed</span>
+        </div>
+
+        <div class="response-set">
+          <div class="response-option">
+            <span class="ro-label">Option A — Proceed as Planned</span>
+            <p>Camille delivers the retreat as designed. The tools work well. Participants find the AI process generative, the Liberating Structures activities energizing, and the NVC introduction useful. No one asks about origins. Camille has served the client well by the metrics on the evaluation form. She has also delivered three frameworks without being able to answer a basic question about their intellectual history. The colleague's question remains unanswered. It will come up again — from a participant, a client, a skeptic — and Camille will be in the same position. The gap is stable, not resolved.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">Option B — Add Attribution Without Structural Change</span>
+            <p>Camille spends two hours the night before the retreat building a partial provenance map. She learns that Appreciative Inquiry was developed by David Cooperrider and Suresh Srivastva at Case Western Reserve University in the 1980s, drawing on social constructionism and positive psychology. She learns that NVC traces to Rosenberg and through him to Rogers. She adds a brief attribution slide at the start of each section. The curriculum is unchanged. She has done more than she did before. She has also illustrated the Tuck and Yang risk: attribution without examining whether the structural implications of the provenance change anything about the design. It is better than nothing. It is not yet provenance work.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">Option C — Redesign from Provenance</span>
+            <p>Camille treats the 48 hours as a genuine constraint and does what is possible within it. She builds a basic provenance document for each tool — five questions, honest about what she does not yet know. She finds that Appreciative Inquiry has a relatively accessible academic lineage and can be attributed clearly. She finds that Liberating Structures draws from a more distributed set of influences, some of which she cannot trace in 48 hours, and notes that gap. She finds that her NVC introduction, as currently designed, makes cultural assumptions about emotional expression that may not fit all participants. She revises that section: shorter, framed as one approach rather than the approach, with explicit acknowledgment that emotional expression norms vary. She does not become an expert in two days. She arrives at the retreat knowing what she knows and what she doesn't — and she can say so. That is a different practitioner relationship to the tools than she had before the call.</p>
+          </div>
+        </div>
+
+        <h3>What Provenance Work Actually Produces</h3>
+
+        <p>Option C does not produce a perfect curriculum. It produces a practitioner who can hold the tools with more accuracy — who can say "this framework was developed in this context for this purpose, and I'm deploying it here, which is a different context, and here's what I've thought about that gap" — and who has begun a practice that will extend to the rest of their toolkit over time. Provenance work is not a one-time audit. It is a habit of tracing before teaching.</p>
+
+        <p>The colleague's question — "Do you know where any of these actually came from?" — is not a gotcha. It is the question every practitioner should be able to answer about every tool in their kit. Not because not knowing makes someone a bad practitioner. Because knowing makes them a more accurate one.</p>
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="bibliography">
+          <h3>Sources</h3>
+
+          <div class="citation">
+            Freire, Paulo. <em>Pedagogy of the Oppressed.</em> Translated by Myra Bergman Ramos, Herder and Herder, 1970. — The origin of critical consciousness as a practitioner framework; developed in Brazilian adult literacy education, not organizational development.
+          </div>
+
+          <div class="citation">
+            Bourdieu, Pierre. <em>The Logic of Practice.</em> Stanford University Press, 1990. — Habitus as the mechanism by which practitioners cannot see the gaps in their own provenance — what "natural" or "universal" practice actually reflects.
+          </div>
+
+          <div class="citation">
+            hooks, bell. <em>Teaching to Transgress: Education as the Practice of Freedom.</em> Routledge, 1994. — The political content of what gets erased in the transfer of knowledge from margin to mainstream.
+          </div>
+
+          <div class="citation">
+            Tuck, Eve, and K. Wayne Yang. "Decolonization Is Not a Metaphor." <em>Decolonization: Indigeneity, Education &amp; Society,</em> vol. 1, no. 1, 2012, pp. 1–40. — On what is lost when social justice language is adopted without the material commitments that gave it meaning.
+          </div>
+
+          <div class="citation">
+            Menakem, Resmaa. <em>My Grandmother's Hands: Racialized Trauma and the Pathway to Mending Our Hearts and Families.</em> Central Recovery Press, 2017. — On how bodily knowledge and somatic practice has been developed in communities of color and is frequently de-attributed in professional wellness contexts.
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /sections-rail -->
+
+  <!-- PROGRESS + NAV -->
+  <div class="reading-progress" id="reading-progress">
+    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <div class="progress-trace">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
+  </div>
+
+</div><!-- /main-panel -->
+
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+</div>
+
+<script>
+/* ── UTC CLOCK ── */
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');
+  if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+/* ── ENTRY → MAIN ── */
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },800);
+
+  track('enter','entry_screen');
+}
+
+/* ── CARD NAVIGATION ── */
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application'];
+let currentCard=0;
+
+function goTo(index){
+  if(index<0||index>=CARDS.length)return;
+  const cards=document.querySelectorAll('.card');
+  if(cards[currentCard])cards[currentCard].scrollTop=0;
+  currentCard=index;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
+  const label=document.getElementById('progress-label');
+  if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
+  document.getElementById('nav-prev').disabled=index===0;
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  track('navigate',CARDS[index]);
+}
+
+/* ── TOUCH SWIPE ── */
+let touchStartX=0,touchStartY=0;
+document.getElementById('main-panel').addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('main-panel').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44){
+    if(dx<0)goTo(currentCard+1);
+    else goTo(currentCard-1);
+  }
+},{passive:true});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('main-panel').classList.contains('visible'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(currentCard+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(currentCard-1);}
+});
+
+/* ── ENGAGEMENT TRACKING ── */
+const _sos=(()=>{
+  const ENDPOINT='https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY='sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const SESSION_ID=Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,10);
+  const ISSUE_NUMBER='030';
+  const ISSUE_SLUG='the-provenance-document';
+  let queue=[];
+  let flushTimer=null;
+
+  function activeCardScrollPct(){
+    const cards=document.querySelectorAll('.card');
+    const card=cards[currentCard];
+    if(!card)return 0;
+    const total=card.scrollHeight-card.clientHeight;
+    return total>0?Math.round((card.scrollTop/total)*100):0;
+  }
+
+  function flush(){
+    if(!queue.length)return;
+    const batch=queue.splice(0);
+    batch.forEach(ev=>{
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{
+          'apikey':API_KEY,
+          'Authorization':'Bearer '+API_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'return=minimal'
+        },
+        body:JSON.stringify({
+          title:'meliorism2.com | '+ISSUE_SLUG+' | '+ev.event+' | '+ev.label,
+          occurred_at:ev.ts,
+          reflection:SESSION_ID,
+          notes:JSON.stringify({
+            issue_number:ISSUE_NUMBER,
+            issue_slug:ISSUE_SLUG,
+            event:ev.event,
+            label:ev.label,
+            extra:ev.extra||null,
+            referrer:document.referrer||null,
+            card_index:ev.card_index,
+            card_name:CARDS[ev.card_index]||null,
+            scroll_pct:ev.scroll_pct,
+            viewport_w:window.innerWidth,
+            viewport_h:window.innerHeight
+          })
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    });
+  }
+
+  function enqueue(event,label,extra){
+    queue.push({
+      event,label,extra,
+      ts:new Date().toISOString(),
+      card_index:currentCard,
+      scroll_pct:activeCardScrollPct()
+    });
+    if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
+  }
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden')flush();
+  });
+
+  return{track:enqueue};
+})();
+
+function track(event,label,extra){
+  console.log('[meliorism2]',event,label,extra||'');
+  _sos.track(event,label,extra);
+}
+
+/* ── PER-CARD SCROLL DEPTH TRACKING ── */
+const cardDepthsFired={};
+document.querySelectorAll('.card').forEach((card,i)=>{
+  cardDepthsFired[i]=new Set();
+  card.addEventListener('scroll',()=>{
+    const total=card.scrollHeight-card.clientHeight;
+    if(total<=0)return;
+    const pct=Math.round((card.scrollTop/total)*100);
+    [25,50,75,90].forEach(d=>{
+      if(pct>=d&&!cardDepthsFired[i].has(d)){
+        cardDepthsFired[i].add(d);
+        track('scroll_depth',CARDS[i]+'_'+d+'pct');
+      }
+    });
+  },{passive:true});
+});
+
+/* ── CLICK TRACKING ── */
+document.addEventListener('click',e=>{
+  if(e.target.closest('.response-option')){
+    const lbl=e.target.closest('.response-option').querySelector('.ro-label');
+    track('interact','response_option',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.research-block')){
+    const lbl=e.target.closest('.research-block').querySelector('.researcher');
+    track('interact','research_block',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.role-chip')){
+    track('interact','role_chip',e.target.closest('.role-chip').textContent.trim());
+  }
+  if(e.target.closest('.prov-card')){
+    const lbl=e.target.closest('.prov-card').querySelector('.prov-card-label');
+    track('interact','provenance_chain',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('a[href*="archive"]')){
+    track('click','archive_link');
+  }
+});
+</script>
+</body>
+</html>
