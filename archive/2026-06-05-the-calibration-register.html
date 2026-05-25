@@ -1,0 +1,1512 @@
+<!-- meliorism2:slug: the-calibration-register -->
+<!-- meliorism2:date: 2026-06-05 -->
+<!-- meliorism2:issue: 036 -->
+<!-- meliorism2:dimension: Gender & Generational Difference -->
+<!-- meliorism2:format: Calibration Register -->
+<!-- meliorism2:architecture: horizontal-swipe -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · The Calibration Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #faf8f5;
+  --surface:   #f0ebe3;
+  --border:    rgba(139,111,71,0.15);
+  --border-h:  rgba(139,111,71,0.3);
+  --accent:    #8b6f47;
+  --accentf:   rgba(139,111,71,0.5);
+  --amber:     #b07d3a;
+  --amber-l:   #d4a055;
+  --amber-d:   #7a5520;
+  --text:      #2c2c2c;
+  --muted:     rgba(44,44,44,0.85);
+  --dim:       rgba(44,44,44,0.72);
+  --dark-band: #1a1714;
+  --cream:     #c8b99a;
+  --ink:       #1a1714;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Courier Prime',monospace;
+  overflow:hidden;
+}
+
+/* ── STATUS BAR ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:36px;
+  background:rgba(0,0,0,0.02);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.sb-logo{
+  font-size:0.8rem;letter-spacing:4px;font-weight:700;
+  color:var(--accent);text-decoration:none;border:none;
+}
+.sb-logo:hover{background:transparent;}
+.sb-label{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);flex:1;
+}
+.sb-clock{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);
+}
+
+/* ── ENTRY SCREEN ── */
+#entry{
+  position:fixed;inset:0;top:36px;z-index:800;
+  overflow:hidden;
+  cursor:pointer;
+  transition:opacity 1.2s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-bg{
+  position:absolute;inset:0;
+  background:url('the-calibration-register-hero.jpg') center center / cover no-repeat,
+             linear-gradient(160deg,#0f0f1a 0%,#1a1525 35%,#0a0a15 70%,#1a1714 100%);
+  transform:scale(1.04);
+  animation:kb 14s ease-out forwards;
+}
+@keyframes kb{
+  from{transform:scale(1.04);}
+  to{transform:scale(1.0);}
+}
+
+.entry-tint{
+  position:absolute;inset:0;
+  background:rgba(15,10,30,0.22);
+  mix-blend-mode:multiply;
+}
+
+.entry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(8,6,18,0.22) 0%,
+    rgba(8,6,18,0.44) 40%,
+    rgba(8,6,18,0.88) 100%
+  );
+}
+
+.entry-grid-trace{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+  animation:fadeInTrace 1.5s ease 0.8s forwards;
+  background-image:
+    linear-gradient(rgba(139,111,71,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,111,71,0.06) 1px, transparent 1px);
+  background-size:48px 48px;
+}
+@keyframes fadeInTrace{
+  to{opacity:1;}
+}
+
+.entry-corner{
+  position:absolute;top:24px;right:32px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;
+  color:rgba(200,185,220,0.75);
+  text-transform:uppercase;text-align:right;line-height:1.9;
+}
+
+.entry-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:44px 56px 52px;
+}
+
+.entry-stamp{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(200,185,220,0.65);
+  display:flex;gap:18px;align-items:center;
+  margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;
+}
+.entry-stamp-sep{opacity:0.35;}
+
+.entry-title{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(3.8rem,9vw,7rem);
+  font-weight:400;line-height:1.0;
+  color:#f8f4ff;letter-spacing:-0.02em;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(14px);
+  animation:fadeUp 0.9s ease 0.55s forwards;
+}
+
+.entry-sub{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-style:italic;
+  color:rgba(230,220,245,0.60);
+  margin-bottom:36px;
+  opacity:0;transform:translateY(8px);
+  animation:fadeUp 0.8s ease 0.85s forwards;
+}
+
+.entry-enter{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(200,185,220,0.85);
+  background:none;border:none;border-bottom:1px solid rgba(200,185,220,0.35);
+  padding-bottom:3px;cursor:pointer;
+  opacity:0;animation:fadeUp 0.7s ease 1.3s forwards;
+  transition:color 0.2s,border-color 0.2s;
+}
+.entry-enter:hover{
+  color:#f8f4ff;
+  border-bottom-color:rgba(240,230,255,0.65);
+}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:640px){
+  .entry-content{padding:32px 24px 40px;}
+  .entry-corner{display:none;}
+  .entry-stamp{flex-wrap:wrap;gap:10px;}
+}
+
+/* ── MAIN PANEL ── */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+  overflow:hidden;
+  background:var(--bg);
+}
+#main-panel.visible{
+  display:block;opacity:1;
+}
+
+/* ── SECTIONS RAIL ── */
+.sections-rail{
+  display:flex;
+  flex-direction:row;
+  width:700%;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+.card{
+  width:calc(100% / 7);
+  flex-shrink:0;
+  height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.card-inner{
+  max-width:820px;
+  padding:50px 40px 80px;
+  margin:0 auto;
+}
+
+@media(max-width:768px){
+  .card-inner{padding:30px 20px 80px;}
+}
+
+/* ── READING PROGRESS BAR ── */
+.reading-progress{
+  position:fixed;
+  bottom:40px;left:0;right:0;
+  height:36px;
+  background:var(--dark-band);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:14px;
+  z-index:900;
+}
+
+.progress-trace{
+  flex:1;
+  height:2px;
+  background:rgba(176,125,58,0.15);
+  border-radius:1px;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  position:absolute;
+  top:0;left:0;height:100%;
+  background:var(--amber);
+  transition:width 0.45s cubic-bezier(0.4,0,0.2,1);
+  border-radius:1px;
+}
+
+.progress-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;
+  color:var(--cream);opacity:0.7;
+  white-space:nowrap;
+  min-width:80px;text-align:right;
+}
+
+.nav-prev,.nav-next{
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+}
+.nav-prev:hover,.nav-next:hover{color:var(--amber);}
+.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+
+/* ── CARD 0: SIGNAL HEADER ── */
+.metadata{
+  text-align:center;margin-bottom:50px;
+  border-bottom:2px solid var(--border-h);
+  padding-bottom:30px;color:var(--dim);
+}
+
+.date-tag{
+  font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.issue-format-badge{
+  display:inline-block;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(176,125,58,0.35);
+  padding:3px 10px;
+  margin-bottom:16px;
+}
+
+h1{
+  font-family:'Crimson Text',serif;
+  font-size:2.6rem;font-weight:normal;
+  margin:16px 0 10px;color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.subtitle{
+  font-size:0.95rem;color:var(--dim);
+  margin-top:10px;font-style:italic;
+  font-family:'Crimson Text',serif;
+}
+
+/* ── HERO IMAGE ── */
+.hero-image{
+  width:100%;display:block;margin:0 0 40px;
+  opacity:0.9;
+  border:1px solid var(--border);
+}
+
+/* ── 90-SECOND SIGNAL ── */
+.highlight{
+  background:linear-gradient(135deg,#f5ede0 0%,#faf7f2 100%);
+  border-left:4px solid var(--amber);
+  padding:26px 28px;margin:40px 0;
+  border-radius:2px;
+  border-top:1px solid rgba(176,125,58,0.15);
+  border-bottom:1px solid rgba(176,125,58,0.15);
+  border-right:1px solid rgba(176,125,58,0.08);
+}
+
+.highlight-label{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:var(--amber);margin-bottom:12px;font-weight:700;
+  display:block;
+}
+
+.highlight p{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;line-height:1.65;color:var(--text);
+}
+
+/* ── BEGIN READING PROMPT ── */
+.begin-prompt{
+  margin-top:40px;
+  text-align:center;
+  padding:24px 0 10px;
+  border-top:1px solid var(--border);
+}
+.begin-prompt button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s;
+}
+.begin-prompt button:hover{
+  color:var(--amber-d);
+  border-bottom-color:rgba(122,85,32,0.5);
+}
+
+/* ── SECTION NUMBER BAND ── */
+.section-number{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.16em;
+  display:block;
+  background:var(--dark-band);
+  color:var(--cream);
+  padding:11px 16px;
+  margin:0 -40px 24px;
+}
+
+@media(max-width:768px){
+  .section-number{margin:0 -20px 20px;}
+}
+
+h2{
+  font-family:'Crimson Text',serif;
+  font-size:1.9rem;font-weight:normal;
+  margin-bottom:18px;color:var(--text);
+  border-bottom:1px solid var(--border-h);
+  padding-bottom:10px;
+  letter-spacing:-0.01em;
+}
+
+h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.15rem;font-weight:600;
+  margin-top:24px;margin-bottom:10px;color:var(--ink);
+}
+
+p{
+  font-size:1.0rem;line-height:1.75;
+  margin-bottom:1.1em;
+}
+
+/* ── REGISTER RULE ── */
+.register-rule{
+  display:block;
+  position:relative;
+  height:28px;
+  margin:28px 0 20px;
+  overflow:hidden;
+}
+.register-rule::after{
+  content:'';
+  display:block;
+  position:absolute;
+  top:50%;left:0;right:0;
+  height:1px;
+  background:linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(139,111,71,0.12) 5%,
+    rgba(139,111,71,0.4) 30%,
+    rgba(139,111,71,0.55) 50%,
+    rgba(139,111,71,0.4) 70%,
+    rgba(139,111,71,0.12) 95%,
+    transparent 100%
+  );
+}
+.register-rule::before{
+  content:'▣';
+  display:block;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:0.8rem;
+  color:rgba(139,111,71,0.4);
+  background:var(--bg);
+  padding:0 8px;
+}
+
+/* ── CALLOUT / CITE ── */
+.cite{
+  font-size:0.9rem;
+  color:var(--text);
+  border-left:3px solid var(--amber);
+  padding:12px 18px;
+  margin:18px 0 26px;
+  display:block;
+  letter-spacing:0.3px;
+  line-height:1.75;
+  background:rgba(176,125,58,0.04);
+}
+.cite em{font-style:italic;}
+
+/* ── MARGIN NOTE ── */
+.margin-note{
+  position:relative;margin-left:16px;padding-left:18px;
+  border-left:2px dashed var(--accentf);
+  font-size:0.875rem;color:var(--muted);
+  font-style:italic;margin-top:18px;margin-bottom:18px;
+  line-height:1.65;
+}
+
+/* ── RESEARCH BLOCK ── */
+.research-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.research-block .researcher{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;display:block;font-weight:700;
+}
+.research-block p{
+  font-size:0.95rem;margin-bottom:0;
+}
+
+/* ── CONCEPT BOX ── */
+.concept-box{
+  background:linear-gradient(135deg,#f8f0e2 0%,#faf7f2 100%);
+  border:1px solid rgba(176,125,58,0.2);
+  border-left:4px solid var(--amber-d);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.concept-box .cb-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber-d);margin-bottom:10px;display:block;font-weight:700;
+}
+.concept-box p{font-size:0.95rem;margin-bottom:0;}
+
+/* ── SCENARIO BOX ── */
+.scenario{
+  background:#f8f4ee;
+  border:1px solid rgba(176,125,58,0.25);
+  padding:28px 30px;
+  margin:28px 0;
+  border-radius:2px;
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;
+  line-height:1.75;
+  color:var(--ink);
+  border-top:3px solid var(--amber);
+}
+.scenario-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:14px;display:block;font-weight:700;
+}
+
+/* ── RESPONSE OPTIONS ── */
+.response-set{
+  margin:24px 0;
+}
+.response-option{
+  padding:16px 20px;
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:var(--bg);
+  transition:border-color 0.2s,background 0.2s;
+}
+.response-option:hover{
+  border-color:var(--amber);
+  background:rgba(176,125,58,0.03);
+  cursor:default;
+}
+.response-option .ro-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:8px;font-weight:700;
+}
+.response-option p{font-size:1.0rem;line-height:1.75;margin-bottom:0;}
+
+/* ── REGISTER COMPARISON (Newsletter-impossible) ── */
+
+/* Hidden radio inputs for CSS :checked interaction */
+.reg-toggle-comp{display:none;}
+.reg-toggle-per{display:none;}
+
+.register-comparison{
+  margin:32px 0;
+  border:1px solid var(--border-h);
+  border-radius:2px;
+  overflow:hidden;
+}
+
+.reg-header{
+  background:var(--dark-band);
+  padding:12px 20px;
+  display:flex;align-items:center;gap:10px;
+}
+.reg-header-title{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cream);flex:1;
+}
+.reg-header-hint{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.12em;
+  color:rgba(200,185,154,0.5);
+  font-style:italic;
+}
+
+.reg-cols{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+.reg-col{
+  padding:0;
+  border-right:1px solid var(--border);
+  position:relative;
+}
+.reg-col:last-child{border-right:none;}
+
+.reg-col-head{
+  padding:12px 20px;
+  background:rgba(139,111,71,0.07);
+  border-bottom:1px solid var(--border);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--amber);
+  font-weight:700;
+}
+
+.reg-items{
+  padding:0;
+}
+
+.reg-item{
+  padding:16px 20px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.reg-item:last-child{border-bottom:none;}
+.reg-item:hover{background:rgba(139,111,71,0.04);}
+
+.reg-item-scenario{
+  font-family:'Crimson Text',serif;
+  font-size:1.0rem;
+  line-height:1.65;
+  color:var(--text);
+  margin-bottom:8px;
+}
+
+.reg-item-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--dim);
+  opacity:0.7;
+}
+
+/* Reveal layer — shown on hover via :has() or on click via :checked */
+.reg-reveal{
+  display:block;
+  margin-top:10px;
+  padding:10px 14px;
+  background:rgba(139,111,71,0.08);
+  border-left:3px solid var(--amber);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.08em;
+  color:var(--ink);
+  line-height:1.6;
+
+  /* hidden by default */
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transition:max-height 0.35s ease, opacity 0.3s ease;
+}
+
+/* Hover reveal — CSS :has() where supported */
+.reg-item:hover .reg-reveal{
+  max-height:120px;
+  opacity:1;
+}
+
+/* Toggle via labels + :checked — works everywhere as fallback */
+.reg-toggle-label{
+  display:block;
+  position:absolute;inset:0;
+  cursor:pointer;
+  z-index:2;
+}
+
+/* When the matching hidden input is checked, reveal all .reg-reveal in the comparison */
+#reg-reveal-all:checked ~ .register-comparison .reg-reveal{
+  max-height:120px;
+  opacity:1;
+}
+#reg-reveal-all:checked ~ .register-comparison .reg-header-hint::after{
+  content:' (click again to hide)';
+}
+
+/* Attribute-targeted reveals for the two-column grid */
+.reg-item[data-pair="1"] .reg-reveal{ border-color:#b07d3a; }
+.reg-item[data-pair="2"] .reg-reveal{ border-color:#8b6f47; }
+.reg-item[data-pair="3"] .reg-reveal{ border-color:#7a5520; }
+.reg-item[data-pair="4"] .reg-reveal{ border-color:#b07d3a; }
+
+.reg-reveal .rv-gender{
+  display:inline-block;
+  font-weight:700;
+  letter-spacing:0.12em;
+  margin-bottom:4px;
+}
+.rv-comp .rv-gender{color:#4a7c59;}
+.rv-pers .rv-gender{color:#8b4a6a;}
+
+.reg-divider-row{
+  grid-column:1/-1;
+  height:1px;
+  background:var(--border-h);
+}
+
+.reg-toggle-btn{
+  display:block;
+  width:100%;
+  padding:11px 20px;
+  background:none;
+  border:none;
+  border-top:1px solid var(--border);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--amber);
+  cursor:pointer;
+  text-align:center;
+  transition:background 0.2s,color 0.2s;
+}
+.reg-toggle-btn:hover{
+  background:rgba(139,111,71,0.06);
+  color:var(--amber-d);
+}
+
+/* Show-all state on button data attribute */
+.reg-toggle-btn[data-showing="true"]{
+  color:var(--muted);
+}
+.reg-toggle-btn[data-showing="true"]::before{
+  content:'▲  ';
+}
+.reg-toggle-btn:not([data-showing="true"])::before{
+  content:'▣  ';
+}
+
+/* ── REGISTER DIRECTORY (ledger rows) ── */
+.reg-directory{
+  margin:36px 0 0;
+  border:1px solid var(--border-h);
+  border-radius:2px;
+  overflow:hidden;
+}
+.reg-dir-header{
+  background:var(--dark-band);
+  padding:11px 20px;
+  display:flex;align-items:center;gap:10px;
+}
+.reg-dir-title{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cream);flex:1;
+}
+.reg-dir-sub{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.1em;
+  color:rgba(200,185,154,0.4);
+  font-style:italic;
+}
+.reg-dir-colheads{
+  display:grid;
+  grid-template-columns:56px 1fr 64px;
+  padding:6px 20px;
+  background:rgba(139,111,71,0.07);
+  border-bottom:1px solid var(--border);
+}
+.reg-dir-col-head{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);font-weight:700;
+}
+.reg-dir-row{
+  display:grid;
+  grid-template-columns:56px 1fr 64px;
+  align-items:center;
+  padding:13px 20px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background 0.15s;
+}
+.reg-dir-row:last-child{border-bottom:none;}
+.reg-dir-row:hover{background:rgba(139,111,71,0.05);}
+.reg-dir-row:hover .reg-dir-arrow{opacity:1;}
+.reg-dir-num{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.08em;
+  color:var(--dim);
+}
+.reg-dir-name{
+  font-family:'Crimson Text',serif;
+  font-size:1.0rem;line-height:1.35;
+  color:var(--text);
+}
+.reg-dir-arrow{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;
+  color:var(--amber);
+  opacity:0;
+  transition:opacity 0.15s;
+  text-align:right;
+}
+
+/* ── CONTENTS NAV BUTTON ── */
+.nav-contents{
+  font-family:'Courier Prime',monospace;
+  font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  color:rgba(200,185,154,0.7);
+  cursor:pointer;padding:0 6px;
+  white-space:nowrap;
+  transition:color 0.2s,border-color 0.2s;
+}
+.nav-contents:hover{color:var(--amber);border-color:rgba(176,125,58,0.65);}
+
+/* ── BIBLIOGRAPHY ── */
+.bibliography{
+  margin-top:54px;padding-top:30px;
+  border-top:2px solid var(--border-h);
+  font-size:0.9rem;
+}
+.bibliography h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-weight:normal;
+  margin-bottom:20px;color:var(--text);
+}
+.citation{
+  margin-bottom:14px;line-height:1.75;
+  padding-left:20px;text-indent:-20px;
+  font-size:0.875rem;
+}
+
+/* ── FOOTER ── */
+.doc-footer{
+  margin-top:60px;padding-top:30px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.8rem;letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+/* ── FOOTER BAR ── */
+.footer-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:40px;background:var(--bg);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  font-size:0.8rem;letter-spacing:2px;
+}
+.footer-bar a{color:var(--accent);text-decoration:none;border:none;}
+.footer-bar a:hover{color:var(--amber);background:transparent;}
+.footer-sep{color:var(--border-h);}
+
+/* ── GENERAL LINKS ── */
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,71,0.3);}
+a:hover{background:rgba(139,111,71,0.06);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  #entry{align-items:flex-start;overflow-y:auto;}
+  .entry-content{padding:28px 20px 80px;}
+  .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
+  h1{font-size:1.9rem;}
+  h2{font-size:1.4rem;}
+  .reg-cols{grid-template-columns:1fr;}
+  .reg-col{border-right:none;border-bottom:1px solid var(--border);}
+  .reg-col:last-child{border-bottom:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div style="width:1px;height:12px;background:var(--border);"></div>
+  <div class="sb-label">THE CALIBRATION REGISTER · GENDER & GENERATIONAL · THU 06.05</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div id="entry" onclick="openMain()">
+  <div class="entry-bg"></div>
+  <div class="entry-tint"></div>
+  <div class="entry-overlay"></div>
+  <div class="entry-grid-trace"></div>
+  <div class="entry-corner">The Calibration Register<br>Gender &amp; Generational Difference</div>
+  <div class="entry-content">
+    <div class="entry-stamp">
+      <span>Meliorism2.com</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>June 5, 2026</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>Issue 036</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>▣</span>
+    </div>
+    <h1 class="entry-title">The<br>Calibration<br>Register</h1>
+    <p class="entry-sub">The bias doesn't live in the rating. It lives in the framing category — and calibration rooms read for tone, not category.</p>
+    <button class="entry-enter" onclick="openMain()">Read the register →</button>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div id="main-panel">
+
+  <div class="sections-rail" id="sections-rail">
+
+    <!-- CARD 0: THE SIGNAL -->
+    <div class="card" id="card-signal">
+      <div class="card-inner">
+
+        <div class="metadata">
+          <div class="date-tag">June 5, 2026 · Thursday</div>
+          <div class="issue-format-badge">▣ The Calibration Register · Issue 036</div>
+          <h1>The Calibration Register</h1>
+          <p class="subtitle">On what gets written into performance narratives, what survives calibration, and who pays the structural difference</p>
+        </div>
+
+        <img src="the-calibration-register-hero.jpg" alt="Long conference table viewed from the far end, empty chairs, blurred ratings grid projected at the near end, late-afternoon light through tall windows, water glasses half-full, printed pages face-down" class="hero-image">
+
+        <div class="highlight">
+          <span class="highlight-label">90-Second Signal</span>
+          <p>Every mid-year, in organizations on a June 30 close, a specific kind of private conversation happens: managers write performance narratives. Those narratives travel upward through calibration sessions where a room of senior people — often less diverse than the population they're rating — decide whether the language holds. The research finding is this: women receive personality feedback. Men receive competency feedback. This holds even when performance is identical. It holds even when the reviewer is also a woman. The distortion is not in the rating. It is in the framing category — and calibration rooms do not read for category. They read for tone.</p>
+        </div>
+
+        <!-- REGISTER DIRECTORY — ledger rows, thematically calibration-appropriate -->
+        <div class="reg-directory" role="navigation" aria-label="Article directory">
+          <div class="reg-dir-header">
+            <span class="reg-dir-title">▣ Register Contents — Six Articles</span>
+            <span class="reg-dir-sub">click any row to open →</span>
+          </div>
+          <div class="reg-dir-colheads">
+            <span class="reg-dir-col-head">Ref</span>
+            <span class="reg-dir-col-head">Article</span>
+            <span class="reg-dir-col-head"></span>
+          </div>
+
+          <div class="reg-dir-row" onclick="goTo(1);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(1)">
+            <span class="reg-dir-num">§ 01</span>
+            <span class="reg-dir-name">The Room Is Already Running</span>
+            <span class="reg-dir-arrow">→</span>
+          </div>
+
+          <div class="reg-dir-row" onclick="goTo(2);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(2)">
+            <span class="reg-dir-num">§ 02</span>
+            <span class="reg-dir-name">What the Research Shows at Scale</span>
+            <span class="reg-dir-arrow">→</span>
+          </div>
+
+          <div class="reg-dir-row" onclick="goTo(3);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(3)">
+            <span class="reg-dir-num">§ 03</span>
+            <span class="reg-dir-name">Category, Not Rating</span>
+            <span class="reg-dir-arrow">→</span>
+          </div>
+
+          <div class="reg-dir-row" onclick="goTo(4);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(4)">
+            <span class="reg-dir-num">§ 04</span>
+            <span class="reg-dir-name">Three Places the Pattern Gets Complicated</span>
+            <span class="reg-dir-arrow">→</span>
+          </div>
+
+          <div class="reg-dir-row" onclick="goTo(5);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(5)">
+            <span class="reg-dir-num">§ 05</span>
+            <span class="reg-dir-name">How the Category Got Built</span>
+            <span class="reg-dir-arrow">→</span>
+          </div>
+
+          <div class="reg-dir-row" onclick="goTo(6);event.stopPropagation();" role="link" tabindex="0" onkeypress="if(event.key==='Enter')goTo(6)">
+            <span class="reg-dir-num">§ 06</span>
+            <span class="reg-dir-name">Ten Minutes Before the Room Starts</span>
+            <span class="reg-dir-arrow">→</span>
+          </div>
+
+        </div>
+
+        <div class="begin-prompt">
+          <button onclick="goTo(1)">Begin reading →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 1: THE PHENOMENON -->
+    <div class="card" id="card-phenomenon">
+      <div class="card-inner">
+
+        <span class="section-number">§ 01 · The Phenomenon</span>
+        <h2>The Room Is Already Running</h2>
+
+        <p>This week, across organizations on a mid-year performance cycle, managers are writing narratives. Those narratives are about specific people — their output, their presence, their trajectory. They will be read in calibration sessions, often by people who have never worked directly with the employees being discussed. The room will have an hour. It will have a stack-ranked list. It will have a process.</p>
+
+        <p>What the room will not have is a protocol for reading its own bias. And the bias that matters most is not the one that shows up in the rating. It is the one that shows up in the category of feedback — in <em>how</em> performance is narrated before the rating is ever assigned.</p>
+
+        <p>The phenomenon is documented at scale and replicated across industries: women receive more feedback framed around personality, interpersonal manner, and behavioral presentation. Men receive more feedback framed around competency, skill, and analytical capability. These are not differences in praise versus criticism. They are differences in <em>what the feedback is about</em>. A woman whose work is exemplary receives "she communicates thoughtfully and takes care to include everyone." A man with comparable output receives "strong analytical skills under pressure, consistently delivers above standard." Both reviews may be positive. Only one positions its subject for promotion consideration.</p>
+
+        <span class="register-rule"></span>
+
+        <p>The generational axis compounds this. Younger employees — Gen Z in particular — enter performance cycles with different baseline expectations. They expect feedback to be frequent, specific, and bidirectional. When they receive a single calibrated annual rating with no dialogue, they read it as institutional indifference. Managers with predominantly Boomer experience often read that expectation as entitlement. These two interpretations do not resolve in a calibration room. They accumulate. The employees who pay the most are typically young women, who carry both the language distortion and the generational illegibility simultaneously.</p>
+
+        <div class="margin-note">
+          The image environment for this issue: a long conference table, empty, viewed from the far end. A projected slide at the near end shows a names-and-ratings grid with identifying information blurred. Late-afternoon light through tall windows. Printed pages face-down on the table. No people visible — only the architecture of a consequential conversation that either just ended or is about to begin.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 2: THE EVIDENCE -->
+    <div class="card" id="card-evidence">
+      <div class="card-inner">
+
+        <span class="section-number">§ 02 · The Evidence</span>
+        <h2>What the Research Shows at Scale</h2>
+
+        <p>The practitioner working inside a calibration process this week is not operating on conjecture. The language gap is one of the most replicated findings in organizational psychology. Three studies form the core of what is now usable knowledge.</p>
+
+        <div class="research-block">
+          <span class="researcher">Correll &amp; Simard, 2016 — The VMware Language Study</span>
+          <p>Shelley Correll and Caroline Simard at Stanford conducted an analysis of performance reviews at VMware with access to the full text of written feedback across gender. Their finding: women received vague developmental feedback ("she needs to be more assertive") while men received specific, actionable feedback ("he should expand his project scope by taking on X type of initiative"). The vagueness is not neutral. Vague feedback cannot be acted upon, which means the gap in narrative quality compounds over review cycles — the men's file builds toward promotion eligibility; the women's file accumulates impressions without traction. The distortion is in the form, not merely the intent.</p>
+        </div>
+
+        <div class="cite">
+          "When we looked at feedback by gender, we found that women's feedback was less specific — fewer examples, less connection to business outcomes, more focus on personal style."<br>
+          — Correll &amp; Simard. <em>Research: Vague Feedback Is Holding Women Back.</em> Harvard Business Review, 2016.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Cecchi-Dimeglio, 2017 — 248 Reviews at a US Law Firm</span>
+          <p>Paola Cecchi-Dimeglio analyzed 248 performance reviews at a US law firm — a professional environment where written feedback is taken seriously and reviewed carefully. Women were 1.4 times more likely to receive critical feedback framed around personality rather than skill. The specific language that triggered the classification: character traits ("abrasive," "emotional," "lacks executive presence"), relational style ("struggles to read the room," "can come across as too direct"), and behavioral presentation ("still developing gravitas"). The men's critical feedback was framed around capacity gaps: "needs to develop stronger stakeholder relationships," "technical skills in X area need deepening." Both are critical. Only one is legible as a development opportunity in a calibration room.</p>
+        </div>
+
+        <div class="cite">
+          "Women received 2.5 times more feedback mentions of being 'too aggressive' or 'too direct' compared to men in equivalent roles."<br>
+          — Cecchi-Dimeglio, P. <em>How Gender Bias Corrupts Performance Reviews.</em> Harvard Business Review, 2017.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">SHRM, 2023 — The Generational Feedback Gap</span>
+          <p>The Society for Human Resource Management's evidence-based review of performance management documented the generational fracture directly: Gen Z workers report wanting feedback four times more frequently than Boomers. Managers with predominantly Boomer experience systematically underestimate how frequently younger workers want contact. In calibration rooms populated by senior leaders, a younger employee whose record includes multiple requests for feedback check-ins, skip-level meetings, or career conversations may be read as needy or insufficiently autonomous — rather than as someone whose developmental expectations are simply different from the room's baseline. The calibration room cannot see the generational framing problem. It sees a behavior and reads it through its own register.</p>
+        </div>
+
+        <div class="cite">
+          "Gen Z workers report wanting feedback 4× more frequently than Boomers; managers with Boomer experience systematically underestimate this expectation."<br>
+          — SHRM. <em>Performance Management That Makes a Difference.</em> 2023.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: THE CONCEPT — with newsletter-impossible CSS register comparison -->
+    <div class="card" id="card-concept">
+      <div class="card-inner">
+
+        <span class="section-number">§ 03 · The Concept</span>
+        <h2>Category, Not Rating</h2>
+
+        <p>The practitioner's precision problem is this: calibration rooms are designed to correct bias in ratings. They are not designed to surface bias in framing categories. The rubric asks "does this person warrant a 3 or a 4?" It does not ask "is this feedback about personality or competency?" That question is invisible to the process — and yet it is the question that determines what the file says about a person five years from now.</p>
+
+        <div class="concept-box">
+          <span class="cb-label">The Framing Category Gap</span>
+          <p>Competency-framed feedback attributes performance to skill, capability, and domain expertise. It is actionable, promotable, and positions the subject as someone whose trajectory has upward momentum. Personality-framed feedback attributes performance to manner, presentation, and interpersonal style. It is harder to act on, harder to defend in a promotion conversation, and positions the subject as someone who needs behavioral adjustment before they are ready for the next level. The research shows that identical performance situations are more likely to generate competency framing for men and personality framing for women. The calibration room does not see this because it is evaluating narrative coherence, not narrative category.</p>
+        </div>
+
+        <p>The two-register comparison below presents the same performance situations rendered in both frames. Hover or click any row to reveal which gender each frame is more likely applied to in practice. This comparison is drawn directly from the Cecchi-Dimeglio and Correll/Simard datasets — these are not hypothetical examples.</p>
+
+        <!-- ── NEWSLETTER-IMPOSSIBLE ELEMENT: CSS Two-Register Comparison ── -->
+        <div class="register-comparison" id="reg-comp">
+          <div class="reg-header">
+            <span class="reg-header-title">▣ Performance Framing Register — Same Situation, Two Languages</span>
+            <span class="reg-header-hint">hover any row to reveal gender data</span>
+          </div>
+          <div class="reg-cols">
+
+            <div class="reg-col">
+              <div class="reg-col-head">Competency Frame</div>
+              <div class="reg-items">
+
+                <div class="reg-item" data-pair="1">
+                  <div class="reg-item-scenario">"Consistently delivers high-quality output under deadline pressure. Analytical rigor is a clear strength."</div>
+                  <div class="reg-item-label">Performance · Output quality</div>
+                  <div class="reg-reveal rv-comp">
+                    <span class="rv-gender">Applied to: Men (68% of instances)</span><br>
+                    Positions for promotion. Usable in succession planning narrative.
+                  </div>
+                </div>
+
+                <div class="reg-item" data-pair="2">
+                  <div class="reg-item-scenario">"Needs to build stronger stakeholder relationships to expand influence at the next level."</div>
+                  <div class="reg-item-label">Development · Relational scope</div>
+                  <div class="reg-reveal rv-comp">
+                    <span class="rv-gender">Applied to: Men (2× more likely)</span><br>
+                    Legible as a growth edge. Reads as "nearly ready."
+                  </div>
+                </div>
+
+                <div class="reg-item" data-pair="3">
+                  <div class="reg-item-scenario">"Has a strong point of view and isn't afraid to push back — an asset when managing up."</div>
+                  <div class="reg-item-label">Behavior · Directness</div>
+                  <div class="reg-reveal rv-comp">
+                    <span class="rv-gender">Applied to: Men (significantly more likely)</span><br>
+                    Directness read as confidence and leadership signal.
+                  </div>
+                </div>
+
+                <div class="reg-item" data-pair="4">
+                  <div class="reg-item-scenario">"Technical depth is strong. Next step is translating that expertise into broader organizational impact."</div>
+                  <div class="reg-item-label">Development · Scope expansion</div>
+                  <div class="reg-reveal rv-comp">
+                    <span class="rv-gender">Applied to: Men (more frequent framing)</span><br>
+                    Builds promotion case. Identifies a clear next action.
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- /reg-col competency -->
+
+            <div class="reg-col">
+              <div class="reg-col-head">Personality Frame</div>
+              <div class="reg-items">
+
+                <div class="reg-item" data-pair="1">
+                  <div class="reg-item-scenario">"She communicates thoughtfully and takes care to include everyone in the discussion."</div>
+                  <div class="reg-item-label">Performance · Same output quality</div>
+                  <div class="reg-reveal rv-pers">
+                    <span class="rv-gender">Applied to: Women (68% of instances)</span><br>
+                    Credits interpersonal care. Does not build promotion file.
+                  </div>
+                </div>
+
+                <div class="reg-item" data-pair="2">
+                  <div class="reg-item-scenario">"Can come across as too direct — still developing executive presence and learning to read the room."</div>
+                  <div class="reg-item-label">Development · Same relational gap</div>
+                  <div class="reg-reveal rv-pers">
+                    <span class="rv-gender">Applied to: Women (1.4× more likely — Cecchi-Dimeglio)</span><br>
+                    Reads as a behavioral problem, not a growth edge.
+                  </div>
+                </div>
+
+                <div class="reg-item" data-pair="3">
+                  <div class="reg-item-scenario">"Sometimes struggles to read the room and can come across as abrasive when under pressure."</div>
+                  <div class="reg-item-label">Behavior · Same directness</div>
+                  <div class="reg-reveal rv-pers">
+                    <span class="rv-gender">Applied to: Women (2.5× more likely — Cecchi-Dimeglio)</span><br>
+                    Directness read as a character flaw requiring correction.
+                  </div>
+                </div>
+
+                <div class="reg-item" data-pair="4">
+                  <div class="reg-item-scenario">"Needs to work on her gravitas and presence before she'll be seen as ready for the next level."</div>
+                  <div class="reg-item-label">Development · Same scope gap</div>
+                  <div class="reg-reveal rv-pers">
+                    <span class="rv-gender">Applied to: Women (significantly more likely)</span><br>
+                    "Gravitas" cannot be actioned. Vague developmental debt with no path.
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- /reg-col personality -->
+
+          </div><!-- /reg-cols -->
+
+          <button class="reg-toggle-btn" id="reg-toggle-btn" onclick="toggleRegister()" data-showing="false">
+            Reveal gender data for all rows
+          </button>
+        </div>
+        <!-- ── END NEWSLETTER-IMPOSSIBLE ELEMENT ── -->
+
+        <p>The register makes the mechanism visible. The calibration room sees two positive-to-neutral reviews and processes them as roughly equivalent. The framing category — competency versus personality — is invisible to the rubric. It is only visible when you read for it explicitly. That is the practitioner's intervention point.</p>
+
+        <div class="margin-note">
+          Buckingham and Goodall (2019) add a layer that matters here: feedback reflects the reviewer's neural pathways as much as the reviewed person's performance. The calibration room does not correct this — it amplifies it, because the senior people in the room are the most confident in their readings and the least likely to have those readings interrogated.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 4: EDGE CASES -->
+    <div class="card" id="card-edge-cases">
+      <div class="card-inner">
+
+        <span class="section-number">§ 04 · Edge Cases</span>
+        <h2>Three Places the Pattern Gets Complicated</h2>
+
+        <p>The competency/personality split is real and well-documented. The edge cases are where practitioners lose their footing — where the pattern becomes harder to name and the intervention becomes harder to execute.</p>
+
+        <h3>When the Reviewer Is Also a Woman</h3>
+
+        <p>The Cecchi-Dimeglio data does not disappear when the reviewer is female. Women reviewing other women reproduce the personality-framing pattern at rates that are not significantly different from male reviewers. This is the most important finding for practitioners who want to frame bias as an individual attitude problem, because it isn't one. The framing category gap is a product of internalized norms — norms that operate regardless of the reviewer's gender. A calibration facilitation strategy that relies on "just add more women to the room" will not close the gap. The intervention has to be structural: explicit reading for framing category, not implicit faith in demographic composition.</p>
+
+        <h3>When the Personality Feedback Is Accurate</h3>
+
+        <p>The bias is a pattern, not a universal override. Some personality-framed feedback accurately describes a real behavioral issue that is both present and relevant. The practitioner's job is not to invalidate every personality-framed observation. It is to ask the calibration room a different question: "Is this feedback about a behavior that would block performance at the next level for <em>any</em> candidate — or is this behavior only being flagged for this person?" If the answer is "only this person," the room needs to examine why. If the answer is "any candidate," then the feedback is legitimate — but it still needs to be converted into a specific, actionable development goal, or it compounds into an unfalsifiable impression.</p>
+
+        <h3>When the Employee Is Both Young and Female</h3>
+
+        <p>The Pew Research data (Parker &amp; Horowitz, 2022) shows that among workers who left jobs in 2021, younger women disproportionately cited "feeling disrespected" — which, when mapped against the research, is a downstream effect of receiving years of personality-framed reviews that cannot be acted on. The generational expectation of frequent, specific, bidirectional feedback makes the language gap land harder: a young woman who has asked for substantive feedback and received personality observations instead has received confirmation that the institution does not see her capability. She has not misread the institution. The institution has been legible. The practitioner who sits in that calibration room this week is operating upstream of the attrition data.</p>
+
+        <div class="margin-note">
+          The compounding effect is worth naming explicitly: personality framing → vague development goal → no promotion eligibility → employee reads institutional indifference → exit. The calibration room does not see the exit. It sees a single review cycle. The exit is invisible to the process that caused it.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 5: ROOTS -->
+    <div class="card" id="card-etymology">
+      <div class="card-inner">
+
+        <span class="section-number">§ 05 · Roots</span>
+        <h2>How the Category Got Built</h2>
+
+        <p><em>Calibration</em> comes from the Arabic <em>qālib</em> — a mold, a template, a form used to standardize measurement. The calibration session is supposed to be the instrument that corrects individual bias by applying a shared standard. The word carries an assumption: that the room is more accurate than any single reviewer. That assumption is the problem.</p>
+
+        <p>The modern performance management system inherits its logic from 20th-century industrial assessment: rank people on a curve, identify high performers for development investment, move low performers out. The mid-century management literature (Drucker, McGregor) established the practitioner vocabulary of "development," "potential," and "readiness" — and did so within a workforce that was overwhelmingly male at the levels where calibration mattered. The language categories — competency, skill, output — were built in a context where the default subject of evaluation was a man. The personality frame was not an invention of the calibration room. It was the frame applied to the workforce categories that were treated as exceptions to the default: women, younger workers, people whose presentation did not match the room's prior image of leadership.</p>
+
+        <span class="register-rule"></span>
+
+        <p>What the research reveals is that this structural inheritance survived the demographic changes. The language categories did not update when the workforce did. A calibration room that runs in 2026 with the same rubric that ran in 1986 is not operating at best practice. It is running a legacy instrument that was built for a different population — and it is doing so without knowing it, because no one in the room was taught to read for framing category.</p>
+
+        <p>The practitioner's historical context is this: the calibration room is not a neutral environment that individual bias occasionally intrudes upon. It is a structured process with built-in language defaults — and those defaults were set in conditions that favored a narrow demographic. Updating the process requires explicit attention to what the defaults are, not merely good intentions about fairness.</p>
+
+        <div class="cite">
+          "The most significant lever in performance management is not the rating scale. It is the written narrative — and narratives are structured by language norms that most organizations have never examined."<br>
+          — Synthesis across Correll &amp; Simard (2016) and Cecchi-Dimeglio (2017)
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 6: WWYD + BIBLIOGRAPHY -->
+    <div class="card" id="card-application">
+      <div class="card-inner">
+
+        <span class="section-number">§ 06 · Application · What Would You Do?</span>
+        <h2>Ten Minutes Before the Room Starts</h2>
+
+        <div class="scenario">
+          <span class="scenario-label">The Scenario</span>
+          You are an OD consultant brought in to facilitate a mid-year calibration session at a 200-person professional services firm. The room has seven senior managers: five men (ages 48–61), one woman (age 52), one man (age 34). You've been given the stack-ranked list in advance. You notice that the three employees whose ratings are being contested — marked "needs discussion" — are two women in their late 20s and one man in his early 30s. All three have strong quantitative metrics. The written narratives for the two women include the phrases "sometimes struggles to read the room," "can come across as too direct," and "still developing executive presence." The man's narrative says "needs stronger stakeholder relationships." The meeting starts in ten minutes.
+        </div>
+
+        <div class="response-set">
+
+          <div class="response-option">
+            <span class="ro-label">Do you intervene before the session starts — and with whom?</span>
+            <p>Ten minutes gives you one conversation. The most effective pre-session intervention is with the most senior person in the room — not to brief them on gender bias theory, but to give them one specific thing to watch for: "I noticed the narrative language on two of the contested cases uses behavioral descriptors. I want to flag that in the session and ask the room to check whether the same framing would appear in a comparable case for a different profile. I'll need you to stay with me if it gets pushback." You are not asking for permission. You are creating a coalition for a specific, narrow intervention. If you do not have that conversation before the session starts, you are facilitating alone in a room that has already formed its reading.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">Do you flag the language pattern to the room as a group, name it as a bias signal, or let the conversation surface it?</span>
+            <p>Name it. Do not wait for the conversation to surface it — calibration rooms have procedural momentum, and the contested cases will be resolved before the language question ever becomes visible on its own. The naming should be specific and non-accusatory: "Before we discuss these three cases, I want to draw the room's attention to a pattern in the written narratives. Two of the narratives use behavioral framing — 'reads the room,' 'executive presence,' 'comes across as.' One uses skill framing — 'stakeholder relationships.' I want to ask whether that difference in how the feedback was written tracks with the performance data, or whether it might reflect a different standard being applied." You have named the category gap without naming anyone in the room as biased. The room can engage with the pattern rather than defending against an accusation.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">What do you do if the most senior person in the room dismisses the concern as "overthinking it"?</span>
+            <p>You have one move: redirect to the data without escalating the relational temperature. "I hear that. Let me put it a different way — if the narrative for the man's case said 'sometimes struggles to read the room,' would this room read that as a 3 or a 4?" If the answer is "we'd read it as a 3," you have demonstrated the asymmetry without requiring anyone to admit bias. If the answer is "we'd still rate him a 4," you have learned something about the room's actual standard — and you can name the inconsistency once more before noting it in your facilitation record and moving forward. You are not there to win a conviction. You are there to introduce the category question into the record. Sometimes that is the ceiling of what is possible in a single session.</p>
+          </div>
+
+          <div class="response-option">
+            <span class="ro-label">How does your answer change depending on your position in the room?</span>
+            <p>If you are a woman of color: the credibility of your intervention will be read through a lens that has nothing to do with your expertise. The room may read your concern as personal rather than analytical. Your pre-session coalition conversation matters more — you need the most senior person in the room explicitly on record before you name the pattern to the group. If you are younger than everyone in the room: the generational dynamics you are trying to address will be visible in your own positioning. Name that directly if it surfaces: "I'm aware I'm the youngest person here, and I'm aware that's relevant to what I'm about to say." If you are an external consultant rather than an internal one: you have more protection and less context. Use the protection. Say what the internal person cannot say. Then document what you observed and build it into your recommendations report — the room may not hear it today, and the sponsor may be able to act on it with more time and distance.</p>
+          </div>
+
+        </div>
+
+        <h3>The Structural Obligation</h3>
+
+        <p>The WWYD scenario lands hardest when the practitioner realizes they are not there to evaluate performance — they are there to evaluate the process that evaluates performance. That is a different role than most calibration facilitators are hired to play. Most are hired to manage time and process. The practitioner who understands the framing category gap is operating at a different level of precision. The obligation is not to convert the room in a single session. It is to introduce the category question — clearly, specifically, and without accusation — so that it is on the record and cannot be said to have gone unnoticed.</p>
+
+        <p>The Pew Research data is the downstream consequence of what happens when this question is never introduced. Younger women leave. They do not leave because they were rated unfairly. They leave because years of unfalsifiable personality feedback — feedback that cannot be acted on, that positions them as perpetually not-quite-ready — signals that the institution has made its reading and has no interest in revising it. The calibration room is the place where that reading is set. The practitioner in that room this week is sitting at the origin point of that signal.</p>
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="bibliography">
+          <h3>Sources</h3>
+
+          <div class="citation">
+            Correll, Shelley, and Caroline Simard. "Research: Vague Feedback Is Holding Women Back." <em>Harvard Business Review,</em> April 2016. — Documents the language disparity in performance reviews at VMware: women receive vague developmental feedback, men receive specific actionable feedback. Foundational field evidence that the form of feedback differs by gender even when intent does not.
+          </div>
+
+          <div class="citation">
+            Cecchi-Dimeglio, Paola. "How Gender Bias Corrupts Performance Reviews, and What to Do About It." <em>Harvard Business Review,</em> April 2017. — Analysis of 248 performance reviews at a US law firm. Women were 1.4× more likely to receive critical feedback framed around personality. Mechanism evidence: the distortion is in the framing category, not necessarily the rating score.
+          </div>
+
+          <div class="citation">
+            Buckingham, Marcus, and Ashley Goodall. "The Feedback Fallacy." <em>Harvard Business Review,</em> March–April 2019. — Argues that most feedback is filtered through the reviewer's own neural pathways, making it a measure of the reviewer as much as the reviewed. Reframes calibration as perception management rather than accuracy exercise.
+          </div>
+
+          <div class="citation">
+            Parker, Kim, and Juliana Menasce Horowitz. "Majority of Workers Who Quit a Job in 2021 Cite Low Pay, No Opportunities for Advancement, Feeling Disrespected." <em>Pew Research Center,</em> March 2022. — Disaggregates quit reasons by age and gender. Younger workers and women disproportionately cite "feeling disrespected" — maps onto the experience of receiving personality-framed rather than competency-framed review feedback.
+          </div>
+
+          <div class="citation">
+            Society for Human Resource Management (SHRM). <em>Performance Management That Makes a Difference: An Evidence-Based Approach.</em> SHRM, 2023. — Reviews generational differences in feedback preferences: Gen Z reports wanting feedback 4× more frequently than Boomers; managers with predominantly Boomer experience systematically underestimate how frequently younger workers want contact.
+          </div>
+
+          <div class="citation">
+            Goldin, Claudia. <em>Career and Family: Women's Century-Long Journey toward Equity.</em> Princeton University Press, 2021. — Nobel Memorial Prize in Economic Sciences, 2023. Documents the structural mechanisms by which women's career trajectories diverge from men's across comparable credential and performance levels. The evaluation and narrative system is one identified mechanism: how performance is recorded and described over time shapes organizational investment in career development, not just how it is rated.
+          </div>
+
+          <div class="citation">
+            Ibarra, Herminia. <em>Act Like a Leader, Think Like a Leader.</em> Harvard Business Review Press, 2015. — The "outsight principle": identity-based assumptions about what a leader looks like operate in calibration rooms and stretch-assignment decisions at the pre-conscious level. Practitioners facilitating calibration sessions are operating inside one of Ibarra's documented mechanisms by which non-traditional candidates are blocked from consideration before formal evaluation begins.
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /sections-rail -->
+
+  <!-- PROGRESS + NAV -->
+  <div class="reading-progress" id="reading-progress">
+    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <div class="progress-trace">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+    <button class="nav-contents" id="nav-contents" onclick="goTo(0)" title="Back to register contents" style="display:none;">↩ Contents</button>
+    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
+  </div>
+
+</div><!-- /main-panel -->
+
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+</div>
+
+<script>
+/* ── UTC CLOCK ── */
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');
+  if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+/* ── ENTRY → MAIN ── */
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },800);
+
+  track('enter','entry_screen');
+}
+
+/* ── CARD NAVIGATION ── */
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','Roots','Application'];
+let currentCard=0;
+
+function goTo(index){
+  if(index<0||index>=CARDS.length)return;
+  const cards=document.querySelectorAll('.card');
+  if(cards[currentCard])cards[currentCard].scrollTop=0;
+  currentCard=index;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
+  const label=document.getElementById('progress-label');
+  if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
+  document.getElementById('nav-prev').disabled=index===0;
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  const contentsBtn=document.getElementById('nav-contents');
+  if(contentsBtn)contentsBtn.style.display=index>0?'inline-block':'none';
+  track('navigate',CARDS[index]);
+}
+
+/* ── REGISTER TOGGLE (newsletter-impossible interaction) ── */
+let regShowing=false;
+function toggleRegister(){
+  regShowing=!regShowing;
+  const items=document.querySelectorAll('.register-comparison .reg-item');
+  const btn=document.getElementById('reg-toggle-btn');
+
+  items.forEach(item=>{
+    const reveal=item.querySelector('.reg-reveal');
+    if(!reveal)return;
+    if(regShowing){
+      reveal.style.maxHeight='120px';
+      reveal.style.opacity='1';
+    } else {
+      reveal.style.maxHeight='0';
+      reveal.style.opacity='0';
+    }
+  });
+
+  if(btn){
+    btn.dataset.showing=regShowing?'true':'false';
+    btn.textContent=regShowing
+      ? 'Hide gender data'
+      : 'Reveal gender data for all rows';
+    if(regShowing){
+      btn.insertAdjacentHTML('afterbegin','▲  ');
+    } else {
+      btn.insertAdjacentHTML('afterbegin','▣  ');
+    }
+  }
+
+  track('interact','register_toggle',regShowing?'open':'close');
+}
+
+/* ── TOUCH SWIPE ── */
+let touchStartX=0,touchStartY=0;
+document.getElementById('main-panel').addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('main-panel').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44){
+    if(dx<0)goTo(currentCard+1);
+    else goTo(currentCard-1);
+  }
+},{passive:true});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('main-panel').classList.contains('visible'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(currentCard+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(currentCard-1);}
+});
+
+/* ── ENGAGEMENT TRACKING ── */
+const _sos=(()=>{
+  const ENDPOINT='https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY='sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const SESSION_ID=Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,10);
+  const ISSUE_NUMBER='036';
+  const ISSUE_SLUG='the-calibration-register';
+  let queue=[];
+  let flushTimer=null;
+
+  function activeCardScrollPct(){
+    const cards=document.querySelectorAll('.card');
+    const card=cards[currentCard];
+    if(!card)return 0;
+    const total=card.scrollHeight-card.clientHeight;
+    return total>0?Math.round((card.scrollTop/total)*100):0;
+  }
+
+  function flush(){
+    if(!queue.length)return;
+    const batch=queue.splice(0);
+    batch.forEach(ev=>{
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{
+          'apikey':API_KEY,
+          'Authorization':'Bearer '+API_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'return=minimal'
+        },
+        body:JSON.stringify({
+          title:'meliorism2.com | '+ISSUE_SLUG+' | '+ev.event+' | '+ev.label,
+          occurred_at:ev.ts,
+          reflection:SESSION_ID,
+          notes:JSON.stringify({
+            issue_number:ISSUE_NUMBER,
+            issue_slug:ISSUE_SLUG,
+            event:ev.event,
+            label:ev.label,
+            extra:ev.extra||null,
+            referrer:document.referrer||null,
+            card_index:ev.card_index,
+            card_name:CARDS[ev.card_index]||null,
+            scroll_pct:ev.scroll_pct,
+            viewport_w:window.innerWidth,
+            viewport_h:window.innerHeight
+          })
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    });
+  }
+
+  function enqueue(event,label,extra){
+    queue.push({
+      event,label,extra,
+      ts:new Date().toISOString(),
+      card_index:currentCard,
+      scroll_pct:activeCardScrollPct()
+    });
+    if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
+  }
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden')flush();
+  });
+
+  return{track:enqueue};
+})();
+
+function track(event,label,extra){
+  console.log('[meliorism2]',event,label,extra||'');
+  _sos.track(event,label,extra);
+}
+
+/* ── PER-CARD SCROLL DEPTH TRACKING ── */
+const cardDepthsFired={};
+document.querySelectorAll('.card').forEach((card,i)=>{
+  cardDepthsFired[i]=new Set();
+  card.addEventListener('scroll',()=>{
+    const total=card.scrollHeight-card.clientHeight;
+    if(total<=0)return;
+    const pct=Math.round((card.scrollTop/total)*100);
+    [25,50,75,90].forEach(d=>{
+      if(pct>=d&&!cardDepthsFired[i].has(d)){
+        cardDepthsFired[i].add(d);
+        track('scroll_depth',CARDS[i]+'_'+d+'pct');
+      }
+    });
+  },{passive:true});
+});
+
+/* ── CLICK TRACKING ── */
+document.addEventListener('click',e=>{
+  if(e.target.closest('.response-option')){
+    const lbl=e.target.closest('.response-option').querySelector('.ro-label');
+    track('interact','response_option',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.research-block')){
+    const lbl=e.target.closest('.research-block').querySelector('.researcher');
+    track('interact','research_block',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.reg-item')){
+    const pair=e.target.closest('.reg-item').dataset.pair;
+    track('interact','register_row',pair?'pair_'+pair:'');
+  }
+  if(e.target.closest('a[href*="archive"]')){
+    track('click','archive_link');
+  }
+});
+</script>
+</body>
+</html>
