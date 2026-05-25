@@ -40,9 +40,9 @@ body::before{
   position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;
   background:rgba(10,26,10,0.97);border-bottom:1px solid var(--border);
   display:flex;align-items:center;padding:0 20px;gap:14px;
-  font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--chalkf);
+  font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--chalkf);
 }
-.sb-logo a{font-weight:600;color:var(--chalk);text-decoration:none;font-family:'Lora',serif;font-size:0.74rem;letter-spacing:0.08em;}
+.sb-logo a{font-weight:600;color:var(--chalk);text-decoration:none;font-family:'Lora',serif;font-size:0.8rem;letter-spacing:0.08em;}
 .sb-sep{opacity:0.25;}
 .sb-right{margin-left:auto;display:flex;gap:14px;}
 
@@ -76,11 +76,11 @@ body::before{
   text-shadow:0 0 20px rgba(240,237,216,0.15);
 }
 .board-attr{
-  font-family:'Share Tech Mono',monospace;font-size:0.68rem;color:var(--chalkf);
+  font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--chalkf);
   text-align:center;margin-bottom:24px;
 }
 .board-note{
-  font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--amber);
+  font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--amber);
   text-align:center;line-height:1.5;
   text-shadow:0 0 8px var(--amberf);
 }
@@ -126,7 +126,7 @@ body::before{
   font-weight:500;min-width:18px;padding-top:2px;
   text-shadow:0 0 6px var(--amberf);
 }
-.step-name{font-size:0.78rem;line-height:1.4;color:var(--chalk);opacity:0.8;}
+.step-name{font-size:0.8rem;line-height:1.4;color:var(--chalk);opacity:0.8;}
 .step-item.active .step-name{opacity:1;font-weight:500;}
 
 .content{overflow-y:auto;padding:48px 56px 80px;}
@@ -141,7 +141,7 @@ body::before{
 .section p{font-size:0.94rem;line-height:1.85;color:var(--chalkf);margin-bottom:14px;}
 strong{color:var(--chalk);}
 .cite{
-  font-size:0.74rem;color:var(--chalk);border-left:3px solid var(--amber);
+  font-size:0.8rem;color:var(--chalk);border-left:3px solid var(--amber);
   padding:10px 16px;margin:10px 0 24px;display:block;line-height:1.7;
   background:rgba(212,168,32,0.05);
   box-shadow:-3px 0 0 var(--amberf);
@@ -175,7 +175,7 @@ strong{color:var(--chalk);}
 .trans-cell.expert{color:var(--chalkf);background:rgba(240,237,216,0.03);}
 .trans-cell.simple{color:var(--chalk);background:rgba(58,122,58,0.08);}
 .trans-cell.gap{
-  font-family:'Share Tech Mono',monospace;font-size:0.72rem;
+  font-family:'Share Tech Mono',monospace;font-size:0.8rem;
   color:var(--amber);background:rgba(212,168,32,0.05);line-height:1.6;
   text-shadow:0 0 6px rgba(212,168,32,0.2);
 }
@@ -189,7 +189,7 @@ strong{color:var(--chalk);}
 .main-footer{
   grid-column:1/-1;border-top:1px solid var(--border);
   padding:12px 24px;display:flex;align-items:center;gap:16px;
-  font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--chalkf);
+  font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--chalkf);
   background:rgba(10,26,10,0.95);
 }
 .main-footer a{color:var(--chalk);text-decoration:none;}
@@ -389,7 +389,7 @@ strong{color:var(--chalk);}
       <p><strong>The Blank Page Test:</strong> Take the core concept at the center of your current program. Write it at the top of a blank page. Explain it to a child — not in your head, on paper. Where does your explanation break down? That breakdown is your work.</p>
       <p><strong>The Analogy Demand:</strong> Pick one technical term you use regularly with participants. Build an analogy for it that requires no disciplinary vocabulary. If you can't, you haven't passed the Feynman test on that term.</p>
       <p><strong>The Question Test:</strong> In your next session, leave a 10-minute window for questions you haven't prepared for. Note which questions you answered by returning to your script. Those are the gaps.</p>
-      <p style="margin-top:36px;font-size:0.79rem;color:var(--chalkf);font-family:'Share Tech Mono',monospace;">Sources: Feynman (1985) · Gleick (1992) · Wieman (2007) · Ericsson &amp; Pool (2016) · Heath &amp; Heath (2007) · Kahneman (2011) · Strozzi-Heckman (2007) · Ebbinghaus, Hermann. Über das Gedächtnis (1885) · Bjork, Robert. "New Conceptualizations of Practice." Psychological Science 3, no. 4 (1994)</p>
+      <p style="margin-top:36px;font-size:0.8rem;color:var(--chalkf);font-family:'Share Tech Mono',monospace;">Sources: Feynman (1985) · Gleick (1992) · Wieman (2007) · Ericsson &amp; Pool (2016) · Heath &amp; Heath (2007) · Kahneman (2011) · Strozzi-Heckman (2007) · Ebbinghaus, Hermann. Über das Gedächtnis (1885) · Bjork, Robert. "New Conceptualizations of Practice." Psychological Science 3, no. 4 (1994)</p>
     </div>
   </div>
 
@@ -407,7 +407,7 @@ function tick(){
     n.getUTCHours().toString().padStart(2,'0')+':'+
     n.getUTCMinutes().toString().padStart(2,'0')+':'+
     n.getUTCSeconds().toString().padStart(2,'0')+' UTC';
-  document.getElementById('clk').style.cssText='font-family:"Share Tech Mono",monospace;font-size:0.7rem;color:rgba(240,237,216,0.65);';
+  document.getElementById('clk').style.cssText='font-family:"Share Tech Mono",monospace;font-size:0.8rem;color:rgba(240,237,216,0.65);';
 }
 tick();setInterval(tick,1000);
 

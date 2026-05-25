@@ -37,7 +37,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 
 /* Status bar */
 .sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;background:rgba(10,8,6,0.97);border-bottom:1px solid var(--border-h);display:flex;align-items:center;padding:0 20px;gap:14px;}
-.sb-logo{font-family:'Libre Baskerville',serif;font-size:0.7rem;letter-spacing:4px;font-weight:700;color:var(--amber);text-decoration:none;text-shadow:0 0 14px var(--amberf);}
+.sb-logo{font-family:'Libre Baskerville',serif;font-size:0.8rem;letter-spacing:4px;font-weight:700;color:var(--amber);text-decoration:none;text-shadow:0 0 14px var(--amberf);}
 .sb-sep{width:1px;height:12px;background:var(--border-h);}
 .sb-label{font-size: 0.667rem;letter-spacing:2.5px;color:var(--dim);flex:1;}
 .sb-clock{font-size: 0.667rem;letter-spacing:2px;color:var(--amber);text-shadow:0 0 8px var(--amberf);}
@@ -73,9 +73,9 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 
 .entry-title{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;font-style:italic;color:var(--cream);line-height:1.1;margin-bottom:16px;letter-spacing:-0.5px;}
 .entry-title span{color:var(--amber);text-shadow:0 0 20px var(--amberf);}
-.entry-teaser{font-size:0.78rem;color:var(--muted);line-height:1.8;margin-bottom:36px;max-width:420px;letter-spacing:0.3px;}
+.entry-teaser{font-size:0.8rem;color:var(--muted);line-height:1.8;margin-bottom:36px;max-width:420px;letter-spacing:0.3px;}
 
-.entry-btn{display:inline-flex;align-items:center;gap:12px;background:transparent;border:1px solid var(--amber);color:var(--amber);font-family:'Courier Prime',monospace;font-size:0.75rem;font-weight:700;letter-spacing:4px;padding:14px 28px;cursor:pointer;text-transform:uppercase;transition:all 0.2s ease;text-shadow:0 0 10px var(--amberf);box-shadow:0 0 20px rgba(232,160,32,0.08),inset 0 0 20px rgba(232,160,32,0.04);}
+.entry-btn{display:inline-flex;align-items:center;gap:12px;background:transparent;border:1px solid var(--amber);color:var(--amber);font-family:'Courier Prime',monospace;font-size:0.8rem;font-weight:700;letter-spacing:4px;padding:14px 28px;cursor:pointer;text-transform:uppercase;transition:all 0.2s ease;text-shadow:0 0 10px var(--amberf);box-shadow:0 0 20px rgba(232,160,32,0.08),inset 0 0 20px rgba(232,160,32,0.04);}
 .entry-btn:hover{background:rgba(232,160,32,0.08);box-shadow:0 0 30px rgba(232,160,32,0.25),inset 0 0 20px rgba(232,160,32,0.08);text-shadow:0 0 16px var(--amberf);}
 .btn-dot{width:8px;height:8px;background:var(--red);border-radius:50%;box-shadow:0 0 10px var(--redf);animation:blink-btn 1.2s ease-in-out infinite;flex-shrink:0;}
 @keyframes blink-btn{0%,100%{opacity:1;box-shadow:0 0 10px var(--redf);}50%{opacity:0.4;box-shadow:0 0 4px var(--redf);}}
@@ -131,7 +131,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 .tx-header{padding:36px 48px 28px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(232,160,32,0.04) 0%,transparent 100%);}
 .tx-issue{font-size: 0.667rem;letter-spacing:5px;color:var(--amber);text-shadow:0 0 8px var(--amberf);text-transform:uppercase;margin-bottom:12px;}
 .tx-title{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;font-style:italic;color:var(--cream);line-height:1.1;margin-bottom:12px;}
-.tx-subtitle{font-size:0.78rem;color:var(--muted);line-height:1.7;max-width:680px;letter-spacing:0.3px;}
+.tx-subtitle{font-size:0.8rem;color:var(--muted);line-height:1.7;max-width:680px;letter-spacing:0.3px;}
 .tx-broadcast-tag{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size: 0.667rem;letter-spacing:3px;color:var(--dim);border:1px solid var(--border);padding:5px 12px;}
 
 /* Segment */
@@ -149,14 +149,14 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 
 .pull-quote{font-family:'Libre Baskerville',serif;font-size:clamp(1rem,2vw,1.25rem);font-style:italic;color:var(--amber);text-shadow:0 0 16px var(--amberf);border-left:3px solid var(--amber);padding:16px 24px;margin:28px 0;box-shadow:inset 0 0 30px rgba(232,160,32,0.04);line-height:1.6;}
 
-.cite{font-size:0.74rem;color:var(--cream);border-left:3px solid var(--amber);padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;}
+.cite{font-size:0.8rem;color:var(--cream);border-left:3px solid var(--amber);padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;}
 .cite-source{color:var(--amber);text-shadow:0 0 6px var(--amberf);}
 
 .etym-block{background:rgba(232,160,32,0.04);border:1px solid var(--border-h);padding:24px 28px;margin:28px 0;position:relative;}
 .etym-block::before{content:'ETYMOLOGY';position:absolute;top:-8px;left:16px;font-size: 0.667rem;letter-spacing:5px;color:var(--amber);background:var(--bg);padding:0 8px;text-shadow:0 0 8px var(--amberf);}
 .etym-chain{font-family:'Libre Baskerville',serif;font-style:italic;font-size:0.9rem;color:var(--cream);line-height:1.8;margin-bottom:12px;}
 .etym-chain em{color:var(--amber);text-shadow:0 0 8px var(--amberf);font-style:normal;}
-.etym-note{font-size:0.75rem;color:var(--muted);line-height:1.7;}
+.etym-note{font-size:0.8rem;color:var(--muted);line-height:1.7;}
 
 .place-block{background:rgba(232,160,32,0.025);border-left:3px solid rgba(232,160,32,0.4);padding:20px 24px;margin:28px 0;}
 .place-label{font-size: 0.667rem;letter-spacing:5px;color:var(--amber);text-shadow:0 0 6px var(--amberf);margin-bottom:10px;text-transform:uppercase;}
@@ -166,14 +166,14 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 .wall-moment{padding:0;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
 .wall-header{padding:36px 48px 24px;background:linear-gradient(180deg,rgba(232,160,32,0.06) 0%,transparent 80%);}
 .wall-headline{font-family:'Libre Baskerville',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:700;color:var(--amber);text-shadow:0 0 30px var(--amberf),0 0 60px rgba(232,160,32,0.25),0 0 120px rgba(232,160,32,0.1);line-height:1.1;letter-spacing:-0.5px;text-transform:uppercase;}
-.wall-sub{font-size:0.72rem;color:var(--muted);letter-spacing:2px;margin-top:10px;}
+.wall-sub{font-size:0.8rem;color:var(--muted);letter-spacing:2px;margin-top:10px;}
 .interp-colhead{padding:16px 24px;border-bottom:1px solid var(--border-h);font-size: 0.667rem;letter-spacing:4px;text-transform:uppercase;}
 .col-what{color:var(--muted);}
 .col-story{color:var(--amber);text-shadow:0 0 8px var(--amberf);}
 .col-actual{color:var(--muted);opacity:0.7;}
 .scenario-row{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--border);}
 .scenario-row:last-child{border-bottom:none;}
-.sr-cell{padding:22px 24px;font-size:0.72rem;color:var(--muted);line-height:1.7;border-right:1px solid var(--border);}
+.sr-cell{padding:22px 24px;font-size:0.8rem;color:var(--muted);line-height:1.7;border-right:1px solid var(--border);}
 .sr-cell:last-child{border-right:none;}
 .sr-cell.story-cell{color:var(--cream);background:rgba(232,160,32,0.025);}
 .sr-cell .scenario-label{display:block;font-size: 0.667rem;letter-spacing:3px;color:var(--amber);text-shadow:0 0 6px var(--amberf);margin-bottom:8px;text-transform:uppercase;}
@@ -196,13 +196,13 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
 .bib-section{margin-top:20px;}
 .bib-head{font-size: 0.667rem;letter-spacing:5px;color:var(--amber);text-shadow:0 0 8px var(--amberf);text-transform:uppercase;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border);}
 .bib-list{list-style:none;}
-.bib-list li{padding:10px 0;border-bottom:1px solid var(--border);font-size:0.72rem;color:var(--muted);line-height:1.7;padding-left:20px;position:relative;}
+.bib-list li{padding:10px 0;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--muted);line-height:1.7;padding-left:20px;position:relative;}
 .bib-list li::before{content:'—';position:absolute;left:0;color:var(--amber);text-shadow:0 0 6px var(--amberf);}
 .bib-list li:last-child{border-bottom:none;}
 .bib-list em{color:var(--cream);font-style:italic;}
 .bib-cross{margin-top:28px;}
 .bib-cross-head{font-size: 0.667rem;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:14px;}
-.cross-item{padding:8px 0 8px 20px;border-bottom:1px solid var(--border);font-size:0.7rem;color:var(--dim);line-height:1.6;position:relative;}
+.cross-item{padding:8px 0 8px 20px;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--dim);line-height:1.6;position:relative;}
 .cross-item::before{content:'↳';position:absolute;left:0;color:var(--amber);opacity:0.6;}
 .cross-item:last-child{border-bottom:none;}
 .cross-item em{color:var(--muted);font-style:italic;}
@@ -451,7 +451,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;back
         <p>This etymology matters for practitioners. When a client says "here's what happened," they are not offering a transcript. They are offering a theory. The narrative grammar — sequence, causation, intention, outcome — is not the grammar of events. It is the grammar of <em>knowing</em>. Hearing it as a knowledge claim, rather than a report, changes what you listen for and what you ask.</p>
         <div class="place-block">
           <div class="place-label">Place Element · The Winter Count</div>
-          <div class="place-text">The Lakota Winter Count (<em>waníyetu wówapi</em>) is a form of historiography maintained by designated tribal historians — <em>wičháša wówapi</em> — who recorded each year as a single image painted on buffalo hide. Each year is named after the one event judged most significant: "The Year the Stars Fell" (the 1833 Leonid meteor shower). "The Year Many Died of Smallpox." Each image is a story compressed to its essential kernel, chosen by a human being exercising discernment about what mattered.<br><br>What Meliorism2.com is building — one issue per day, each named for a mechanism — is a modern winter count. Not every event, but the ones worth the name. The compression is not loss of information; it is editorial judgment. The Lakota tradition understood that the archive's job is not to record everything but to choose what future generations need to know.<br><br><span style="font-size:0.68rem;color:var(--dim);">Source: Candace Greene &amp; Russell Thornton (eds.), <em>The Year the Stars Fell: Lakota Winter Counts at the Smithsonian</em> (2007), Smithsonian Institution Press.</span></div>
+          <div class="place-text">The Lakota Winter Count (<em>waníyetu wówapi</em>) is a form of historiography maintained by designated tribal historians — <em>wičháša wówapi</em> — who recorded each year as a single image painted on buffalo hide. Each year is named after the one event judged most significant: "The Year the Stars Fell" (the 1833 Leonid meteor shower). "The Year Many Died of Smallpox." Each image is a story compressed to its essential kernel, chosen by a human being exercising discernment about what mattered.<br><br>What Meliorism2.com is building — one issue per day, each named for a mechanism — is a modern winter count. Not every event, but the ones worth the name. The compression is not loss of information; it is editorial judgment. The Lakota tradition understood that the archive's job is not to record everything but to choose what future generations need to know.<br><br><span style="font-size:0.8rem;color:var(--dim);">Source: Candace Greene &amp; Russell Thornton (eds.), <em>The Year the Stars Fell: Lakota Winter Counts at the Smithsonian</em> (2007), Smithsonian Institution Press.</span></div>
         </div>
       </div>
     </div>

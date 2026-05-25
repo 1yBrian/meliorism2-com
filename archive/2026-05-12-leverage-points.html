@@ -36,9 +36,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Nunito
   position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;
   background:rgba(6,11,20,0.98);border-bottom:1px solid var(--border);
   display:flex;align-items:center;padding:0 20px;gap:14px;
-  font-family:'Inconsolata',monospace;font-size:0.7rem;color:var(--textf);
+  font-family:'Inconsolata',monospace;font-size:0.8rem;color:var(--textf);
 }
-.sb-logo a{font-weight:600;color:var(--text);text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.74rem;letter-spacing:0.06em;}
+.sb-logo a{font-weight:600;color:var(--text);text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.8rem;letter-spacing:0.06em;}
 .sb-sep{opacity:0.25;}
 .sb-right{margin-left:auto;display:flex;gap:14px;}
 
@@ -127,7 +127,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Nunito
 .lp-num.low{color:rgba(42,109,181,0.5);}
 .lp-num.mid{color:var(--flow);}
 .lp-num.high{color:var(--warn);text-shadow:0 0 6px var(--warnf);}
-.lp-text{font-size:0.73rem;line-height:1.3;color:var(--text);opacity:0.75;}
+.lp-text{font-size:0.8rem;line-height:1.3;color:var(--text);opacity:0.75;}
 .lp-item.active .lp-text{opacity:1;}
 .zone-divider{
   padding:6px 12px 4px;font-family:'Inconsolata',monospace;font-size: 0.667rem;
@@ -149,7 +149,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Nunito
 .section p{font-size:0.93rem;line-height:1.85;color:var(--textf);margin-bottom:14px;}
 strong{color:var(--text);}
 .cite{
-  font-size:0.74rem;color:var(--text);border-left:3px solid var(--flow);
+  font-size:0.8rem;color:var(--text);border-left:3px solid var(--flow);
   padding:10px 16px;margin:10px 0 24px;display:block;line-height:1.7;
   background:rgba(78,205,196,0.04);
   box-shadow:-3px 0 0 var(--flowf);
@@ -176,7 +176,7 @@ strong{color:var(--text);}
 }
 .hier-item:last-child{border-bottom:none;}
 .hi-num{
-  font-family:'Inconsolata',monospace;font-size:0.72rem;
+  font-family:'Inconsolata',monospace;font-size:0.8rem;
   padding:10px 0;display:flex;align-items:center;
 }
 .hi-num.low{color:rgba(42,109,181,0.4);}
@@ -184,7 +184,7 @@ strong{color:var(--text);}
 .hi-num.high{color:var(--warn);text-shadow:0 0 6px var(--warnf);}
 .hi-name{font-size:0.85rem;padding:10px 12px;color:var(--text);line-height:1.4;display:flex;align-items:center;}
 .hi-ld{
-  font-family:'Inconsolata',monospace;font-size:0.72rem;color:var(--textf);
+  font-family:'Inconsolata',monospace;font-size:0.8rem;color:var(--textf);
   padding:10px 0 10px 12px;border-left:1px solid rgba(42,109,181,0.12);
   line-height:1.4;display:flex;align-items:center;
 }
@@ -207,7 +207,7 @@ strong{color:var(--text);}
 .main-footer{
   grid-column:1/-1;border-top:1px solid var(--border);
   padding:12px 24px;display:flex;align-items:center;gap:16px;
-  font-family:'Inconsolata',monospace;font-size:0.7rem;color:var(--textf);
+  font-family:'Inconsolata',monospace;font-size:0.8rem;color:var(--textf);
   background:rgba(6,11,20,0.98);
 }
 .main-footer a{color:var(--text);text-decoration:none;}
@@ -459,7 +459,7 @@ strong{color:var(--text);}
       <p><strong>The System Diagnosis:</strong> For a current client or program, map the system: what are the feedback loops that are reinforcing the behavior you're trying to change? What level would you need to work at to actually move those loops?</p>
       <p><strong>The Proposal Test:</strong> When you write a proposal for new work, what leverage level is the work implicitly promising? If it's levels 1–5, what would change if you proposed working at level 7 or 8 instead? What would you need to be able to demonstrate to make that case?</p>
       <p><strong>The Income Question:</strong> Meadows noted that high-leverage interventions are often the cheapest to implement and the hardest to see. If you could charge for the diagnosis — identifying which leverage point actually needs to move — what would that be worth? How does that compare to what you currently charge for the training itself?</p>
-      <p style="margin-top:36px;font-size:0.79rem;color:var(--textf);font-family:'Inconsolata',monospace;">Sources: Meadows (1999 paper) · Meadows (2008 book) · Senge (1990) · Sterman (2000) · Forrester (1971) · Senge (1994 Fieldbook) · Broad &amp; Newstrom (1992) · Saks &amp; Belcourt (2006) · Club of Rome / Meadows et al., Limits to Growth (1972)</p>
+      <p style="margin-top:36px;font-size:0.8rem;color:var(--textf);font-family:'Inconsolata',monospace;">Sources: Meadows (1999 paper) · Meadows (2008 book) · Senge (1990) · Sterman (2000) · Forrester (1971) · Senge (1994 Fieldbook) · Broad &amp; Newstrom (1992) · Saks &amp; Belcourt (2006) · Club of Rome / Meadows et al., Limits to Growth (1972)</p>
     </div>
   </div>
 
@@ -477,7 +477,7 @@ function tick(){
     n.getUTCHours().toString().padStart(2,'0')+':'+
     n.getUTCMinutes().toString().padStart(2,'0')+':'+
     n.getUTCSeconds().toString().padStart(2,'0')+' UTC';
-  document.getElementById('clk').style.cssText='font-family:"Inconsolata",monospace;font-size:0.7rem;color:rgba(220,235,255,0.6);';
+  document.getElementById('clk').style.cssText='font-family:"Inconsolata",monospace;font-size:0.8rem;color:rgba(220,235,255,0.6);';
 }
 tick();setInterval(tick,1000);
 

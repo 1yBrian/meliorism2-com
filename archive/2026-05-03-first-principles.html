@@ -31,7 +31,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background-size:200px 200px;opacity:0.6;}
 .sb{position:fixed;top:0;left:0;right:0;z-index:1000;height:36px;background:rgba(5,8,15,0.92);
   border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:14px;}
-.sb-logo{font-family:'Syne',sans-serif;font-size:0.68rem;letter-spacing:5px;font-weight:800;
+.sb-logo{font-family:'Syne',sans-serif;font-size:0.8rem;letter-spacing:5px;font-weight:800;
   color:var(--cyan);text-decoration:none;text-shadow:0 0 12px var(--cyanf);}
 .sb-sep{width:1px;height:14px;background:var(--line);}
 .sb-label{font-size: 0.667rem;letter-spacing:2.5px;color:var(--muted);flex:1;}
@@ -58,7 +58,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .eb-stat-lbl{font-size: 0.667rem;letter-spacing:2.5px;color:var(--dim);}
 .entry-btn{display:inline-flex;align-items:center;gap:12px;background:transparent;
   border:1px solid var(--cyan);color:var(--cyan);padding:14px 28px;
-  font-family:'Space Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:3px;
+  font-family:'Space Mono',monospace;font-size:0.8rem;font-weight:700;letter-spacing:3px;
   cursor:pointer;width:fit-content;text-shadow:0 0 10px var(--cyanf);
   box-shadow:0 0 20px rgba(60,244,255,0.1),inset 0 0 20px rgba(60,244,255,0.03);
   transition:box-shadow 0.3s,background 0.3s;}
@@ -78,7 +78,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .comp-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
   background:var(--cyan);box-shadow:0 0 8px var(--cyanf);}
 .ci-num{font-size: 0.667rem;letter-spacing:2px;color:var(--dim);padding-top:2px;flex-shrink:0;transition:color 0.2s;}
-.ci-label{font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:600;color:var(--white);margin-bottom:2px;}
+.ci-label{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:600;color:var(--white);margin-bottom:2px;}
 .ci-sub{font-size: 0.667rem;letter-spacing:1.5px;color:var(--dim);}
 .content-area{overflow-y:auto;padding:0 0 80px;}
 .content-area::-webkit-scrollbar{width:4px;}
@@ -88,17 +88,17 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .sec-eyebrow{font-size: 0.667rem;letter-spacing:4px;color:var(--cyan);text-shadow:0 0 10px var(--cyanf);margin-bottom:10px;}
 .sec-title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,2.5vw,2.4rem);font-weight:800;
   color:var(--white);line-height:1.1;margin-bottom:6px;}
-.sec-sub{font-size:0.72rem;color:var(--muted);letter-spacing:1px;margin-bottom:40px;
+.sec-sub{font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:40px;
   padding-bottom:24px;border-bottom:1px solid var(--border);}
 .sec-body{font-size:0.82rem;line-height:1.85;color:var(--muted);max-width:680px;margin-bottom:30px;}
 .sec-body strong{color:var(--white);font-weight:700;}
 .sec-body em{color:var(--amber);font-style:normal;}
-.cite{font-size:0.75rem;color:var(--white);border-left:3px solid var(--cyan);
+.cite{font-size:0.8rem;color:var(--white);border-left:3px solid var(--cyan);
   padding:10px 16px;margin:10px 0 24px;display:block;letter-spacing:0.3px;line-height:1.7;}
 .pull-quote{margin:36px 0;padding:28px 32px;border:1px solid var(--line);
   background:rgba(60,244,255,0.03);position:relative;}
 .pull-quote::before{content:'//';position:absolute;top:12px;left:14px;
-  font-size:0.7rem;color:var(--cyan);opacity:0.4;}
+  font-size:0.8rem;color:var(--cyan);opacity:0.4;}
 .pq-text{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:600;
   color:var(--white);line-height:1.5;margin-bottom:10px;}
 .pq-attr{font-size: 0.667rem;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);}
@@ -115,33 +115,33 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   margin-bottom:16px;position:relative;}
 .wm-title{font-family:'Syne',sans-serif;font-size:clamp(1rem,2vw,1.5rem);font-weight:800;
   color:var(--white);margin-bottom:24px;position:relative;}
-.decomp-tree{font-size:0.72rem;line-height:2.2;position:relative;}
+.decomp-tree{font-size:0.8rem;line-height:2.2;position:relative;}
 .dt-root{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;
   color:var(--cyan);text-shadow:0 0 12px var(--cyanf);letter-spacing:2px;}
 .dt-branch{padding-left:32px;position:relative;color:var(--white);}
 .dt-branch::before{content:'├──';position:absolute;left:0;color:var(--line-h);font-size: 0.667rem;}
 .dt-branch:last-child::before{content:'└──';}
-.dt-leaf{padding-left:64px;position:relative;color:var(--muted);font-size:0.68rem;}
+.dt-leaf{padding-left:64px;position:relative;color:var(--muted);font-size:0.8rem;}
 .dt-leaf::before{content:'└─';position:absolute;left:32px;color:var(--line);font-size: 0.667rem;}
 .comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);margin:30px 0;}
 .cg-header{padding:12px 20px;background:rgba(60,244,255,0.06);
   font-size: 0.667rem;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);
   border-bottom:1px solid var(--line);}
 .cg-header:first-child{border-right:1px solid var(--line);}
-.cg-cell{padding:14px 20px;font-size:0.76rem;line-height:1.6;color:var(--muted);border-bottom:1px solid var(--border);}
+.cg-cell{padding:14px 20px;font-size:0.8rem;line-height:1.6;color:var(--muted);border-bottom:1px solid var(--border);}
 .cg-cell:nth-child(odd){border-right:1px solid var(--border);}
 .cg-cell.highlight{color:var(--white);}
 .meliorist-frame{margin:36px 0;padding:28px 32px;border-left:3px solid var(--amber);background:rgba(255,185,64,0.03);}
 .mf-label{font-size: 0.667rem;letter-spacing:4px;color:var(--amber);text-shadow:0 0 10px var(--amberf);margin-bottom:12px;}
 .mf-text{font-size:0.82rem;line-height:1.8;color:var(--muted);}
 .mf-text strong{color:var(--amber);}
-.bib-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:0.7rem;line-height:1.6;color:var(--dim);}
+.bib-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:0.8rem;line-height:1.6;color:var(--dim);}
 .bib-item strong{color:var(--muted);}
 .bib-item a{color:var(--cyan);text-decoration:none;opacity:0.8;}
 .bib-item a:hover{opacity:1;}
 .nature-card{margin:36px 0;padding:24px 28px;border:1px solid rgba(40,200,80,0.2);background:rgba(40,200,80,0.02);}
 .nc-label{font-size: 0.667rem;letter-spacing:4px;color:rgba(100,220,100,0.7);margin-bottom:10px;}
-.nc-text{font-size:0.78rem;line-height:1.75;color:var(--muted);}
+.nc-text{font-size:0.8rem;line-height:1.75;color:var(--muted);}
 .sec-nav{display:flex;gap:12px;margin-top:50px;padding-top:24px;border-top:1px solid var(--border);}
 .sec-nav-btn{background:transparent;border:1px solid var(--line);color:var(--cyan);padding:10px 22px;
   font-family:'Space Mono',monospace;font-size: 0.667rem;letter-spacing:2px;cursor:pointer;
@@ -429,23 +429,23 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
             <div style="background:var(--bg);padding:24px 20px;">
               <div style="font-size: 0.667rem;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);margin-bottom:10px;">SPACEX</div>
               <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:10px;line-height:1.3;">Rocket fuel can't be cheap</div>
-              <div style="font-size:0.68rem;color:var(--muted);line-height:1.7;margin-bottom:14px;">Industry assumption: fuel cost is a given. Inverted: what <em>is</em> fuel? Liquid oxygen, methane, commodity elements. Build from atoms. Cost: ~2% of industry price.</div>
+              <div style="font-size:0.8rem;color:var(--muted);line-height:1.7;margin-bottom:14px;">Industry assumption: fuel cost is a given. Inverted: what <em>is</em> fuel? Liquid oxygen, methane, commodity elements. Build from atoms. Cost: ~2% of industry price.</div>
               <div style="font-size: 0.667rem;letter-spacing:2px;color:var(--amber);text-shadow:0 0 8px var(--amberf);">THE PRICE WAS THE ANALOGY</div>
             </div>
             <div style="background:var(--bg);padding:24px 20px;">
               <div style="font-size: 0.667rem;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);margin-bottom:10px;">ESCOFFIER</div>
               <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:10px;line-height:1.3;">French cooking is hundreds of recipes</div>
-              <div style="font-size:0.68rem;color:var(--muted);line-height:1.7;margin-bottom:14px;">Inverted: what are recipes made of? Structure. Ratio. Five structural rules generate all others. Principles beat recipes in any kitchen.</div>
+              <div style="font-size:0.8rem;color:var(--muted);line-height:1.7;margin-bottom:14px;">Inverted: what are recipes made of? Structure. Ratio. Five structural rules generate all others. Principles beat recipes in any kitchen.</div>
               <div style="font-size: 0.667rem;letter-spacing:2px;color:var(--amber);text-shadow:0 0 8px var(--amberf);">THE RECIPE WAS THE ANALOGY</div>
             </div>
             <div style="background:var(--bg);padding:24px 20px;">
               <div style="font-size: 0.667rem;letter-spacing:3px;color:var(--cyan);text-shadow:0 0 8px var(--cyanf);margin-bottom:10px;">FREEDIVING</div>
               <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:10px;line-height:1.3;">The dive reflex is the limit</div>
-              <div style="font-size:0.68rem;color:var(--muted);line-height:1.7;margin-bottom:14px;">Inverted: what if the reflex is the capability? Trubridge descended 244m on one breath by training the response everyone else was suppressing.</div>
+              <div style="font-size:0.8rem;color:var(--muted);line-height:1.7;margin-bottom:14px;">Inverted: what if the reflex is the capability? Trubridge descended 244m on one breath by training the response everyone else was suppressing.</div>
               <div style="font-size: 0.667rem;letter-spacing:2px;color:var(--amber);text-shadow:0 0 8px var(--amberf);">THE REFLEX WAS THE TOOL</div>
             </div>
           </div>
-          <div style="padding:18px 20px 0;font-size:0.7rem;color:var(--dim);line-height:1.6;">
+          <div style="padding:18px 20px 0;font-size:0.8rem;color:var(--dim);line-height:1.6;">
             The practitioner's inversion: <strong style="color:var(--white);">learner resistance is not an obstacle to change. It is diagnostic information about the competing commitment that is doing the resisting.</strong> The immunity to change (Kegan &amp; Lahey, 2001) lives below conscious intention, in the body, protecting something real.
           </div>
         </div>
