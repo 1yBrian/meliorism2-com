@@ -599,6 +599,10 @@
   <script>
     const BRIEFINGS = [
       { date:"2026-05-31", slug:"the-load-bearing-wall", title:"The Load-Bearing Wall", concept:"Safe spaces protect people from discomfort. Brave spaces ask people to stay in contact with it — and the difference between those two design choices determines whether the room can hold the conversation that actually needs to happen.", format:"The Load-Bearing Wall", dimension:"Brave Spaces", sources:5, file:"2026-05-31-the-load-bearing-wall.html" },
+      { date:"2026-05-30", slug:"the-provenance-document", title:"The Provenance Document", concept:"Before a practitioner can teach anything, they have to know where it came from — whose field it emerged from, what got erased in translation, and what their own habitus has quietly made invisible.", format:"Provenance Document", dimension:"Critical Consciousness", sources:5, file:"2026-05-30-the-provenance-document.html" },
+      { date:"2026-05-27", slug:"the-tide-chart", title:"The Tide Chart", concept:"When 70,000 people share one stadium, something neurological fires that no screen can replicate — and practitioners who understand co-presence as a biological phenomenon can design for it deliberately.", format:"Tide Chart", dimension:"In-Person Presence", sources:5, file:"2026-05-27-the-tide-chart.html" },
+      { date:"2026-05-29", slug:"the-annotated-estimate", title:"The Annotated Estimate", concept:"The RAND Corporation studied what teachers actually do all day — and the gap between what practitioners are paid for and what they actually produce is a structural argument, not a personal grievance.", format:"Annotated Estimate", dimension:"Living Income", sources:5, file:"2026-05-29-the-annotated-estimate.html" },
+      { date:"2026-05-28", slug:"the-tide-pool-survey", title:"The Tide Pool Survey", concept:"The moment a practitioner stops managing a person and starts actually encountering them is the moment the room changes. Sonder is not a feeling — it is a practitioner capacity.", format:"Tide Pool Survey", dimension:"Witnessing Authentic Humanity", sources:5, file:"2026-05-28-the-tide-pool-survey.html" },
       { date:"2026-05-26", slug:"the-pressure-log", title:"The Pressure Log", concept:"The practitioner who reads pressure changes in their nervous system — before the system becomes overwhelmed — is practicing adaptability as an instrument discipline, not an attitude shift.", format:"The Pressure Log", dimension:"Becoming Adaptable", sources:5, file:"2026-05-26-the-pressure-log.html" },
       { date:"2026-05-25", slug:"the-barograph", title:"The Barograph", concept:"The instrument is already running. The body logs atmospheric pressure before the mind decides what the weather means. The practitioner's work is to become a better reader of its trace.", format:"The Barograph", dimension:"Somatic / Body Intelligence", sources:5, file:"2026-05-25-the-barograph.html" },
       { date:"2026-05-23", slug:"grief-as-practiced-presence", title:"Grief as Practiced Presence", concept:"Grief in a container means the container is real. The practitioner's job is not to fix it — it's to normalize it, sit with it, and expand everyone's capacity to be in its presence.", format:"Field Notebook", dimension:"Witnessing Authentic Humanity", sources:6, file:"2026-05-23-grief-as-practiced-presence.html" },
@@ -676,7 +680,8 @@
       </a>`;
     }
 
-    // ── INITIAL RENDER ──
+    // ── INITIAL RENDER ── (sorted newest → oldest)
+    BRIEFINGS.sort((a, b) => new Date(b.date) - new Date(a.date));
     const grid = document.getElementById('card-grid');
     grid.innerHTML = BRIEFINGS.map(buildCard).join('');
     const allCards = Array.from(grid.querySelectorAll('.card'));
