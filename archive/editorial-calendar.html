@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editorial Calendar — Meliorism2.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #faf8f5;
+    --text: #2c2c2c;
+    --accent: #8b6f47;
+    --dark: #1a1714;
+    --secondary: #6b5d4f;
+    --border: #e0d9d0;
+    --today-ring: #8b6f47;
+    --radius: 4px;
+  }
+
+  html { font-size: 16px; }
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+  }
+
+  /* ─── Header ─── */
+  .site-header {
+    background: var(--dark);
+    color: #f5f0ea;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    gap: 12px;
+  }
+  .site-header .brand {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f5f0ea;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .view-tabs {
+    display: flex;
+    gap: 4px;
+  }
+  .view-tab {
+    background: transparent;
+    border: 1px solid rgba(245,240,234,0.25);
+    color: #c8bfb0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .view-tab:hover { background: rgba(245,240,234,0.1); color: #f5f0ea; }
+  .view-tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* ─── Calendar Nav Bar ─── */
+  .cal-nav {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    gap: 12px;
+  }
+  .cal-nav .page-title {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .period-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .period-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    min-width: 160px;
+    text-align: center;
+  }
+  .nav-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--secondary);
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { background: var(--cream); color: var(--text); }
+  .today-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .today-btn:hover { background: var(--accent); color: #fff; }
+
+  /* ─── Main Content ─── */
+  .cal-body {
+    padding: 20px 24px 40px;
+  }
+
+  /* ─── Legend ─── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--secondary);
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+  .legend-item:hover { border-color: var(--border); }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ─── Month View ─── */
+  .month-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  .month-grid th {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    text-align: center;
+    padding: 6px 0 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .month-grid td {
+    vertical-align: top;
+    border: 1px solid var(--border);
+    min-height: 100px;
+    padding: 4px;
+    position: relative;
+    cursor: default;
+  }
+  .day-number {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--secondary);
+    display: block;
+    text-align: right;
+    margin-bottom: 3px;
+    padding: 1px 2px;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    line-height: 20px;
+    text-align: center;
+    margin-left: auto;
+  }
+  .day-number.today-num {
+    background: var(--accent);
+    color: #fff;
+  }
+  td.today-cell {
+    background: #fdf6ee;
+    box-shadow: inset 0 0 0 2px var(--today-ring);
+  }
+  td.other-month {
+    background: #f5f3f0;
+  }
+  td.other-month .day-number { color: #c0b8b0; }
+  .issue-chip {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.62rem;
+    font-weight: 500;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: opacity 0.12s;
+    line-height: 1.4;
+  }
+  .issue-chip:hover { opacity: 0.8; }
+  .chip-glyph {
+    font-size: 0.78rem;
+    line-height: 1;
+    flex-shrink: 0;
+    opacity: 0.9;
+  }
+  .chip-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .more-link {
+    font-size: 0.6rem;
+    color: var(--accent);
+    cursor: pointer;
+    font-weight: 500;
+    display: block;
+    margin-top: 2px;
+    text-decoration: none;
+  }
+  .more-link:hover { text-decoration: underline; }
+
+  /* ─── Week View ─── */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+  .week-day-col {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    overflow: hidden;
+  }
+  .week-day-header {
+    background: var(--dark);
+    color: #c8bfb0;
+    padding: 8px;
+    text-align: center;
+  }
+  .week-day-header .wdh-dow {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: block;
+  }
+  .week-day-header .wdh-num {
+    font-size: 1.1rem;
+    font-weight: 300;
+    display: block;
+    line-height: 1.3;
+  }
+  .week-day-col.today-col .week-day-header {
+    background: var(--accent);
+    color: #fff;
+  }
+  .week-day-col.today-col .wdh-dow { color: rgba(255,255,255,0.8); }
+  .week-day-issues {
+    padding: 8px;
+    min-height: 80px;
+  }
+  .week-issue-card {
+    border-radius: var(--radius);
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: opacity 0.12s;
+    border-left: 4px solid;
+    position: relative;
+    overflow: hidden;
+  }
+  .week-issue-card:hover { opacity: 0.85; }
+  .week-card-watermark {
+    position: absolute;
+    top: 4px; right: 6px;
+    font-size: 2rem;
+    line-height: 1;
+    opacity: 0.12;
+    pointer-events: none;
+    user-select: none;
+  }
+  .week-issue-num {
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: var(--secondary);
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+  .week-issue-title {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .week-format-label {
+    display: block;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.72rem;
+    font-variant: small-caps;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: var(--secondary);
+    margin-bottom: 4px;
+  }
+  .dim-chip {
+    display: inline-block;
+    font-size: 0.58rem;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+    margin-bottom: 3px;
+  }
+  .week-empty {
+    color: var(--border);
+    font-size: 0.7rem;
+    text-align: center;
+    padding: 16px 0;
+  }
+
+  /* ─── Status badges ─── */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .status-live .status-dot { background: #2e7d32; }
+  .status-live { color: #2e7d32; }
+  .status-staged .status-dot { background: #d4a017; }
+  .status-staged { color: #7a5c00; }
+  .status-scheduled .status-dot {
+    background: transparent;
+    border: 1.5px solid #8b6f47;
+  }
+  .status-scheduled { color: #8b6f47; }
+
+  /* ─── Quarter View ─── */
+  .quarter-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .mini-month {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+  }
+  .mini-month-header {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+  .mini-month-header:hover { color: var(--accent); }
+  .mini-cal-grid {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .mini-cal-grid th {
+    font-size: 0.58rem;
+    font-weight: 500;
+    color: var(--secondary);
+    text-align: center;
+    padding: 2px 0 4px;
+    letter-spacing: 0.05em;
+  }
+  .mini-cal-grid td {
+    text-align: center;
+    padding: 3px 1px;
+    position: relative;
+    height: 26px;
+    vertical-align: middle;
+  }
+  .mini-day-num {
+    font-size: 0.65rem;
+    color: var(--secondary);
+    position: relative;
+    z-index: 1;
+  }
+  .mini-day-num.other-m { color: #d0c8c0; }
+  .mini-day-dots {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    flex-wrap: wrap;
+    max-width: 30px;
+    margin: 1px auto 0;
+  }
+  .mini-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.1s;
+  }
+  .mini-dot:hover { transform: scale(1.3); }
+  .mini-today {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+  }
+
+  /* ─── Year View ─── */
+  .year-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .year-month {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px;
+  }
+  .year-month-label {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 6px;
+    cursor: pointer;
+  }
+  .year-month-label:hover { color: var(--accent); }
+  .year-cal-grid {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .year-cal-grid th {
+    font-size: 0.52rem;
+    font-weight: 500;
+    color: var(--secondary);
+    text-align: center;
+    padding: 1px 0 3px;
+  }
+  .year-cal-grid td {
+    text-align: center;
+    padding: 2px 0;
+    height: 20px;
+    vertical-align: middle;
+  }
+  .year-day-num {
+    font-size: 0.58rem;
+    color: var(--secondary);
+  }
+  .year-day-num.other-m { color: #d8d0c8; }
+  .year-day-dots {
+    display: flex;
+    justify-content: center;
+    gap: 1px;
+    flex-wrap: wrap;
+    max-width: 22px;
+    margin: 0 auto;
+  }
+  .year-mini-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.1s;
+  }
+  .year-mini-dot:hover { transform: scale(1.3); }
+  .year-today {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.58rem;
+  }
+
+  /* ─── Detail Panel ─── */
+  .panel-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,23,20,0.4);
+    z-index: 100;
+    backdrop-filter: blur(2px);
+  }
+  .panel-overlay.open { display: block; }
+  .detail-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 340px;
+    height: 100vh;
+    background: var(--cream);
+    border-left: 1px solid var(--border);
+    z-index: 101;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+    padding: 0;
+  }
+  .detail-panel.open { transform: translateX(0); }
+  .panel-header {
+    background: var(--dark);
+    color: #f5f0ea;
+    padding: 20px 20px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  .panel-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: 1px solid rgba(245,240,234,0.3);
+    color: #c8bfb0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .panel-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  /* ─── Format Preview Strip ─── */
+  .format-preview-strip {
+    width: 280px;
+    height: 80px;
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 14px;
+    flex-shrink: 0;
+  }
+  .format-strip-watermark {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    line-height: 1;
+    opacity: 0.3;
+    pointer-events: none;
+    user-select: none;
+  }
+  .format-strip-name {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #faf8f5;
+    letter-spacing: 0.02em;
+    text-align: center;
+    padding: 0 36px;
+    line-height: 1.25;
+    position: relative;
+    z-index: 1;
+  }
+  .panel-issue-num {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .panel-date {
+    font-size: 0.7rem;
+    color: #c8bfb0;
+    margin-bottom: 0;
+  }
+  .panel-body {
+    padding: 20px;
+  }
+  .panel-title {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.25;
+    margin-bottom: 14px;
+  }
+  .panel-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .panel-meta-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.78rem;
+  }
+  .panel-meta-label {
+    color: var(--secondary);
+    font-weight: 500;
+    min-width: 70px;
+    flex-shrink: 0;
+  }
+  .panel-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 16px 0;
+  }
+  .panel-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: 7px 14px;
+    border-radius: var(--radius);
+    transition: all 0.15s;
+    margin-top: 4px;
+  }
+  .panel-link:hover { background: var(--accent); color: #fff; }
+
+  /* ─── Expanded day popup ─── */
+  .expand-popup {
+    display: none;
+    position: fixed;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    z-index: 200;
+    min-width: 220px;
+    max-width: 280px;
+    padding: 12px;
+  }
+  .expand-popup.open { display: block; }
+  .expand-popup-date {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--secondary);
+    margin-bottom: 8px;
+    letter-spacing: 0.06em;
+  }
+  .expand-popup .issue-chip {
+    margin-bottom: 4px;
+  }
+  .expand-popup-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--secondary);
+    font-size: 1rem;
+    line-height: 1;
+    padding: 2px 4px;
+  }
+
+  /* ─── Print ─── */
+  @media print {
+    .site-header, .cal-nav, .panel-overlay, .detail-panel, .legend { display: none !important; }
+    .year-grid { grid-template-columns: repeat(4, 1fr); }
+    .cal-body { padding: 10px; }
+    body { background: #fff; }
+  }
+
+  /* ─── Mobile ─── */
+  @media (max-width: 700px) {
+    .site-header { padding: 0 12px; }
+    .cal-nav { padding: 0 12px; flex-wrap: wrap; height: auto; padding: 8px 12px; gap: 8px; }
+    .cal-body { padding: 12px 10px 40px; }
+    .view-tabs { gap: 2px; }
+    .view-tab { padding: 4px 7px; font-size: 0.62rem; }
+    .week-grid { grid-template-columns: 1fr; }
+    .quarter-grid { grid-template-columns: 1fr; }
+    .year-grid { grid-template-columns: repeat(2, 1fr); }
+    .detail-panel { width: 100%; top: auto; bottom: 0; height: 70vh; transform: translateY(100%); border-left: none; border-top: 1px solid var(--border); }
+    .detail-panel.open { transform: translateY(0); }
+    .period-label { min-width: 120px; font-size: 0.8rem; }
+    .page-title { font-size: 0.95rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Site Header -->
+<header class="site-header">
+  <a href="https://meliorism2.com" class="brand">Meliorism2.com</a>
+  <div class="view-tabs">
+    <button class="view-tab" onclick="setView('week')" id="tab-week">Week</button>
+    <button class="view-tab active" onclick="setView('month')" id="tab-month">Month</button>
+    <button class="view-tab" onclick="setView('quarter')" id="tab-quarter">Quarter</button>
+    <button class="view-tab" onclick="setView('year')" id="tab-year">Year</button>
+  </div>
+</header>
+
+<!-- Calendar Nav -->
+<nav class="cal-nav">
+  <div class="page-title">Editorial Calendar</div>
+  <div class="period-nav">
+    <button class="nav-btn" onclick="navPrev()" aria-label="Previous period">&#8592;</button>
+    <span class="period-label" id="period-label">May 2026</span>
+    <button class="nav-btn" onclick="navNext()" aria-label="Next period">&#8594;</button>
+  </div>
+  <button class="today-btn" onclick="goToday()">Today</button>
+</nav>
+
+<!-- Calendar Body -->
+<main class="cal-body">
+  <div class="legend" id="legend"></div>
+  <div id="cal-view"></div>
+</main>
+
+<!-- Overlay -->
+<div class="panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
+
+<!-- Detail Panel -->
+<aside class="detail-panel" id="detail-panel">
+  <div class="panel-header">
+    <button class="panel-close" onclick="closePanel()" aria-label="Close">&#215;</button>
+    <div class="panel-issue-num" id="p-num"></div>
+    <div class="panel-date" id="p-date"></div>
+  </div>
+  <div class="panel-body">
+    <h2 class="panel-title" id="p-title"></h2>
+    <div class="panel-meta" id="p-meta"></div>
+  </div>
+</aside>
+
+<!-- Expand popup (month overflow) -->
+<div class="expand-popup" id="expand-popup">
+  <button class="expand-popup-close" onclick="closeExpandPopup()">&#215;</button>
+  <div class="expand-popup-date" id="ep-date"></div>
+  <div id="ep-issues"></div>
+</div>
+
+<script>
+// ─── Format Glyphs ───────────────────────────────────────────────────────────
+
+const FORMAT_GLYPHS = {
+  'Museum Exhibition':      '⬛',
+  'Telephone Exchange':     '⌁',
+  'Field Journal':          '▤',
+  'The Barograph':          '∿',
+  'The Pressure Log':       '◉',
+  'The Tide Chart':         '〜',
+  'The Tide Pool Survey':   '◎',
+  'The Annotated Estimate': '≡',
+  'The Provenance Document':'⊞',
+  'The Load-Bearing Wall':  '▦',
+};
+const DEFAULT_GLYPH = '·';
+
+function getGlyph(format) {
+  if (!format) return DEFAULT_GLYPH;
+  for (const [key, glyph] of Object.entries(FORMAT_GLYPHS)) {
+    if (format.toLowerCase().includes(key.toLowerCase())) return glyph;
+  }
+  return DEFAULT_GLYPH;
+}
+
+// ─── Data ───────────────────────────────────────────────────────────────────
+
+const ISSUES = [
+  { date: '2026-05-02', slug: 'trust-biology-contact-before-contract', title: 'Trust Before Thought', dimension: 'In-Person Presence', format: 'Museum Exhibition', status: 'live', issue: '002' },
+  { date: '2026-05-03', slug: 'first-principles', title: 'First Principles', dimension: 'Mental Models', format: null, status: 'live', issue: '003' },
+  { date: '2026-05-04', slug: 'map-not-territory', title: 'Map Is Not the Territory', dimension: 'Mental Models', format: null, status: 'live', issue: '004' },
+  { date: '2026-05-05', slug: 'inversion', title: 'Inversion', dimension: 'Mental Models', format: null, status: 'live', issue: '005' },
+  { date: '2026-05-06', slug: 'second-order-thinking', title: 'Second-Order Thinking', dimension: 'Mental Models', format: null, status: 'live', issue: '006' },
+  { date: '2026-05-07', slug: 'circle-of-competence', title: 'Circle of Competence', dimension: 'Mental Models', format: null, status: 'live', issue: '007' },
+  { date: '2026-05-08', slug: 'occams-razor', title: "Occam's Razor", dimension: 'Mental Models', format: null, status: 'live', issue: '008' },
+  { date: '2026-05-09', slug: 'hanlons-razor', title: "Hanlon's Razor", dimension: 'Mental Models', format: null, status: 'live', issue: '009' },
+  { date: '2026-05-10', slug: 'feynman-technique', title: 'The Feynman Technique', dimension: 'Mental Models', format: null, status: 'live', issue: '010' },
+  { date: '2026-05-11', slug: 'confirmation-bias', title: 'Confirmation Bias', dimension: 'Mental Models', format: null, status: 'live', issue: '011' },
+  { date: '2026-05-12', slug: 'leverage-points', title: 'Leverage Points', dimension: 'Mental Models', format: null, status: 'live', issue: '012' },
+  { date: '2026-05-13', slug: 'how-to-get-lucky', title: 'How to Get Lucky', dimension: 'Mental Models', format: null, status: 'live', issue: '013' },
+  { date: '2026-05-14', slug: 'the-story-trap', title: 'The Story Trap', dimension: 'Mental Models', format: null, status: 'live', issue: '014' },
+  { date: '2026-05-15', slug: 'the-23-minute-problem', title: 'The 23-Minute Problem', dimension: 'Living Income', format: null, status: 'live', issue: '015' },
+  { date: '2026-05-16', slug: 'the-stimulated-emission-problem', title: 'The Stimulated Emission Problem', dimension: 'Mental Models', format: null, status: 'live', issue: '016' },
+  { date: '2026-05-17', slug: 'the-transfer-collapse', title: 'The Transfer Collapse', dimension: 'Mental Models', format: null, status: 'live', issue: '017' },
+  { date: '2026-05-18', slug: 'the-recency-trap', title: 'The Recency Trap', dimension: 'Mental Models', format: null, status: 'live', issue: '018' },
+  { date: '2026-05-19', slug: 'the-sunk-ship', title: 'The Sunk Ship', dimension: 'Mental Models', format: null, status: 'live', issue: '019' },
+  { date: '2026-05-20', slug: 'the-hive-deliberates', title: 'The Hive Deliberates', dimension: 'Brave Spaces', format: 'Field Journal', status: 'live', issue: '020' },
+  { date: '2026-05-21', slug: 'the-barton-gap', title: 'The Barton Gap', dimension: 'Gender & Generational Difference', format: null, status: 'live', issue: '021' },
+  { date: '2026-05-22', slug: 'the-switchboard-problem', title: 'The Switchboard Problem', dimension: 'Brave Spaces', format: 'Telephone Exchange', status: 'live', issue: '022' },
+  { date: '2026-05-23', slug: 'grief-as-practiced-presence', title: 'Grief as Practiced Presence', dimension: 'In-Person Presence', format: null, status: 'live', issue: '023' },
+  { date: '2026-05-25', slug: 'the-barograph', title: 'The Barograph', dimension: 'Somatic / Body Intelligence', format: 'The Barograph', status: 'live', issue: '025' },
+  { date: '2026-05-26', slug: 'the-pressure-log', title: 'The Pressure Log', dimension: 'Becoming Adaptable', format: 'The Pressure Log', status: 'staged', issue: '026' },
+  { date: '2026-05-27', slug: 'the-tide-chart', title: 'The Tide Chart', dimension: 'In-Person Presence', format: 'The Tide Chart', status: 'staged', issue: '027' },
+  { date: '2026-05-28', slug: 'the-tide-pool-survey', title: 'The Tide Pool Survey', dimension: 'Witnessing Authentic Humanity', format: 'The Tide Pool Survey', status: 'scheduled', issue: '028' },
+  { date: '2026-05-29', slug: 'the-annotated-estimate', title: 'The Annotated Estimate', dimension: 'Living Income', format: 'The Annotated Estimate', status: 'scheduled', issue: '029' },
+  { date: '2026-05-30', slug: 'the-provenance-document', title: 'The Provenance Document', dimension: 'Critical Consciousness', format: 'The Provenance Document', status: 'scheduled', issue: '030' },
+  { date: '2026-05-31', slug: 'the-load-bearing-wall', title: 'The Load-Bearing Wall', dimension: 'Brave Spaces', format: 'The Load-Bearing Wall', status: 'scheduled', issue: '031' },
+  // Reassigned from duplicate dates
+  { date: '2026-05-01', slug: 'when-the-metric-becomes-the-target', title: 'When the Metric Becomes the Target', dimension: 'Mental Models', format: 'The Data Broadcast', status: 'live', issue: '001' },
+  { date: '2026-05-24', slug: 'tradecraft', title: 'Tradecraft', dimension: 'In-Person Presence', format: 'Operations Board', status: 'live', issue: '024' },
+];
+
+const DIM_COLORS = {
+  'Mental Models':                   { bg: '#e8e4de', dot: '#8b7355', label: '#5a4a3a' },
+  'Living Income':                   { bg: '#fef3cd', dot: '#d4a017', label: '#7a5c00' },
+  'Brave Spaces':                    { bg: '#d4ecd4', dot: '#2e7d32', label: '#1b5e20' },
+  'In-Person Presence':              { bg: '#dce8f5', dot: '#1565c0', label: '#0d3c76' },
+  'Witnessing Authentic Humanity':   { bg: '#ede0f5', dot: '#7b1fa2', label: '#4a0072' },
+  'Gender & Generational Difference':{ bg: '#fde8e8', dot: '#c62828', label: '#7f0000' },
+  'Witnessing':                      { bg: '#e0f0e8', dot: '#2e6b4f', label: '#1a3d2e' },
+  'Critical Consciousness':          { bg: '#fbe9d4', dot: '#bf5700', label: '#7a3200' },
+  'Adventure':                       { bg: '#fdf0d4', dot: '#e67e00', label: '#7a4400' },
+  'Out of the Box':                  { bg: '#e3e0f5', dot: '#4527a0', label: '#1a0070' },
+  'Becoming Adaptable':              { bg: '#d8f0e8', dot: '#1b7a4a', label: '#0a3d22' },
+  'Somatic / Body Intelligence':     { bg: '#f0e8d8', dot: '#8b6f47', label: '#4a3520' },
+};
+
+// ─── State ───────────────────────────────────────────────────────────────────
+
+const today = new Date(2026, 4, 24); // May 24 2026
+let currentView = 'month';
+let cursor = new Date(today); // tracks current period
+
+// Build date-keyed index
+const byDate = {};
+ISSUES.forEach(iss => {
+  if (!byDate[iss.date]) byDate[iss.date] = [];
+  byDate[iss.date].push(iss);
+});
+
+function dateKey(y, m, d) {
+  return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+function isToday(y, m, d) {
+  return today.getFullYear() === y && today.getMonth() === m && today.getDate() === d;
+}
+
+function dimColor(dim) {
+  return DIM_COLORS[dim] || { bg: '#eeeeee', dot: '#888', label: '#444' };
+}
+
+function statusBadgeHTML(status) {
+  const cls = 'status-' + status;
+  const label = status.toUpperCase();
+  return `<span class="status-badge ${cls}"><span class="status-dot"></span>${label}</span>`;
+}
+
+// ─── Legend ──────────────────────────────────────────────────────────────────
+
+function renderLegend() {
+  const usedDims = [...new Set(ISSUES.map(i => i.dimension))].sort();
+  const leg = document.getElementById('legend');
+  leg.innerHTML = usedDims.map(d => {
+    const c = dimColor(d);
+    return `<span class="legend-item">
+      <span class="legend-dot" style="background:${c.dot}"></span>
+      <span style="color:${c.label}">${d}</span>
+    </span>`;
+  }).join('');
+}
+
+// ─── Period Label ─────────────────────────────────────────────────────────────
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const SHORT_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DOW_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+function updatePeriodLabel() {
+  const lbl = document.getElementById('period-label');
+  const y = cursor.getFullYear();
+  const m = cursor.getMonth();
+  if (currentView === 'month') {
+    lbl.textContent = `${MONTHS[m]} ${y}`;
+  } else if (currentView === 'week') {
+    const monday = getWeekMonday(cursor);
+    const sunday = new Date(monday); sunday.setDate(sunday.getDate() + 6);
+    if (monday.getMonth() === sunday.getMonth()) {
+      lbl.textContent = `${MONTHS[monday.getMonth()]} ${monday.getDate()}–${sunday.getDate()}, ${y}`;
+    } else {
+      lbl.textContent = `${SHORT_MONTHS[monday.getMonth()]} ${monday.getDate()} – ${SHORT_MONTHS[sunday.getMonth()]} ${sunday.getDate()}, ${y}`;
+    }
+  } else if (currentView === 'quarter') {
+    const q = Math.floor(m / 3) + 1;
+    lbl.textContent = `Q${q} ${y}`;
+  } else {
+    lbl.textContent = `${y}`;
+  }
+}
+
+function getWeekMonday(d) {
+  const date = new Date(d);
+  const day = date.getDay(); // 0=Sun
+  const diff = day === 0 ? -6 : 1 - day;
+  date.setDate(date.getDate() + diff);
+  return date;
+}
+
+// ─── Navigation ──────────────────────────────────────────────────────────────
+
+function navPrev() {
+  if (currentView === 'month') cursor.setMonth(cursor.getMonth() - 1);
+  else if (currentView === 'week') cursor.setDate(cursor.getDate() - 7);
+  else if (currentView === 'quarter') cursor.setMonth(cursor.getMonth() - 3);
+  else cursor.setFullYear(cursor.getFullYear() - 1);
+  render();
+}
+
+function navNext() {
+  if (currentView === 'month') cursor.setMonth(cursor.getMonth() + 1);
+  else if (currentView === 'week') cursor.setDate(cursor.getDate() + 7);
+  else if (currentView === 'quarter') cursor.setMonth(cursor.getMonth() + 3);
+  else cursor.setFullYear(cursor.getFullYear() + 1);
+  render();
+}
+
+function goToday() {
+  cursor = new Date(today);
+  render();
+}
+
+function setView(v) {
+  currentView = v;
+  ['week','month','quarter','year'].forEach(n => {
+    document.getElementById('tab-' + n).classList.toggle('active', n === v);
+  });
+  render();
+}
+
+// ─── Month View ───────────────────────────────────────────────────────────────
+
+function renderMonth() {
+  const y = cursor.getFullYear();
+  const m = cursor.getMonth();
+  const firstDay = new Date(y, m, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const daysInPrev = new Date(y, m, 0).getDate();
+
+  let html = `<table class="month-grid" cellspacing="0" cellpadding="0">
+    <thead><tr>`;
+  DOW.forEach(d => html += `<th>${d}</th>`);
+  html += `</tr></thead><tbody>`;
+
+  let day = 1;
+  let nextDay = 1;
+  const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+
+  for (let i = 0; i < totalCells; i++) {
+    if (i % 7 === 0) html += '<tr>';
+    const cellIdx = i;
+    let cellYear = y, cellMonth = m, cellDay;
+    let isOther = false;
+
+    if (cellIdx < firstDay) {
+      cellDay = daysInPrev - firstDay + cellIdx + 1;
+      cellMonth = m - 1;
+      if (cellMonth < 0) { cellMonth = 11; cellYear = y - 1; }
+      isOther = true;
+    } else if (day > daysInMonth) {
+      cellDay = nextDay++;
+      cellMonth = m + 1;
+      if (cellMonth > 11) { cellMonth = 0; cellYear = y + 1; }
+      isOther = true;
+    } else {
+      cellDay = day++;
+    }
+
+    const dk = dateKey(cellYear, cellMonth, cellDay);
+    const isTodayCell = isToday(cellYear, cellMonth, cellDay);
+    const issues = byDate[dk] || [];
+
+    let tdClass = '';
+    if (isOther) tdClass += ' other-month';
+    if (isTodayCell) tdClass += ' today-cell';
+
+    html += `<td class="${tdClass.trim()}">`;
+    const numClass = isTodayCell ? 'day-number today-num' : 'day-number';
+    html += `<span class="${numClass}">${cellDay}</span>`;
+
+    const MAX_CHIPS = 3;
+    issues.slice(0, MAX_CHIPS).forEach(iss => {
+      const c = dimColor(iss.dimension);
+      const glyph = getGlyph(iss.format);
+      html += `<span class="issue-chip" style="background:${c.dot};color:#faf8f5"
+        onclick="openPanel('${iss.issue}')" title="${escHtml(iss.title)}">
+        <span class="chip-glyph">${glyph}</span><span class="chip-label">${escHtml(iss.title)}</span>
+      </span>`;
+    });
+
+    if (issues.length > MAX_CHIPS) {
+      const extra = issues.length - MAX_CHIPS;
+      html += `<a class="more-link" onclick="openExpandPopup('${dk}', event)">+${extra} more</a>`;
+    }
+
+    html += `</td>`;
+    if ((i + 1) % 7 === 0) html += '</tr>';
+  }
+
+  html += '</tbody></table>';
+  return html;
+}
+
+// ─── Week View ────────────────────────────────────────────────────────────────
+
+function renderWeek() {
+  const monday = getWeekMonday(cursor);
+  let html = `<div class="week-grid">`;
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(d.getDate() + i);
+    const dk = dateKey(d.getFullYear(), d.getMonth(), d.getDate());
+    const issues = byDate[dk] || [];
+    const todayCol = isToday(d.getFullYear(), d.getMonth(), d.getDate());
+
+    html += `<div class="week-day-col${todayCol ? ' today-col' : ''}">
+      <div class="week-day-header">
+        <span class="wdh-dow">${DOW[(i+1)%7 === 0 ? 0 : (i+1) % 7] || DOW[i % 7]}</span>`;
+
+    // Fix: Mon=1,Tue=2,...Sun=0 — use d.getDay()
+    html += `<span class="wdh-dow">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()]}</span>
+        <span class="wdh-num">${d.getDate()}</span>
+      </div>
+      <div class="week-day-issues">`;
+
+    if (issues.length === 0) {
+      html += `<div class="week-empty">—</div>`;
+    } else {
+      issues.forEach(iss => {
+        const c = dimColor(iss.dimension);
+        const glyph = getGlyph(iss.format);
+        html += `<div class="week-issue-card" style="background:${c.bg};border-left-color:${c.dot}"
+          onclick="openPanel('${iss.issue}')">
+          <span class="week-card-watermark" style="color:${c.dot}">${glyph}</span>
+          <div class="week-issue-num">Issue #${iss.issue}</div>
+          <div class="week-issue-title">${escHtml(iss.title)}</div>
+          <span class="week-format-label">${escHtml(iss.format || 'Briefing')}</span>
+          <span class="dim-chip" style="background:${c.dot};color:#fff">${escHtml(iss.dimension)}</span><br>
+          ${statusBadgeHTML(iss.status)}
+        </div>`;
+      });
+    }
+
+    html += `</div></div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+// ─── Quarter View ─────────────────────────────────────────────────────────────
+
+function renderQuarter() {
+  const y = cursor.getFullYear();
+  const m = cursor.getMonth();
+  const q = Math.floor(m / 3);
+  const startMonth = q * 3;
+
+  let html = `<div class="quarter-grid">`;
+  for (let mi = 0; mi < 3; mi++) {
+    const cm = startMonth + mi;
+    const cy = y;
+    html += renderMiniMonth(cy, cm, 'quarter');
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderMiniMonth(cy, cm, mode) {
+  const firstDay = new Date(cy, cm, 1).getDay();
+  const daysInMonth = new Date(cy, cm + 1, 0).getDate();
+  const daysInPrev = new Date(cy, cm, 0).getDate();
+  const monthLabel = MONTHS[cm] + ' ' + cy;
+
+  let html = `<div class="mini-month">
+    <div class="mini-month-header" onclick="jumpToMonth(${cy}, ${cm})">${MONTHS[cm]}</div>
+    <table class="mini-cal-grid"><thead><tr>`;
+  ['S','M','T','W','T','F','S'].forEach(d => html += `<th>${d}</th>`);
+  html += `</tr></thead><tbody>`;
+
+  let day = 1;
+  let nextDay = 1;
+  const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+
+  for (let i = 0; i < totalCells; i++) {
+    if (i % 7 === 0) html += '<tr>';
+    let cellYear = cy, cellMonth = cm, cellDay;
+    let isOther = false;
+
+    if (i < firstDay) {
+      cellDay = daysInPrev - firstDay + i + 1;
+      cellMonth = cm - 1;
+      if (cellMonth < 0) { cellMonth = 11; cellYear = cy - 1; }
+      isOther = true;
+    } else if (day > daysInMonth) {
+      cellDay = nextDay++;
+      cellMonth = cm + 1;
+      if (cellMonth > 11) { cellMonth = 0; cellYear = cy + 1; }
+      isOther = true;
+    } else {
+      cellDay = day++;
+    }
+
+    const dk = dateKey(cellYear, cellMonth, cellDay);
+    const issues = byDate[dk] || [];
+    const isTodayCell = isToday(cellYear, cellMonth, cellDay);
+
+    html += `<td>`;
+    if (isTodayCell) {
+      html += `<span class="mini-today">${cellDay}</span>`;
+    } else {
+      html += `<span class="mini-day-num${isOther ? ' other-m' : ''}">${cellDay}</span>`;
+    }
+    if (issues.length > 0) {
+      html += `<div class="mini-day-dots">`;
+      issues.forEach(iss => {
+        const c = dimColor(iss.dimension);
+        const glyph = getGlyph(iss.format);
+        const glow = `0 0 0 2px rgba(255,255,255,0.6), 0 0 6px ${c.dot}`;
+        html += `<span class="mini-dot" style="background:${c.dot};box-shadow:${glow}"
+          onclick="openPanel('${iss.issue}')" title="#${iss.issue} ${escHtml(iss.title)} ${glyph}"></span>`;
+      });
+      html += `</div>`;
+    }
+    html += `</td>`;
+    if ((i + 1) % 7 === 0) html += '</tr>';
+  }
+
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function jumpToMonth(y, m) {
+  cursor = new Date(y, m, 1);
+  setView('month');
+}
+
+// ─── Year View ────────────────────────────────────────────────────────────────
+
+function renderYear() {
+  const y = cursor.getFullYear();
+  let html = `<div class="year-grid">`;
+  for (let m = 0; m < 12; m++) {
+    html += renderYearMonth(y, m);
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderYearMonth(cy, cm) {
+  const firstDay = new Date(cy, cm, 1).getDay();
+  const daysInMonth = new Date(cy, cm + 1, 0).getDate();
+  const daysInPrev = new Date(cy, cm, 0).getDate();
+
+  let html = `<div class="year-month">
+    <div class="year-month-label" onclick="jumpToMonth(${cy}, ${cm})">${SHORT_MONTHS[cm]}</div>
+    <table class="year-cal-grid"><thead><tr>`;
+  ['S','M','T','W','T','F','S'].forEach(d => html += `<th>${d}</th>`);
+  html += `</tr></thead><tbody>`;
+
+  let day = 1, nextDay = 1;
+  const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+
+  for (let i = 0; i < totalCells; i++) {
+    if (i % 7 === 0) html += '<tr>';
+    let cellYear = cy, cellMonth = cm, cellDay;
+    let isOther = false;
+
+    if (i < firstDay) {
+      cellDay = daysInPrev - firstDay + i + 1;
+      cellMonth = cm - 1;
+      if (cellMonth < 0) { cellMonth = 11; cellYear = cy - 1; }
+      isOther = true;
+    } else if (day > daysInMonth) {
+      cellDay = nextDay++;
+      cellMonth = cm + 1;
+      if (cellMonth > 11) { cellMonth = 0; cellYear = cy + 1; }
+      isOther = true;
+    } else {
+      cellDay = day++;
+    }
+
+    const dk = dateKey(cellYear, cellMonth, cellDay);
+    const issues = byDate[dk] || [];
+    const isTodayCell = isToday(cellYear, cellMonth, cellDay);
+
+    html += `<td>`;
+    if (isTodayCell) {
+      html += `<span class="year-today">${cellDay}</span>`;
+    } else {
+      html += `<span class="year-day-num${isOther ? ' other-m' : ''}">${cellDay}</span>`;
+    }
+    if (issues.length > 0) {
+      html += `<div class="year-day-dots">`;
+      issues.forEach(iss => {
+        const c = dimColor(iss.dimension);
+        const glyph = getGlyph(iss.format);
+        const glow = `0 0 0 2px rgba(255,255,255,0.6), 0 0 6px ${c.dot}`;
+        html += `<span class="year-mini-dot" style="background:${c.dot};box-shadow:${glow}"
+          onclick="openPanel('${iss.issue}')" title="#${iss.issue} ${escHtml(iss.title)} ${glyph}"></span>`;
+      });
+      html += `</div>`;
+    }
+    html += `</td>`;
+    if ((i + 1) % 7 === 0) html += '</tr>';
+  }
+
+  html += '</tbody></table></div>';
+  return html;
+}
+
+// ─── Detail Panel ─────────────────────────────────────────────────────────────
+
+function openPanel(issueNum) {
+  const iss = ISSUES.find(i => i.issue === issueNum);
+  if (!iss) return;
+
+  const c = dimColor(iss.dimension);
+  const glyph = getGlyph(iss.format);
+  const dateObj = new Date(iss.date + 'T12:00:00');
+  const formatted = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  document.getElementById('p-num').textContent = `Issue #${iss.issue}`;
+  document.getElementById('p-date').textContent = formatted;
+  document.getElementById('p-title').textContent = iss.title;
+
+  // Format preview strip — injected before the meta block
+  const formatName = iss.format || 'Daily Briefing';
+  const stripHTML = `
+    <div class="format-preview-strip" style="background:${c.dot};">
+      <span class="format-strip-watermark">${glyph}</span>
+      <span class="format-strip-name">${escHtml(formatName)}</span>
+    </div>`;
+
+  let metaHTML = stripHTML + `
+    <div class="panel-meta-row">
+      <span class="panel-meta-label">Dimension</span>
+      <span class="dim-chip" style="background:${c.bg};color:${c.label}">${escHtml(iss.dimension)}</span>
+    </div>`;
+
+  if (iss.format) {
+    metaHTML += `<div class="panel-meta-row">
+      <span class="panel-meta-label">Format</span>
+      <span>${escHtml(iss.format)}</span>
+    </div>`;
+  }
+
+  metaHTML += `<div class="panel-meta-row">
+    <span class="panel-meta-label">Status</span>
+    ${statusBadgeHTML(iss.status)}
+  </div>`;
+
+  if (iss.status === 'live') {
+    metaHTML += `<hr class="panel-divider">
+    <div>
+      <a class="panel-link" href="https://meliorism2.com/archive/${iss.slug}" target="_blank" rel="noopener">
+        Read Issue &#8599;
+      </a>
+    </div>`;
+  }
+
+  document.getElementById('p-meta').innerHTML = metaHTML;
+  document.getElementById('panel-overlay').classList.add('open');
+  document.getElementById('detail-panel').classList.add('open');
+
+  closeExpandPopup();
+}
+
+function closePanel() {
+  document.getElementById('panel-overlay').classList.remove('open');
+  document.getElementById('detail-panel').classList.remove('open');
+}
+
+// ─── Expand Popup ─────────────────────────────────────────────────────────────
+
+function openExpandPopup(dk, event) {
+  event.stopPropagation();
+  const issues = byDate[dk] || [];
+  const dateObj = new Date(dk + 'T12:00:00');
+  const formatted = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  document.getElementById('ep-date').textContent = formatted;
+  let html = '';
+  issues.forEach(iss => {
+    const c = dimColor(iss.dimension);
+    const glyph = getGlyph(iss.format);
+    html += `<span class="issue-chip" style="background:${c.dot};color:#faf8f5"
+      onclick="openPanel('${iss.issue}')">
+      <span class="chip-glyph">${glyph}</span><span class="chip-label">${escHtml(iss.title)}</span>
+    </span>`;
+  });
+  document.getElementById('ep-issues').innerHTML = html;
+
+  const popup = document.getElementById('expand-popup');
+  popup.style.left = Math.min(event.clientX, window.innerWidth - 300) + 'px';
+  popup.style.top = Math.min(event.clientY + 8, window.innerHeight - 200) + 'px';
+  popup.classList.add('open');
+}
+
+function closeExpandPopup() {
+  document.getElementById('expand-popup').classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  const popup = document.getElementById('expand-popup');
+  if (popup.classList.contains('open') && !popup.contains(e.target)) {
+    closeExpandPopup();
+  }
+});
+
+// ─── Escape HTML ──────────────────────────────────────────────────────────────
+
+function escHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ─── Main Render ─────────────────────────────────────────────────────────────
+
+function render() {
+  updatePeriodLabel();
+  const view = document.getElementById('cal-view');
+  if (currentView === 'month') view.innerHTML = renderMonth();
+  else if (currentView === 'week') {
+    // Fix duplicate DOW header in week view — rebuild cleanly
+    view.innerHTML = renderWeekClean();
+  }
+  else if (currentView === 'quarter') view.innerHTML = renderQuarter();
+  else view.innerHTML = renderYear();
+}
+
+function renderWeekClean() {
+  const monday = getWeekMonday(cursor);
+  let html = `<div class="week-grid">`;
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(d.getDate() + i);
+    const dk = dateKey(d.getFullYear(), d.getMonth(), d.getDate());
+    const issues = byDate[dk] || [];
+    const todayCol = isToday(d.getFullYear(), d.getMonth(), d.getDate());
+    const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+
+    html += `<div class="week-day-col${todayCol ? ' today-col' : ''}">
+      <div class="week-day-header">
+        <span class="wdh-dow">${dayName}</span>
+        <span class="wdh-num">${d.getDate()}</span>
+      </div>
+      <div class="week-day-issues">`;
+
+    if (issues.length === 0) {
+      html += `<div class="week-empty">—</div>`;
+    } else {
+      issues.forEach(iss => {
+        const c = dimColor(iss.dimension);
+        const glyph = getGlyph(iss.format);
+        html += `<div class="week-issue-card" style="background:${c.bg};border-left-color:${c.dot}"
+          onclick="openPanel('${iss.issue}')">
+          <span class="week-card-watermark" style="color:${c.dot}">${glyph}</span>
+          <div class="week-issue-num">Issue #${iss.issue}</div>
+          <div class="week-issue-title">${escHtml(iss.title)}</div>
+          <span class="week-format-label">${escHtml(iss.format || 'Briefing')}</span>
+          <span class="dim-chip" style="background:${c.dot};color:#fff">${escHtml(iss.dimension)}</span><br>
+          ${statusBadgeHTML(iss.status)}
+        </div>`;
+      });
+    }
+
+    html += `</div></div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+// Remove the old renderWeek since renderWeekClean replaces it
+// Override render to always use renderWeekClean
+const _origRender = render;
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+renderLegend();
+render();
+
+// keyboard nav
+document.addEventListener('keydown', function(e) {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'ArrowLeft') navPrev();
+  else if (e.key === 'ArrowRight') navNext();
+  else if (e.key === 'Escape') { closePanel(); closeExpandPopup(); }
+  else if (e.key === 't' || e.key === 'T') goToday();
+});
+</script>
+</body>
+</html>

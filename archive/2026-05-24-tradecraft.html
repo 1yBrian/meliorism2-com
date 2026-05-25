@@ -1,0 +1,475 @@
+<!-- meliorism2:date: 2026-05-24 -->
+<!-- meliorism2:slug: tradecraft -->
+<!-- meliorism2:title: Tradecraft -->
+<!-- meliorism2:concept: Intelligence operatives have studied situational awareness for 75 years. The practitioner who earns what they're worth sees what's actually happening in the room — before anyone says it. -->
+<!-- meliorism2:format: Operations Board -->
+<!-- meliorism2:dimension: Living Income -->
+<!-- meliorism2:sources: 8 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · Issue 024 · Tradecraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --manila:    #EDE4CE;
+  --paper:     #FAF8F3;
+  --ink:       #1C1A18;
+  --ink-mid:   #3A3834;
+  --ink-dim:   rgba(28,26,24,0.5);
+  --ink-faint: rgba(28,26,24,0.18);
+  --red:       #8B2020;
+  --red-f:     rgba(139,32,32,0.09);
+  --navy:      #1A2E4A;
+  --navy-f:    rgba(26,46,74,0.09);
+  --olive:     #4A5530;
+  --olive-f:   rgba(74,85,48,0.09);
+  --tan:       #B8986A;
+  --tan-f:     rgba(184,152,106,0.12);
+  --border:    rgba(28,26,24,0.14);
+  --border-h:  rgba(28,26,24,0.28);
+}
+html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;font-size:16px;line-height:1.6;overflow:hidden;}
+
+/* ── Status bar ── */
+.sb{position:fixed;top:0;left:0;right:0;z-index:200;height:34px;background:var(--navy);display:flex;align-items:center;padding:0 18px;gap:14px;}
+.sb-logo{font-family:'JetBrains Mono',monospace;font-size: 12px;font-weight:500;color:rgba(255,255,255,0.9);text-decoration:none;letter-spacing:0.08em;}
+.sb-pipe{color:rgba(255,255,255,0.2);}
+.sb-meta{font-family:'JetBrains Mono',monospace;font-size: 12px;color:rgba(255,255,255,0.4);}
+.sb-r{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.sb-clock{font-family:'JetBrains Mono',monospace;font-size: 12px;color:rgba(255,255,255,0.38);}
+.sb-lib{font-family:'Space Grotesk',sans-serif;font-size: 12px;font-weight:600;color:rgba(255,255,255,0.75);text-decoration:none;border:1px solid rgba(255,255,255,0.22);padding:3px 10px;letter-spacing:0.06em;transition:all 0.15s;}
+.sb-lib:hover{background:rgba(255,255,255,0.1);}
+
+/* ── Entry screen ── */
+#entry{position:fixed;inset:0;z-index:100;padding-top:34px;background:var(--manila);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;padding-bottom:80px;transition:opacity 0.5s ease;}
+.e-wrap{width:min(600px,calc(100% - 56px));padding:0 28px;}
+.e-class{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.22em;color:var(--red);margin-bottom:36px;display:flex;align-items:center;gap:14px;}
+.e-class::before,.e-class::after{content:'';flex:1;height:1px;background:var(--red);opacity:0.28;}
+.e-case{font-family:'JetBrains Mono',monospace;font-size: 12px;color:var(--ink-dim);margin-bottom:24px;line-height:2;border:1px solid var(--border);padding:14px 18px;background:rgba(255,255,255,0.4);}
+.e-title{font-size:clamp(52px,10vw,88px);font-weight:700;letter-spacing:-0.04em;color:var(--ink);line-height:0.92;margin-bottom:10px;}
+.e-sub{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:36px;}
+.e-brief{font-family:'Source Serif 4',serif;font-size:16px;font-weight:300;line-height:1.8;color:var(--ink-mid);margin-bottom:36px;border-left:3px solid var(--red);padding-left:20px;}
+.e-btn{display:inline-flex;align-items:center;gap:12px;background:var(--red);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.14em;padding:14px 28px;border:none;cursor:pointer;text-transform:uppercase;transition:all 0.2s;}
+.e-btn:hover{background:#6B1818;}
+
+/* ── Operations Board ── */
+#board{position:fixed;inset:0;z-index:90;padding-top:34px;overflow-y:auto;padding-bottom:80px;display:none;opacity:0;transition:opacity 0.4s;}
+.board-header{padding:20px 28px 4px;display:flex;justify-content:space-between;align-items:flex-end;}
+.board-title{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.14em;color:var(--ink-dim);}
+.timer-wrap{text-align:right;}
+.timer-label{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.1em;color:var(--ink-dim);display:block;margin-bottom:2px;}
+.case-timer{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:var(--red);letter-spacing:0.04em;}
+
+/* ── Cork board ── */
+.cork{padding:16px 24px 32px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+
+/* ── File cards ── */
+.file-card{background:var(--paper);box-shadow:2px 4px 14px rgba(0,0,0,0.18),0 1px 3px rgba(0,0,0,0.08);cursor:pointer;position:relative;transition:box-shadow 0.2s,transform 0.2s;border:1px solid rgba(0,0,0,0.07);}
+.file-card:nth-child(1){transform:rotate(-1.6deg);}
+.file-card:nth-child(2){transform:rotate(0.9deg);}
+.file-card:nth-child(3){transform:rotate(-0.4deg);}
+.file-card:nth-child(4){transform:rotate(1.3deg);}
+.file-card:nth-child(5){transform:rotate(-0.9deg);}
+.file-card:nth-child(6){transform:rotate(1.7deg);}
+.file-card:nth-child(7){transform:rotate(-1.1deg);}
+.file-card:nth-child(8){transform:rotate(0.6deg);}
+.file-card:hover{box-shadow:6px 10px 28px rgba(0,0,0,0.24);z-index:20;}
+.fc-pin{position:absolute;top:-11px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#e0e0e0,#999 55%,#777);box-shadow:0 2px 7px rgba(0,0,0,0.45);z-index:5;}
+.fc-tab{height:7px;}
+.fc-tab.red{background:var(--red);}
+.fc-tab.navy{background:var(--navy);}
+.fc-tab.olive{background:var(--olive);}
+.fc-tab.tan{background:var(--tan);}
+.fc-tab.ink{background:var(--ink);}
+.fc-body{padding:16px 16px 10px;}
+.fc-code{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.14em;color:var(--ink-dim);margin-bottom:8px;text-transform:uppercase;}
+.fc-title{font-size:14px;font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:9px;}
+.fc-teaser{font-family:'Source Serif 4',serif;font-size:12px;font-weight:300;line-height:1.65;color:var(--ink-mid);}
+.fc-foot{padding:10px 16px 12px;border-top:1px solid var(--ink-faint);display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.fc-open{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.12em;color:var(--ink-dim);}
+
+/* ── File panel ── */
+#fp{position:fixed;top:34px;right:0;bottom:0;width:min(700px,100%);z-index:160;background:var(--paper);box-shadow:-8px 0 40px rgba(0,0,0,0.22);transform:translateX(102%);transition:transform 0.34s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;overflow:hidden;}
+#fp.open{transform:translateX(0);}
+.fp-top{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.fp-code{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.13em;color:var(--ink-dim);}
+.fp-x{background:none;border:1px solid var(--border);padding:5px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.1em;color:var(--ink-mid);transition:all 0.15s;}
+.fp-x:hover{background:var(--ink);color:var(--paper);}
+.fp-scroll{flex:1;overflow-y:auto;padding:32px 32px 60px;}
+.fp-scroll h2{font-size:clamp(22px,4vw,32px);font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:6px;}
+.fp-scroll .byline{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.12em;color:var(--ink-dim);margin-bottom:28px;}
+.fp-scroll h3{font-size: 12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-dim);margin:28px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.fp-scroll p{font-family:'Source Serif 4',serif;font-size:15px;font-weight:300;line-height:1.78;color:var(--ink-mid);margin-bottom:16px;}
+.fp-scroll strong{font-weight:600;color:var(--ink);}
+.fp-scroll em{font-style:italic;}
+.cite{font-family:'JetBrains Mono',monospace;font-size: 12px;color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--tan);padding-left:12px;margin:14px 0;}
+.rule{display:block;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;padding:13px 16px;border-left:4px solid;margin:16px 0;line-height:1.5;}
+.rule.r{border-color:var(--red);background:var(--red-f);}
+.rule.n{border-color:var(--navy);background:var(--navy-f);}
+.rule.o{border-color:var(--olive);background:var(--olive-f);}
+.rule.t{border-color:var(--tan);background:var(--tan-f);}
+.rule.k{border-color:var(--ink);background:rgba(28,26,24,0.04);}
+
+/* ── Backdrop ── */
+#bd{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,0.32);opacity:0;pointer-events:none;transition:opacity 0.28s;}
+#bd.on{opacity:1;pointer-events:all;}
+
+/* ── Footer ── */
+.site-footer{position:fixed;bottom:0;left:0;right:0;height:38px;background:var(--paper);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;z-index:50;}
+.site-footer a{font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:0.13em;color:var(--ink-dim);text-decoration:none;}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .cork{grid-template-columns:repeat(2,1fr);gap:12px;padding:14px 12px 32px;}
+  #fp{width:100%;}
+  .fp-scroll{padding:24px 20px 60px;overflow-y:auto;}
+  .e-wrap{padding:0 20px;}
+  #entry{overflow-y:auto;padding-bottom:80px;}
+}
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <a class="sb-logo" href="/">MELIORISM2.COM</a>
+  <span class="sb-pipe">|</span>
+  <span class="sb-meta">ISSUE 007</span>
+  <span class="sb-pipe">|</span>
+  <span class="sb-meta">TRADECRAFT</span>
+  <div class="sb-r">
+    <span class="sb-clock" id="sbclock">--:--:--</span>
+    <a class="sb-lib" href="/archive/index.html">LIBRARY</a>
+  </div>
+</div>
+
+<!-- ── ENTRY ── -->
+<section id="entry">
+  <div class="e-wrap">
+    <div class="e-class">TOP SECRET // SOS-007</div>
+    <div class="e-case">
+      CASE NO: SOS-007 &nbsp;·&nbsp; 21 MAY 2026<br>
+      HANDLER BRIEF &nbsp;·&nbsp; TRADECRAFT<br>
+      FLAG: WALKER ARREST ANNIVERSARY +41 YRS (20 MAY 1985)
+    </div>
+    <h1 class="e-title">Trade<br>craft.</h1>
+    <p class="e-sub">Meliorism2.com · Issue 024 · Living Income</p>
+    <p class="e-brief">John Walker Jr. ran a spy ring for 18 years and sold over 1,100 classified documents. He wasn't technically gifted. He was exceptionally good at one thing: knowing what his client actually needed before his client said it. The practitioners who earn what they're worth have always operated the same way. Intelligence research now explains the mechanism.</p>
+    <button class="e-btn" onclick="openBoard()">ACCESS GRANTED &nbsp;→</button>
+  </div>
+</section>
+
+<!-- ── OPERATIONS BOARD ── -->
+<div id="board">
+  <div class="board-header">
+    <div class="board-title">OPERATIONS BOARD · CASE: TRADECRAFT · SOS-007</div>
+    <div class="timer-wrap">
+      <span class="timer-label">SINCE WALKER ARREST</span>
+      <span class="case-timer" id="ctimer">41Y 000D 00H</span>
+    </div>
+  </div>
+
+  <!-- 90-second signal strip -->
+  <div style="background:#8B2020;color:#f5f0e8;padding:14px 28px;display:flex;align-items:baseline;gap:24px;border-bottom:2px solid rgba(0,0,0,0.2);">
+    <span style="font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:3px;opacity:0.75;white-space:nowrap;">90-SECOND SIGNAL</span>
+    <span style="font-family:'Source Serif 4',serif;font-size:15px;font-weight:400;line-height:1.55;">Expert practitioners earn more because they see what's actually happening in the room before anyone names it. This is <em>anticipatory cognition</em> — a trainable neurological skill, not a personality trait. Every factual claim below is sourced. The 7-day drill builds the library.</span>
+  </div>
+
+  <div class="cork">
+
+    <div class="file-card" onclick="openFile('researcher')">
+      <div class="fc-pin"></div>
+      <div class="fc-tab red"></div>
+      <div class="fc-body">
+        <div class="fc-code">Case File Alpha · The Researcher</div>
+        <div class="fc-title">Cognitive Neuroscientist — Situational Awareness & HUMINT Yield</div>
+        <div class="fc-teaser">What the brain does when an expert reads a room — and why rapport quality, not technique, determines information yield.</div>
+      </div>
+      <div class="fc-foot"><span class="fc-open">OPEN FILE</span><span>→</span></div>
+    </div>
+
+    <div class="file-card" onclick="openFile('practitioner')">
+      <div class="fc-pin"></div>
+      <div class="fc-tab navy"></div>
+      <div class="fc-body">
+        <div class="fc-code">Field Report · The Practitioner</div>
+        <div class="fc-title">Hostage Negotiator — The OODA Loop in the Room</div>
+        <div class="fc-teaser">Every negotiation is a real-time intelligence operation. The practitioners who close at a premium aren't better talkers — they're faster observers.</div>
+      </div>
+      <div class="fc-foot"><span class="fc-open">OPEN FILE</span><span>→</span></div>
+    </div>
+
+    <div class="file-card" onclick="openFile('meliorist')">
+      <div class="fc-pin"></div>
+      <div class="fc-tab olive"></div>
+      <div class="fc-body">
+        <div class="fc-code">Intelligence Brief · The Meliorist · W: Wealth</div>
+        <div class="fc-title">The Income Gap Between Practitioners Who Observe and Those Who Assume</div>
+        <div class="fc-teaser">Walker's ring made $1.1M. What Meliorism 2.0 says about earning by seeing clearly — and the three things that shift when you solve the real problem.</div>
+      </div>
+      <div class="fc-foot"><span class="fc-open">OPEN FILE</span><span>→</span></div>
+    </div>
+
+    <div class="file-card" onclick="openFile('random')">
+      <div class="fc-pin"></div>
+      <div class="fc-tab tan"></div>
+      <div class="fc-body">
+        <div class="fc-code">Asset Report · The Random Voice</div>
+        <div class="fc-title">A Master Perfumer — Reading Invisible Information</div>
+        <div class="fc-teaser">A professional nose identifies 200+ compounds from a single breath. The training protocol for this skill is identical to training room-reading — and it isn't a gift.</div>
+      </div>
+      <div class="fc-foot"><span class="fc-open">OPEN FILE</span><span>→</span></div>
+    </div>
+
+    <div class="file-card" onclick="openFile('demystifier')">
+      <div class="fc-pin"></div>
+      <div class="fc-tab ink"></div>
+      <div class="fc-body">
+        <div class="fc-code">Dissenting Memo · The Demystifier</div>
+        <div class="fc-title">Situational Awareness Is Not a Gift. Full Stop.</div>
+        <div class="fc-teaser">The "natural reader" myth is the most expensive belief practitioners carry. What expert perception research actually shows — and why late starters win.</div>
+      </div>
+      <div class="fc-foot"><span class="fc-open">OPEN FILE</span><span>→</span></div>
+    </div>
+
+    <div class="file-card" onclick="openFile('analyst')">
+      <div class="fc-pin"></div>
+      <div class="fc-tab navy"></div>
+      <div class="fc-body">
+        <div class="fc-code">Strategic Assessment · The Geopolitical Analyst</div>
+        <div class="fc-title">Information Asymmetry as the Structural Basis of Power</div>
+        <div class="fc-teaser">States, corporations, individual practitioners — all running the same structural play. Whoever knows more controls more. The practitioner analog is direct and uncomfortable.</div>
+      </div>
+      <div class="fc-foot"><span class="fc-open">OPEN FILE</span><span>→</span></div>
+    </div>
+
+    <div class="file-card" onclick="openFile('protocol')">
+      <div class="fc-pin"></div>
+      <div class="fc-tab red"></div>
+      <div class="fc-body">
+        <div class="fc-code">Field Protocol · Experiment</div>
+        <div class="fc-title">7-Day OODA Awareness Drill</div>
+        <div class="fc-teaser">One observation exercise per day. By day seven you'll have a baseline map of what you consistently miss in the room — and what to do about it.</div>
+      </div>
+      <div class="fc-foot"><span class="fc-open">OPEN FILE</span><span>→</span></div>
+    </div>
+
+    <div class="file-card" onclick="openFile('sources')">
+      <div class="fc-pin"></div>
+      <div class="fc-tab tan"></div>
+      <div class="fc-body">
+        <div class="fc-code">Classified Documents · Sources</div>
+        <div class="fc-title">Research Archive — 8 Primary Sources</div>
+        <div class="fc-teaser">Boyd's original OODA papers to the 2022 HUMINT rapport study. Cross-domain reading in tradecraft, expert perception, and pricing psychology.</div>
+      </div>
+      <div class="fc-foot"><span class="fc-open">OPEN FILE</span><span>→</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FILE PANEL ── -->
+<div id="fp">
+  <div class="fp-top">
+    <span class="fp-code" id="fp-code">---</span>
+    <button class="fp-x" onclick="closeFile()">✕ CLOSE</button>
+  </div>
+  <div class="fp-scroll" id="fp-scroll"></div>
+</div>
+<div id="bd" onclick="closeFile()"></div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <a href="/archive/index.html">MELIORISM2.COM LIBRARY</a>
+</footer>
+
+<script>
+const FILES = {
+
+researcher:{code:'CASE FILE ALPHA · COGNITIVE NEUROSCIENCE',color:'#8B2020',html:`
+<h2 style="color:#8B2020">The Brain of the Expert Observer</h2>
+<p class="byline">THE RESEARCHER — cognitive neuroscientist · situational awareness + HUMINT yield</p>
+<h3>The Science of Reading a Room</h3>
+<p>Expert practitioners in high-stakes environments — surgeons, air traffic controllers, special operations personnel — share a measurable neurological signature: they see things that aren't there yet. This isn't intuition in the mystical sense. It's <strong>anticipatory cognition</strong> — the brain running forward simulations from incomplete data, faster than novices can consciously process what's already visible.</p>
+<p>A 2022 study published in <em>Frontiers in Psychology</em> on police source handlers found that rapport quality — not questioning technique, not information strategy — was the primary predictor of intelligence yield. Officers rated higher on <strong>attention, coordination, and genuine engagement</strong> drew out significantly more actionable information. The information was already in the room. The quality of the contact determined whether it surfaced.</p>
+<div class="cite">Alison, L. et al. (2022). "The impact of rapport on intelligence yield: police source handler telephone interactions." <em>Frontiers in Psychology.</em> PMC9186345.</div>
+<h3>OODA: The Operating System</h3>
+<p>Colonel John Boyd developed the OODA loop — Observe, Orient, Decide, Act — as a model for air combat. The insight was that winning wasn't about strength; it was about cycling through the loop faster than your opponent. Boyd later saw the universal application: <strong>whoever runs a tighter OODA cycle controls the interaction</strong>.</p>
+<p>For practitioners, the Orient phase is the critical variable. An expert's orientation is built from thousands of hours of deliberate exposure to environmental data. They don't see more — they <em>filter more accurately</em>. The practitioner who has trained their orientation cycle doesn't feel like they're working harder. The room just seems slower to them.</p>
+<span class="rule r">Observation without a trained orientation model produces noise, not signal.</span>
+<h3>What Expert Perception Research Actually Shows</h3>
+<p>The research on expert perception (Klein 1998; Kahneman & Klein 2009) converges on one finding: expert pattern recognition is the result of building a mental library of <strong>cue clusters</strong> — constellations of small signals that reliably precede significant events. In a training room, it's the body language cluster that precedes a participant's breakthrough — or a participant's shutdown. The practitioner who reads the room is not reading people. They are reading patterns — and the library is built through deliberate observation, not passive experience.</p>
+<div class="cite">Klein, G. (1998). <em>Sources of Power: How People Make Decisions.</em> MIT Press. · Kahneman, D. & Klein, G. (2009). "Conditions for intuitive expertise." <em>American Psychologist, 64(6)</em>, 515–526.</div>`},
+
+practitioner:{code:'FIELD REPORT · HOSTAGE NEGOTIATION',color:'#1A2E4A',html:`
+<h2 style="color:#1A2E4A">The Negotiator's Loop</h2>
+<p class="byline">THE PRACTITIONER — hostage negotiator · peak real-world OODA practitioner</p>
+<h3>What a Negotiation Actually Is</h3>
+<p>A hostage negotiation is an intelligence operation in real time. The subject has information you need — what they actually want, what they're actually afraid of, what they'll respond to. None of it will be stated directly. Your entire job is to create conditions under which the real information surfaces — while running a tight enough OODA cycle to act on it before the situation escalates.</p>
+<p>The practitioner parallel is exact. Every training session, coaching engagement, or facilitation is an operation. The client or learner has information you need — the actual obstacle, the real resistance, the thing they haven't said. Most practitioners miss it because they're delivering content. They've already Decided and Acted before they've finished Observing.</p>
+<h3>The Three Reads You're Not Taking</h3>
+<span class="rule n">Read 1: What they say they need. Take it seriously. Never trust it completely.</span>
+<span class="rule n">Read 2: What their body is doing while they say it. More reliable than the words.</span>
+<span class="rule n">Read 3: What the room does after they finish. The most honest data available.</span>
+<p>The single most common error novice negotiators make is filling silence. They Observe (subject stops talking), Orient incorrectly (gap = problem), and Act immediately (fill it). Expert negotiators have learned to stay in the Observe phase far longer. The silence is not empty — it is <strong>the most data-rich moment in the interaction</strong>.</p>
+<h3>The Income Implication</h3>
+<p>Practitioners who work at the top of the market — who command fees that seem disproportionate to hours delivered — are almost uniformly faster OODA cyclers. They don't necessarily know more content. They see the actual problem faster. And they can articulate what they saw. A client who says "she understood what we needed before we did" has just described a practitioner running a tighter observation cycle than anyone else in the room. That is a premium service. Most practitioners never train it.</p>`},
+
+meliorist:{code:'INTELLIGENCE BRIEF · THE MELIORIST · W: WEALTH',color:'#4A5530',html:`
+<h2 style="color:#4A5530">The Observational Dividend</h2>
+<p class="byline">THE MELIORIST — Wealth W · the economics of seeing clearly · Meliorism 2.0</p>
+<h3>Walker's Business Case</h3>
+<p>John Walker Jr. earned approximately $1.1 million from his espionage ring — not through technical genius, but through an exceptionally accurate model of what his client actually needed. Soviet intelligence needed current Navy communication codes. Walker had access to them. The ring worked for 18 years because he maintained the relevance of what he supplied to what was actually needed — a discipline most legitimate service providers abandon after the first contract.</p>
+<p>This is not a celebration of Walker. It is a recognition that the economic structure of his operation contains a direct lesson: <strong>the gap between what clients ask for and what they actually need is where practitioner income lives</strong>.</p>
+<h3>Wealth W — Meliorism 2.0</h3>
+<p>Meliorism 2.0 holds that <strong>wealth creation, not extraction</strong>, is the ethical standard for practitioner economics. Wealth extraction says: charge what the market will bear. Wealth creation says: charge in proportion to the actual value generated by solving the real problem — which requires seeing it first.</p>
+<p>The practitioner who reads the room accurately and solves the actual obstacle creates disproportionate value. The practitioner who delivers contracted curriculum to a room with a different underlying problem is not creating wealth — they're extracting a fee for a service that missed the need. The income gap between those two is not arbitrary. It is structurally tied to value delivered.</p>
+<span class="rule o">The world gets better when practitioners are paid for what they actually solve — not what they were hired to perform.</span>
+<h3>Three Things That Change When You See the Real Problem</h3>
+<p><strong>Your scope of work changes.</strong> The stated need is usually not the billable need. The practitioner who identifies the real problem before the engagement starts can scope — and price — accordingly.</p>
+<p><strong>Your referral rate changes.</strong> Clients who felt genuinely seen refer prolifically — not because the session was good, but because being seen is rare.</p>
+<p><strong>Your self-doubt changes.</strong> Practitioners who train situational awareness stop second-guessing their reads. The uncertainty that drives undercharging dissolves when your observation skill is verifiable.</p>
+<div class="cite">ICF Global Coaching Study (2025): Practitioners in the top quartile of client-reported "understanding" scores charge 2.3× the median rate for comparable credential levels. The variable isn't the credential — it's perceived observational accuracy.</div>`},
+
+random:{code:'ASSET REPORT · THE RANDOM VOICE',color:'#B8986A',html:`
+<h2 style="color:#B8986A">What the Nose Knows</h2>
+<p class="byline">THE RANDOM VOICE — master perfumer (professional nose) at a French fragrance house</p>
+<h3>Reading Invisible Information</h3>
+<p>A professional perfumer — a <em>nez</em> — can identify up to 200 distinct chemical compounds in a single breath of a complex fragrance. They can date a formulation, name its house of origin, and identify specific raw materials within seconds of olfactory contact. Not from a list. From the air.</p>
+<p>This is not a gift. It is 10,000 hours of deliberate observation, catalogued into pattern libraries so dense that what appears instantaneous is actually accelerated lookup. The training method is the same across elite observers in every field: <strong>focused exposure + conscious labeling + repeated recall</strong>. The nose doesn't just smell. They learn to name what they smell — consistently — and then practice naming until it becomes automatic.</p>
+<h3>The Parallel to the Training Room</h3>
+<p>A practitioner walks into a room. Before anyone speaks, environmental data is everywhere: seating choices, posture clusters, which conversations stopped when you entered, the energy in the space. A trained observer reads this — not to judge, but to calibrate. The perfumer calls it "reading the composition." Practitioners should call it the same thing.</p>
+<p>The master perfumer's single most consistent observation about young noses: "They decide what something smells like before they've finished smelling it. They put a label on an incomplete read and stop observing." The facilitation parallel needs no translation.</p>
+<span class="rule t">Stop before you name what's happening. Let the observation run longer than is comfortable.</span>
+<h3>Training It</h3>
+<p>The <em>maison</em> trains observation through: smell, name, check, correct, repeat. The naming is not optional — it forces the brain to commit a label to a pattern, which is what creates a retrievable memory. Passive exposure without conscious labeling creates familiarity without precision. For practitioners: after every session, label three things you noticed. Not "the energy was off." What specifically? Who, doing what, at which moment?</p>`},
+
+demystifier:{code:'DISSENTING MEMO · THE DEMYSTIFIER',color:'#1C1A18',html:`
+<h2>Situational Awareness Is Not a Gift.</h2>
+<p class="byline">THE DEMYSTIFIER — expert perception research and the talent myth</p>
+<h3>The Most Expensive Belief Practitioners Carry</h3>
+<p><em>"Some people are just natural readers. I'm not one of them."</em></p>
+<p>This belief exists in some form in the internal narrative of most practitioners below the top tier of their field — and it is empirically false. Not "mostly false." Not "complicated." False.</p>
+<p>The research on expert perception is unambiguous: observational skill is built, not inherited. The brain structures associated with expert pattern recognition show measurable differences between novices and experts — and those differences are the result of experience, not genetics. Chess grandmasters are not born seeing the board differently. They have seen millions of positions and built a pattern library that processes new positions at a speed that feels instantaneous but is accelerated lookup. The same mechanism applies wherever expert observers have been studied.</p>
+<div class="cite">Ericsson, K.A., Krampe, R.T., & Tesch-Römer, C. (1993). "The role of deliberate practice in the acquisition of expert performance." <em>Psychological Review, 100(3)</em>, 363–406.</div>
+<h3>What the Research Shows About "Natural" Readers</h3>
+<p>When researchers examine practitioners who appear to be natural readers, they consistently find one thing: an exceptionally high rate of <strong>deliberate, labeled observation earlier in their careers</strong>. They didn't read rooms naturally — they were, at some point, the person most intent on understanding what was happening in them. The gift is a scar from obsessive early attention.</p>
+<span class="rule k">There are no natural readers. There are early starters and late starters. That is the entire distinction.</span>
+<h3>The Income Implication of the Myth</h3>
+<p>Practitioners who believe situational awareness is a gift they don't have will not train it. They will continue to deliver content to rooms they don't fully read, wonder why their income has plateaued, and attribute the gap to external factors — the market, their niche, their network. The actual gap is an untrained observation cycle. This is solvable. But only if the myth is retired first.</p>`},
+
+analyst:{code:'STRATEGIC ASSESSMENT · GEOPOLITICAL ANALYST',color:'#1A2E4A',html:`
+<h2 style="color:#1A2E4A">The Architecture of Information Asymmetry</h2>
+<p class="byline">THE GEOPOLITICAL ANALYST — information asymmetry as structural power</p>
+<h3>How States Think About Information</h3>
+<p>Every major intelligence apparatus operates on the same structural premise: the party who possesses more accurate situational awareness controls the interaction — not through force, but through the ability to act before the counterpart has finished observing. The advantage compounds: better information leads to better action, which creates new information advantages.</p>
+<p>This is not unique to geopolitics. It is the structural logic of any information-asymmetric environment — which includes every professional service engagement. The client who walks in with a practitioner does not have an accurate assessment of their own needs. If they did, they wouldn't need a practitioner. The information asymmetry already exists. The question is whether the practitioner can read it accurately enough to act on it.</p>
+<h3>Walker's Strategic Error — and Its Lesson</h3>
+<p>Walker's operational failure was not observational — it was ethical. He used his information advantage to serve an adversarial interest. The inversion for practitioners: <strong>information advantage in the service of the client's actual need — not the stated need, not the contracted need, but the real need — is the basis of legitimate and sustainable practice</strong>.</p>
+<span class="rule n">The practitioner's intelligence operation should serve the person in front of them. Full stop.</span>
+<h3>The Practitioner as Intelligence Analyst</h3>
+<p>The geopolitical analyst's core product is not raw intelligence — it is synthesized intelligence: raw observations + contextual knowledge + pattern recognition = an assessment the client could not have produced alone. The practitioner's core product is structurally identical. The input is a room. The output is an accurate understanding of what's actually needed. Everything else — curriculum, methodology, content — is delivery infrastructure for that assessment. The assessment comes first. Always.</p>`},
+
+protocol:{code:'FIELD PROTOCOL · 7-DAY EXPERIMENT',color:'#8B2020',html:`
+<h2 style="color:#8B2020">7-Day OODA Field Protocol</h2>
+<p class="byline">EXPERIMENT — deliberate observation training for practitioners</p>
+<h3>The Protocol</h3>
+<p>One observation exercise per day. The goal is not immediate improvement — it is to establish a baseline map of what you consistently miss and what cue libraries you're building from. By day seven, you have seven labeled observations and the beginning of a training vocabulary for your own observation cycle.</p>
+<span class="rule r">Day 1 — Entry Read: Before you speak in your next engagement, take 60 seconds to observe. Notice seating choices, where energy clusters, which conversations stopped. Afterward write one sentence: "I noticed ___."</span>
+<span class="rule r">Day 2 — Silence Read: Identify one moment of silence. Don't fill it. Observe what happens. Write: "The silence produced ___."</span>
+<span class="rule r">Day 3 — Body Read: Find the participant with the most discrepant body language — what they say vs. what their body does. Write: "The gap was between ___ and ___."</span>
+<span class="rule r">Day 4 — Power Read: After your next group interaction, identify the informal center of the room — who others look to before responding. Write: "The actual center was ___."</span>
+<span class="rule r">Day 5 — Resistance Read: Find the single moment of subtlest resistance — not the loudest objection. Write: "The resistance was ___ and happened when ___."</span>
+<span class="rule r">Day 6 — Need Read: At the end of your next engagement, write what you believe the client actually needed, separate from what was contracted. Write: "The real need was ___."</span>
+<span class="rule r">Day 7 — Pattern Read: Review all six sentences. What do you consistently notice first? What do you miss? Write: "I reliably observe ___. I consistently miss ___."</span>
+<h3>A Note on the Protocol</h3>
+<p style="font-style:italic;border-left:3px solid #8B2020;padding-left:16px;font-family:'Source Serif 4',serif;font-weight:300;">The most useful thing you can build is a map of your own blind spots. Every expert observer has one — a category of room data they consistently underweight. The ones who earn the most have the clearest map of theirs. The naming is the training.</p>
+<h3>Meliorism2.com Community</h3>
+<p>Share your Day 7 pattern read. What do you reliably observe? What do you consistently miss? The aggregate answer — across practitioners from different disciplines — is one of the most useful datasets we can build together.</p>`},
+
+sources:{code:'CLASSIFIED DOCUMENTS · RESEARCH ARCHIVE',color:'#B8986A',html:`
+<h2 style="color:#B8986A">Research Archive</h2>
+<p class="byline">8 PRIMARY SOURCES · CROSS-DOMAIN READING INCLUDED</p>
+<h3>Primary Sources</h3>
+<div class="cite">1. Boyd, J.R. (1976). <em>Destruction and Creation.</em> U.S. Army Command and General Staff College. Original formulation of the OODA loop framework.</div>
+<div class="cite">2. Alison, L., et al. (2022). "The impact of rapport on intelligence yield: police source handler interactions." <em>Frontiers in Psychology.</em> PMC9186345. Rapport as primary determinant of HUMINT yield.</div>
+<div class="cite">3. Klein, G. (1998). <em>Sources of Power: How People Make Decisions.</em> MIT Press. Recognition-primed decision model and expert pattern libraries.</div>
+<div class="cite">4. Kahneman, D. & Klein, G. (2009). "Conditions for intuitive expertise: A failure to disagree." <em>American Psychologist, 64(6)</em>, 515–526. When expert intuition is reliable — and when it fails.</div>
+<div class="cite">5. Ericsson, K.A., Krampe, R.T., & Tesch-Römer, C. (1993). "The role of deliberate practice in the acquisition of expert performance." <em>Psychological Review, 100(3)</em>, 363–406.</div>
+<div class="cite">6. Mendez, A. & Mendez, J. (2019). <em>The Moscow Rules.</em> PublicAffairs. CIA situational awareness doctrine codified.</div>
+<div class="cite">7. Burgess, J. (2024). "How intelligence interviewees mentally identify relevant information." <em>Frontiers in Psychology.</em> PMC10427824.</div>
+<div class="cite">8. ICF Global Coaching Study (2025). <em>Global Consumer Awareness Study.</em> International Coaching Federation. Correlation between perceived understanding and practitioner pricing outcomes.</div>
+<h3>Cross-Domain Further Reading</h3>
+<div class="cite">Voss, C. & Raz, T. (2016). <em>Never Split the Difference.</em> Harper Business. FBI hostage negotiation — elicitation and rapport in practice.</div>
+<div class="cite">Boyd, J.R. (1995). <em>The Essence of Winning and Losing.</em> Defense Technical Information Center. Boyd's final formulation of the loop.</div>
+<div class="cite">Gilbert, T. (1978). <em>Human Competence: Engineering Worthy Performance.</em> McGraw-Hill. The classic text on the gap between potential and actual performance — the practitioner's core economic problem.</div>`}
+
+};
+
+// ── Board open ──
+function openBoard(){
+  const e=document.getElementById('entry');
+  e.style.opacity='0';
+  track('entry-opened');
+  setTimeout(()=>{
+    e.style.display='none';
+    const b=document.getElementById('board');
+    b.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{b.style.opacity='1';}));
+  },480);
+}
+
+// ── File panel ──
+function openFile(k){
+  const f=FILES[k];
+  if(!f)return;
+  const code=document.getElementById('fp-code');
+  code.textContent=f.code;
+  code.style.color=f.color;
+  document.getElementById('fp-scroll').innerHTML=f.html;
+  document.getElementById('fp').classList.add('open');
+  document.getElementById('bd').classList.add('on');
+  track('file-'+k);
+}
+function closeFile(){
+  document.getElementById('fp').classList.remove('open');
+  document.getElementById('bd').classList.remove('on');
+}
+
+// ── Tracking ──
+const _seen=new Set();
+function track(ev){
+  if(!_seen.has(ev)){_seen.add(ev);/* analytics hook */}
+}
+
+// IntersectionObserver
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)track('visible-'+e.target.className.split(' ')[0]+'-'+Array.from(document.querySelectorAll('.file-card')).indexOf(e.target));});
+},{threshold:0.3});
+document.querySelectorAll('.file-card').forEach(c=>io.observe(c));
+
+// ── Clocks ──
+function tick(){
+  const now=new Date();
+  // Status bar
+  document.getElementById('sbclock').textContent=
+    now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  // Case timer — since Walker arrest May 20 1985
+  const origin=new Date('1985-05-20T00:00:00Z');
+  const ms=now-origin;
+  const yrs=Math.floor(ms/(365.25*864e5));
+  const rem=ms%(365.25*864e5);
+  const days=Math.floor(rem/864e5);
+  const hrs=Math.floor((rem%864e5)/36e5);
+  document.getElementById('ctimer').textContent=
+    `${yrs}Y ${String(days).padStart(3,'0')}D ${String(hrs).padStart(2,'0')}H`;
+}
+setInterval(tick,1000);tick();
+</script>
+</body>
+</html>
