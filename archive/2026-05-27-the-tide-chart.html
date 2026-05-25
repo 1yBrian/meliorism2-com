@@ -1,0 +1,1230 @@
+<!-- meliorism2:slug: the-tide-chart -->
+<!-- meliorism2:date: 2026-05-27 -->
+<!-- meliorism2:issue: 027 -->
+<!-- meliorism2:dimension: In-Person Presence -->
+<!-- meliorism2:format: Tide Chart -->
+<!-- meliorism2:architecture: horizontal-swipe -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meliorism2.com · The Tide Chart</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #faf8f5;
+  --surface:   #f0ebe3;
+  --border:    rgba(139,111,71,0.15);
+  --border-h:  rgba(139,111,71,0.3);
+  --accent:    #8b6f47;
+  --accentf:   rgba(139,111,71,0.5);
+  --amber:     #b07d3a;
+  --amber-l:   #d4a055;
+  --amber-d:   #7a5520;
+  --text:      #2c2c2c;
+  --muted:     rgba(44,44,44,0.85);
+  --dim:       rgba(44,44,44,0.72);
+  --dark-band: #1a1714;
+  --cream:     #c8b99a;
+  --ink:       #1e1a15;
+}
+
+html,body{
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Courier Prime',monospace;
+  overflow:hidden;
+}
+
+/* ── STATUS BAR ── */
+.sb{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:36px;
+  background:rgba(0,0,0,0.02);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:14px;
+}
+.sb-logo{
+  font-size:0.8rem;letter-spacing:4px;font-weight:700;
+  color:var(--accent);text-decoration:none;border:none;
+}
+.sb-logo:hover{background:transparent;}
+.sb-label{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);flex:1;
+}
+.sb-clock{
+  font-size:0.8rem;letter-spacing:2px;color:var(--muted);
+}
+
+/* ── ENTRY SCREEN ── */
+#entry{
+  position:fixed;inset:0;top:36px;z-index:800;
+  overflow:hidden;
+  cursor:pointer;
+  transition:opacity 1.2s ease;
+}
+#entry.hidden{opacity:0;pointer-events:none;}
+
+.entry-bg{
+  position:absolute;inset:0;
+  background:url('the-tide-chart-hero.jpg') center center / cover no-repeat,
+    linear-gradient(160deg, #0f1520 0%, #1a2535 35%, #0a1520 70%, #1a1714 100%);
+  transform:scale(1.04);
+  animation:kb 14s ease-out forwards;
+}
+@keyframes kb{
+  from{transform:scale(1.04);}
+  to{transform:scale(1.0);}
+}
+
+.entry-tint{
+  position:absolute;inset:0;
+  background:rgba(15,25,50,0.22);
+  mix-blend-mode:multiply;
+}
+
+.entry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(8,12,22,0.22) 0%,
+    rgba(8,12,22,0.44) 40%,
+    rgba(8,12,22,0.86) 100%
+  );
+}
+
+/* ── TIDE ARC SVG — the newsletter-impossible element ── */
+.tide-arc{
+  position:absolute;
+  bottom:210px;left:0;right:0;
+  height:80px;
+  overflow:visible;
+  pointer-events:none;
+  opacity:0;
+  animation:arcFade 1.6s ease 1.0s forwards;
+}
+@keyframes arcFade{
+  to{opacity:1;}
+}
+.tide-arc svg{
+  width:100%;
+  height:80px;
+  overflow:visible;
+}
+
+.entry-corner{
+  position:absolute;top:24px;right:32px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;
+  color:rgba(180,200,230,0.8);
+  text-transform:uppercase;text-align:right;line-height:1.9;
+}
+
+.entry-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:44px 56px 52px;
+}
+
+.entry-stamp{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(180,210,240,0.7);
+  display:flex;gap:18px;align-items:center;
+  margin-bottom:18px;
+  opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;
+}
+.entry-stamp-sep{opacity:0.35;}
+
+.entry-title{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(3.8rem,9vw,7rem);
+  font-weight:400;line-height:1.0;
+  color:#f0f4fc;letter-spacing:-0.02em;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(14px);
+  animation:fadeUp 0.9s ease 0.55s forwards;
+}
+
+.entry-sub{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-style:italic;
+  color:rgba(210,225,245,0.65);
+  margin-bottom:36px;
+  opacity:0;transform:translateY(8px);
+  animation:fadeUp 0.8s ease 0.85s forwards;
+}
+
+.entry-enter{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(180,210,240,0.85);
+  background:none;border:none;border-bottom:1px solid rgba(180,210,240,0.35);
+  padding-bottom:3px;cursor:pointer;
+  opacity:0;animation:fadeUp 0.7s ease 1.3s forwards;
+  transition:color 0.2s,border-color 0.2s;
+}
+.entry-enter:hover{
+  color:#f0f4fc;
+  border-bottom-color:rgba(220,235,255,0.7);
+}
+
+@keyframes fadeUp{
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:640px){
+  .entry-content{padding:32px 24px 40px;}
+  .entry-corner{display:none;}
+  .entry-stamp{flex-wrap:wrap;gap:10px;}
+  .tide-arc{bottom:185px;}
+}
+
+/* ── MAIN PANEL ── */
+#main-panel{
+  position:fixed;inset:0;top:36px;bottom:40px;
+  display:none;opacity:0;
+  transition:opacity 0.6s ease;
+  overflow:hidden;
+  background:var(--bg);
+}
+#main-panel.visible{
+  display:block;opacity:1;
+}
+
+/* ── SECTIONS RAIL ── */
+.sections-rail{
+  display:flex;
+  flex-direction:row;
+  width:700%;
+  height:100%;
+  transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+.card{
+  width:calc(100% / 7);
+  flex-shrink:0;
+  height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.card-inner{
+  max-width:820px;
+  padding:50px 40px 80px;
+  margin:0 auto;
+}
+
+@media(max-width:768px){
+  .card-inner{padding:30px 20px 80px;}
+}
+
+/* ── READING PROGRESS BAR ── */
+.reading-progress{
+  position:fixed;
+  bottom:40px;left:0;right:0;
+  height:36px;
+  background:var(--dark-band);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:14px;
+  z-index:900;
+}
+
+.progress-trace{
+  flex:1;
+  height:2px;
+  background:rgba(100,150,200,0.15);
+  border-radius:1px;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-fill{
+  position:absolute;
+  top:0;left:0;height:100%;
+  background:#5a8fc0;
+  transition:width 0.45s cubic-bezier(0.4,0,0.2,1);
+  border-radius:1px;
+}
+
+.progress-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.18em;
+  color:var(--cream);opacity:0.7;
+  white-space:nowrap;
+  min-width:80px;text-align:right;
+}
+
+.nav-prev,.nav-next{
+  background:none;border:none;
+  color:rgba(200,185,154,0.6);
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.1em;
+  cursor:pointer;
+  padding:0 8px;
+  transition:color 0.2s;
+}
+.nav-prev:hover,.nav-next:hover{color:#5a8fc0;}
+.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+
+/* ── CARD 0: SIGNAL HEADER ── */
+.metadata{
+  text-align:center;margin-bottom:50px;
+  border-bottom:2px solid var(--border-h);
+  padding-bottom:30px;color:var(--dim);
+}
+
+.date-tag{
+  font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.issue-format-badge{
+  display:inline-block;
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(176,125,58,0.35);
+  padding:3px 10px;
+  margin-bottom:16px;
+}
+
+h1{
+  font-family:'Crimson Text',serif;
+  font-size:2.6rem;font-weight:normal;
+  margin:16px 0 10px;color:var(--text);
+  letter-spacing:-0.01em;
+}
+
+.subtitle{
+  font-size:0.95rem;color:var(--dim);
+  margin-top:10px;font-style:italic;
+  font-family:'Crimson Text',serif;
+}
+
+/* ── HERO IMAGE ── */
+.hero-image{
+  width:100%;display:block;margin:0 0 40px;
+  opacity:0.9;
+  border:1px solid var(--border);
+}
+
+/* ── 90-SECOND SIGNAL ── */
+.highlight{
+  background:linear-gradient(135deg,#eef2fa 0%,#f5f8fd 100%);
+  border-left:4px solid #5a8fc0;
+  padding:26px 28px;margin:40px 0;
+  border-radius:2px;
+  border-top:1px solid rgba(90,143,192,0.15);
+  border-bottom:1px solid rgba(90,143,192,0.15);
+  border-right:1px solid rgba(90,143,192,0.08);
+}
+
+.highlight-label{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:#5a8fc0;margin-bottom:12px;font-weight:700;
+  display:block;
+}
+
+.highlight p{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;line-height:1.65;color:var(--text);
+}
+
+/* ── BEGIN READING PROMPT ── */
+.begin-prompt{
+  margin-top:40px;
+  text-align:center;
+  padding:24px 0 10px;
+  border-top:1px solid var(--border);
+}
+.begin-prompt button{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  background:none;border:none;
+  border-bottom:1px solid rgba(176,125,58,0.35);
+  padding-bottom:3px;cursor:pointer;
+  transition:color 0.2s,border-color 0.2s;
+}
+.begin-prompt button:hover{
+  color:var(--amber-d);
+  border-bottom-color:rgba(122,85,32,0.5);
+}
+
+/* ── SECTION NUMBER BAND ── */
+.section-number{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.16em;
+  display:block;
+  background:var(--dark-band);
+  color:var(--cream);
+  padding:11px 16px;
+  margin:0 -40px 24px;
+}
+
+@media(max-width:768px){
+  .section-number{margin:0 -20px 20px;}
+}
+
+h2{
+  font-family:'Crimson Text',serif;
+  font-size:1.9rem;font-weight:normal;
+  margin-bottom:18px;color:var(--text);
+  border-bottom:1px solid var(--border-h);
+  padding-bottom:10px;
+  letter-spacing:-0.01em;
+}
+
+h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.15rem;font-weight:600;
+  margin-top:24px;margin-bottom:10px;color:var(--ink);
+}
+
+p{
+  font-size:1.0rem;line-height:1.75;
+  margin-bottom:1.1em;
+}
+
+/* ── TIDE SINE DIVIDER ── */
+.tide-rule{
+  display:block;
+  position:relative;
+  height:44px;
+  margin:28px 0 20px;
+  overflow:hidden;
+}
+.tide-rule svg{
+  width:100%;height:44px;
+}
+
+/* ── CALLOUT / CITE ── */
+.cite{
+  font-size:0.9rem;
+  color:var(--text);
+  border-left:3px solid #5a8fc0;
+  padding:12px 18px;
+  margin:18px 0 26px;
+  display:block;
+  letter-spacing:0.3px;
+  line-height:1.75;
+  background:rgba(90,143,192,0.04);
+}
+.cite em{font-style:italic;}
+
+/* ── MARGIN NOTE ── */
+.margin-note{
+  position:relative;margin-left:16px;padding-left:18px;
+  border-left:2px dashed var(--accentf);
+  font-size:0.875rem;color:var(--muted);
+  font-style:italic;margin-top:18px;margin-bottom:18px;
+  line-height:1.65;
+}
+
+/* ── RESEARCH BLOCK ── */
+.research-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.research-block .researcher{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;display:block;font-weight:700;
+}
+.research-block p{
+  font-size:0.95rem;margin-bottom:0;
+}
+
+/* ── TIDE ARC CONCEPT BOX ── */
+.tide-phase-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+  margin:28px 0;
+}
+@media(max-width:640px){
+  .tide-phase-grid{grid-template-columns:1fr;}
+}
+.tide-phase{
+  border:1px solid var(--border);
+  border-radius:2px;
+  padding:18px 16px;
+  background:var(--surface);
+}
+.tide-phase .phase-label{
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  font-weight:700;margin-bottom:10px;display:block;
+}
+.tide-phase.rising .phase-label{color:#5a8fc0;}
+.tide-phase.holding .phase-label{color:#4a7a5a;}
+.tide-phase.receding .phase-label{color:#9a7050;}
+.tide-phase p{font-size:0.875rem;line-height:1.6;margin-bottom:0;}
+
+/* ── CONCEPT BOX ── */
+.concept-box{
+  background:linear-gradient(135deg,#eef2fa 0%,#f5f8fd 100%);
+  border:1px solid rgba(90,143,192,0.2);
+  border-left:4px solid #5a8fc0;
+  padding:22px 24px;
+  margin:24px 0;
+  border-radius:2px;
+}
+.concept-box .cb-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:#4a7aaa;margin-bottom:10px;display:block;font-weight:700;
+}
+.concept-box p{font-size:0.95rem;margin-bottom:0;}
+
+/* ── SCENARIO BOX ── */
+.scenario{
+  background:#f6f8fc;
+  border:1px solid rgba(90,143,192,0.25);
+  padding:28px 30px;
+  margin:28px 0;
+  border-radius:2px;
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;
+  line-height:1.75;
+  color:var(--ink);
+  border-top:3px solid #5a8fc0;
+}
+.scenario-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:#5a8fc0;margin-bottom:14px;display:block;font-weight:700;
+}
+
+/* ── ROLE GATE ── */
+.role-gate{
+  background:var(--dark-band);
+  border-radius:2px;
+  padding:32px 28px;
+  margin:32px 0;
+  text-align:center;
+}
+.role-gate .gate-label{
+  font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--cream);opacity:0.6;margin-bottom:18px;display:block;
+}
+.role-gate p{
+  font-family:'Crimson Text',serif;
+  font-size:1.05rem;line-height:1.65;
+  color:rgba(240,235,225,0.85);
+  margin-bottom:22px;
+}
+.role-buttons{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+}
+.role-btn{
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
+  background:none;
+  border:1px solid rgba(200,185,154,0.3);
+  color:var(--cream);
+  padding:8px 20px;
+  cursor:pointer;
+  border-radius:1px;
+  transition:border-color 0.2s,color 0.2s,background 0.2s;
+}
+.role-btn:hover{
+  border-color:rgba(200,185,154,0.7);
+  color:#faf4ec;
+  background:rgba(200,185,154,0.06);
+}
+.role-btn.selected{
+  border-color:#5a8fc0;
+  color:#a8c8e8;
+  background:rgba(90,143,192,0.1);
+}
+
+.scenario-content{
+  display:none;
+}
+.scenario-content.revealed{
+  display:block;
+}
+
+/* ── RESPONSE OPTIONS ── */
+.response-set{
+  margin:24px 0;
+}
+.response-option{
+  padding:16px 20px;
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:var(--bg);
+  transition:border-color 0.2s,background 0.2s;
+}
+.response-option:hover{
+  border-color:#5a8fc0;
+  background:rgba(90,143,192,0.03);
+  cursor:default;
+}
+.response-option .ro-label{
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:8px;font-weight:700;
+}
+.response-option p{font-size:1.0rem;line-height:1.75;margin-bottom:0;}
+
+/* ── BIBLIOGRAPHY ── */
+.bibliography{
+  margin-top:54px;padding-top:30px;
+  border-top:2px solid var(--border-h);
+  font-size:0.9rem;
+}
+.bibliography h3{
+  font-family:'Crimson Text',serif;
+  font-size:1.2rem;font-weight:normal;
+  margin-bottom:20px;color:var(--text);
+}
+.citation{
+  margin-bottom:14px;line-height:1.75;
+  padding-left:20px;text-indent:-20px;
+  font-size:0.875rem;
+}
+
+/* ── FOOTER ── */
+.doc-footer{
+  margin-top:60px;padding-top:30px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:0.8rem;letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+/* ── FOOTER BAR ── */
+.footer-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:40px;background:var(--bg);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  font-size:0.8rem;letter-spacing:2px;
+}
+.footer-bar a{color:var(--accent);text-decoration:none;border:none;}
+.footer-bar a:hover{color:var(--amber);background:transparent;}
+.footer-sep{color:var(--border-h);}
+
+/* ── GENERAL LINKS ── */
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,71,0.3);}
+a:hover{background:rgba(139,111,71,0.06);}
+
+/* ── SECTION BREAK BANDS ── */
+.section-break{
+  display:block;
+  background:var(--dark-band);
+  color:var(--cream);
+  font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
+  padding:11px 40px;
+  margin:40px -40px 32px;
+  opacity:0.9;
+}
+@media(max-width:768px){
+  .section-break{padding:11px 20px;margin:40px -20px 28px;}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  #entry{align-items:flex-start;overflow-y:auto;}
+  .entry-content{padding:28px 20px 80px;}
+  .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
+  h1{font-size:1.9rem;}
+  h2{font-size:1.4rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="sb">
+  <a href="/" class="sb-logo">MELIORISM2.COM</a>
+  <div style="width:1px;height:12px;background:var(--border);"></div>
+  <div class="sb-label">THE TIDE CHART · IN-PERSON PRESENCE · WED 05.27</div>
+  <div class="sb-clock" id="clk">--:--:--</div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div id="entry" onclick="openMain()">
+  <div class="entry-bg"></div>
+  <div class="entry-tint"></div>
+  <div class="entry-overlay"></div>
+
+  <!-- TIDE ARC — newsletter-impossible element: CSS/SVG sine curve with phase labels -->
+  <div class="tide-arc" id="tide-arc-entry">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="tideGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:rgba(90,143,192,0);stop-opacity:1"/>
+          <stop offset="15%" style="stop-color:rgba(90,143,192,0.5);stop-opacity:1"/>
+          <stop offset="50%" style="stop-color:rgba(90,143,192,0.8);stop-opacity:1"/>
+          <stop offset="85%" style="stop-color:rgba(90,143,192,0.5);stop-opacity:1"/>
+          <stop offset="100%" style="stop-color:rgba(90,143,192,0);stop-opacity:1"/>
+        </linearGradient>
+      </defs>
+      <!-- Sine wave path: one full cycle across width -->
+      <path d="M0,40 C100,40 150,8 200,8 C250,8 300,40 400,40 C500,40 550,72 600,72 C650,72 700,40 800,40 C900,40 950,8 1000,8 C1050,8 1100,40 1200,40"
+            fill="none"
+            stroke="url(#tideGrad)"
+            stroke-width="1.5"
+            stroke-dasharray="4 3"
+            opacity="0.7"/>
+      <!-- Phase markers -->
+      <text x="200" y="4" font-family="Courier Prime, monospace" font-size="9" fill="rgba(180,210,240,0.7)" text-anchor="middle" letter-spacing="2">RISING</text>
+      <text x="600" y="78" font-family="Courier Prime, monospace" font-size="9" fill="rgba(180,210,240,0.55)" text-anchor="middle" letter-spacing="2">HOLDING</text>
+      <text x="1000" y="4" font-family="Courier Prime, monospace" font-size="9" fill="rgba(180,210,240,0.7)" text-anchor="middle" letter-spacing="2">RECEDING</text>
+    </svg>
+  </div>
+
+  <div class="entry-corner">The Tide Chart<br>In-Person Presence · 〜</div>
+  <div class="entry-content">
+    <div class="entry-stamp">
+      <span>Meliorism2.com</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>May 27, 2026</span>
+      <span class="entry-stamp-sep">·</span>
+      <span>Issue 027</span>
+    </div>
+    <h1 class="entry-title">The<br>Tide Chart</h1>
+    <p class="entry-sub">When 70,000 people share one stadium, something neurological fires that no screen can replicate.</p>
+    <button class="entry-enter" onclick="openMain()">Read the chart →</button>
+  </div>
+</div>
+
+<!-- MAIN PANEL -->
+<div id="main-panel">
+
+  <div class="sections-rail" id="sections-rail">
+
+    <!-- CARD 0: THE SIGNAL -->
+    <div class="card" id="card-signal">
+      <div class="card-inner">
+
+        <div class="metadata">
+          <div class="date-tag">May 27, 2026 · Wednesday</div>
+          <div class="issue-format-badge">〜 The Tide Chart · Issue 027</div>
+          <h1>The Tide Chart</h1>
+          <p class="subtitle">On co-presence as a biological phenomenon, and why the practitioner's job is to read where the group is on the arc — not push for depth when the tide is out</p>
+        </div>
+
+        <img src="the-tide-chart-hero.jpg" alt="Aerial view of a packed stadium at dusk, crowd moving in synchronized wave" class="hero-image">
+
+        <div class="highlight">
+          <span class="highlight-label">90-Second Signal</span>
+          <p>When 70,000 people share one stadium, their brains begin to do something measurable: neural patterns synchronize across strangers. Uri Hasson's lab captured it in fMRI — speaker and listener brains couple, the listener's cortex mirroring the speaker's activity with a slight temporal lag. This is not metaphor. This is physiology. Screens do not produce it. Physical proximity, shared rhythm, synchronized motion — these are not amenities of in-person experience. They are the mechanism. The practitioner who understands co-presence as biology can design for it deliberately. The one who treats it as vibe is flying without instruments.</p>
+        </div>
+
+        <div class="begin-prompt">
+          <button onclick="goTo(1)">BEGIN READING →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 1: THE PHENOMENON -->
+    <div class="card" id="card-phenomenon">
+      <div class="card-inner">
+
+        <span class="section-number">§ 01 · The Phenomenon</span>
+        <h2>The Co-Presence Gap</h2>
+
+        <p>You've been in the room when it happened. Thirty people who have never met, ninety minutes into a well-designed workshop, and something shifts. The laughter becomes easier, the questions sharper, the silences less defensive. People start finishing each other's half-formed thoughts. Nobody called it. It arrived.</p>
+
+        <p>You've also been in the virtual room when it didn't. Same curriculum. Same facilitator. Same cohort on paper. The connection that would have occurred in the room stayed shallow, transactional — a series of Zoom rectangles performing approximations of presence. The conversation moved. Nothing else did.</p>
+
+        <p>The gap between those two experiences is not aesthetic. It is not about facilitator skill or content quality or group chemistry as a mysterious thing. The gap is biological. Something happens in physical co-presence that does not happen on screen — something measurable, replicable, and — once understood — designable.</p>
+
+        <div class="tide-rule">
+          <svg viewBox="0 0 800 44" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,22 C67,22 100,6 134,6 C168,6 200,22 267,22 C334,22 367,38 400,38 C433,38 466,22 533,22 C600,22 633,6 667,6 C700,6 733,22 800,22"
+                  fill="none"
+                  stroke="rgba(90,143,192,0.3)"
+                  stroke-width="1"
+                  stroke-dasharray="3 3"/>
+          </svg>
+        </div>
+
+        <p>The research has been accumulating for two decades. Neural coupling studies, social baseline theory, mirror neuron systems, synchrony research — each from a different lab, each pointing at the same phenomenon. When bodies share space, time, and movement, something activates between them that remote contact does not produce. Not a lesser version of the same thing. A categorically different neurological event.</p>
+
+        <p>The practitioner who understands this operates differently. Not because they have a better philosophy of in-person work, but because they understand the mechanism. They know what activates co-presence, what disrupts it, how it rises and recedes across a session, and what it means to try to push for depth when the tide is already going out.</p>
+
+        <div class="margin-note">
+          The tide metaphor is not decorative. Co-presence rises and recedes in waves across a session — arrival, settling, activation, post-lunch slump, re-ignition, closing. The practitioner's job is to read the arc. Not to will it forward.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 2: THE EVIDENCE -->
+    <div class="card" id="card-evidence">
+      <div class="card-inner">
+
+        <span class="section-number">§ 02 · The Evidence</span>
+        <h2>Three Findings That Change the Design Question</h2>
+
+        <p>The research is not speculative. These are peer-reviewed findings with direct implications for anyone who designs or delivers learning in physical space.</p>
+
+        <div class="research-block">
+          <span class="researcher">Hasson, Uri et al. — Neural Coupling, Princeton, 2012</span>
+          <p>Hasson's lab recorded fMRI data from speakers telling unrehearsed stories and from listeners hearing those same stories. The finding: neural activity in the listener's brain began to mirror the speaker's neural patterns, with a reliable temporal lag of one to three seconds. The degree of coupling predicted comprehension scores — the more tightly the listener's brain synchronized with the speaker's, the more accurately they understood and could recall the content. Hasson called this brain-to-brain coupling: a direct neural mechanism by which shared meaning is created between people. The implications extend beyond passive listening. Facilitators who generate stronger neural coupling in the room are not better storytellers in a qualitative sense. They are producing a measurably different neurological event in the people across from them.</p>
+        </div>
+
+        <div class="cite">
+          "Neural coupling, measured as inter-subject correlation... predicted the quality of communication between speakers and listeners."<br>
+          — Hasson et al. <em>Trends in Cognitive Sciences,</em> vol. 16, no. 2, 2012.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Coan, James A. — Social Baseline Theory, 2015</span>
+          <p>Coan's Social Baseline Theory starts from an evolutionary proposition: the human nervous system treats social proximity as the baseline state, not as a bonus. In the presence of trusted others, the brain literally offloads threat-appraisal costs. fMRI studies measuring neural response to threat stimuli showed that holding a stranger's hand reduced activation in threat-response regions of the brain — and holding a spouse's hand reduced it further. The proximity of another person reduces the metabolic burden of threat perception. Alone, every ambiguous stimulus must be processed at full cost. With another body nearby, the cognitive load is distributed. Screen-mediated contact does not produce this effect with the same magnitude. Presence is not a preference. It is a computational resource.</p>
+        </div>
+
+        <div class="cite">
+          "Social proximity reduces the metabolic cost of threat appraisal — others become a neural resource, not merely a psychological comfort."<br>
+          — Coan &amp; Sbarra. <em>Current Opinion in Psychology,</em> vol. 1, 2015.
+        </div>
+
+        <div class="research-block">
+          <span class="researcher">Iacoboni, Marco — Mirror Neuron System, 2008</span>
+          <p>Giacomo Rizzolatti's discovery of mirror neurons in macaque monkeys — cells that fire both when an animal performs an action and when it observes another performing the same action — established a neurological basis for embodied simulation. Marco Iacoboni's subsequent work in humans extended this to social cognition: the mirror neuron system underlies our capacity to understand others' intentions, emotions, and states not through inference but through direct motor resonance. When we watch someone move, our motor cortex activates as though we are moving. When we watch someone grimace, our pain-processing regions activate. This is not sympathy in a soft sense. It is a hard-wired simulation engine. In-person, this engine runs at full capacity. On screen, spatial reduction, latency, and compression degrade the signal the mirror system is trying to read.</p>
+        </div>
+
+        <div class="cite">
+          "Mirror neurons allow us to grasp the minds of others not through conceptual reasoning but through direct simulation: feeling, not thinking."<br>
+          — Iacoboni, M. <em>Mirroring People.</em> Farrar, Straus and Giroux, 2008.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 3: THE CONCEPT -->
+    <div class="card" id="card-concept">
+      <div class="card-inner">
+
+        <span class="section-number">§ 03 · The Concept</span>
+        <h2>The Tide Arc</h2>
+
+        <p>Co-presence in a room is not a binary state. It does not flip on at 9am and off at 5pm. It rises and recedes in waves — shaped by proximity, rhythm, shared experience, cognitive load, physical comfort, the quality of the previous hour, and the hundred micro-events between arrival and departure. The practitioner's job is not to maximize co-presence. It is to read where the group is on the arc and design for that moment.</p>
+
+        <div class="concept-box">
+          <span class="cb-label">The Three-Phase Arc</span>
+          <p>Every in-person session moves through a version of this pattern: <strong>Rising</strong> — social proximity activates, neural coupling begins, the mirror system comes online. <strong>Holding</strong> — deep co-presence, the room's collective nervous system at peak synchrony. <strong>Receding</strong> — fatigue, satiation, cognitive load, or post-lunch physiology draws the tide back. The practitioner who tries to hold the group in a Holding state when the tide is receding is working against biology. The practitioner who reads the arc can design re-activation, or rest, or deliberate surface work until the tide rises again.</p>
+        </div>
+
+        <div class="tide-phase-grid">
+          <div class="tide-phase rising">
+            <span class="phase-label">〜 Rising</span>
+            <p>Bodies settling into proximity. Social threat-appraisal dropping. Mirror system engaging. The group is arriving neurologically, not just physically. Design for: movement, low-stakes interaction, parallel physical activity. Do not push for depth here — co-presence hasn't reached holding strength yet.</p>
+          </div>
+          <div class="tide-phase holding">
+            <span class="phase-label">〜 Holding</span>
+            <p>Neural coupling active. Social baseline costs at minimum. The room is capable of genuine vulnerability, complexity, and sustained attention. Design for: deep inquiry, difficult conversation, vulnerable sharing. This is the window. It is time-limited. Read it accurately.</p>
+          </div>
+          <div class="tide-phase receding">
+            <span class="phase-label">〜 Receding</span>
+            <p>Metabolic cost of attention rising. Mirror system fatiguing. Co-presence has not ended, but the depth window has closed. Design for: synthesis, application, structured reflection. Do not try to crack open another layer of depth. The tide is out. Wait for the next rising.</p>
+          </div>
+        </div>
+
+        <p>Alex Pentland's work on social physics adds the energy dimension: physical proximity generates what he calls "idea flow" — the spontaneous transmission of behaviors and concepts through physical co-presence, gesture, and synchronization. Pentland's data from sociometric badges showed that energy levels in a room — measured by movement, vocal pitch variation, and physical proximity patterns — predicted the adoption of new ideas far more accurately than the content of what was said. The tide is not just emotional. It is energetic and informational.</p>
+
+        <div class="margin-note">
+          Vittorio Gallese's formulation: the mirror neuron system supports "embodied simulation" — we understand others by running their actions in our own motor system. This is why synchronized motion (clapping, walking together, shared physical challenge) deepens co-presence faster than talk alone. The simulation engine is motor-first.
+        </div>
+
+        <p>Practical design principle: synchronized rhythm activates co-presence. Music before a session, a shared physical warm-up, synchronized breath, walking together — these are not nice-to-haves. They are tide-raising interventions. The practitioner who opens with three minutes of synchronized movement is not doing a "fun icebreaker." They are running a biological protocol.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 4: EDGE CASES -->
+    <div class="card" id="card-edge-cases">
+      <div class="card-inner">
+
+        <span class="section-number">§ 04 · Edge Cases</span>
+        <h2>When the Tide Turns Against You</h2>
+
+        <p>The case for co-presence is strong. The edge cases are real. A practitioner who treats co-presence as an unqualified good is missing three complications that belong in every design brief.</p>
+
+        <span class="section-break">Edge 01 · When Co-Presence Becomes Groupthink</span>
+
+        <h3>The Synchrony Trap</h3>
+
+        <p>Neural coupling is the mechanism by which shared meaning is created. It is also the mechanism by which dissent becomes costly. A highly synchronized group is a group that has, neurologically, begun to share a single field of salience — what the group notices together is what gets processed; what no one raises disappears. The practitioner who has successfully raised co-presence to a Holding state has also raised the conformity pressure. People in deep synchrony are less likely to voice discrepant views.</p>
+
+        <p>The design response is not to reduce co-presence but to introduce structured divergence into the Holding phase: individual silent reflection before group discussion, anonymous input channels, devil's advocate roles with explicit permission. Co-presence raises the quality of connection. The practitioner is responsible for ensuring that connection doesn't collapse the diversity it was meant to serve.</p>
+
+        <span class="section-break">Edge 02 · Trauma-Informed Proximity</span>
+
+        <h3>When Closeness Is Not Safe</h3>
+
+        <p>Social Baseline Theory describes proximity as load-reducing — for people with secure attachment histories and no trauma associations with physical closeness. For people with trauma histories involving physical space violations — domestic violence, sexual assault, certain forms of childhood harm — close physical proximity does not reduce threat-appraisal costs. It raises them.</p>
+
+        <p>The practitioner working in a room that may include survivors cannot assume that co-presence protocols designed for the neurotypical average will land safely for everyone. Explicit physical boundary contracts at session opening, opt-out provisions for any physical activity, and room design that allows participants to choose their proximity level are not accommodations for edge cases. They are design standards.</p>
+
+        <span class="section-break">Edge 03 · The Hybrid Room</span>
+
+        <h3>Co-Presence Asymmetry</h3>
+
+        <p>The hybrid room — some participants in the physical space, some joining by screen — does not split the difference between in-person and remote. It creates two distinct populations with radically different neurological experiences, sharing a nominal group identity. The in-room participants activate neural coupling, social baseline reduction, and mirror system engagement. The remote participants do not. They observe the in-room group from outside it, watching co-presence they cannot join.</p>
+
+        <p>This asymmetry is not a technical problem solvable by better AV. It is a biological reality. The practitioner's response is to name it explicitly — acknowledging that the two cohorts are having different experiences — and to design distinct engagement pathways for each rather than pretending a single curriculum can serve both equally.</p>
+
+        <span class="section-break">Edge 04 · When Low Co-Presence Is Correct</span>
+
+        <h3>The Appropriate Tide</h3>
+
+        <p>Not every session needs a Holding state. Competitive contexts, adversarial negotiations, and certain forms of evaluative feedback may be better served by deliberate distance — reduced synchrony, formal structure, reduced physical intimacy. The practitioner who understands co-presence as a dial, not a goal, can set it appropriately for each context. Sometimes the right tide level is low. The skill is knowing which.</p>
+
+      </div>
+    </div>
+
+    <!-- CARD 5: THE ROOTS -->
+    <div class="card" id="card-roots">
+      <div class="card-inner">
+
+        <span class="section-number">§ 05 · The Roots</span>
+        <h2>In-Person Learning: A Brief History of What We Keep Losing</h2>
+
+        <p>Human beings have been learning in physical proximity since before language. The transfer of skill from experienced body to apprentice body — watch, mirror, adjust, repeat — predates writing, schooling, and theory by hundreds of thousands of years. The apprenticeship model is not a pedagogical choice. It is the default operating system of the species.</p>
+
+        <p>What the apprenticeship model required, implicitly, was exactly what Hasson later measured: neural coupling. The apprentice watching the master's hands was not processing information through symbolic mediation. They were running the master's movements in their own motor cortex — learning through embodied simulation before the concept existed as a name.</p>
+
+        <span class="section-break">The Lecture Hall Rupture</span>
+
+        <h3>Scaling Presence Into Abstraction</h3>
+
+        <p>The medieval lecture hall introduced a structural break. One body — the lecturer — addressed many bodies from distance. The physical coupling of apprenticeship was replaced by a symbolic transaction: words transmitted from one location to many. This was not a failure. It was a compression necessary for scale. But it introduced a loss that institutions never fully named: the neural coupling of apprenticeship, the embodied simulation that transfers not just knowledge but the felt sense of how to inhabit expertise, did not survive the scaling.</p>
+
+        <p>The twentieth century experiential facilitation movement — Dewey, Lewin, the T-group tradition at the National Training Laboratories, Kolb's experiential learning cycle — was, in part, an attempt to recover what the lecture hall had lost. Not to return to apprenticeship, but to reintroduce physical activity, social risk, and embodied engagement as pedagogical tools. The rationale was often psychological. The mechanism, as the neuroscience now shows, was biological.</p>
+
+        <span class="section-break">The Pandemic Acceleration</span>
+
+        <h3>What Was Already Happening, Faster</h3>
+
+        <p>The shift toward virtual learning was already underway before 2020. The pandemic did not create it. It compressed a decade of incremental adoption into eighteen months of forced universal adoption. The result was a natural experiment: the same practitioners delivering the same curricula to the same types of audiences, suddenly stripped of physical co-presence. The findings were consistent. Things that had worked in person did not work the same way on screen. Depth was harder to reach. Connection was thinner. Learning that required sustained vulnerability fell shorter.</p>
+
+        <p>The post-pandemic rebound toward in-person is not nostalgia. It is neurological correction. Organizations that tried to run leadership development, culture transformation, and team formation entirely on video found that the outcomes degraded in ways they could not fully attribute to individual skill or effort. The mechanism — co-presence as biology — had been removed. The work failed at a structural level.</p>
+
+        <p>What the history shows: every time in-person learning has been compressed, abstracted, or eliminated for scale or efficiency, something real has been lost. The loss has been recovered — partially, imperfectly — through deliberate redesign. The practitioner who understands why the recovery is necessary can design it with more precision than the practitioner who simply insists that in-person is better.</p>
+
+        <div class="margin-note">
+          Pentland's sociometric badge data is the strongest empirical record of what in-person networks actually produce: energy flow, idea transmission, and behavioral adoption that correlate more strongly with face-time proximity than with hierarchical position or formal communication. The physical room is the real org chart.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD 6: APPLICATION + WWYD + BIBLIOGRAPHY -->
+    <div class="card" id="card-application">
+      <div class="card-inner">
+
+        <span class="section-number">§ 06 · Application · What Would You Do?</span>
+        <h2>1:15pm. The Tide Is Out.</h2>
+
+        <!-- ROLE GATE -->
+        <div class="role-gate" id="role-gate">
+          <span class="gate-label">Identify your role before entering the scenario</span>
+          <p>The scenario involves a live facilitation decision. Your role shapes what's at stake for you in the room. Choose the seat you occupy most often.</p>
+          <div class="role-buttons">
+            <button class="role-btn" onclick="selectRole('Designer')" id="btn-Designer">Designer</button>
+            <button class="role-btn" onclick="selectRole('Facilitator')" id="btn-Facilitator">Facilitator</button>
+            <button class="role-btn" onclick="selectRole('Participant')" id="btn-Participant">Participant</button>
+          </div>
+        </div>
+
+        <!-- SCENARIO (revealed after role selection) -->
+        <div class="scenario-content" id="scenario-content">
+
+          <div class="scenario">
+            <span class="scenario-label">The Scenario · <span id="role-display">—</span></span>
+            Dara is running a full-day workshop — sixteen practitioners, a corporate learning design team. It's 1:15pm. After lunch, the group has re-formed at their tables. The energy has visibly dropped. People are on their phones. Side-conversations are trailing off. No one is looking at each other or at Dara. The morning session had a strong Holding phase — genuine depth, a few moments of real vulnerability. The afternoon's core session — the hardest material of the day, the one Dara has been building toward — starts in 10 minutes. The room is, neurologically, nowhere near a Holding state. The tide is out.
+            <br><br>
+            What does Dara do?
+          </div>
+
+          <div class="response-set">
+            <div class="response-option">
+              <span class="ro-label">Option A · The Standard Re-Open</span>
+              <p>Dara calls the group back to attention with a warm but direct prompt: "Welcome back — let's pick up where we left off this morning." She grounds it with a quick 60-second recap of the morning's key thread, then moves into the afternoon content. She trusts the morning's depth to carry forward. This is the highest-fidelity version of proceeding as designed. It respects the group's time, holds the agenda, and treats the post-lunch slump as manageable friction rather than biological signal. The risk: the tide is genuinely out, and the core session will land in water that isn't deep enough to hold it. The morning's depth may not transfer; what felt earned in a Holding state will feel abstract in a Receding one.</p>
+            </div>
+
+            <div class="response-option">
+              <span class="ro-label">Option B · The Movement Intervention</span>
+              <p>Dara makes a visible choice to reset the physiological baseline first. She stands up, moves away from the front of the room, and invites the group into a three-minute structured physical activity — standing, moving around the room, brief paired walking conversations with a specific prompt: "Name one thing from this morning that surprised you." No screens, no chairs, explicit bodily movement. The mirror system re-engages through motion. The social baseline cost drops as bodies move near each other again. After the three minutes, Dara names what she did: "That wasn't a break. That was a biological protocol. Here's why it matters for the session we're about to run." She opens the afternoon content with the group now physically re-synchronized. The risk: three minutes of physical activity can feel forced if not held with full commitment. Done tentatively, it damages the room. Done with conviction, it raises the tide.</p>
+            </div>
+
+            <div class="response-option">
+              <span class="ro-label">Option C · The Structural Reset</span>
+              <p>Dara makes a deliberate call to delay the core session. She names what she observes — directly, without performance: "I can see where we are right now, and I'm not going to try to run the afternoon's hardest session from this starting point. We're going to do something different for the next twenty minutes." She uses the twenty minutes for two things: lighter re-engagement work that doesn't ask for depth it can't access yet, and an explicit conversation with the group about what creates the conditions for the kind of work they did this morning. She teaches the Tide Arc framework, briefly, to the group — turning the meta-moment into content. Then, from a room that has re-synchronized through shared inquiry about its own process, she opens the core session. The risk: this requires Dara to trust her read of the room over the authority of the agenda. If her read is wrong — if the group was actually fine and she just overcorrected — she's spent twenty minutes on process for no gain. The reward: if she's right, she's preserved the morning's depth and delivered the afternoon from a Holding state instead of a Receding one.</p>
+            </div>
+          </div>
+
+          <div class="concept-box">
+            <span class="cb-label">The Practitioner's Real Skill</span>
+            <p>None of these three options is always right. Option A is appropriate when the slump is shallow and the morning's momentum is genuinely load-bearing. Option B is appropriate when the group has physical energy available and just needs re-synchronization. Option C is appropriate when the tide is genuinely out and the core content is too important to risk on a depleted room. The practitioner who has internalized the Tide Arc can read which condition they're in. The practitioner who hasn't defaults to the agenda regardless.</p>
+          </div>
+
+          <!-- BIBLIOGRAPHY -->
+          <div class="bibliography">
+            <h3>Sources</h3>
+
+            <div class="citation">
+              Hasson, Uri, et al. "Brain-to-Brain Coupling: A Mechanism for Creating and Sharing a Social World." <em>Trends in Cognitive Sciences,</em> vol. 16, no. 2, 2012, pp. 114–121. — Neural coupling research establishing brain synchronization between speaker and listener as a predictor of comprehension and relationship quality.
+            </div>
+
+            <div class="citation">
+              Coan, James A., and David A. Sbarra. "Social Baseline Theory: The Social Regulation of Risk and Effort." <em>Current Opinion in Psychology,</em> vol. 1, 2015, pp. 87–91. — Foundational articulation of Social Baseline Theory: presence of trusted others reduces the metabolic cost of threat appraisal at the neural level.
+            </div>
+
+            <div class="citation">
+              Iacoboni, Marco. <em>Mirroring People: The New Science of How We Connect with Others.</em> Farrar, Straus and Giroux, 2008. — Mirror neuron system and embodied simulation as the neurological basis for understanding others' intentions and emotional states through direct motor resonance.
+            </div>
+
+            <div class="citation">
+              Gallese, Vittorio. "Mirror Neurons and the Simulation Theory of Mind-Reading." <em>Trends in Cognitive Sciences,</em> vol. 2, no. 12, 1998, pp. 493–501. — Original formulation of embodied simulation via the mirror neuron system; direct mechanism for interpersonal understanding without inference.
+            </div>
+
+            <div class="citation">
+              Pentland, Alex. <em>Social Physics: How Good Ideas Spread.</em> Penguin, 2014. — Physical proximity and energy flow as determinants of idea transmission and behavioral adoption in social learning environments. Sociometric badge data.
+            </div>
+          </div>
+
+          <div class="doc-footer">
+            Meliorism2.com · Daily briefings for practitioners
+          </div>
+
+        </div><!-- /scenario-content -->
+
+      </div>
+    </div>
+
+  </div><!-- /sections-rail -->
+
+  <!-- PROGRESS + NAV -->
+  <div class="reading-progress" id="reading-progress">
+    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
+    <div class="progress-trace">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
+  </div>
+
+</div><!-- /main-panel -->
+
+<!-- FOOTER BAR -->
+<div class="footer-bar">
+  <a href="/archive/index.html">← THE LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+</div>
+
+<script>
+/* ── UTC CLOCK ── */
+function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
+  const el=document.getElementById('clk');
+  if(el)el.textContent='UTC '+t;
+}
+tick();setInterval(tick,1000);
+
+/* ── ENTRY → MAIN ── */
+function openMain(){
+  const entry=document.getElementById('entry');
+  const panel=document.getElementById('main-panel');
+
+  entry.classList.add('hidden');
+  setTimeout(()=>{
+    entry.style.display='none';
+    panel.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      panel.classList.add('visible');
+    }));
+  },800);
+
+  track('enter','entry_screen');
+}
+
+/* ── CARD NAVIGATION ── */
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application'];
+let currentCard=0;
+
+function goTo(index){
+  if(index<0||index>=CARDS.length)return;
+  const cards=document.querySelectorAll('.card');
+  if(cards[currentCard])cards[currentCard].scrollTop=0;
+  currentCard=index;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  // Progress fill
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
+  // Label
+  const label=document.getElementById('progress-label');
+  if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
+  // Buttons
+  document.getElementById('nav-prev').disabled=index===0;
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  // Track
+  track('navigate',CARDS[index]);
+}
+
+/* ── ROLE GATE ── */
+function selectRole(role){
+  // Update button states
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('selected'));
+  const btn=document.getElementById('btn-'+role);
+  if(btn)btn.classList.add('selected');
+  // Update role display
+  const display=document.getElementById('role-display');
+  if(display)display.textContent=role;
+  // Reveal scenario
+  const content=document.getElementById('scenario-content');
+  if(content)content.classList.add('revealed');
+  // Scroll gate into view slightly
+  const gate=document.getElementById('role-gate');
+  if(gate)gate.style.marginBottom='24px';
+  track('role_select','wwyd_role',role);
+}
+
+/* ── TOUCH SWIPE ── */
+let touchStartX=0,touchStartY=0;
+document.getElementById('main-panel').addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+document.getElementById('main-panel').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44){
+    if(dx<0)goTo(currentCard+1);
+    else goTo(currentCard-1);
+  }
+},{passive:true});
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('main-panel').classList.contains('visible'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goTo(currentCard+1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(currentCard-1);}
+});
+
+/* ── ENGAGEMENT TRACKING ── */
+const _sos=(()=>{
+  const ENDPOINT='https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/event_log';
+  const API_KEY='sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+  const SESSION_ID=Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,10);
+  const ISSUE_NUMBER='027';
+  const ISSUE_SLUG='the-tide-chart';
+  let queue=[];
+  let flushTimer=null;
+
+  function activeCardScrollPct(){
+    const cards=document.querySelectorAll('.card');
+    const card=cards[currentCard];
+    if(!card)return 0;
+    const total=card.scrollHeight-card.clientHeight;
+    return total>0?Math.round((card.scrollTop/total)*100):0;
+  }
+
+  function flush(){
+    if(!queue.length)return;
+    const batch=queue.splice(0);
+    batch.forEach(ev=>{
+      fetch(ENDPOINT,{
+        method:'POST',
+        headers:{
+          'apikey':API_KEY,
+          'Authorization':'Bearer '+API_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'return=minimal'
+        },
+        body:JSON.stringify({
+          title:'meliorism2.com | '+ISSUE_SLUG+' | '+ev.event+' | '+ev.label,
+          occurred_at:ev.ts,
+          reflection:SESSION_ID,
+          notes:JSON.stringify({
+            issue_number:ISSUE_NUMBER,
+            issue_slug:ISSUE_SLUG,
+            event:ev.event,
+            label:ev.label,
+            extra:ev.extra||null,
+            referrer:document.referrer||null,
+            card_index:ev.card_index,
+            card_name:CARDS[ev.card_index]||null,
+            scroll_pct:ev.scroll_pct,
+            viewport_w:window.innerWidth,
+            viewport_h:window.innerHeight
+          })
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    });
+  }
+
+  function enqueue(event,label,extra){
+    queue.push({
+      event,label,extra,
+      ts:new Date().toISOString(),
+      card_index:currentCard,
+      scroll_pct:activeCardScrollPct()
+    });
+    if(!flushTimer)flushTimer=setTimeout(()=>{flushTimer=null;flush();},3000);
+  }
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden')flush();
+  });
+
+  return{track:enqueue};
+})();
+
+function track(event,label,extra){
+  console.log('[meliorism2]',event,label,extra||'');
+  _sos.track(event,label,extra);
+}
+
+/* ── PER-CARD SCROLL DEPTH TRACKING ── */
+const cardDepthsFired={};
+document.querySelectorAll('.card').forEach((card,i)=>{
+  cardDepthsFired[i]=new Set();
+  card.addEventListener('scroll',()=>{
+    const total=card.scrollHeight-card.clientHeight;
+    if(total<=0)return;
+    const pct=Math.round((card.scrollTop/total)*100);
+    [25,50,75,90].forEach(d=>{
+      if(pct>=d&&!cardDepthsFired[i].has(d)){
+        cardDepthsFired[i].add(d);
+        track('scroll_depth',CARDS[i]+'_'+d+'pct');
+      }
+    });
+  },{passive:true});
+});
+
+/* ── CLICK TRACKING ── */
+document.addEventListener('click',e=>{
+  if(e.target.closest('.response-option')){
+    const lbl=e.target.closest('.response-option').querySelector('.ro-label');
+    track('interact','response_option',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('.research-block')){
+    const lbl=e.target.closest('.research-block').querySelector('.researcher');
+    track('interact','research_block',lbl?lbl.textContent.trim():'');
+  }
+  if(e.target.closest('a[href*="archive"]')){
+    track('click','archive_link');
+  }
+});
+</script>
+</body>
+</html>
