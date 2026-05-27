@@ -225,6 +225,27 @@
       font-size: 0.6rem; letter-spacing: 0.06em;
       color: var(--s-live); margin-top: 2px;
     }
+    .cell-status {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.58rem; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-top: 3px;
+    }
+    .cell-status.st-planned  { color: var(--s-planned); }
+    .cell-status.st-research { color: var(--s-research); }
+    .cell-status.st-ready    { color: var(--s-ready); }
+    .cell-status.st-live     { color: var(--s-live); }
+    .cell-article-link {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.58rem; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--s-live);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(74,138,90,0.35);
+      margin-top: 4px; display: inline-block;
+      line-height: 1.2;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .cell-article-link:hover { color: #3a7a4a; border-color: rgba(58,122,74,0.7); }
 
     /* ── DETAIL PANEL ── */
     .detail-wrap {
@@ -538,6 +559,22 @@
     function isLive(s) {
       return s === 'live' || s === 'published' || s === 'ready';
     }
+    function statusLabel(s) {
+      const m = {
+        planned:   'Planned',
+        research:  'Research Pending',
+        ready:     'Ready to Publish',
+        live:      'Live',
+        published: 'Published',
+      };
+      return m[s] || s;
+    }
+    function statusCssClass(s) {
+      if (s === 'live' || s === 'published') return 'st-live';
+      if (s === 'ready')    return 'st-ready';
+      if (s === 'research') return 'st-research';
+      return 'st-planned';
+    }
 
     function esc(s) {
       if (!s) return '';
@@ -664,15 +701,14 @@
       let inner = `<span class="cell-date">${dayNum}</span>`;
 
       if (issue) {
-        const dotClass = statusDotClass(issue.status);
+        const url = articleUrl(dateStr, issue.title);
+        const liveIssue = isLive(issue.status);
         inner += `
           <div class="cell-issue">
-            <div class="cell-dot-row">
-              <span class="dot ${dotClass}" style="width:6px;height:6px"></span>
-              <span class="cell-title">${esc(issue.title)}</span>
-            </div>
+            <span class="cell-title">${esc(issue.title)}</span>
             <span class="cell-dim">${esc(issue.dimension || '')}</span>
-            ${isLive(issue.status) ? '<span class="cell-time">4:00 AM</span>' : ''}
+            <span class="cell-status ${statusCssClass(issue.status)}">${statusLabel(issue.status)}</span>
+            ${liveIssue ? `<a class="cell-article-link" href="${url}" target="_blank" onclick="event.stopPropagation()">Read issue →</a>` : ''}
           </div>`;
         cell.addEventListener('click', () => toggleDetail(dateStr, issue, cell));
       }
