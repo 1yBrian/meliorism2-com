@@ -15,21 +15,21 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
-  --bg:        #faf8f5;
-  --surface:   #f0ebe3;
-  --border:    rgba(139,111,71,0.15);
-  --border-h:  rgba(139,111,71,0.3);
-  --accent:    #8b6f47;
-  --accentf:   rgba(139,111,71,0.5);
-  --amber:     #b07d3a;
-  --amber-l:   #d4a055;
-  --amber-d:   #7a5520;
-  --text:      #2c2c2c;
-  --muted:     rgba(44,44,44,0.85);
-  --dim:       rgba(44,44,44,0.72);
-  --dark-band: #1a1714;
-  --cream:     #c8b99a;
-  --ink:       #1e1a15;
+  --bg:        #f0f5f9;
+  --surface:   #e4eff7;
+  --border:    rgba(42,98,143,0.15);
+  --border-h:  rgba(42,98,143,0.3);
+  --accent:    #2a6b9e;
+  --accentf:   rgba(42,107,158,0.5);
+  --amber:     #3a9ea5;
+  --amber-l:   #5bbfc7;
+  --amber-d:   #1e7a84;
+  --text:      #0d1f2d;
+  --muted:     rgba(13,31,45,0.85);
+  --dim:       rgba(13,31,45,0.65);
+  --dark-band: #071523;
+  --cream:     #a8c8e0;
+  --ink:       #050e1a;
 }
 
 html,body{
@@ -289,7 +289,7 @@ html,body{
   display:inline-block;
   font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;
   color:var(--amber);
-  border:1px solid rgba(176,125,58,0.35);
+  border:1px solid rgba(58,158,165,0.35);
   padding:3px 10px;
   margin-bottom:16px;
 }
@@ -309,14 +309,23 @@ h1{
 
 /* ── HERO IMAGE ── */
 .hero-image{
-  width:100%;display:block;margin:0 0 40px;
+  width:100%;display:block;margin:0 0 0;
   opacity:0.9;
   border:1px solid var(--border);
 }
+.hero-figure{margin:0 0 40px;}
+.hero-figure figcaption,.issue-figure figcaption{
+  font-size:0.8rem;color:var(--dim);font-style:italic;
+  padding:6px 0 0;text-align:right;
+  font-family:'Crimson Text',serif;
+}
+.hero-figure figcaption a,.issue-figure figcaption a{color:var(--accent);text-decoration:underline;}
+.issue-figure{margin:32px 0;border:1px solid var(--border);}
+.issue-figure img{width:100%;display:block;opacity:0.88;}
 
 /* ── 90-SECOND SIGNAL ── */
 .highlight{
-  background:linear-gradient(135deg,#eef2fa 0%,#f5f8fd 100%);
+  background:linear-gradient(135deg,#e4eff8 0%,#eef5fb 100%);
   border-left:4px solid #5a8fc0;
   padding:26px 28px;margin:40px 0;
   border-radius:2px;
@@ -348,13 +357,13 @@ h1{
   font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;
   color:var(--amber);
   background:none;border:none;
-  border-bottom:1px solid rgba(176,125,58,0.35);
+  border-bottom:1px solid rgba(58,158,165,0.35);
   padding-bottom:3px;cursor:pointer;
   transition:color 0.2s,border-color 0.2s;
 }
 .begin-prompt button:hover{
   color:var(--amber-d);
-  border-bottom-color:rgba(122,85,32,0.5);
+  border-bottom-color:rgba(30,122,132,0.5);
 }
 
 /* ── SECTION NUMBER BAND ── */
@@ -464,12 +473,12 @@ p{
 }
 .tide-phase.rising .phase-label{color:#5a8fc0;}
 .tide-phase.holding .phase-label{color:#4a7a5a;}
-.tide-phase.receding .phase-label{color:#9a7050;}
+.tide-phase.receding .phase-label{color:#7a9eb5;}
 .tide-phase p{font-size:0.875rem;line-height:1.6;margin-bottom:0;}
 
 /* ── CONCEPT BOX ── */
 .concept-box{
-  background:linear-gradient(135deg,#eef2fa 0%,#f5f8fd 100%);
+  background:linear-gradient(135deg,#e4eff8 0%,#eef5fb 100%);
   border:1px solid rgba(90,143,192,0.2);
   border-left:4px solid #5a8fc0;
   padding:22px 24px;
@@ -484,7 +493,7 @@ p{
 
 /* ── SCENARIO BOX ── */
 .scenario{
-  background:#f6f8fc;
+  background:#eef4f9;
   border:1px solid rgba(90,143,192,0.25);
   padding:28px 30px;
   margin:28px 0;
@@ -526,7 +535,7 @@ p{
   font-family:'Courier Prime',monospace;
   font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;
   background:none;
-  border:1px solid rgba(200,185,154,0.3);
+  border:1px solid rgba(168,200,224,0.3);
   color:var(--cream);
   padding:8px 20px;
   cursor:pointer;
@@ -534,9 +543,9 @@ p{
   transition:border-color 0.2s,color 0.2s,background 0.2s;
 }
 .role-btn:hover{
-  border-color:rgba(200,185,154,0.7);
-  color:#faf4ec;
-  background:rgba(200,185,154,0.06);
+  border-color:rgba(168,200,224,0.7);
+  color:#e8f2fa;
+  background:rgba(168,200,224,0.08);
 }
 .role-btn.selected{
   border-color:#5a8fc0;
@@ -652,8 +661,8 @@ p{
 .footer-sep{color:var(--border-h);}
 
 /* ── GENERAL LINKS ── */
-a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(139,111,71,0.3);}
-a:hover{background:rgba(139,111,71,0.06);}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(42,107,158,0.3);}
+a:hover{background:rgba(42,107,158,0.06);}
 
 /* ── SECTION BREAK BANDS ── */
 .section-break{
@@ -752,7 +761,10 @@ a:hover{background:rgba(139,111,71,0.06);}
           <p class="subtitle">On co-presence as a biological phenomenon, and why the practitioner's job is to read where the group is on the arc — not push for depth when the tide is out</p>
         </div>
 
-        <img src="the-tide-chart-hero.jpg" alt="Aerial view of a packed stadium at dusk, crowd moving in synchronized wave" class="hero-image">
+        <figure class="hero-figure">
+          <img src="the-tide-chart-hero.jpg" alt="group of women in red dresses dancing in synchronized movement in an open field" class="hero-image" loading="eager" decoding="async">
+          <figcaption>Photo by <a href="https://unsplash.com/@nellie_adamyan?utm_source=meliorism2&utm_medium=referral">Nellie Adamyan</a> on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral">Unsplash</a></figcaption>
+        </figure>
 
         <div class="highlight">
           <span class="highlight-label">90-Second Signal</span>
@@ -762,7 +774,7 @@ a:hover{background:rgba(139,111,71,0.06);}
         <div class="current-signal">
           <span class="current-signal-label"><span class="current-signal-dot"></span>Current Signal · May 2026</span>
           <p>New return-to-office research this spring confirms the exact failure mode the Tide Arc addresses. IVCi's analysis of 2026 RTO mandates found that organizations requiring physical presence without redesigning how that presence is used are producing the same shallow outcomes as remote work — because the biological mechanism requires deliberate activation, not just proximity. The headline: <em>"Presence Without Purpose Is a Missed Opportunity."</em> That is the Receding state masquerading as in-person work. The Tide Arc is the design response.</p>
-          <span class="current-signal-source">IVCi · Return to Office 2026 · ivci.com — March 2026</span>
+          <span class="current-signal-source">IVCi · <a href="https://www.ivci.com?utm_source=meliorism2&utm_medium=referral" target="_blank" rel="noopener">Return to Office 2026 Analysis</a> — March 2026 · Quote: "Presence Without Purpose Is a Missed Opportunity"</span>
         </div>
 
         <div class="begin-prompt">
@@ -783,7 +795,7 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <p>You've also been in the virtual room when it didn't. Same curriculum. Same facilitator. Same cohort on paper. The connection that would have occurred in the room stayed shallow, transactional — a series of Zoom rectangles performing approximations of presence. The conversation moved. Nothing else did.</p>
 
-        <p>The gap between those two experiences is not aesthetic. It is not about facilitator skill or content quality or group chemistry as a mysterious thing. The gap is biological. Something happens in physical co-presence that does not happen on screen — something measurable, replicable, and — once understood — designable.</p>
+        <p>The gap between those two experiences is not aesthetic. It is not about facilitator skill or content quality or group chemistry as a mysterious thing. The gap is biological. Something happens in physical co-presence that does not happen on screen — something measurable, replicable, and — once understood — potentially designable.</p>
 
         <div class="tide-rule">
           <svg viewBox="0 0 800 44" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -795,7 +807,7 @@ a:hover{background:rgba(139,111,71,0.06);}
           </svg>
         </div>
 
-        <p>The research has been accumulating for two decades. Neural coupling studies, social baseline theory, mirror neuron systems, synchrony research — each from a different lab, each pointing at the same phenomenon. When bodies share space, time, and movement, something activates between them that remote contact does not produce. Not a lesser version of the same thing. A categorically different neurological event.</p>
+        <p>The research has been accumulating since the late 1990s (sources in bibliography below). Neural coupling studies, social baseline theory, mirror neuron systems, synchrony research — each from a different lab, each pointing at the same phenomenon. When bodies share space, time, and movement, something activates between them that remote contact does not produce. Not a lesser version of the same thing. A categorically different neurological event.</p>
 
         <p>The practitioner who understands this operates differently. Not because they have a better philosophy of in-person work, but because they understand the mechanism. They know what activates co-presence, what disrupts it, how it rises and recedes across a session, and what it means to try to push for depth when the tide is already going out.</p>
 
@@ -844,6 +856,11 @@ a:hover{background:rgba(139,111,71,0.06);}
           "Mirror neurons allow us to grasp the minds of others not through conceptual reasoning but through direct simulation: feeling, not thinking."<br>
           — Iacoboni, M. <em>Mirroring People.</em> Farrar, Straus and Giroux, 2008.
         </div>
+
+        <figure class="issue-figure">
+          <img src="tide-chart-research.jpg" alt="researcher looking through microscope in laboratory" loading="lazy" decoding="async">
+          <figcaption>Photo by <a href="https://unsplash.com/@nci?utm_source=meliorism2&utm_medium=referral">National Cancer Institute</a> on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral">Unsplash</a></figcaption>
+        </figure>
 
       </div>
     </div>
@@ -937,6 +954,11 @@ a:hover{background:rgba(139,111,71,0.06);}
         <span class="section-number">§ 05 · The Roots</span>
         <h2>In-Person Learning: A Brief History of What We Keep Losing</h2>
 
+        <figure class="issue-figure">
+          <img src="tide-chart-coach.jpg" alt="group of people gathered around a practitioner in physical co-presence" loading="lazy" decoding="async">
+          <figcaption>Photo by <a href="https://unsplash.com/@rezli?utm_source=meliorism2&utm_medium=referral">Rezli</a> on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral">Unsplash</a></figcaption>
+        </figure>
+
         <p>Human beings have been learning in physical proximity since before language. The transfer of skill from experienced body to apprentice body — watch, mirror, adjust, repeat — predates writing, schooling, and theory by hundreds of thousands of years. The apprenticeship model is not a pedagogical choice. It is the default operating system of the species.</p>
 
         <p>What the apprenticeship model required, implicitly, was exactly what Hasson later measured: neural coupling. The apprentice watching the master's hands was not processing information through symbolic mediation. They were running the master's movements in their own motor cortex — learning through embodied simulation before the concept existed as a name.</p>
@@ -972,6 +994,11 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <span class="section-number">§ 06 · Application · What Would You Do?</span>
         <h2>1:15pm. The Tide Is Out.</h2>
+
+        <figure class="issue-figure">
+          <img src="tide-chart-application.jpg" alt="woman pointing at paper during workshop discussion" loading="lazy" decoding="async">
+          <figcaption>Photo by <a href="https://unsplash.com/@javotrueba?utm_source=meliorism2&utm_medium=referral">javier trueba</a> on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral">Unsplash</a></figcaption>
+        </figure>
 
         <!-- ROLE GATE -->
         <div class="role-gate" id="role-gate">
