@@ -574,6 +574,44 @@ p{
 }
 .response-option p{font-size:1.0rem;line-height:1.75;margin-bottom:0;}
 
+/* ── CURRENT SIGNAL ── */
+.current-signal{
+  background:linear-gradient(135deg,#0f1520 0%,#1a2535 100%);
+  border-left:4px solid #5a8fc0;
+  border-top:1px solid rgba(90,143,192,0.2);
+  border-right:1px solid rgba(90,143,192,0.08);
+  border-bottom:1px solid rgba(90,143,192,0.2);
+  padding:22px 24px;margin:24px 0;
+  border-radius:2px;
+}
+.current-signal-label{
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.22em;
+  color:#5a8fc0;margin-bottom:10px;font-weight:700;
+  display:flex;align-items:center;gap:10px;
+}
+.current-signal-dot{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:#5a8fc0;
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(90,143,192,0.4);}
+  50%{opacity:0.7;box-shadow:0 0 0 5px rgba(90,143,192,0);}
+}
+.current-signal p{
+  font-family:'Crimson Text',serif;
+  font-size:1.1rem;line-height:1.65;
+  color:rgba(210,225,245,0.85);
+  margin-bottom:0;
+}
+.current-signal-source{
+  font-family:'Courier Prime',monospace;
+  font-size:0.72rem;letter-spacing:0.12em;
+  color:rgba(90,143,192,0.65);
+  margin-top:12px;
+  display:block;
+}
+
 /* ── BIBLIOGRAPHY ── */
 .bibliography{
   margin-top:54px;padding-top:30px;
@@ -719,6 +757,12 @@ a:hover{background:rgba(139,111,71,0.06);}
         <div class="highlight">
           <span class="highlight-label">90-Second Signal</span>
           <p>When 70,000 people share one stadium, their brains begin to do something measurable: neural patterns synchronize across strangers. Uri Hasson's lab captured it in fMRI — speaker and listener brains couple, the listener's cortex mirroring the speaker's activity with a slight temporal lag. This is not metaphor. This is physiology. Screens do not produce it. Physical proximity, shared rhythm, synchronized motion — these are not amenities of in-person experience. They are the mechanism. The practitioner who understands co-presence as biology can design for it deliberately. The one who treats it as vibe is flying without instruments.</p>
+        </div>
+
+        <div class="current-signal">
+          <span class="current-signal-label"><span class="current-signal-dot"></span>Current Signal · May 2026</span>
+          <p>New return-to-office research this spring confirms the exact failure mode the Tide Arc addresses. IVCi's analysis of 2026 RTO mandates found that organizations requiring physical presence without redesigning how that presence is used are producing the same shallow outcomes as remote work — because the biological mechanism requires deliberate activation, not just proximity. The headline: <em>"Presence Without Purpose Is a Missed Opportunity."</em> That is the Receding state masquerading as in-person work. The Tide Arc is the design response.</p>
+          <span class="current-signal-source">IVCi · Return to Office 2026 · ivci.com — March 2026</span>
         </div>
 
         <div class="begin-prompt">

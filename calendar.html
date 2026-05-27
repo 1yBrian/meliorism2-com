@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editorial Calendar — Meliorism2.com</title>
+  <title>Production Calendar — Meliorism2.com</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -11,24 +11,30 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --cream: #faf8f5;
-      --surface: #f0ebe5;
-      --accent: #8b6f47;
-      --accent-dark: #6b5235;
-      --text: #1e1e1e;
-      --text-muted: #5a5550;
-      --dark-bg: #1a1714;
+      --cream:        #faf8f5;
+      --surface:      #f0ebe5;
+      --accent:       #8b6f47;
+      --accent-dark:  #6b5235;
+      --text:         #1e1e1e;
+      --text-muted:   #5a5550;
+      --border:       #d8cfc4;
+      --dark-bg:      #1a1714;
       --dark-surface: #252118;
-      --dark-border: #2a2520;
+      --dark-border:  #2a2520;
+
+      --s-planned:  #5a5550;
+      --s-research: #7a8f6b;
+      --s-ready:    #8b6f47;
+      --s-live:     #4a8a5a;
     }
 
-    html { font-size: 17px; scroll-behavior: smooth; }
+    html { font-size: 16px; scroll-behavior: smooth; }
 
     body {
       font-family: 'Crimson Text', Georgia, serif;
       background: var(--cream);
       color: var(--text);
-      line-height: 1.65;
+      min-height: 100vh;
     }
 
     /* ── NAV ── */
@@ -37,396 +43,391 @@
       background: var(--dark-bg);
       border-bottom: 1px solid var(--dark-border);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px; height: 56px;
+      padding: 0 40px; height: 52px;
     }
-
     .nav-logo {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.85rem; letter-spacing: 0.14em; font-weight: 700;
+      font-size: 0.82rem; letter-spacing: 0.14em; font-weight: 700;
       color: var(--cream); text-decoration: none; text-transform: uppercase;
     }
-
     .nav-meta {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem; letter-spacing: 0.1em;
-      color: #5a5550; text-transform: uppercase;
+      font-size: 0.68rem; letter-spacing: 0.1em;
+      color: #4a4540; text-transform: uppercase;
     }
-
     .nav-back {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.72rem; letter-spacing: 0.08em;
-      color: #5a5550; text-decoration: none; text-transform: uppercase;
+      font-size: 0.68rem; letter-spacing: 0.08em;
+      color: #4a4540; text-decoration: none; text-transform: uppercase;
+      transition: color 0.2s;
     }
     .nav-back:hover { color: var(--accent); }
 
     /* ── HEADER ── */
     .cal-header {
       background: var(--dark-bg);
-      border-bottom: 1px solid var(--dark-border);
-      padding: 56px 48px 48px;
+      border-bottom: 2px solid var(--accent);
+      padding: 36px 40px 28px;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
     }
-
     .cal-eyebrow {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem; letter-spacing: 0.18em;
+      font-size: 0.68rem; letter-spacing: 0.2em;
       color: var(--accent); text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
-
     .cal-title {
       font-family: 'Crimson Text', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 600; line-height: 1.15;
-      color: var(--cream); margin-bottom: 16px;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 600; line-height: 1.1;
+      color: var(--cream);
     }
-
-    .cal-desc {
-      font-size: 1.05rem; color: #8a8075;
-      max-width: 580px; line-height: 1.7;
-    }
-
     .cal-stats {
-      display: flex; gap: 40px; margin-top: 36px;
+      display: flex; gap: 32px; align-items: flex-end;
     }
-
-    .stat {
-      display: flex; flex-direction: column; gap: 4px;
-    }
-
+    .stat { display: flex; flex-direction: column; gap: 3px; align-items: flex-end; }
     .stat-num {
       font-family: 'Courier Prime', monospace;
-      font-size: 1.6rem; font-weight: 700;
+      font-size: 1.4rem; font-weight: 700;
       color: var(--accent); line-height: 1;
     }
-
     .stat-label {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.66rem; letter-spacing: 0.1em;
-      color: #5a5550; text-transform: uppercase;
+      font-size: 0.6rem; letter-spacing: 0.1em;
+      color: #4a4540; text-transform: uppercase;
     }
 
-    /* ── STATUS LEGEND ── */
-    .legend {
+    /* ── LEGEND + MONTH NAV ── */
+    .cal-controls {
       background: var(--dark-surface);
       border-bottom: 1px solid var(--dark-border);
-      padding: 16px 48px;
-      display: flex; gap: 28px; align-items: center;
+      padding: 12px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
     }
-
-    .legend-label {
+    .legend {
+      display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 6px;
       font-family: 'Courier Prime', monospace;
-      font-size: 0.65rem; letter-spacing: 0.12em;
-      color: #5a5550; text-transform: uppercase; margin-right: 4px;
+      font-size: 0.64rem; letter-spacing: 0.08em;
+      color: #7a7060; text-transform: uppercase;
     }
-
-    .status-dot {
-      display: inline-flex; align-items: center; gap: 7px;
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.68rem; letter-spacing: 0.08em;
-      color: #8a8075; text-transform: uppercase;
-    }
-
     .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      display: inline-block; flex-shrink: 0;
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
     }
+    .dot-planned  { background: var(--s-planned); }
+    .dot-research { background: var(--s-research); }
+    .dot-ready    { background: var(--s-ready); }
+    .dot-live     { background: var(--s-live); }
 
-    .dot-planned  { background: #5a5550; }
-    .dot-research { background: #7a8f6b; }
-    .dot-ready    { background: var(--accent); }
-    .dot-live     { background: #6b9e7a; }
+    .month-nav {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .month-nav-btn {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem; letter-spacing: 0.1em;
+      background: none; border: 1px solid var(--dark-border);
+      color: #7a7060; padding: 6px 14px; cursor: pointer;
+      text-transform: uppercase; transition: all 0.2s;
+    }
+    .month-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .month-nav-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.82rem; letter-spacing: 0.12em;
+      color: var(--cream); text-transform: uppercase;
+      min-width: 160px; text-align: center;
+    }
 
     /* ── CALENDAR GRID ── */
     .cal-body {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 48px 48px 80px;
+      max-width: 1100px; margin: 0 auto;
+      padding: 32px 40px 0;
     }
 
-    .week-label {
+    .day-headers {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 1px; margin-bottom: 4px;
+    }
+    .day-header {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem; letter-spacing: 0.14em;
-      color: var(--accent); text-transform: uppercase;
-      margin-bottom: 28px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #d8cfc4;
+      font-size: 0.62rem; letter-spacing: 0.14em;
+      color: var(--text-muted); text-transform: uppercase;
+      text-align: center; padding: 6px 0;
     }
 
-    .issue-card {
-      background: #fff;
-      border: 1px solid #e0d8cf;
-      margin-bottom: 20px;
-      overflow: hidden;
-      transition: border-color 0.15s;
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
     }
 
-    .issue-card:hover { border-color: var(--accent); }
-
-    /* Card header */
-    .card-head {
-      display: grid;
-      grid-template-columns: 100px 1fr auto;
-      gap: 0;
-      align-items: stretch;
-      border-bottom: 1px solid #e0d8cf;
+    .cal-cell {
+      background: var(--cream);
+      min-height: 88px;
+      padding: 8px;
+      cursor: default;
+      position: relative;
+      transition: background 0.15s;
+    }
+    .cal-cell.other-month {
+      background: var(--surface);
+    }
+    .cal-cell.is-today {
+      background: #f0eeea;
+    }
+    .cal-cell.is-today::after {
+      content: '';
+      position: absolute; inset: 0;
+      border: 2px solid var(--accent);
+      pointer-events: none;
+    }
+    .cal-cell.has-issue {
+      cursor: pointer;
+    }
+    .cal-cell.has-issue:hover {
+      background: #ede8e0;
+    }
+    .cal-cell.selected {
+      background: #e8e0d4;
     }
 
-    .card-date {
-      background: var(--dark-bg);
-      color: var(--cream);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 20px 16px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .card-date-day {
+    .cell-date {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.65rem; letter-spacing: 0.12em;
-      color: #5a5550; text-transform: uppercase;
-      margin-bottom: 4px;
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px; display: block;
     }
+    .cal-cell.other-month .cell-date { color: #c8c0b8; }
+    .cal-cell.is-today .cell-date { color: var(--accent); }
 
-    .card-date-num {
+    .cell-issue {
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .cell-dot-row {
+      display: flex; align-items: center; gap: 5px;
+    }
+    .cell-title {
       font-family: 'Crimson Text', serif;
-      font-size: 2rem; font-weight: 700;
-      color: var(--cream); line-height: 1;
+      font-size: 0.82rem; line-height: 1.3;
+      color: var(--text); font-weight: 600;
     }
-
-    .card-date-time {
+    .cell-dim {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.58rem; letter-spacing: 0.08em;
+      color: var(--text-muted); text-transform: uppercase;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .cell-time {
       font-family: 'Courier Prime', monospace;
       font-size: 0.6rem; letter-spacing: 0.06em;
-      color: var(--accent); margin-top: 6px;
+      color: var(--s-live); margin-top: 2px;
     }
 
-    .card-title-block {
-      padding: 20px 24px;
-      display: flex; flex-direction: column; justify-content: center;
+    /* ── DETAIL PANEL ── */
+    .detail-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 40px;
     }
 
-    .card-dimension {
+    .detail-panel {
+      display: none;
+      background: white;
+      border: 1px solid var(--border);
+      border-top: none;
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+    .detail-panel.open { display: block; }
+
+    .detail-head {
+      background: var(--dark-bg);
+      padding: 20px 28px 18px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: start;
+      border-bottom: 2px solid var(--accent);
+    }
+    .detail-date-badge {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem; letter-spacing: 0.14em;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 6px; display: block;
+    }
+    .detail-title {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--cream); line-height: 1.15;
+    }
+    .detail-meta {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.66rem; letter-spacing: 0.08em;
+      color: #7a7060; margin-top: 6px;
+      text-transform: uppercase;
+    }
+    .detail-actions {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+    }
+    .detail-status-badge {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 10px;
+      border: 1px solid;
+    }
+    .badge-planned  { color: var(--s-planned);  border-color: var(--s-planned); }
+    .badge-research { color: var(--s-research); border-color: var(--s-research); }
+    .badge-ready    { color: var(--s-ready);    border-color: var(--s-ready); }
+    .badge-live     { color: var(--s-live);     border-color: var(--s-live); }
+
+    .detail-article-link {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.66rem; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--s-live); border-bottom: 1px solid rgba(74,138,90,0.4);
+      text-decoration: none; padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .detail-article-link:hover {
+      color: #3a7a4a; border-color: rgba(58,122,74,0.7);
+    }
+
+    .detail-close {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.66rem; letter-spacing: 0.12em;
+      background: none; border: 1px solid var(--dark-border);
+      color: #5a5048; cursor: pointer; padding: 4px 12px;
+      text-transform: uppercase; transition: all 0.2s;
+    }
+    .detail-close:hover { border-color: var(--accent); color: var(--accent); }
+
+    .detail-body {
+      padding: 0;
+    }
+
+    .detail-section {
+      border-top: 1px solid var(--border);
+    }
+    .detail-section-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 28px; cursor: pointer;
+      background: var(--cream); user-select: none;
+      transition: background 0.1s;
+    }
+    .detail-section-toggle:hover { background: var(--surface); }
+    .detail-section-label {
       font-family: 'Courier Prime', monospace;
       font-size: 0.66rem; letter-spacing: 0.12em;
       color: var(--accent); text-transform: uppercase;
-      margin-bottom: 6px;
     }
-
-    .card-title {
-      font-family: 'Crimson Text', serif;
-      font-size: 1.4rem; font-weight: 600;
-      color: var(--text); line-height: 1.2;
-      margin-bottom: 6px;
-    }
-
-    .card-format {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.66rem; letter-spacing: 0.08em;
-      color: var(--text-muted); text-transform: uppercase;
-    }
-
-    .card-status-col {
-      padding: 20px 20px;
-      display: flex; align-items: flex-start; justify-content: flex-end;
-    }
-
-    .status-badge {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.62rem; letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border: 1px solid;
-    }
-
-    .badge-planned  { color: #5a5550; border-color: #c8c0b5; }
-    .badge-research { color: #7a8f6b; border-color: #7a8f6b; }
-    .badge-ready    { color: var(--accent); border-color: var(--accent); }
-    .badge-live     { color: #6b9e7a; border-color: #6b9e7a; }
-
-    /* Card body — collapsible sections */
-    .card-body { display: none; }
-    .issue-card.open .card-body { display: block; }
-
-    .card-section {
-      border-top: 1px solid #e0d8cf;
-    }
-
-    .section-toggle {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 24px;
-      cursor: pointer;
-      user-select: none;
-      background: var(--cream);
-      transition: background 0.1s;
-    }
-    .section-toggle:hover { background: var(--surface); }
-
-    .section-toggle-label {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.68rem; letter-spacing: 0.12em;
-      color: var(--accent); text-transform: uppercase;
-    }
-
-    .section-toggle-arrow {
+    .detail-section-arrow {
       font-family: 'Courier Prime', monospace;
       font-size: 0.7rem; color: var(--text-muted);
       transition: transform 0.2s;
     }
+    .detail-section.open .detail-section-arrow { transform: rotate(180deg); }
 
-    .card-section.open .section-toggle-arrow { transform: rotate(180deg); }
-
-    .section-content {
+    .detail-section-content {
       display: none;
-      padding: 0 24px 24px;
+      padding: 4px 28px 24px;
     }
-    .card-section.open .section-content { display: block; }
+    .detail-section.open .detail-section-content { display: block; }
 
-    /* Content blocks inside sections */
-    .field-row {
+    .field {
       display: grid;
-      grid-template-columns: 160px 1fr;
+      grid-template-columns: 140px 1fr;
       gap: 8px 16px;
       margin-bottom: 14px;
       align-items: start;
     }
-
     .field-label {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.66rem; letter-spacing: 0.1em;
+      font-size: 0.62rem; letter-spacing: 0.1em;
       color: var(--text-muted); text-transform: uppercase;
       padding-top: 3px;
     }
-
     .field-value {
-      font-size: 0.95rem;
-      color: var(--text);
-      line-height: 1.65;
+      font-size: 0.95rem; line-height: 1.65; color: var(--text);
     }
-
     .field-value.mono {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.78rem; letter-spacing: 0.04em;
+      font-size: 0.76rem; letter-spacing: 0.03em;
       color: var(--text-muted);
     }
 
     .concept-block {
       background: var(--dark-bg);
-      color: #e0d8cf;
-      padding: 20px 24px;
-      margin: 0 0 20px;
-      font-size: 1.05rem;
-      line-height: 1.7;
+      color: #e0d8cf; padding: 18px 22px; margin-bottom: 16px;
+      font-size: 1.0rem; line-height: 1.72;
       font-style: italic;
       border-left: 3px solid var(--accent);
     }
-
     .wwyd-block {
       background: var(--surface);
-      border-left: 3px solid #c8c0b5;
-      padding: 16px 20px;
-      margin: 0 0 20px;
-      font-size: 0.95rem;
-      line-height: 1.7;
-      color: var(--text-muted);
+      border-left: 3px solid var(--border);
+      padding: 14px 18px; margin-bottom: 16px;
+      font-size: 0.9rem; line-height: 1.7; color: var(--text-muted);
     }
-
     .wwyd-label {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.62rem; letter-spacing: 0.12em;
+      font-size: 0.6rem; letter-spacing: 0.12em;
       color: var(--accent); text-transform: uppercase;
-      margin-bottom: 8px;
-      display: block;
+      margin-bottom: 8px; display: block;
     }
-
     .image-prompt-block {
-      background: #1e1c18;
+      background: #1a1812;
       border: 1px solid var(--dark-border);
-      padding: 16px 20px;
-      margin: 12px 0;
+      padding: 14px 18px; margin: 10px 0;
       font-family: 'Courier Prime', monospace;
-      font-size: 0.78rem; line-height: 1.6;
+      font-size: 0.76rem; line-height: 1.6;
       color: #c8b99a;
     }
 
-    .image-status-row {
-      display: flex; align-items: center; gap: 12px;
-      margin-top: 12px;
-    }
+    /* ── EMPTY CELLS ── */
+    .cal-cell.empty-month { background: var(--surface); cursor: default; }
 
-    .img-status {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.66rem; letter-spacing: 0.08em;
-      color: #5a5550; text-transform: uppercase;
-    }
-
-    .design-block {
-      background: var(--surface);
-      padding: 16px 20px; margin-bottom: 16px;
-      border-left: 3px solid #d8cfc4;
-      font-size: 0.95rem; color: var(--text-muted); line-height: 1.65;
-    }
-
-    .justification-block {
-      font-size: 0.95rem; color: var(--text-muted); line-height: 1.72;
-    }
-
-    /* Expand toggle on card head */
-    .card-expand-btn {
-      display: none;
-    }
-
-    .card-head { cursor: pointer; }
-    .card-head:hover .card-title { color: var(--accent); }
-
-    /* Loading / error states */
+    /* ── LOADING / ERROR ── */
     .loading-state {
-      text-align: center;
-      padding: 80px 48px;
+      text-align: center; padding: 60px 40px;
       font-family: 'Courier Prime', monospace;
-      font-size: 0.8rem; letter-spacing: 0.1em;
+      font-size: 0.78rem; letter-spacing: 0.1em;
       color: var(--text-muted); text-transform: uppercase;
-    }
-
-    .error-state {
-      background: var(--dark-bg);
-      border: 1px solid #5a3030;
-      padding: 20px 24px;
-      margin: 20px 0;
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.78rem; color: #c87070; line-height: 1.6;
     }
 
     /* ── FOOTER ── */
     .footer {
       background: var(--dark-bg);
       border-top: 1px solid var(--dark-border);
-      padding: 24px 48px;
+      padding: 20px 40px;
       display: flex; align-items: center; justify-content: space-between;
+      margin-top: 40px;
     }
-
     .footer-logo {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.72rem; letter-spacing: 0.1em;
+      font-size: 0.68rem; letter-spacing: 0.1em;
       color: #3a3530; text-transform: uppercase;
     }
-
     .footer-note {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.68rem; color: #2a2520; letter-spacing: 0.06em;
+      font-size: 0.64rem; color: #2a2520; letter-spacing: 0.06em;
     }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 700px) {
-      .nav { padding: 0 20px; }
-      .cal-header { padding: 40px 20px 36px; }
-      .legend { padding: 14px 20px; flex-wrap: wrap; gap: 14px; }
-      .cal-body { padding: 28px 20px 56px; }
-      .cal-stats { gap: 24px; }
-      .card-head { grid-template-columns: 72px 1fr; }
-      .card-status-col { display: none; }
-      .field-row { grid-template-columns: 1fr; gap: 4px; }
-      .field-label { color: var(--accent); }
-      .footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+    @media (max-width: 720px) {
+      .nav { padding: 0 16px; }
+      .cal-header { padding: 24px 16px 20px; }
+      .cal-controls { padding: 10px 16px; }
+      .cal-body { padding: 16px 16px 0; }
+      .detail-wrap { padding: 0 16px; }
+      .cal-cell { min-height: 64px; padding: 5px; }
+      .cell-dim { display: none; }
+      .cal-stats { display: none; }
+      .detail-head { grid-template-columns: 1fr; }
+      .detail-actions { flex-direction: row; align-items: center; }
+      .field { grid-template-columns: 1fr; gap: 4px; }
+      .footer { flex-direction: column; gap: 6px; text-align: center; padding: 16px; }
     }
   </style>
 </head>
@@ -434,313 +435,371 @@
 
   <nav class="nav">
     <a href="/" class="nav-logo">Meliorism2.com</a>
-    <span class="nav-meta" id="nav-updated">Loading...</span>
+    <span class="nav-meta" id="nav-meta">Loading…</span>
     <a href="/" class="nav-back">← Issues</a>
   </nav>
 
   <header class="cal-header">
-    <div class="cal-eyebrow">Production Calendar · Internal</div>
-    <h1 class="cal-title">Editorial Calendar</h1>
-    <p class="cal-desc">
-      Daily briefings planned, researched, and designed. Each entry includes research brief, sources, image prompt, and editorial justification. Publish time: 4:00 AM PT.
-    </p>
-    <div class="cal-stats" id="cal-stats">
+    <div>
+      <div class="cal-eyebrow">Production Calendar · Internal</div>
+      <h1 class="cal-title">Editorial Calendar</h1>
+    </div>
+    <div class="cal-stats" id="cal-stats" style="display:none">
       <div class="stat">
-        <span class="stat-num" id="stat-week">—</span>
-        <span class="stat-label">Issues This Week</span>
+        <span class="stat-num" id="stat-live">—</span>
+        <span class="stat-label">Live Issues</span>
       </div>
       <div class="stat">
         <span class="stat-num" id="stat-ready">—</span>
         <span class="stat-label">Ready to Publish</span>
       </div>
       <div class="stat">
-        <span class="stat-num" id="stat-dims">—</span>
-        <span class="stat-label">Dimensions Covered</span>
+        <span class="stat-num" id="stat-pipeline">—</span>
+        <span class="stat-label">In Pipeline</span>
       </div>
     </div>
   </header>
 
-  <div class="legend">
-    <span class="legend-label">Status —</span>
-    <span class="status-dot"><span class="dot dot-planned"></span>Planned</span>
-    <span class="status-dot"><span class="dot dot-research"></span>Research</span>
-    <span class="status-dot"><span class="dot dot-ready"></span>Ready</span>
-    <span class="status-dot"><span class="dot dot-live"></span>Live</span>
+  <div class="cal-controls">
+    <div class="legend">
+      <span class="legend-item"><span class="dot dot-planned"></span>Planned</span>
+      <span class="legend-item"><span class="dot dot-research"></span>Research</span>
+      <span class="legend-item"><span class="dot dot-ready"></span>Ready</span>
+      <span class="legend-item"><span class="dot dot-live"></span>Live</span>
+    </div>
+    <div class="month-nav">
+      <button class="month-nav-btn" id="btn-prev">← Prev</button>
+      <span class="month-nav-label" id="month-label">— —</span>
+      <button class="month-nav-btn" id="btn-next">Next →</button>
+    </div>
   </div>
 
-  <main class="cal-body">
-    <div id="calendar-mount">
-      <div class="loading-state" id="loading-msg">Fetching calendar from Supabase...</div>
+  <main>
+    <div class="cal-body">
+      <div class="day-headers">
+        <div class="day-header">Sun</div>
+        <div class="day-header">Mon</div>
+        <div class="day-header">Tue</div>
+        <div class="day-header">Wed</div>
+        <div class="day-header">Thu</div>
+        <div class="day-header">Fri</div>
+        <div class="day-header">Sat</div>
+      </div>
+      <div class="cal-grid" id="cal-grid">
+        <div class="loading-state" style="grid-column:1/-1">Fetching calendar from Supabase…</div>
+      </div>
+    </div>
+
+    <div class="detail-wrap">
+      <div class="detail-panel" id="detail-panel"></div>
     </div>
   </main>
 
   <footer class="footer">
     <span class="footer-logo">Meliorism2.com</span>
-    <span class="footer-note">Editorial calendar · Supabase · meliorism2_editorial</span>
+    <span class="footer-note">Production calendar · Supabase · editorial_calendar · 4:00 AM PT daily</span>
   </footer>
 
   <script>
     const SUPABASE_URL = 'https://wqqgsjjfsrgtaybmpsqk.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
 
-    const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const MONTH_NAMES = ['January','February','March','April','May','June',
+                         'July','August','September','October','November','December'];
 
-    function formatDate(d) {
-      const parts = d.split('-');
-      const dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-      return { day: DAY_NAMES[dt.getDay()], num: dt.getDate(), month: MONTH_NAMES[dt.getMonth()], full: dt };
+    // Derive article URL from date + title (matches file naming convention)
+    function titleToSlug(title) {
+      return title.toLowerCase()
+        .replace(/['']/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+    }
+    function articleUrl(date, title) {
+      return `/archive/${date}-${titleToSlug(title)}.html`;
     }
 
-    function statusBadge(status) {
-      const map = {
-        planned:  ['badge-planned',  'Planned'],
-        research: ['badge-research', 'Research'],
-        ready:    ['badge-ready',    'Ready'],
-        live:     ['badge-live',     'Live'],
-        published:['badge-live',     'Published'],
-      };
-      const [cls, label] = map[status] || ['badge-planned', status];
-      return `<span class="status-badge ${cls}">${label}</span>`;
+    function statusDotClass(s) {
+      const m = { planned:'dot-planned', research:'dot-research',
+                  ready:'dot-ready', live:'dot-live', published:'dot-live' };
+      return m[s] || 'dot-planned';
+    }
+    function badgeClass(s) {
+      const m = { planned:'badge-planned', research:'badge-research',
+                  ready:'badge-ready', live:'badge-live', published:'badge-live' };
+      return m[s] || 'badge-planned';
+    }
+    function badgeLabel(s) {
+      const m = { planned:'Planned', research:'Research',
+                  ready:'Ready', live:'Live', published:'Published' };
+      return m[s] || s;
+    }
+    function isLive(s) {
+      return s === 'live' || s === 'published' || s === 'ready';
     }
 
-    function dotClass(status) {
-      const map = { planned:'dot-planned', research:'dot-research', ready:'dot-ready', live:'dot-live', published:'dot-live' };
-      return map[status] || 'dot-planned';
-    }
-
-    function escHtml(s) {
+    function esc(s) {
       if (!s) return '';
       return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    function buildCard(issue, idx) {
-      const dt = formatDate(issue.publish_date);
-      const id = `card-${idx}`;
+    // State
+    let allIssues = [];
+    let issuesByDate = {};
+    let currentYear, currentMonth;
+    let selectedDate = null;
+
+    const today = new Date();
+    const todayStr = today.toISOString().slice(0, 10);
+
+    function init() {
+      currentYear = today.getFullYear();
+      currentMonth = today.getMonth();
+      document.getElementById('btn-prev').addEventListener('click', () => { prevMonth(); });
+      document.getElementById('btn-next').addEventListener('click', () => { nextMonth(); });
+      loadIssues();
+    }
+
+    async function loadIssues() {
+      try {
+        // Fetch a wide window — 3 months back, 6 months forward
+        const from = new Date(today.getFullYear(), today.getMonth() - 3, 1).toISOString().slice(0,10);
+        const to   = new Date(today.getFullYear(), today.getMonth() + 7, 0).toISOString().slice(0,10);
+
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/editorial_calendar?publish_date=gte.${from}&publish_date=lte.${to}&order=publish_date.asc`,
+          { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+        );
+        if (!res.ok) throw new Error(`${res.status}`);
+        allIssues = await res.json();
+
+        // Index by date string
+        issuesByDate = {};
+        allIssues.forEach(i => { issuesByDate[i.publish_date] = i; });
+
+        // Stats
+        const live     = allIssues.filter(i => i.status === 'live' || i.status === 'published').length;
+        const ready    = allIssues.filter(i => i.status === 'ready').length;
+        const pipeline = allIssues.filter(i => i.status === 'planned' || i.status === 'research').length;
+        document.getElementById('stat-live').textContent     = live;
+        document.getElementById('stat-ready').textContent    = ready;
+        document.getElementById('stat-pipeline').textContent = pipeline;
+        document.getElementById('cal-stats').style.display   = 'flex';
+        document.getElementById('nav-meta').textContent      = `${allIssues.length} issues loaded`;
+
+        renderMonth(currentYear, currentMonth);
+
+      } catch (err) {
+        document.getElementById('cal-grid').innerHTML =
+          `<div class="loading-state" style="grid-column:1/-1;color:#c87070">
+            Error loading calendar: ${esc(err.message)}<br>
+            Check that the editorial_calendar table exists in Supabase.
+           </div>`;
+        document.getElementById('nav-meta').textContent = 'Connection error';
+      }
+    }
+
+    function renderMonth(year, month) {
+      currentYear = year;
+      currentMonth = month;
+
+      document.getElementById('month-label').textContent =
+        `${MONTH_NAMES[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const daysInPrev  = new Date(year, month, 0).getDate();
+
+      const grid = document.getElementById('cal-grid');
+      grid.innerHTML = '';
+
+      // Leading cells (prev month)
+      for (let i = firstDay - 1; i >= 0; i--) {
+        const d = daysInPrev - i;
+        grid.appendChild(makeCell(year, month - 1, d, true));
+      }
+      // Current month
+      for (let d = 1; d <= daysInMonth; d++) {
+        grid.appendChild(makeCell(year, month, d, false));
+      }
+      // Trailing cells
+      const total = firstDay + daysInMonth;
+      const trailing = total % 7 === 0 ? 0 : 7 - (total % 7);
+      for (let d = 1; d <= trailing; d++) {
+        grid.appendChild(makeCell(year, month + 1, d, true));
+      }
+
+      // Reopen detail if selected date is in this month
+      if (selectedDate) {
+        const cell = grid.querySelector(`[data-date="${selectedDate}"]`);
+        if (cell) cell.classList.add('selected');
+      }
+    }
+
+    function padDate(year, month, day) {
+      const y = year;
+      const m = String(((month % 12) + 12) % 12 + 1).padStart(2,'0');
+      const d = String(day).padStart(2,'0');
+      // Handle month overflow
+      const dt = new Date(year, month, day);
+      return dt.toISOString().slice(0, 10);
+    }
+
+    function makeCell(year, month, day, otherMonth) {
+      const dateStr = padDate(year, month, day);
+      const issue = issuesByDate[dateStr];
+      const isToday = dateStr === todayStr;
+
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell' +
+        (otherMonth ? ' other-month' : '') +
+        (isToday ? ' is-today' : '') +
+        (issue ? ' has-issue' : '') +
+        (dateStr === selectedDate ? ' selected' : '');
+      cell.dataset.date = dateStr;
+
+      const dayNum = new Date(year, month, day).getDate();
+
+      let inner = `<span class="cell-date">${dayNum}</span>`;
+
+      if (issue) {
+        const dotClass = statusDotClass(issue.status);
+        inner += `
+          <div class="cell-issue">
+            <div class="cell-dot-row">
+              <span class="dot ${dotClass}" style="width:6px;height:6px"></span>
+              <span class="cell-title">${esc(issue.title)}</span>
+            </div>
+            <span class="cell-dim">${esc(issue.dimension || '')}</span>
+            ${isLive(issue.status) ? '<span class="cell-time">4:00 AM</span>' : ''}
+          </div>`;
+        cell.addEventListener('click', () => toggleDetail(dateStr, issue, cell));
+      }
+
+      cell.innerHTML = inner;
+      return cell;
+    }
+
+    function toggleDetail(dateStr, issue, cell) {
+      const panel = document.getElementById('detail-panel');
+
+      if (selectedDate === dateStr && panel.classList.contains('open')) {
+        // Close
+        panel.classList.remove('open');
+        selectedDate = null;
+        cell.classList.remove('selected');
+        return;
+      }
+
+      // Deselect previous
+      if (selectedDate) {
+        const prev = document.querySelector(`[data-date="${selectedDate}"]`);
+        if (prev) prev.classList.remove('selected');
+      }
+
+      selectedDate = dateStr;
+      cell.classList.add('selected');
+      panel.innerHTML = buildDetailPanel(dateStr, issue);
+      panel.classList.add('open');
+
+      // Scroll panel into view
+      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+
+    function buildDetailPanel(dateStr, issue) {
+      const dt = new Date(dateStr + 'T12:00:00');
+      const dayName = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dt.getDay()];
+      const monthName = MONTH_NAMES[dt.getMonth()];
+      const dateLabel = `${dayName}, ${monthName} ${dt.getDate()}, ${dt.getFullYear()}`;
+
+      const liveLink = isLive(issue.status)
+        ? `<a class="detail-article-link" href="${articleUrl(dateStr, issue.title)}" target="_blank">Read live article →</a>`
+        : '';
 
       const sections = [];
 
       if (issue.concept || issue.wwyd_scenario) {
-        let inner = '';
-        if (issue.concept) {
-          inner += `<div class="concept-block">${escHtml(issue.concept)}</div>`;
-        }
-        if (issue.wwyd_scenario) {
-          inner += `<div class="wwyd-block"><span class="wwyd-label">WWYD — What Would You Do?</span>${escHtml(issue.wwyd_scenario)}</div>`;
-        }
-        sections.push(['Concept + WWYD', inner]);
+        let html = '';
+        if (issue.concept) html += `<div class="concept-block">${esc(issue.concept)}</div>`;
+        if (issue.wwyd_scenario) html += `<div class="wwyd-block"><span class="wwyd-label">WWYD — What Would You Do?</span>${esc(issue.wwyd_scenario)}</div>`;
+        sections.push(['Concept + WWYD', html]);
       }
-
       if (issue.research_brief || issue.research_sources) {
-        let inner = '';
-        if (issue.research_brief) {
-          inner += `<div class="field-row">
-            <span class="field-label">Brief</span>
-            <span class="field-value">${escHtml(issue.research_brief)}</span>
-          </div>`;
-        }
-        if (issue.research_sources) {
-          inner += `<div class="field-row">
-            <span class="field-label">Sources</span>
-            <span class="field-value mono">${escHtml(issue.research_sources)}</span>
-          </div>`;
-        }
-        sections.push(['Research', inner]);
+        let html = '';
+        if (issue.research_brief)   html += `<div class="field"><span class="field-label">Brief</span><span class="field-value">${esc(issue.research_brief)}</span></div>`;
+        if (issue.research_sources) html += `<div class="field"><span class="field-label">Sources</span><span class="field-value mono">${esc(issue.research_sources)}</span></div>`;
+        sections.push(['Research', html]);
       }
-
       if (issue.design_template || issue.image_prompt) {
-        let inner = '';
-        if (issue.design_template) {
-          inner += `<div class="field-row">
-            <span class="field-label">Environment</span>
-            <div><div class="design-block">${escHtml(issue.design_template)}</div></div>
-          </div>`;
-        }
-        if (issue.image_prompt) {
-          inner += `<div class="field-row">
-            <span class="field-label">DALL-E Prompt</span>
-            <div><div class="image-prompt-block">${escHtml(issue.image_prompt)}</div>
-            <div class="image-status-row">
-              <span class="dot ${dotClass(issue.image_status || 'pending')}"></span>
-              <span class="img-status">Image: ${escHtml(issue.image_status || 'pending')}${issue.image_filename ? ' · ' + escHtml(issue.image_filename) : ''}</span>
-            </div></div>
-          </div>`;
-        }
-        sections.push(['Design + Image', inner]);
+        let html = '';
+        if (issue.design_template) html += `<div class="field"><span class="field-label">Environment</span><span class="field-value">${esc(issue.design_template)}</span></div>`;
+        if (issue.image_prompt)    html += `<div class="field"><span class="field-label">Image Prompt</span><div><div class="image-prompt-block">${esc(issue.image_prompt)}</div>${issue.image_filename ? `<div style="font-family:'Courier Prime',monospace;font-size:0.66rem;color:var(--text-muted);margin-top:6px;">File: ${esc(issue.image_filename)}</div>` : ''}</div></div>`;
+        sections.push(['Design + Image', html]);
       }
-
       if (issue.editorial_justification || issue.editorial_notes) {
-        let inner = '';
-        if (issue.editorial_justification) {
-          inner += `<div class="justification-block">${escHtml(issue.editorial_justification)}</div>`;
-        }
-        if (issue.editorial_notes) {
-          inner += `<div class="field-row" style="margin-top:16px">
-            <span class="field-label">Notes</span>
-            <span class="field-value">${escHtml(issue.editorial_notes)}</span>
-          </div>`;
-        }
-        sections.push(['Editorial Justification', inner]);
+        let html = '';
+        if (issue.editorial_justification) html += `<div style="font-size:0.95rem;line-height:1.7;color:var(--text-muted);margin-bottom:12px">${esc(issue.editorial_justification)}</div>`;
+        if (issue.editorial_notes)         html += `<div class="field"><span class="field-label">Notes</span><span class="field-value">${esc(issue.editorial_notes)}</span></div>`;
+        sections.push(['Editorial Justification', html]);
       }
 
-      const sectionsHtml = sections.map(([ label, content ], si) => `
-        <div class="card-section" id="${id}-sec-${si}">
-          <div class="section-toggle" onclick="toggleSection('${id}-sec-${si}')">
-            <span class="section-toggle-label">${label}</span>
-            <span class="section-toggle-arrow">▾</span>
+      const sectionsHtml = sections.map(([label, content], i) => `
+        <div class="detail-section" id="ds-${i}">
+          <div class="detail-section-toggle" onclick="toggleSection('ds-${i}')">
+            <span class="detail-section-label">${label}</span>
+            <span class="detail-section-arrow">▾</span>
           </div>
-          <div class="section-content">${content}</div>
-        </div>
-      `).join('');
+          <div class="detail-section-content">${content}</div>
+        </div>`).join('');
 
       return `
-        <div class="issue-card" id="${id}">
-          <div class="card-head" onclick="toggleCard('${id}')">
-            <div class="card-date">
-              <span class="card-date-day">${dt.day}</span>
-              <span class="card-date-num">${dt.num}</span>
-              <span class="card-date-time">4:00 AM</span>
-            </div>
-            <div class="card-title-block">
-              <div class="card-dimension">${escHtml(issue.dimension || '')}</div>
-              <div class="card-title">${escHtml(issue.title || 'Untitled')}</div>
-              <div class="card-format">Format: ${escHtml(issue.format || 'TBD')}</div>
-            </div>
-            <div class="card-status-col">${statusBadge(issue.status || 'planned')}</div>
+        <div class="detail-head">
+          <div>
+            <span class="detail-date-badge">${dateLabel} · 4:00 AM PT</span>
+            <div class="detail-title">${esc(issue.title)}</div>
+            <div class="detail-meta">${esc(issue.dimension || '')} · ${esc(issue.format || 'TBD')}</div>
           </div>
-          <div class="card-body">
-            ${sectionsHtml}
+          <div class="detail-actions">
+            <button class="detail-close" onclick="closeDetail()">✕ Close</button>
+            <span class="detail-status-badge ${badgeClass(issue.status)}">${badgeLabel(issue.status)}</span>
+            ${liveLink}
           </div>
         </div>
-      `;
-    }
-
-    function toggleCard(id) {
-      const card = document.getElementById(id);
-      if (!card) return;
-      card.classList.toggle('open');
+        <div class="detail-body">
+          ${sectionsHtml || '<div style="padding:24px 28px;font-size:0.9rem;color:var(--text-muted)">No production detail added yet.</div>'}
+        </div>`;
     }
 
     function toggleSection(id) {
-      const sec = document.getElementById(id);
-      if (!sec) return;
-      sec.classList.toggle('open');
+      const s = document.getElementById(id);
+      if (s) s.classList.toggle('open');
     }
 
-    function groupByWeek(issues) {
-      const weeks = {};
-      issues.forEach(issue => {
-        const parts = issue.publish_date.split('-');
-        const dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-        const day = dt.getDay();
-        const sunday = new Date(dt);
-        sunday.setDate(dt.getDate() - day);
-        const key = sunday.toISOString().slice(0, 10);
-        if (!weeks[key]) weeks[key] = [];
-        weeks[key].push(issue);
-      });
-      return weeks;
-    }
-
-    function weekRangeLabel(weekStart, issues) {
-      const parts = weekStart.split('-');
-      const start = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-      const end = new Date(start);
-      end.setDate(start.getDate() + 6);
-      const sm = MONTH_NAMES[start.getMonth()];
-      const em = MONTH_NAMES[end.getMonth()];
-      const sy = start.getFullYear();
-      const ey = end.getFullYear();
-      let range = sm === em
-        ? `${sm} ${start.getDate()}–${end.getDate()}, ${sy}`
-        : sy === ey
-          ? `${sm} ${start.getDate()} – ${em} ${end.getDate()}, ${sy}`
-          : `${sm} ${start.getDate()}, ${sy} – ${em} ${end.getDate()}, ${ey}`;
-      return `Week of ${range} · ${issues.length} issue${issues.length !== 1 ? 's' : ''}`;
-    }
-
-    async function loadCalendar() {
-      const mount = document.getElementById('calendar-mount');
-      const loadingMsg = document.getElementById('loading-msg');
-
-      try {
-        const today = new Date();
-        const todayStr = today.toISOString().slice(0, 10);
-        // Look back 2 days and forward 30 days
-        const lookBack = new Date(today);
-        lookBack.setDate(today.getDate() - 2);
-        const lookForward = new Date(today);
-        lookForward.setDate(today.getDate() + 30);
-
-        const from = lookBack.toISOString().slice(0, 10);
-        const to = lookForward.toISOString().slice(0, 10);
-
-        const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/editorial_calendar?publish_date=gte.${from}&publish_date=lte.${to}&order=publish_date.asc`,
-          {
-            headers: {
-              'apikey': SUPABASE_KEY,
-              'Authorization': `Bearer ${SUPABASE_KEY}`,
-              'Content-Type': 'application/json',
-            }
-          }
-        );
-
-        if (!res.ok) {
-          throw new Error(`Supabase returned ${res.status}: ${await res.text()}`);
-        }
-
-        const issues = await res.json();
-
-        if (!issues.length) {
-          mount.innerHTML = `<div class="loading-state">No issues found in the next 30 days.<br><br>Run the setup SQL in Supabase to populate the calendar.</div>`;
-          return;
-        }
-
-        // Stats
-        const dims = new Set(issues.map(i => i.dimension).filter(Boolean));
-        const ready = issues.filter(i => ['ready','live','published'].includes(i.status)).length;
-        document.getElementById('stat-week').textContent = issues.length;
-        document.getElementById('stat-ready').textContent = ready;
-        document.getElementById('stat-dims').textContent = dims.size;
-        document.getElementById('nav-updated').textContent = `${issues.length} issues loaded`;
-
-        const weeks = groupByWeek(issues);
-        let html = '';
-        Object.keys(weeks).sort().forEach(weekStart => {
-          const weekIssues = weeks[weekStart];
-          html += `<div class="week-label">${weekRangeLabel(weekStart, weekIssues)}</div>`;
-          weekIssues.forEach((issue, idx) => {
-            html += buildCard(issue, `${weekStart}-${idx}`);
-          });
-        });
-
-        mount.innerHTML = html;
-
-        // Auto-open today's card if it exists
-        const todayCards = document.querySelectorAll('.issue-card');
-        todayCards.forEach(card => {
-          const dateEl = card.querySelector('.card-date-day');
-          // Find card matching today
-        });
-
-      } catch (err) {
-        mount.innerHTML = `
-          <div class="error-state">
-            <strong>Calendar fetch error</strong><br><br>
-            ${escHtml(err.message)}<br><br>
-            If the <code>editorial_calendar</code> table does not yet exist, run the setup SQL
-            in the Supabase dashboard: Settings → SQL Editor → paste and run the setup script.
-          </div>
-          <div class="loading-state" style="padding-top:20px">
-            Once the SQL runs, reload this page.
-          </div>
-        `;
-        document.getElementById('nav-updated').textContent = 'Connection error';
+    function closeDetail() {
+      const panel = document.getElementById('detail-panel');
+      panel.classList.remove('open');
+      if (selectedDate) {
+        const cell = document.querySelector(`[data-date="${selectedDate}"]`);
+        if (cell) cell.classList.remove('selected');
       }
+      selectedDate = null;
     }
 
-    loadCalendar();
+    function prevMonth() {
+      let m = currentMonth - 1, y = currentYear;
+      if (m < 0) { m = 11; y--; }
+      closeDetail();
+      renderMonth(y, m);
+    }
+    function nextMonth() {
+      let m = currentMonth + 1, y = currentYear;
+      if (m > 11) { m = 0; y++; }
+      closeDetail();
+      renderMonth(y, m);
+    }
+
+    init();
   </script>
 </body>
 </html>

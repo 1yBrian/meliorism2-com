@@ -687,10 +687,12 @@
       </a>`;
     }
 
-    // ── INITIAL RENDER ── (sorted newest → oldest)
-    BRIEFINGS.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // ── INITIAL RENDER ── (sorted newest → oldest, future dates hidden)
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const published = BRIEFINGS.filter(b => b.date <= todayStr);
+    published.sort((a, b) => new Date(b.date) - new Date(a.date));
     const grid = document.getElementById('card-grid');
-    grid.innerHTML = BRIEFINGS.map(buildCard).join('');
+    grid.innerHTML = published.map(buildCard).join('');
     const allCards = Array.from(grid.querySelectorAll('.card'));
     const resultsBar = document.getElementById('results-bar');
     const emptyState = document.getElementById('empty-state');
@@ -710,7 +712,7 @@
         if (show) count++;
       });
 
-      const total = BRIEFINGS.length;
+      const total = published.length;
       if (count === 0) {
         emptyState.classList.add('visible');
         resultsBar.textContent = 'No briefings match — try clearing the filter or search';
