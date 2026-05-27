@@ -20,10 +20,14 @@
 
 set -e
 
+# Always load user environment so API keys are available
+[ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc" 2>/dev/null || true
+
 REPO="1yBrian/meliorism2-com"
 BRANCH="main"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-TOKEN_FILE="$SCRIPT_DIR/.github-token"
+# Permanent token location — survives restarts, never in /tmp
+TOKEN_FILE="$HOME/.config/meliorism2/github-token"
 API="https://api.github.com"
 
 # ── Token ────────────────────────────────────────────────────────────────────
