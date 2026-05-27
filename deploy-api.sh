@@ -64,6 +64,30 @@ else
   cd "$SCRIPT_DIR"
 fi
 
+# ── Truth Agent gate (runs on any issue HTML before deploy) ──────────────────
+TRUTH_AGENT="$SCRIPT_DIR/_engine/truth_agent.py"
+BLOCKED=0
+
+for f in $FILES; do
+  # Only check issue files: archive/YYYY-MM-DD-*.html (not archive/index.html)
+  if [[ "$f" =~ ^archive/[0-9]{4}-[0-9]{2}-[0-9]{2}-.+\.html$ ]]; then
+    if [ -f "$TRUTH_AGENT" ] && command -v python3 &>/dev/null; then
+      python3 "$TRUTH_AGENT" "$SCRIPT_DIR/$f"
+      STATUS=$?
+      if [ $STATUS -eq 1 ]; then
+        BLOCKED=1
+      fi
+    fi
+  fi
+done
+
+if [ $BLOCKED -eq 1 ]; then
+  echo ""
+  echo "  ✗ Deploy aborted. Fix all over-promises flagged above, then re-run."
+  echo ""
+  exit 1
+fi
+
 # ── API helpers ───────────────────────────────────────────────────────────────
 api_get() {
   curl -sf -H "Authorization: token $TOKEN" -H "Accept: application/vnd.github.v3+json" "$API/$1"
