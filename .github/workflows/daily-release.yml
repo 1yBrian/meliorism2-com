@@ -1,0 +1,39 @@
+name: Daily Issue Release
+
+on:
+  schedule:
+    # 08:00 UTC = midnight PST (UTC-8) / 1 AM PDT (UTC-7 in summer)
+    # Brian's target: midnight PST. Note: during PDT (Mar–Nov) this fires at 1 AM local.
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      date_override:
+        description: 'Override date (YYYY-MM-DD) — leave blank for today'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Release today's issue
+        run: python3 .github/scripts/daily_release.py "${{ github.event.inputs.date_override }}"
+
+      - name: Commit and push if index.html changed
+        run: |
+          git config user.name "Meliorism2 Bot"
+          git config user.email "dispatch@meliorism2.com"
+          if ! git diff --quiet index.html; then
+            git add index.html
+            git commit -m "Daily release: $(cat /tmp/release_slug 2>/dev/null || date -u +%Y-%m-%d) [automated]"
+            git push
+            echo "✓ Pushed — Cloudflare Pages deploying now"
+          else
+            echo "No change to index.html — nothing to push"
+          fi
