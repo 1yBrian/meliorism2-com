@@ -3,6 +3,20 @@
 
 ---
 
+## Publication Soul — Read First, Every Agent, Every Session
+
+Before running any phase, every agent reads `_engine/PUBLICATION-SOUL.md` in full.
+
+This is not optional. The soul document is the standard against which every sentence, every design choice, and every editorial decision is measured. Phases 4, 5, 6, and 8 must explicitly cite the soul document when making decisions. The three non-negotiables from the soul document are the final gate before any issue ships:
+
+1. Does this make the reader feel seen?
+2. Does it give them language for tomorrow?
+3. Does it remind them why they matter?
+
+If the answer to any of these is no — the issue does not ship.
+
+---
+
 ## Core Principle
 
 **Every stage produces a file. No stage completes without one.**
