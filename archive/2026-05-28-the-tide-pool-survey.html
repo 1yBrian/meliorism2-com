@@ -708,6 +708,46 @@ p{
   color:var(--amber);
 }
 
+/* ── MOTIF WATERMARK ── */
+/* Ghost of the tide pool circle — fixed, bleeds off bottom-right edge */
+.motif-watermark{
+  position:fixed;
+  bottom:-90px;right:-90px;
+  width:320px;height:320px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(26,58,74,0.07) 0%, rgba(26,58,74,0.03) 55%, transparent 75%);
+  border:1px solid rgba(26,58,74,0.08);
+  z-index:2;
+  pointer-events:none;
+  display:none;
+}
+.motif-watermark.visible{display:block;}
+
+/* ── WEATHER CHIP ── */
+/* Emotional weather of this issue — fixed, bottom-left, above nav bar */
+.weather-chip{
+  position:fixed;
+  bottom:60px;left:14px;
+  display:none;
+  align-items:center;
+  gap:6px;
+  background:rgba(26,58,74,0.07);
+  border:1px solid rgba(26,58,74,0.1);
+  border-radius:20px;
+  padding:5px 11px 5px 8px;
+  font-family:'Courier Prime',monospace;
+  font-size:0.7rem;
+  color:rgba(44,44,44,0.45);
+  letter-spacing:0.03em;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  pointer-events:none;
+  z-index:940;
+}
+.weather-chip.visible{display:flex;}
+.weather-emoji{font-size:1rem;line-height:1;}
+.weather-label{font-size:0.65rem;opacity:0.8;}
+
 /* ── FOOTER BAR ── */
 .footer-bar{
   position:fixed;bottom:0;left:0;right:0;z-index:1000;
@@ -1105,6 +1145,15 @@ a:hover{background:rgba(139,111,71,0.06);}
   <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">Next →</button>
 </div>
 
+<!-- MOTIF WATERMARK — ghost tide pool circle, fixed, bleeds off bottom-right -->
+<div class="motif-watermark" id="motif-watermark" aria-hidden="true"></div>
+
+<!-- WEATHER CHIP — emotional weather of this issue, fixed, bottom-left -->
+<div class="weather-chip" id="weather-chip" aria-label="Emotional weather: Still water · quiet attention">
+  <span class="weather-emoji">🌊</span>
+  <span class="weather-label">Still water · quiet attention</span>
+</div>
+
 <!-- FOOTER BAR -->
 <div class="footer-bar">
   <a href="/archive/index.html">← THE LIBRARY</a>
@@ -1131,6 +1180,12 @@ function openMain(){
 
   const footer=document.querySelector('.footer-bar');
   if(footer)footer.classList.add('hidden');
+
+  const watermark=document.getElementById('motif-watermark');
+  if(watermark)watermark.classList.add('visible');
+
+  const weatherChip=document.getElementById('weather-chip');
+  if(weatherChip)weatherChip.classList.add('visible');
 
   entry.classList.add('hidden');
   setTimeout(()=>{
