@@ -1376,7 +1376,16 @@ document.addEventListener('click',e=>{
 }
 </style>
 
-<button class="review-btn" onclick="openReview()">📝 Leave a note</button>
+<button class="review-btn" id="review-btn" onclick="openReview()">📝 Leave a note</button>
+<script>
+// Review button is for staging only — hide on live site so readers cannot submit as Brian
+(function(){
+  if(window.location.hostname==='meliorism2.com'){
+    var btn=document.getElementById('review-btn');
+    if(btn)btn.style.display='none';
+  }
+})();
+</script>
 
 <div class="review-overlay" id="review-overlay" onclick="if(event.target===this)closeReview()">
   <div class="review-panel">
