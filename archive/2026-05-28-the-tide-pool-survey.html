@@ -1022,6 +1022,38 @@ a:hover{background:rgba(139,111,71,0.06);}
       </div>
     </div>
 
+    <!-- CARD 7: THIS WEEK -->
+    <div class="card" id="card-this-week">
+      <div class="card-inner">
+
+        <span class="section-number">§ 07 · This Week</span>
+        <h2>What AI Cannot Simulate</h2>
+
+        <p>The ICF Converge Summit concluded nine days ago in Paris. One of the recurring tensions reported by attendees: AI coaching platforms now generate empathy responses that, in text form, practitioners and clients rate as difficult to distinguish from human responses.</p>
+
+        <p>Research presented this year at Harvard's Radcliffe Institute (Anat Perry, 2025) examines this directly: when a person knows the empathic response came from an AI, does it register the same way? The question points toward Gallese's mechanism — what makes empathy <em>contact</em> rather than <em>output</em> is embodied simulation. The same neural circuits that fire when we perform an action fire when we genuinely witness another person performing it. That event does not have an AI analogue. The words arrive. The contact doesn't.</p>
+
+        <p>This is what the tide pool survey is actually about. Managing — including AI-assisted managing — can produce excellent output: the right question, the accurate reflection, the precise reframe. What it cannot produce is the flicker Yemi noticed before Darius's fluent answer. That registration requires two nervous systems in proximity, one of which has gone still enough to catch a signal that lasts less than a second.</p>
+
+        <p>The I-Thou encounter is not a premium feature of human practice. It is the feature that does not port. The practitioner building the survey stance this year is developing capacity in the specific domain where the comparison, made honestly, is not close.</p>
+
+        <div class="margin-note">
+          The ICF is now formally tracking the impact of AI tools on coaching practice. What the data shows so far: clients can distinguish AI from human presence — not in the words, but in the felt sense of being actually witnessed. The mechanism is Gallese's. The market is running the experiment in real time.
+        </div>
+
+        <div class="bibliography">
+          <h3>Sources</h3>
+          <div class="bib-entry">Perry, Anat. "The Value of Human Empathy: Comparing Perceived Human and AI-Generated Empathy." Radcliffe Institute for Advanced Study, Harvard University, 2025. — Research presentation examining how disclosure of AI authorship affects the perceived quality of empathic response.</div>
+          <div class="bib-entry">International Coaching Federation. ICF Converge Summit, Paris, May 17–19, 2026. — Annual global conference; AI and presence in coaching practice among primary discussion themes reported by attendees.</div>
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners
+        </div>
+
+      </div>
+    </div>
+
   </div><!-- /sections-rail -->
 
   <!-- PROGRESS + NAV -->
@@ -1072,8 +1104,8 @@ function openMain(){
 }
 
 /* ── CARD NAVIGATION ── */
-const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
-const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application'];
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application','this-week'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application','This Week'];
 let currentCard=0;
 
 function goTo(index){
@@ -1081,7 +1113,7 @@ function goTo(index){
   const cards=document.querySelectorAll('.card');
   if(cards[currentCard])cards[currentCard].scrollTop=0;
   currentCard=index;
-  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/8)}%)`;
   const fill=document.getElementById('progress-fill');
   if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
   const label=document.getElementById('progress-label');
