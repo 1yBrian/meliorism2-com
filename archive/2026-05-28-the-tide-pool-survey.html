@@ -196,7 +196,7 @@ html,body{
 
 /* ── MAIN PANEL ── */
 #main-panel{
-  position:fixed;inset:0;top:36px;bottom:40px;
+  position:fixed;inset:0;top:36px;bottom:52px;
   display:none;opacity:0;
   transition:opacity 0.6s ease;
   overflow:hidden;
@@ -244,12 +244,12 @@ html,body{
   height:52px;
   background:rgba(18,15,12,0.97);
   border-top:1px solid rgba(176,125,58,0.2);
-  display:flex;
+  display:none;
   align-items:center;
   padding:0 16px;
   padding-bottom:env(safe-area-inset-bottom);
   gap:12px;
-  z-index:900;
+  z-index:950;
 }
 
 .progress-trace{
@@ -1090,17 +1090,18 @@ a:hover{background:rgba(139,111,71,0.06);}
 
   </div><!-- /sections-rail -->
 
-  <!-- PROGRESS + NAV -->
-  <div class="reading-progress" id="reading-progress">
-    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>← Back</button>
-    <div class="progress-trace">
-      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-    </div>
-    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
-    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">Next →</button>
-  </div>
 
 </div><!-- /main-panel -->
+
+<!-- PROGRESS + NAV — outside main-panel so overflow:hidden never clips it -->
+<div class="reading-progress" id="reading-progress">
+  <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>← Back</button>
+  <div class="progress-trace">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+  <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+  <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">Next →</button>
+</div>
 
 <!-- FOOTER BAR -->
 <div class="footer-bar">
@@ -1124,11 +1125,13 @@ tick();setInterval(tick,1000);
 function openMain(){
   const entry=document.getElementById('entry');
   const panel=document.getElementById('main-panel');
+  const nav=document.getElementById('reading-progress');
 
   entry.classList.add('hidden');
   setTimeout(()=>{
     entry.style.display='none';
     panel.style.display='block';
+    if(nav)nav.style.display='flex';
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
       panel.classList.add('visible');
     }));
@@ -1153,7 +1156,16 @@ function goTo(index){
   const label=document.getElementById('progress-label');
   if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
   document.getElementById('nav-prev').disabled=index===0;
-  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  const nextBtn=document.getElementById('nav-next');
+  if(index===CARDS.length-1){
+    nextBtn.textContent='Go to the Library →';
+    nextBtn.onclick=function(){window.location.href='/archive/';};
+    nextBtn.disabled=false;
+  } else {
+    nextBtn.textContent='Next →';
+    nextBtn.onclick=function(){goTo(currentCard+1);};
+    nextBtn.disabled=false;
+  }
   track('navigate',CARDS[index]);
 }
 
