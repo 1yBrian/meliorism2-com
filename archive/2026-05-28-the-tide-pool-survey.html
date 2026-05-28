@@ -1390,8 +1390,22 @@ async function sendReview(){
   if(!note)return;
   const btn=document.getElementById('review-send');
   btn.disabled=true;btn.textContent='Sending…';
+  const issueRef='[028] The Tide Pool Survey · 2026-05-28';
+  const captureContent=`REVIEW · ${issueRef}\n${note}`;
   const msg=`📋 *Issue Review*\n\n*Issue:* The Tide Pool Survey · 028\n*Date:* 2026-05-28\n*URL:* https://meliorism2.com/archive/2026-05-28-the-tide-pool-survey.html\n\n*Note:*\n${note}`;
   try{
+    // Write to Supabase captures (so the pipeline can read it)
+    await fetch('https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/captures',{
+      method:'POST',
+      headers:{
+        'apikey':'sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm',
+        'Authorization':'Bearer sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm',
+        'Content-Type':'application/json',
+        'Prefer':'return=minimal'
+      },
+      body:JSON.stringify({content:captureContent,tag:'review'})
+    });
+    // Send Telegram receipt
     await fetch('https://api.telegram.org/bot8811429694:AAEPd6ajaCtGufL_A3VgxL3WO6Jgk-y2y84/sendMessage',{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({chat_id:'8497163817',text:msg,parse_mode:'Markdown'})
