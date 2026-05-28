@@ -708,45 +708,36 @@ p{
   color:var(--amber);
 }
 
-/* ── MOTIF WATERMARK ── */
-/* Ghost of the tide pool circle — fixed, bleeds off bottom-right edge */
-.motif-watermark{
-  position:fixed;
-  bottom:-90px;right:-90px;
-  width:320px;height:320px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(26,58,74,0.07) 0%, rgba(26,58,74,0.03) 55%, transparent 75%);
-  border:1px solid rgba(26,58,74,0.08);
-  z-index:2;
-  pointer-events:none;
-  display:none;
-}
-.motif-watermark.visible{display:block;}
-
 /* ── WEATHER CHIP ── */
-/* Emotional weather of this issue — fixed, bottom-left, above nav bar */
-.weather-chip{
-  position:fixed;
-  bottom:60px;left:14px;
-  display:none;
-  align-items:center;
-  gap:6px;
-  background:rgba(26,58,74,0.07);
-  border:1px solid rgba(26,58,74,0.1);
-  border-radius:20px;
-  padding:5px 11px 5px 8px;
-  font-family:'Courier Prime',monospace;
-  font-size:0.7rem;
-  color:rgba(44,44,44,0.45);
-  letter-spacing:0.03em;
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
-  pointer-events:none;
-  z-index:940;
+/* Emotional weather — on card 2 by default; falls back to pre-Etymology bibliography if card 1–2 are immersive */
+.weather-block{
+  margin:28px 0 4px;
+  padding:16px 18px;
+  background:rgba(26,58,74,0.04);
+  border:1px solid rgba(26,58,74,0.09);
+  border-radius:10px;
 }
-.weather-chip.visible{display:flex;}
-.weather-emoji{font-size:1rem;line-height:1;}
-.weather-label{font-size:0.65rem;opacity:0.8;}
+.weather-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-bottom:10px;
+}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.72rem;
+  color:rgba(44,44,44,0.55);
+  letter-spacing:0.04em;
+  font-style:italic;
+}
+.weather-onboard{
+  font-family:'Courier Prime',monospace;
+  font-size:0.68rem;
+  color:rgba(44,44,44,0.38);
+  line-height:1.55;
+  max-width:380px;
+}
 
 /* ── FOOTER BAR ── */
 .footer-bar{
@@ -873,6 +864,15 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <div class="margin-note">
           The naturalist's posture matters here. Crouching at a tide pool, the naturalist does not arrive with an agenda. They go still. They allow what is present to become visible. The survey stance is not passive — it requires sustained attention, peripheral awareness, and the discipline not to impose meaning prematurely.
+        </div>
+
+        <!-- EMOTIONAL WEATHER — default placement: card 2. Falls back to pre-Etymology bibliography if cards 1–2 are immersive. -->
+        <div class="weather-block">
+          <div class="weather-chip">
+            <span class="weather-emoji">🌊</span>
+            <span class="weather-label">Emotional weather: still water · quiet attention</span>
+          </div>
+          <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — that settled, attentive quality — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
         </div>
 
       </div>
@@ -1145,15 +1145,6 @@ a:hover{background:rgba(139,111,71,0.06);}
   <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">Next →</button>
 </div>
 
-<!-- MOTIF WATERMARK — ghost tide pool circle, fixed, bleeds off bottom-right -->
-<div class="motif-watermark" id="motif-watermark" aria-hidden="true"></div>
-
-<!-- WEATHER CHIP — emotional weather of this issue, fixed, bottom-left -->
-<div class="weather-chip" id="weather-chip" aria-label="Emotional weather: Still water · quiet attention">
-  <span class="weather-emoji">🌊</span>
-  <span class="weather-label">Still water · quiet attention</span>
-</div>
-
 <!-- FOOTER BAR -->
 <div class="footer-bar">
   <a href="/archive/index.html">← THE LIBRARY</a>
@@ -1180,12 +1171,6 @@ function openMain(){
 
   const footer=document.querySelector('.footer-bar');
   if(footer)footer.classList.add('hidden');
-
-  const watermark=document.getElementById('motif-watermark');
-  if(watermark)watermark.classList.add('visible');
-
-  const weatherChip=document.getElementById('weather-chip');
-  if(weatherChip)weatherChip.classList.add('visible');
 
   entry.classList.add('hidden');
   setTimeout(()=>{
