@@ -69,6 +69,7 @@
       justify-content: space-between;
       padding: 0 48px;
       height: 64px;
+      overflow: hidden;
     }
 
     .nav-logo {
@@ -79,6 +80,8 @@
       color: var(--text);
       text-decoration: none;
       text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .nav-links {
@@ -244,7 +247,7 @@
 
     .featured-card {
       background: var(--surface);
-      border-left: 4px solid var(--dim-presence);
+      border-left: 4px solid var(--dim-witnessing);
       padding: 40px 48px;
       max-width: 720px;
     }
@@ -267,7 +270,7 @@
     }
 
     .featured-dimension {
-      color: var(--dim-presence);
+      color: var(--dim-witnessing);
     }
 
     .featured-title {
@@ -597,6 +600,21 @@
       .nav-links li:nth-child(3) {
         display: none;
       }
+    }
+
+    @media (max-width: 420px) {
+      .nav {
+        padding: 0 16px;
+      }
+
+      .nav-logo {
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+      }
+
+      .nav-links {
+        display: none;
+      }
 
       .hero-left {
         padding: 48px 24px;
@@ -641,7 +659,7 @@
         What is getting in your<br>
         <em>clients' way?</em>
       </h1>
-      <a href="/archive/2026-05-27-the-tide-chart.html" class="hero-cta">Read Current Issue</a>
+      <a href="/archive/2026-05-28-the-tide-pool-survey.html" class="hero-cta">Read Current Issue</a>
     </div>
     <div class="hero-right">
       <div class="hero-label">What Meliorism2.com is</div>
@@ -675,20 +693,18 @@
     <div class="featured-label">Latest issue</div>
     <div class="featured-card">
       <div class="featured-meta">
-        <span>Issue 027</span>
+        <span>Issue 028</span>
         <span class="sep">·</span>
-        <span>May 27, 2026</span>
+        <span>May 28, 2026</span>
         <span class="sep">·</span>
-        <span class="featured-dimension">In-Person Presence</span>
+        <span class="featured-dimension">Witnessing Authentic Humanity</span>
       </div>
-      <h2 class="featured-title">The Tide Chart</h2>
+      <h2 class="featured-title">The Tide Pool Survey</h2>
       <p class="featured-concept">
-        When 70,000 people share one stadium, something neurological fires that
-        no screen can replicate. The practitioner's work is to understand what
-        that signal is — and why it matters in the room.
+        The moment you stop managing a person and start actually encountering them is the moment the room changes.
       </p>
-      <a href="/archive/2026-05-27-the-tide-chart.html" class="featured-link">
-        Read the chart →
+      <a href="/archive/2026-05-28-the-tide-pool-survey.html" class="featured-link">
+        Begin the survey →
       </a>
     </div>
   </section>
@@ -698,7 +714,7 @@
     <div></div>
     <div>
       <a href="/archive/" style="font-family: 'Courier Prime', monospace; font-size: 0.82rem; letter-spacing: 0.1em; color: var(--text-muted); text-decoration: none; text-transform: uppercase; border-bottom: 1px solid #c0b8b0; padding-bottom: 2px;">
-        Access the Archive · 27 issues →
+        Access the Archive · 39 issues →
       </a>
     </div>
   </section>

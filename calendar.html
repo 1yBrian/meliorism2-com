@@ -246,6 +246,27 @@
       transition: color 0.15s, border-color 0.15s;
     }
     .cell-article-link:hover { color: #3a7a4a; border-color: rgba(58,122,74,0.7); }
+    .cell-preview-link {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.58rem; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--s-ready);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(139,111,71,0.35);
+      margin-top: 4px; display: inline-block;
+      line-height: 1.2;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .cell-preview-link:hover { color: #6b5235; border-color: rgba(107,82,53,0.7); }
+    .detail-preview-link {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.66rem; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--s-ready); border-bottom: 1px solid rgba(139,111,71,0.4);
+      text-decoration: none; padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .detail-preview-link:hover { color: #6b5235; border-color: rgba(107,82,53,0.7); }
 
     /* ── DETAIL PANEL ── */
     .detail-wrap {
@@ -524,6 +545,7 @@
   <script>
     const SUPABASE_URL = 'https://wqqgsjjfsrgtaybmpsqk.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+    const STAGING_BASE = 'https://staging.meliorism2-com.pages.dev';
 
     const MONTH_NAMES = ['January','February','March','April','May','June',
                          'July','August','September','October','November','December'];
@@ -703,12 +725,15 @@
       if (issue) {
         const url = articleUrl(dateStr, issue.title);
         const liveIssue = isLive(issue.status);
+        const stagingUrl = `${STAGING_BASE}/${articleUrl(dateStr, issue.title)}`;
+        const hasPreview = issue.status === 'ready' || issue.status === 'research';
         inner += `
           <div class="cell-issue">
             <span class="cell-title">${esc(issue.title)}</span>
             <span class="cell-dim">${esc(issue.dimension || '')}</span>
             <span class="cell-status ${statusCssClass(issue.status)}">${statusLabel(issue.status)}</span>
             ${liveIssue ? `<a class="cell-article-link" href="${url}" target="_blank" onclick="event.stopPropagation()">Read issue →</a>` : ''}
+            ${hasPreview ? `<a class="cell-preview-link" href="${stagingUrl}" target="_blank" onclick="event.stopPropagation()">Preview draft →</a>` : ''}
           </div>`;
         cell.addEventListener('click', () => toggleDetail(dateStr, issue, cell));
       }
@@ -751,6 +776,9 @@
 
       const liveLink = isLive(issue.status)
         ? `<a class="detail-article-link" href="${articleUrl(dateStr, issue.title)}" target="_blank">Read live article →</a>`
+        : '';
+      const previewLink = (issue.status === 'ready' || issue.status === 'research')
+        ? `<a class="detail-preview-link" href="${STAGING_BASE}/${articleUrl(dateStr, issue.title)}" target="_blank">Preview on staging →</a>`
         : '';
 
       const sections = [];
@@ -800,6 +828,7 @@
             <button class="detail-close" onclick="closeDetail()">✕ Close</button>
             <span class="detail-status-badge ${badgeClass(issue.status)}">${badgeLabel(issue.status)}</span>
             ${liveLink}
+            ${previewLink}
           </div>
         </div>
         <div class="detail-body">

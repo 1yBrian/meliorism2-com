@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emotional Weather · Meliorism2.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:      #faf8f5;
+  --surface: #f0ebe3;
+  --border:  rgba(139,111,71,0.15);
+  --accent:  #8b6f47;
+  --amber:   #b07d3a;
+  --text:    #2c2c2c;
+  --muted:   rgba(44,44,44,0.72);
+  --dim:     rgba(44,44,44,0.48);
+  --tide:    #1a3a4a;
+}
+
+html,body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Courier Prime',monospace;
+  line-height:1.6;
+}
+
+/* ── HEADER ── */
+.site-header{
+  border-bottom:1px solid var(--border);
+  padding:18px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  background:var(--bg);
+  z-index:100;
+}
+.site-header a{
+  color:var(--accent);
+  text-decoration:none;
+  font-size:0.78rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+.site-header a:hover{color:var(--amber);}
+.header-title{
+  font-family:'Crimson Text',serif;
+  font-size:1.05rem;
+  color:var(--text);
+  letter-spacing:0.04em;
+}
+
+/* ── LAYOUT ── */
+.page{
+  max-width:680px;
+  margin:0 auto;
+  padding:0 24px 100px;
+}
+
+/* ── HERO ── */
+.hero{
+  padding:60px 0 48px;
+  border-bottom:1px solid var(--border);
+}
+.hero-eyebrow{
+  font-size:0.72rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+.hero-title{
+  font-family:'Crimson Text',serif;
+  font-size:clamp(2.4rem,7vw,3.8rem);
+  line-height:1.08;
+  margin-bottom:22px;
+  color:var(--text);
+}
+.hero-lead{
+  font-size:1.05rem;
+  color:var(--muted);
+  line-height:1.65;
+  max-width:560px;
+}
+
+/* ── SECTION ── */
+.section{
+  padding:48px 0;
+  border-bottom:1px solid var(--border);
+}
+.section-label{
+  font-size:0.7rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:20px;
+}
+.section h2{
+  font-family:'Crimson Text',serif;
+  font-size:1.55rem;
+  margin-bottom:14px;
+}
+.section p{
+  font-size:0.95rem;
+  color:var(--muted);
+  line-height:1.7;
+  margin-bottom:14px;
+}
+.section p:last-child{margin-bottom:0;}
+
+/* ── HOW TO USE GRID ── */
+.how-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:20px;
+  margin-top:28px;
+}
+.how-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:22px 20px;
+}
+.how-card-icon{font-size:1.4rem;margin-bottom:10px;display:block;}
+.how-card-title{
+  font-size:0.8rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.how-card p{
+  font-size:0.88rem;
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:0;
+}
+
+/* ── WEATHER SPECTRUM ── */
+.spectrum{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:28px;
+}
+.weather-row{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  padding:14px 16px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--bg);
+  transition:border-color 0.2s, background 0.2s;
+  cursor:default;
+}
+.weather-row:hover{
+  border-color:rgba(139,111,71,0.3);
+  background:var(--surface);
+}
+.weather-row.tide{border-left:3px solid rgba(26,58,74,0.35);}
+.weather-row.amber{border-left:3px solid rgba(176,125,58,0.45);}
+.weather-row.warm{border-left:3px solid rgba(180,100,60,0.4);}
+.weather-row.grey{border-left:3px solid rgba(100,100,110,0.3);}
+.weather-row.green{border-left:3px solid rgba(80,140,80,0.35);}
+.w-emoji{font-size:1.25rem;line-height:1;flex-shrink:0;padding-top:1px;}
+.w-body{}
+.w-label{
+  font-size:0.78rem;
+  font-weight:600;
+  color:var(--text);
+  font-style:italic;
+  display:block;
+  margin-bottom:3px;
+}
+.w-desc{
+  font-size:0.78rem;
+  color:var(--dim);
+  line-height:1.5;
+}
+
+/* ── ISSUE BROWSE ── */
+.browse-intro{
+  margin-bottom:28px;
+}
+.issue-grid{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.issue-card{
+  display:flex;
+  gap:14px;
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--bg);
+  text-decoration:none;
+  color:var(--text);
+  transition:border-color 0.2s, background 0.2s;
+}
+.issue-card:hover{
+  border-color:rgba(139,111,71,0.3);
+  background:var(--surface);
+}
+.ic-weather{
+  font-size:1.2rem;
+  flex-shrink:0;
+  padding-top:2px;
+}
+.ic-body{flex:1;}
+.ic-date{
+  font-size:0.68rem;
+  color:var(--dim);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:4px;
+}
+.ic-title{
+  font-family:'Crimson Text',serif;
+  font-size:1.05rem;
+  margin-bottom:3px;
+  line-height:1.3;
+}
+.ic-weather-label{
+  font-size:0.72rem;
+  color:var(--accent);
+  font-style:italic;
+}
+.ic-dim{
+  font-size:0.7rem;
+  color:var(--dim);
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+}
+.loading{
+  font-size:0.82rem;
+  color:var(--dim);
+  padding:24px 0;
+  text-align:center;
+}
+.empty{
+  font-size:0.82rem;
+  color:var(--dim);
+  padding:24px 0;
+  font-style:italic;
+}
+
+/* ── NOTE ── */
+.field-note{
+  margin-top:32px;
+  padding:18px 20px;
+  background:rgba(26,58,74,0.04);
+  border:1px solid rgba(26,58,74,0.1);
+  border-radius:8px;
+  font-size:0.8rem;
+  color:var(--dim);
+  line-height:1.6;
+  font-style:italic;
+}
+
+/* ── FOOTER ── */
+.page-footer{
+  margin-top:60px;
+  padding-top:28px;
+  border-top:1px solid var(--border);
+  font-size:0.72rem;
+  color:var(--dim);
+  letter-spacing:0.06em;
+  text-align:center;
+}
+.page-footer a{color:var(--accent);text-decoration:none;}
+
+@media(min-width:600px){
+  .how-grid{grid-template-columns:1fr 1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="/">← MELIORISM2</a>
+  <span class="header-title">Emotional Weather</span>
+  <a href="/calendar.html">LIBRARY →</a>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <p class="hero-eyebrow">A field guide</p>
+    <h1 class="hero-title">Emotional<br>Weather</h1>
+    <p class="hero-lead">Every issue of Meliorism2 has an emotional frequency — a reading of the atmosphere the content is broadcasting. It is not a label for the reader. It is a signal about the issue itself, so you can decide whether today's issue is for today.</p>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="section">
+    <p class="section-label">How to use it</p>
+    <h2>Three ways to read the weather</h2>
+
+    <div class="how-grid">
+      <div class="how-card">
+        <span class="how-card-icon">🧭</span>
+        <p class="how-card-title">Check your own</p>
+        <p>Before you open an issue, notice where you are. Restless? Depleted? Energized? The weather chip tells you whether this issue meets you there — or whether today calls for something different from the library.</p>
+      </div>
+      <div class="how-card">
+        <span class="how-card-icon">🪟</span>
+        <p class="how-card-title">Use it as a room lens</p>
+        <p>Walk into your next session and ask: what is the weather in this room right now? Not what people are saying — what they are carrying. The chip gives you a name for it. Name it to yourself first. Then decide what kind of contact the room actually needs.</p>
+      </div>
+      <div class="how-card">
+        <span class="how-card-icon">📚</span>
+        <p class="how-card-title">Navigate the library</p>
+        <p>The library holds issues for every kind of weather. If today's issue isn't what you need right now, browse below. Something in here was written for exactly the frequency you are in.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE SPECTRUM -->
+  <div class="section">
+    <p class="section-label">The spectrum</p>
+    <h2>What weather looks like</h2>
+    <p>These are not moods to be fixed. They are conditions to be recognized. A practitioner who can name the weather in a room has already shifted the room.</p>
+
+    <div class="spectrum">
+      <div class="weather-row tide">
+        <span class="w-emoji">🌊</span>
+        <div class="w-body">
+          <span class="w-label">Still water · quiet attention</span>
+          <span class="w-desc">The contemplative frequency. Something slowed down enough to be seen. Good for issues about witnessing, presence, and depth of contact.</span>
+        </div>
+      </div>
+      <div class="weather-row green">
+        <span class="w-emoji">🌱</span>
+        <div class="w-body">
+          <span class="w-label">Early spring · something new beginning</span>
+          <span class="w-desc">The hopeful frequency. A shift is underway. Not yet arrived — still in motion. Good for issues about transition, beginning again, and first moves.</span>
+        </div>
+      </div>
+      <div class="weather-row amber">
+        <span class="w-emoji">⛅</span>
+        <div class="w-body">
+          <span class="w-label">Low pressure · something building</span>
+          <span class="w-desc">The anticipatory frequency. Something is gathering that hasn't landed yet. Good for issues about change, uncertainty, and navigating the before.</span>
+        </div>
+      </div>
+      <div class="weather-row warm">
+        <span class="w-emoji">🔥</span>
+        <div class="w-body">
+          <span class="w-label">High pressure · urgency, momentum</span>
+          <span class="w-desc">The driven frequency. Energy is high. Stakes feel real. Good for issues about performance, courage, and the room that needs something from you right now.</span>
+        </div>
+      </div>
+      <div class="weather-row grey">
+        <span class="w-emoji">🌧</span>
+        <div class="w-body">
+          <span class="w-label">Heavy weather · processing difficulty</span>
+          <span class="w-desc">The hard frequency. Something in the world is asking for grief, solidarity, or the language for things that went wrong. The issues for these days are already in the library.</span>
+        </div>
+      </div>
+      <div class="weather-row grey">
+        <span class="w-emoji">🌫</span>
+        <div class="w-body">
+          <span class="w-label">Fog · unclear, hard to find the thread</span>
+          <span class="w-desc">The lost frequency. Not despair — just the absence of a clear next step. Good for issues about disorientation, finding the ground, and the practitioner who is carrying more than they are saying.</span>
+        </div>
+      </div>
+      <div class="weather-row amber">
+        <span class="w-emoji">⚡</span>
+        <div class="w-body">
+          <span class="w-label">Electric · restless, ready to move</span>
+          <span class="w-desc">The charged frequency. Ideas are flying. Something wants to happen. Good for issues about adaptation, bold choices, and the practitioner whose room is full of possibility they haven't named yet.</span>
+        </div>
+      </div>
+      <div class="weather-row tide">
+        <span class="w-emoji">🌙</span>
+        <div class="w-body">
+          <span class="w-label">Late night · reflective, alone with it</span>
+          <span class="w-desc">The solitary frequency. The day is over. The practitioner is sitting with something — not resolved, not urgent. Just present. Good for issues about the interior life of the person doing the work.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BROWSE ISSUES -->
+  <div class="section">
+    <p class="section-label">Browse by weather</p>
+    <h2>Issues in the library</h2>
+    <p class="browse-intro">Published issues, most recent first. Each one was written for a specific emotional frequency. If today's issue isn't your weather, find the one that is.</p>
+
+    <div id="issue-list" class="issue-grid">
+      <p class="loading">Loading issues from the library…</p>
+    </div>
+
+    <div class="field-note">
+      The library grows daily. Weather tags are assigned at composition — they reflect the emotional frequency of the issue at the time of writing, not a prescription for how you should feel reading it. Trust your own reading.
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <a href="/">Meliorism2.com</a> · Daily briefings for practitioners ·
+    <a href="/calendar.html">Production calendar</a>
+  </div>
+
+</div>
+
+<script>
+const SUPABASE_URL = 'https://wqqgsjjfsrgtaybmpsqk.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm';
+
+// Weather emoji map — keyed to the emotional_weather field value stored in Supabase.
+// When the editorial_calendar table gains an emotional_weather column, this map
+// drives the icon displayed on each issue card.
+const WEATHER_MAP = {
+  'still water':       { emoji:'🌊', label:'Still water · quiet attention' },
+  'early spring':      { emoji:'🌱', label:'Early spring · something new beginning' },
+  'low pressure':      { emoji:'⛅', label:'Low pressure · something building' },
+  'high pressure':     { emoji:'🔥', label:'High pressure · urgency, momentum' },
+  'heavy weather':     { emoji:'🌧', label:'Heavy weather · processing difficulty' },
+  'fog':               { emoji:'🌫', label:'Fog · unclear, hard to find the thread' },
+  'electric':          { emoji:'⚡', label:'Electric · restless, ready to move' },
+  'late night':        { emoji:'🌙', label:'Late night · reflective, alone with it' },
+};
+
+function weatherForIssue(row){
+  const raw = (row.emotional_weather || '').toLowerCase().trim();
+  return WEATHER_MAP[raw] || { emoji:'◎', label: raw || 'No weather tag yet' };
+}
+
+function formatDate(str){
+  const d = new Date(str + 'T12:00:00Z');
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+function slugToTitle(slug){
+  // Fallback if title field not present — convert slug to title case
+  return slug.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+}
+
+async function loadIssues(){
+  const list = document.getElementById('issue-list');
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/editorial_calendar?publish_date=lte.${today}&status=eq.published&order=publish_date.desc&limit=50`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
+    if(!res.ok) throw new Error('Supabase error ' + res.status);
+    const rows = await res.json();
+
+    if(!rows.length){
+      list.innerHTML = '<p class="empty">No published issues found yet. Check back soon.</p>';
+      return;
+    }
+
+    list.innerHTML = rows.map(row => {
+      const w = weatherForIssue(row);
+      const title = row.title || slugToTitle(row.slug || row.dimension || '');
+      const slug = row.slug || '';
+      const href = slug ? `/archive/${row.publish_date}-${slug}.html` : '#';
+      const dim = (row.dimension || '').replace(/-/g,' ');
+      return `
+        <a class="issue-card" href="${href}">
+          <span class="ic-weather">${w.emoji}</span>
+          <div class="ic-body">
+            <span class="ic-date">${formatDate(row.publish_date)}</span>
+            <div class="ic-title">${title}</div>
+            <span class="ic-weather-label">${w.label}</span>
+            ${dim ? `<span class="ic-dim">${dim}</span>` : ''}
+          </div>
+        </a>`;
+    }).join('');
+  } catch(e){
+    list.innerHTML = `<p class="empty">Could not load issues right now. <a href="/calendar.html">View the production calendar instead →</a></p>`;
+    console.error(e);
+  }
+}
+
+loadIssues();
+</script>
+</body>
+</html>

@@ -73,7 +73,7 @@ html,body{
 
 .entry-bg{
   position:absolute;inset:0;
-  background: url('the-tide-pool-survey-hero.jpg') center center / cover no-repeat, linear-gradient(160deg, #0a1520 0%, #0f2030 35%, #0a1518 70%, #1a1714 100%);
+  background: url('tide-pool-survey-hero.jpg') center center / cover no-repeat, linear-gradient(160deg, #1a6080 0%, #0d3a5a 35%, #1a5a7a 70%, #0a3050 100%);
   transform:scale(1.04);
   animation:kb 14s ease-out forwards;
 }
@@ -84,7 +84,7 @@ html,body{
 
 .entry-tint{
   position:absolute;inset:0;
-  background:rgba(10,30,50,0.22);
+  background:rgba(10,40,60,0.08);
   mix-blend-mode:multiply;
 }
 
@@ -92,9 +92,9 @@ html,body{
   position:absolute;inset:0;
   background:linear-gradient(
     to bottom,
-    rgba(5,15,30,0.22) 0%,
-    rgba(5,15,30,0.44) 40%,
-    rgba(5,15,30,0.88) 100%
+    rgba(5,20,35,0.05) 0%,
+    rgba(5,20,35,0.25) 40%,
+    rgba(5,20,35,0.65) 100%
   );
 }
 
@@ -196,7 +196,7 @@ html,body{
 
 /* ── MAIN PANEL ── */
 #main-panel{
-  position:fixed;inset:0;top:36px;bottom:40px;
+  position:fixed;inset:0;top:36px;bottom:52px;
   display:none;opacity:0;
   transition:opacity 0.6s ease;
   overflow:hidden;
@@ -210,17 +210,18 @@ html,body{
 .sections-rail{
   display:flex;
   flex-direction:row;
-  width:700%;
+  width:800%;
   height:100%;
   transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
   will-change:transform;
 }
 
 .card{
-  width:calc(100% / 7);
+  width:calc(100% / 8);
   flex-shrink:0;
   height:100%;
   overflow-y:auto;
+  overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
 }
 
@@ -228,23 +229,27 @@ html,body{
   max-width:820px;
   padding:50px 40px 80px;
   margin:0 auto;
+  overflow-wrap:break-word;
+  word-wrap:break-word;
 }
 
 @media(max-width:768px){
-  .card-inner{padding:30px 20px 80px;}
+  .card-inner{padding:30px 20px 90px;}
 }
 
 /* ── READING PROGRESS BAR ── */
 .reading-progress{
   position:fixed;
-  bottom:40px;left:0;right:0;
-  height:36px;
-  background:var(--dark-band);
-  display:flex;
+  bottom:0;left:0;right:0;
+  height:52px;
+  background:rgba(18,15,12,0.97);
+  border-top:1px solid rgba(176,125,58,0.2);
+  display:none;
   align-items:center;
-  padding:0 20px;
-  gap:14px;
-  z-index:900;
+  padding:0 16px;
+  padding-bottom:env(safe-area-inset-bottom);
+  gap:12px;
+  z-index:950;
 }
 
 .progress-trace{
@@ -266,23 +271,48 @@ html,body{
 
 .progress-label{
   font-family:'Courier Prime',monospace;
-  font-size:0.8rem;letter-spacing:0.18em;
-  color:var(--cream);opacity:0.7;
+  font-size:0.68rem;letter-spacing:0.14em;
+  color:var(--cream);opacity:0.55;
   white-space:nowrap;
-  min-width:80px;text-align:right;
+  display:none;
 }
 
-.nav-prev,.nav-next{
-  background:none;border:none;
-  color:rgba(200,185,154,0.6);
+.nav-prev{
+  background:none;border:1px solid rgba(176,125,58,0.25);
+  color:rgba(200,185,154,0.5);
   font-family:'Courier Prime',monospace;
-  font-size:0.8rem;letter-spacing:0.1em;
+  font-size:0.75rem;letter-spacing:0.1em;
   cursor:pointer;
-  padding:0 8px;
-  transition:color 0.2s;
+  padding:6px 12px;
+  border-radius:2px;
+  transition:all 0.2s;
+  min-width:40px;
+  text-align:center;
 }
-.nav-prev:hover,.nav-next:hover{color:var(--amber);}
-.nav-prev:disabled,.nav-next:disabled{opacity:0.2;cursor:default;}
+.nav-prev:hover{color:var(--amber);border-color:var(--amber);}
+.nav-prev:disabled{opacity:0.15;cursor:default;}
+
+.nav-next{
+  background:var(--amber);
+  border:none;
+  color:#1a1209;
+  font-family:'Courier Prime',monospace;
+  font-size:0.8rem;font-weight:700;letter-spacing:0.12em;
+  cursor:pointer;
+  padding:9px 20px;
+  border-radius:2px;
+  transition:all 0.2s;
+  text-transform:uppercase;
+  min-width:90px;
+  text-align:center;
+  flex-shrink:0;
+}
+.nav-next:hover{background:#c8a050;}
+.nav-next:disabled{opacity:0.2;cursor:default;background:rgba(176,125,58,0.3);color:var(--cream);}
+
+@media(max-width:480px){
+  .progress-label{display:none;}
+}
 
 /* ── CARD 0: SIGNAL HEADER ── */
 .metadata{
@@ -678,6 +708,37 @@ p{
   color:var(--amber);
 }
 
+/* ── WEATHER CHIP ── */
+/* Emotional weather — on card 2 by default; falls back to pre-Etymology bibliography if card 1–2 are immersive */
+.weather-block{
+  margin:28px 0 4px;
+  padding:16px 18px;
+  background:rgba(26,58,74,0.04);
+  border:1px solid rgba(26,58,74,0.09);
+  border-radius:10px;
+}
+.weather-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-bottom:10px;
+}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{
+  font-family:'Courier Prime',monospace;
+  font-size:0.72rem;
+  color:rgba(44,44,44,0.55);
+  letter-spacing:0.04em;
+  font-style:italic;
+}
+.weather-onboard{
+  font-family:'Courier Prime',monospace;
+  font-size:0.68rem;
+  color:rgba(44,44,44,0.38);
+  line-height:1.55;
+  max-width:380px;
+}
+
 /* ── FOOTER BAR ── */
 .footer-bar{
   position:fixed;bottom:0;left:0;right:0;z-index:1000;
@@ -685,7 +746,9 @@ p{
   border-top:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;gap:22px;
   font-size:0.8rem;letter-spacing:2px;
+  transition:opacity 0.3s;
 }
+.footer-bar.hidden{display:none;}
 .footer-bar a{color:var(--accent);text-decoration:none;border:none;}
 .footer-bar a:hover{color:var(--amber);background:transparent;}
 .footer-sep{color:var(--border-h);}
@@ -703,6 +766,10 @@ a:hover{background:rgba(139,111,71,0.06);}
   h2{font-size:1.4rem;}
   .tide-pool-viewport{width:220px;height:220px;}
   .tide-pool-circle{width:220px;height:220px;}
+  /* Status bar: hide long label on narrow phones, keep logo + clock */
+  .sb-label{display:none;}
+  /* Entry screen: hide redundant stamp — title carries the identity */
+  .entry-stamp{display:none;}
 }
 </style>
 </head>
@@ -732,7 +799,7 @@ a:hover{background:rgba(139,111,71,0.06);}
       <span>Issue 028</span>
     </div>
     <h1 class="entry-title">The<br>Tide Pool<br>Survey</h1>
-    <p class="entry-sub">The moment you stop managing a person and start actually encountering them is the moment the room changes.</p>
+    <p class="entry-sub">When you stop managing a person and start actually encountering them, something shifts in the room.</p>
     <button class="entry-enter" onclick="openMain()">Begin the survey →</button>
   </div>
 </div>
@@ -753,7 +820,10 @@ a:hover{background:rgba(139,111,71,0.06);}
           <p class="subtitle">On the difference between managing a person and actually encountering one — and what becomes possible when the distinction holds</p>
         </div>
 
-        <img src="the-tide-pool-survey-hero.jpg" alt="A naturalist crouching still at a coastal tide pool, late afternoon light, clear water revealing small complex life below the surface" class="hero-image">
+        <figure class="hero-figure">
+          <img src="tide-pool-survey-hero.jpg" alt="A naturalist crouching still at a coastal tide pool, late afternoon light, clear water revealing small complex life below the surface" class="hero-image" loading="eager" decoding="async">
+          <figcaption>Photo by <a href="https://unsplash.com/@nappystudio?utm_source=meliorism2&utm_medium=referral">Nappy</a> on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral">Unsplash</a></figcaption>
+        </figure>
 
         <div class="highlight">
           <span class="highlight-label">90-Second Signal</span>
@@ -794,6 +864,15 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <div class="margin-note">
           The naturalist's posture matters here. Crouching at a tide pool, the naturalist does not arrive with an agenda. They go still. They allow what is present to become visible. The survey stance is not passive — it requires sustained attention, peripheral awareness, and the discipline not to impose meaning prematurely.
+        </div>
+
+        <!-- EMOTIONAL WEATHER — default placement: card 2. Falls back to pre-Etymology bibliography if cards 1–2 are immersive. -->
+        <div class="weather-block">
+          <div class="weather-chip">
+            <span class="weather-emoji">🌊</span>
+            <span class="weather-label">Emotional weather: still water · quiet attention</span>
+          </div>
+          <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — that settled, attentive quality — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
         </div>
 
       </div>
@@ -888,7 +967,7 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <h3>Trauma-Informed Contexts</h3>
 
-        <p>Full I-Thou contact can be retraumatizing for people whose trauma history is bound to being fully seen. For survivors of certain relational traumas — invasive care, coercive intimacy, settings where being witnessed meant being harmed — the practitioner's direct, unmediated presence can activate threat responses. In trauma-informed practice, the principle is titration: genuine encounter offered in doses the client can metabolize, not as an ambient condition. The naturalist at a traumatized tide pool moves slowly, approaches from the side, gives the life in the pool time to register that the presence arriving is not a threat. Full contact is still the goal. The path to it requires patience and sensitivity to cues that the dose is too much.</p>
+        <p>Full I-Thou contact can be retraumatizing for people whose trauma history is bound to being fully seen. For survivors of certain relational traumas — invasive care, coercive intimacy, settings where being witnessed meant being harmed — the practitioner's direct, unmediated presence can activate threat responses. Trauma-informed practice has a word for this: titration — meaning bit by bit, in doses the client can actually receive. Not encounter as something that fills the whole room. Encounter as something offered carefully, with space to land. The naturalist at a wounded tide pool moves slowly, comes in from the side, gives whatever is living there time to register that what's approaching is not a threat. Full contact is still the goal. The path to it is patient, and it reads the cues when the dose is too much.</p>
 
         <h3>When the Practitioner's Own Material Is Activated</h3>
 
@@ -1019,19 +1098,52 @@ a:hover{background:rgba(139,111,71,0.06);}
       </div>
     </div>
 
+    <!-- CARD 7: THIS WEEK -->
+    <div class="card" id="card-this-week">
+      <div class="card-inner">
+
+        <span class="section-number">§ 07 · This Week</span>
+        <h2>What AI Cannot Simulate</h2>
+
+        <p>The ICF Converge Summit concluded nine days ago in Paris. One of the recurring tensions reported by attendees: AI coaching platforms now generate empathy responses that, in text form, practitioners and clients rate as difficult to distinguish from human responses.</p>
+
+        <p>Research presented this year at Harvard's Radcliffe Institute (Anat Perry, 2025) examines this directly: when a person knows the empathic response came from an AI, does it register the same way? The question points toward Gallese's mechanism — what makes empathy <em>contact</em> rather than <em>output</em> is embodied simulation. The same neural circuits that fire when we perform an action fire when we genuinely witness another person performing it. That event does not have an AI analogue. The words arrive. The contact doesn't.</p>
+
+        <p>This is what the tide pool survey is actually about. Managing — including AI-assisted managing — can produce excellent output: the right question, the accurate reflection, the precise reframe. What it cannot produce is the flicker Yemi noticed before Darius's fluent answer. That registration requires two nervous systems in proximity, one of which has gone still enough to catch a signal that lasts less than a second.</p>
+
+        <p>The I-Thou encounter is not a premium feature of human practice. It is the feature that does not port. The practitioner building the survey stance this year is developing capacity in the specific domain where the comparison, made honestly, is not close.</p>
+
+        <div class="margin-note">
+          The ICF is now formally tracking the impact of AI tools on coaching practice. What the data shows so far: clients can distinguish AI from human presence — not in the words, but in the felt sense of being actually witnessed. The mechanism is Gallese's. The market is running the experiment in real time.
+        </div>
+
+        <div class="bibliography">
+          <h3>Sources</h3>
+          <div class="bib-entry">Perry, Anat. "The Value of Human Empathy: Comparing Perceived Human and AI-Generated Empathy." Radcliffe Institute for Advanced Study, Harvard University, 2025. — Research presentation examining how disclosure of AI authorship affects the perceived quality of empathic response.</div>
+          <div class="bib-entry">International Coaching Federation. ICF Converge Summit, Paris, May 17–19, 2026. — Annual global conference; AI and presence in coaching practice among primary discussion themes reported by attendees.</div>
+        </div>
+
+        <div class="doc-footer">
+          Meliorism2.com · Daily briefings for practitioners
+        </div>
+
+      </div>
+    </div>
+
   </div><!-- /sections-rail -->
 
-  <!-- PROGRESS + NAV -->
-  <div class="reading-progress" id="reading-progress">
-    <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>←</button>
-    <div class="progress-trace">
-      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-    </div>
-    <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
-    <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">→</button>
-  </div>
 
 </div><!-- /main-panel -->
+
+<!-- PROGRESS + NAV — outside main-panel so overflow:hidden never clips it -->
+<div class="reading-progress" id="reading-progress">
+  <button class="nav-prev" id="nav-prev" onclick="goTo(currentCard-1)" disabled>← Back</button>
+  <div class="progress-trace">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+  <span class="progress-label" id="progress-label">§ 00 · THE SIGNAL</span>
+  <button class="nav-next" id="nav-next" onclick="goTo(currentCard+1)">Next →</button>
+</div>
 
 <!-- FOOTER BAR -->
 <div class="footer-bar">
@@ -1055,11 +1167,16 @@ tick();setInterval(tick,1000);
 function openMain(){
   const entry=document.getElementById('entry');
   const panel=document.getElementById('main-panel');
+  const nav=document.getElementById('reading-progress');
+
+  const footer=document.querySelector('.footer-bar');
+  if(footer)footer.classList.add('hidden');
 
   entry.classList.add('hidden');
   setTimeout(()=>{
     entry.style.display='none';
     panel.style.display='block';
+    if(nav)nav.style.display='flex';
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
       panel.classList.add('visible');
     }));
@@ -1069,8 +1186,8 @@ function openMain(){
 }
 
 /* ── CARD NAVIGATION ── */
-const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
-const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application'];
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application','this-week'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application','This Week'];
 let currentCard=0;
 
 function goTo(index){
@@ -1078,13 +1195,22 @@ function goTo(index){
   const cards=document.querySelectorAll('.card');
   if(cards[currentCard])cards[currentCard].scrollTop=0;
   currentCard=index;
-  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/8)}%)`;
   const fill=document.getElementById('progress-fill');
   if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
   const label=document.getElementById('progress-label');
   if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
   document.getElementById('nav-prev').disabled=index===0;
-  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  const nextBtn=document.getElementById('nav-next');
+  if(index===CARDS.length-1){
+    nextBtn.textContent='Go to the Library →';
+    nextBtn.onclick=function(){window.location.href='/archive/';};
+    nextBtn.disabled=false;
+  } else {
+    nextBtn.textContent='Next →';
+    nextBtn.onclick=function(){goTo(currentCard+1);};
+    nextBtn.disabled=false;
+  }
   track('navigate',CARDS[index]);
 }
 
@@ -1226,6 +1352,138 @@ document.addEventListener('click',e=>{
     track('click','archive_link');
   }
 });
+</script>
+
+<!-- ── REVIEW BUTTON ── -->
+<style>
+.review-btn{
+  position:fixed;top:14px;right:16px;z-index:1000;
+  background:rgba(18,15,12,0.85);
+  border:1px solid rgba(176,125,58,0.4);
+  color:rgba(200,185,154,0.75);
+  font-family:'Courier Prime',monospace;
+  font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;
+  padding:6px 12px;border-radius:2px;cursor:pointer;
+  transition:all 0.2s;backdrop-filter:blur(4px);
+}
+.review-btn:hover{border-color:var(--amber);color:var(--amber);}
+
+.review-overlay{
+  display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(10,8,6,0.88);
+  align-items:flex-end;justify-content:center;
+  padding:0 0 env(safe-area-inset-bottom);
+}
+.review-overlay.open{display:flex;}
+.review-panel{
+  background:#1a1714;border:1px solid rgba(176,125,58,0.3);
+  border-bottom:none;width:100%;max-width:560px;
+  padding:24px 20px 28px;
+}
+.review-panel h3{
+  font-family:'Courier Prime',monospace;
+  font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:6px;
+}
+.review-panel p{
+  font-size:0.82rem;color:rgba(200,185,154,0.6);margin-bottom:14px;line-height:1.5;
+}
+.review-panel textarea{
+  width:100%;background:#0d0b09;border:1px solid rgba(176,125,58,0.25);
+  color:var(--cream);font-family:'Crimson Text',Georgia,serif;
+  font-size:1rem;line-height:1.6;padding:12px 14px;
+  border-radius:2px;resize:none;height:120px;
+  margin-bottom:14px;
+}
+.review-panel textarea:focus{outline:none;border-color:rgba(176,125,58,0.6);}
+.review-panel textarea::placeholder{color:rgba(200,185,154,0.3);}
+.review-actions{display:flex;gap:10px;justify-content:flex-end;}
+.review-cancel{
+  background:none;border:1px solid rgba(176,125,58,0.2);
+  color:rgba(200,185,154,0.5);
+  font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.1em;
+  padding:8px 16px;cursor:pointer;border-radius:2px;text-transform:uppercase;
+}
+.review-send{
+  background:var(--amber);border:none;color:#1a1209;
+  font-family:'Courier Prime',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;
+  padding:8px 20px;cursor:pointer;border-radius:2px;text-transform:uppercase;
+}
+.review-send:disabled{opacity:0.5;cursor:default;}
+.review-confirm{
+  font-family:'Courier Prime',monospace;font-size:0.72rem;
+  color:#5a9a6a;letter-spacing:0.06em;text-align:center;padding:8px 0;display:none;
+}
+</style>
+
+<button class="review-btn" id="review-btn" onclick="openReview()">📝 Leave a note</button>
+<script>
+// Review button is for staging only — hide on live site so readers cannot submit as Brian
+(function(){
+  if(window.location.hostname==='meliorism2.com'){
+    var btn=document.getElementById('review-btn');
+    if(btn)btn.style.display='none';
+  }
+})();
+</script>
+
+<div class="review-overlay" id="review-overlay" onclick="if(event.target===this)closeReview()">
+  <div class="review-panel">
+    <h3>Leave a note</h3>
+    <p>The Tide Pool Survey · Issue 028 · May 28, 2026</p>
+    <textarea id="review-text" placeholder="What did you notice? What worked? What needs changing?"></textarea>
+    <div class="review-actions">
+      <button class="review-cancel" onclick="closeReview()">Cancel</button>
+      <button class="review-send" id="review-send" onclick="sendReview()">Send →</button>
+    </div>
+    <div class="review-confirm" id="review-confirm">✓ Note sent to Telegram</div>
+  </div>
+</div>
+
+<script>
+function openReview(){
+  document.getElementById('review-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('review-text').focus(),100);
+}
+function closeReview(){
+  document.getElementById('review-overlay').classList.remove('open');
+  document.getElementById('review-text').value='';
+  document.getElementById('review-confirm').style.display='none';
+  document.getElementById('review-send').disabled=false;
+}
+async function sendReview(){
+  const note=document.getElementById('review-text').value.trim();
+  if(!note)return;
+  const btn=document.getElementById('review-send');
+  btn.disabled=true;btn.textContent='Sending…';
+  const issueRef='[028] The Tide Pool Survey · 2026-05-28';
+  const captureContent=`REVIEW · ${issueRef}\n${note}`;
+  const msg=`📋 *Issue Review*\n\n*Issue:* The Tide Pool Survey · 028\n*Date:* 2026-05-28\n*URL:* https://meliorism2.com/archive/2026-05-28-the-tide-pool-survey.html\n\n*Note:*\n${note}`;
+  try{
+    // Write to Supabase captures (so the pipeline can read it)
+    await fetch('https://wqqgsjjfsrgtaybmpsqk.supabase.co/rest/v1/captures',{
+      method:'POST',
+      headers:{
+        'apikey':'sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm',
+        'Authorization':'Bearer sb_publishable_2Ij4N3-jn6eQkh94jQXfrA_5WJ8Lgkm',
+        'Content-Type':'application/json',
+        'Prefer':'return=minimal'
+      },
+      body:JSON.stringify({content:captureContent,tag:'review'})
+    });
+    // Send Telegram receipt
+    await fetch('https://api.telegram.org/bot8811429694:AAEPd6ajaCtGufL_A3VgxL3WO6Jgk-y2y84/sendMessage',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:'8497163817',text:msg,parse_mode:'Markdown'})
+    });
+    document.getElementById('review-confirm').style.display='block';
+    btn.textContent='Sent ✓';
+    setTimeout(closeReview,2000);
+  }catch(e){
+    btn.disabled=false;btn.textContent='Send →';
+    alert('Could not send. Check your connection.');
+  }
+}
 </script>
 </body>
 </html>
