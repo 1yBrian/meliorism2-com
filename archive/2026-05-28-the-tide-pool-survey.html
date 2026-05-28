@@ -925,7 +925,7 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <h3>Trauma-Informed Contexts</h3>
 
-        <p>Full I-Thou contact can be retraumatizing for people whose trauma history is bound to being fully seen. For survivors of certain relational traumas — invasive care, coercive intimacy, settings where being witnessed meant being harmed — the practitioner's direct, unmediated presence can activate threat responses. In trauma-informed practice, the principle is titration: genuine encounter offered in doses the client can metabolize, not as an ambient condition. The naturalist at a traumatized tide pool moves slowly, approaches from the side, gives the life in the pool time to register that the presence arriving is not a threat. Full contact is still the goal. The path to it requires patience and sensitivity to cues that the dose is too much.</p>
+        <p>Full I-Thou contact can be retraumatizing for people whose trauma history is bound to being fully seen. For survivors of certain relational traumas — invasive care, coercive intimacy, settings where being witnessed meant being harmed — the practitioner's direct, unmediated presence can activate threat responses. Trauma-informed practice has a word for this: titration — meaning bit by bit, in doses the client can actually receive. Not encounter as something that fills the whole room. Encounter as something offered carefully, with space to land. The naturalist at a wounded tide pool moves slowly, comes in from the side, gives whatever is living there time to register that what's approaching is not a threat. Full contact is still the goal. The path to it is patient, and it reads the cues when the dose is too much.</p>
 
         <h3>When the Practitioner's Own Material Is Activated</h3>
 
@@ -1295,6 +1295,115 @@ document.addEventListener('click',e=>{
     track('click','archive_link');
   }
 });
+</script>
+
+<!-- ── REVIEW BUTTON ── -->
+<style>
+.review-btn{
+  position:fixed;top:14px;right:16px;z-index:1000;
+  background:rgba(18,15,12,0.85);
+  border:1px solid rgba(176,125,58,0.4);
+  color:rgba(200,185,154,0.75);
+  font-family:'Courier Prime',monospace;
+  font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;
+  padding:6px 12px;border-radius:2px;cursor:pointer;
+  transition:all 0.2s;backdrop-filter:blur(4px);
+}
+.review-btn:hover{border-color:var(--amber);color:var(--amber);}
+
+.review-overlay{
+  display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(10,8,6,0.88);
+  align-items:flex-end;justify-content:center;
+  padding:0 0 env(safe-area-inset-bottom);
+}
+.review-overlay.open{display:flex;}
+.review-panel{
+  background:#1a1714;border:1px solid rgba(176,125,58,0.3);
+  border-bottom:none;width:100%;max-width:560px;
+  padding:24px 20px 28px;
+}
+.review-panel h3{
+  font-family:'Courier Prime',monospace;
+  font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:6px;
+}
+.review-panel p{
+  font-size:0.82rem;color:rgba(200,185,154,0.6);margin-bottom:14px;line-height:1.5;
+}
+.review-panel textarea{
+  width:100%;background:#0d0b09;border:1px solid rgba(176,125,58,0.25);
+  color:var(--cream);font-family:'Crimson Text',Georgia,serif;
+  font-size:1rem;line-height:1.6;padding:12px 14px;
+  border-radius:2px;resize:none;height:120px;
+  margin-bottom:14px;
+}
+.review-panel textarea:focus{outline:none;border-color:rgba(176,125,58,0.6);}
+.review-panel textarea::placeholder{color:rgba(200,185,154,0.3);}
+.review-actions{display:flex;gap:10px;justify-content:flex-end;}
+.review-cancel{
+  background:none;border:1px solid rgba(176,125,58,0.2);
+  color:rgba(200,185,154,0.5);
+  font-family:'Courier Prime',monospace;font-size:0.7rem;letter-spacing:0.1em;
+  padding:8px 16px;cursor:pointer;border-radius:2px;text-transform:uppercase;
+}
+.review-send{
+  background:var(--amber);border:none;color:#1a1209;
+  font-family:'Courier Prime',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;
+  padding:8px 20px;cursor:pointer;border-radius:2px;text-transform:uppercase;
+}
+.review-send:disabled{opacity:0.5;cursor:default;}
+.review-confirm{
+  font-family:'Courier Prime',monospace;font-size:0.72rem;
+  color:#5a9a6a;letter-spacing:0.06em;text-align:center;padding:8px 0;display:none;
+}
+</style>
+
+<button class="review-btn" onclick="openReview()">📝 Leave a note</button>
+
+<div class="review-overlay" id="review-overlay" onclick="if(event.target===this)closeReview()">
+  <div class="review-panel">
+    <h3>Leave a note</h3>
+    <p>The Tide Pool Survey · Issue 028 · May 28, 2026</p>
+    <textarea id="review-text" placeholder="What did you notice? What worked? What needs changing?"></textarea>
+    <div class="review-actions">
+      <button class="review-cancel" onclick="closeReview()">Cancel</button>
+      <button class="review-send" id="review-send" onclick="sendReview()">Send →</button>
+    </div>
+    <div class="review-confirm" id="review-confirm">✓ Note sent to Telegram</div>
+  </div>
+</div>
+
+<script>
+function openReview(){
+  document.getElementById('review-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('review-text').focus(),100);
+}
+function closeReview(){
+  document.getElementById('review-overlay').classList.remove('open');
+  document.getElementById('review-text').value='';
+  document.getElementById('review-confirm').style.display='none';
+  document.getElementById('review-send').disabled=false;
+}
+async function sendReview(){
+  const note=document.getElementById('review-text').value.trim();
+  if(!note)return;
+  const btn=document.getElementById('review-send');
+  btn.disabled=true;btn.textContent='Sending…';
+  const msg=`📋 *Issue Review*\n\n*Issue:* The Tide Pool Survey · 028\n*Date:* 2026-05-28\n*URL:* https://meliorism2.com/archive/2026-05-28-the-tide-pool-survey.html\n\n*Note:*\n${note}`;
+  try{
+    await fetch('https://api.telegram.org/bot8811429694:AAEPd6ajaCtGufL_A3VgxL3WO6Jgk-y2y84/sendMessage',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:'8497163817',text:msg,parse_mode:'Markdown'})
+    });
+    document.getElementById('review-confirm').style.display='block';
+    btn.textContent='Sent ✓';
+    setTimeout(closeReview,2000);
+  }catch(e){
+    btn.disabled=false;btn.textContent='Send →';
+    alert('Could not send. Check your connection.');
+  }
+}
 </script>
 </body>
 </html>
