@@ -208,14 +208,14 @@ html,body{
 .sections-rail{
   display:flex;
   flex-direction:row;
-  width:700%;
+  width:800%;
   height:100%;
   transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
   will-change:transform;
 }
 
 .card{
-  width:calc(100% / 7);
+  width:calc(100% / 8);
   flex-shrink:0;
   height:100%;
   overflow-y:auto;
@@ -1104,6 +1104,37 @@ a:hover{background:rgba(139,111,71,0.06);}
       </div>
     </div>
 
+    <!-- CARD 7: THE DELIGHT -->
+    <div class="card" id="card-delight">
+      <div class="card-inner">
+
+        <span class="section-number" style="background:var(--dark-band);color:var(--cream);">§ 07 · The Delight</span>
+
+        <h2 style="margin-top:8px;">The Two Oil Drums</h2>
+
+        <p>In 1963, Brian Tracy was twenty-three years old and broke. He and three friends decided to drive from Canada to Cape Town, South Africa — a plan that required crossing the Sahara Desert, five hundred miles of it, in a Volkswagen bus that kept breaking down.</p>
+
+        <p>The French had tried to make the crossing survivable. They'd planted black 55-gallon oil drums every five kilometers along the route — a road marked not by asphalt but by the barrels themselves, a dotted line drawn south through sand.</p>
+
+        <p>Sandstorms reduced visibility to almost nothing. Tracy could see only two drums at any moment: the one he'd just passed and the one ahead. That was the entire visible world. Two oil drums and five kilometers of open desert between them — with dysentery, a failing engine, and the certain knowledge that 1,300 people had died on this exact stretch before them.</p>
+
+        <p>He drove toward the next barrel. Then the next one after that.</p>
+
+        <p>They made it through.</p>
+
+        <p>Tracy said later that after the Sahara, he never felt there was anything he couldn't do. Not because the desert had taught him confidence — it hadn't. It had taught him something more precise: that you don't need to see the whole route. You only ever need the next barrel.</p>
+
+        <p>He built one of the most successful personal development businesses in history on that principle. Years later, he told the story at a sold-out speech. Somewhere in the audience, someone felt — just for a moment — that they were worth a million dollars.</p>
+
+        <p style="margin-top:2rem;font-size:0.85rem;color:var(--dim);font-style:italic;border-top:1px solid var(--border);padding-top:1.2rem;">Tracy, Brian. <em>Success Is a Journey.</em> Brian Tracy International, 1998.</p>
+
+        <div class="doc-footer" style="margin-top:48px;">
+          Meliorism2.com · Daily briefings for practitioners
+        </div>
+
+      </div>
+    </div>
+
   </div><!-- /sections-rail -->
 
   <!-- PROGRESS + NAV -->
@@ -1158,8 +1189,8 @@ function openMain(){
 }
 
 /* ── CARD NAVIGATION ── */
-const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
-const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application'];
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application','delight'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application','The Delight'];
 let currentCard=0;
 
 function goTo(index){
@@ -1173,7 +1204,7 @@ function goTo(index){
   const cards=document.querySelectorAll('.card');
   if(cards[currentCard])cards[currentCard].scrollTop=0;
   currentCard=index;
-  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/8)}%)`;
   const fill=document.getElementById('progress-fill');
   if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
   const label=document.getElementById('progress-label');
