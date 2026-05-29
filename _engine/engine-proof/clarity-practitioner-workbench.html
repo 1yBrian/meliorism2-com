@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Occam's Razor — The Workbench · Meliorism 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg-0: #0a141c;
+    --bg-1: #0f1923;
+    --bg-2: #0d4a3a;
+    --teal: #4fc3a1;
+    --teal-bright: #6fe6c2;
+    --teal-dim: #2a7a64;
+    --brass: #d9a45b;
+    --steel: #8fa3ad;
+    --ink: #e8f2ee;
+    --ink-soft: #a9c0b8;
+    --ink-faint: #5e7b73;
+    --line: rgba(79, 195, 161, 0.16);
+    --line-strong: rgba(79, 195, 161, 0.32);
+    --card-bg: rgba(13, 30, 30, 0.62);
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Space Grotesk', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(13, 74, 58, 0.55) 0%, transparent 55%),
+      radial-gradient(90% 70% at 85% 110%, rgba(79, 195, 161, 0.10) 0%, transparent 50%),
+      linear-gradient(165deg, var(--bg-1) 0%, var(--bg-0) 60%, #07101a 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* faint workbench grid — the table surface */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(79,195,161,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,195,161,0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(120% 100% at 50% 0%, #000 30%, transparent 90%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 0 20px 120px; }
+
+  /* ---------- Masthead ---------- */
+  header.masthead {
+    padding: 58px 0 26px;
+    text-align: center;
+  }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 22px;
+    opacity: 0.9;
+  }
+  .kicker .dot { color: var(--brass); }
+
+  h1.title {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: clamp(2.9rem, 13vw, 5.4rem);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, #ffffff 0%, var(--teal-bright) 55%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 6px;
+  }
+  h1.title .apos { font-style: italic; font-weight: 500; }
+  .subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.05rem, 4vw, 1.4rem);
+    color: var(--ink-soft);
+    font-weight: 400;
+    max-width: 30ch;
+    margin: 14px auto 0;
+  }
+  .byline {
+    margin-top: 26px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+
+  /* tool rail — decorative, the bench tools */
+  .toolrail {
+    display: flex; gap: 14px; justify-content: center; align-items: center;
+    margin: 34px auto 0; opacity: 0.7;
+  }
+  .toolrail svg { display: block; }
+  .toolrail .ln { width: 38px; height: 1px; background: linear-gradient(90deg, transparent, var(--teal-dim), transparent); }
+
+  /* ---------- Progress / bench counter ---------- */
+  .bench-progress {
+    position: sticky; top: 0; z-index: 30;
+    margin: 0 -20px; padding: 9px 20px;
+    display: flex; align-items: center; gap: 12px;
+    background: linear-gradient(180deg, rgba(10,20,28,0.92), rgba(10,20,28,0.7));
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .bench-progress .bar { flex: 1; height: 3px; border-radius: 3px; background: rgba(79,195,161,0.14); overflow: hidden; }
+  .bench-progress .bar i { display:block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--teal-dim), var(--teal-bright)); transition: width 0.35s ease; }
+  .bench-progress .count { color: var(--teal); }
+
+  /* ---------- Cards ---------- */
+  .card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 32px 26px 34px;
+    margin: 26px 0;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 26px 60px -34px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.03);
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.7s cubic-bezier(.2,.7,.2,1), transform 0.7s cubic-bezier(.2,.7,.2,1);
+  }
+  .card.lit { opacity: 1; transform: none; }
+
+  /* the "vise" corner clamps — workbench grammar */
+  .card::before, .card::after {
+    content: ""; position: absolute; width: 14px; height: 14px;
+    border: 1.5px solid var(--line-strong); pointer-events: none;
+  }
+  .card::before { top: 12px; left: 12px; border-right: none; border-bottom: none; border-top-left-radius: 4px; }
+  .card::after { bottom: 12px; right: 12px; border-left: none; border-top: none; border-bottom-right-radius: 4px; }
+
+  .part-no {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--teal);
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .part-no .tag {
+    border: 1px solid var(--line-strong);
+    border-radius: 30px;
+    padding: 3px 11px;
+    color: var(--ink-soft);
+  }
+  .part-no .label { color: var(--ink-faint); letter-spacing: 0.14em; }
+
+  .card h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 6.5vw, 2.3rem);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .card h2 em { font-style: italic; color: var(--teal-bright); font-weight: 500; }
+
+  .card p { font-size: 1.05rem; color: var(--ink-soft); margin-bottom: 16px; }
+  .card p:last-child { margin-bottom: 0; }
+  .card p strong { color: var(--ink); font-weight: 600; }
+  .card .lead { font-size: 1.18rem; color: var(--ink); }
+  .card .lead::first-letter { } /* reserved */
+
+  .pull {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: var(--teal-bright);
+    border-left: 2px solid var(--teal-dim);
+    padding-left: 20px;
+    margin: 8px 0 20px;
+  }
+
+  .micro {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    line-height: 1.7;
+  }
+
+  /* parts list — the components on the bench */
+  .parts {
+    list-style: none;
+    border-top: 1px solid var(--line);
+    margin-top: 22px;
+  }
+  .parts li {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .parts li .n {
+    font-family: var(--mono); font-size: 0.8rem; color: var(--teal);
+    border: 1px solid var(--line-strong); border-radius: 6px;
+    min-width: 30px; height: 30px; display: grid; place-items: center; flex-shrink: 0;
+  }
+  .parts li div { font-size: 0.98rem; color: var(--ink-soft); }
+  .parts li b { color: var(--ink); display: block; font-weight: 600; font-family: var(--sans); margin-bottom: 1px; font-size: 1rem; }
+
+  /* ============== THE DIAL — interactive core ============== */
+  #bench { background: linear-gradient(165deg, rgba(13,74,58,0.34), rgba(13,30,30,0.7)); border-color: var(--line-strong); }
+
+  .dial-stage {
+    margin-top: 22px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(7,16,24,0.66);
+    padding: 18px 16px 20px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), inset 0 0 60px -30px rgba(79,195,161,0.5);
+  }
+
+  .chart-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 12px; flex-wrap: wrap; gap: 6px;
+  }
+  .chart-head .ttl { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.18em; color: var(--ink-faint); text-transform: uppercase; }
+  .legend { display: flex; gap: 14px; font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.02em; }
+  .legend span { display: flex; align-items: center; gap: 6px; color: var(--ink-soft); }
+  .legend i { width: 16px; height: 3px; border-radius: 3px; display: inline-block; }
+  .legend .fit i { background: var(--steel); }
+  .legend .pred i { background: var(--teal-bright); }
+
+  .chart-box { position: relative; width: 100%; }
+  svg.chart { width: 100%; height: auto; display: block; }
+
+  /* readout */
+  .readout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-top: 14px;
+  }
+  .readout .cell {
+    border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+    background: rgba(13,30,30,0.5);
+  }
+  .readout .cell .k { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); }
+  .readout .cell .v { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; line-height: 1.1; margin-top: 2px; }
+  .readout .cell.fit .v { color: var(--steel); }
+  .readout .cell.pred .v { color: var(--teal-bright); }
+
+  /* the dial control */
+  .dial-control { margin-top: 20px; }
+  .dial-control .dial-label {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 12px;
+  }
+  .dial-control .dial-label .assum { color: var(--teal); font-size: 0.84rem; }
+  .dial-control .dial-label .assum b { font-family: var(--serif); font-size: 1.5rem; vertical-align: -3px; padding-right: 3px; }
+
+  input[type=range].dial {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 8px; border-radius: 8px;
+    background: linear-gradient(90deg, var(--teal-dim) 0%, var(--teal-bright) 35%, var(--brass) 100%);
+    outline: none; cursor: pointer; margin: 0;
+  }
+  input[type=range].dial::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff, var(--teal-bright) 45%, var(--teal-dim) 100%);
+    border: 2px solid #07101a;
+    box-shadow: 0 0 0 4px rgba(79,195,161,0.18), 0 6px 16px -4px rgba(0,0,0,0.7);
+    cursor: grab;
+  }
+  input[type=range].dial::-webkit-slider-thumb:active { cursor: grabbing; }
+  input[type=range].dial::-moz-range-thumb {
+    width: 30px; height: 30px; border-radius: 50%; border: 2px solid #07101a;
+    background: radial-gradient(circle at 35% 30%, #fff, var(--teal-bright) 45%, var(--teal-dim) 100%);
+    box-shadow: 0 0 0 4px rgba(79,195,161,0.18);
+    cursor: grab;
+  }
+  .ticks { display: flex; justify-content: space-between; margin-top: 6px; font-family: var(--mono); font-size: 0.8rem; color: var(--ink-faint); padding: 0 2px; }
+
+  /* verdict line — the diagnosis */
+  .verdict {
+    margin-top: 18px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    min-height: 84px;
+  }
+  .verdict .state {
+    font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 6px; transition: color 0.3s;
+  }
+  .verdict .state.under { color: var(--steel); }
+  .verdict .state.sweet { color: var(--teal-bright); }
+  .verdict .state.over { color: var(--brass); }
+  .verdict .say {
+    font-family: var(--serif); font-size: 1.12rem; line-height: 1.4; color: var(--ink);
+  }
+  .verdict .say em { font-style: italic; color: var(--teal-bright); }
+
+  .sweet-hint {
+    margin-top: 14px; text-align: center;
+    font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em;
+    color: var(--ink-faint);
+  }
+  .sweet-hint.found { color: var(--teal-bright); }
+
+  /* ---------- Field note callout ---------- */
+  .fieldnote {
+    background: linear-gradient(135deg, rgba(217,164,91,0.10), rgba(13,30,30,0.4));
+    border: 1px solid rgba(217,164,91,0.3);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-top: 20px;
+  }
+  .fieldnote .fn-h {
+    font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--brass); margin-bottom: 8px;
+  }
+  .fieldnote p { font-size: 1rem; color: var(--ink-soft); margin: 0; }
+  .fieldnote p em { color: var(--ink); font-style: italic; }
+
+  /* ---------- Delight card ---------- */
+  #delight {
+    background: radial-gradient(120% 100% at 50% 0%, rgba(79,195,161,0.14), rgba(7,16,24,0.85));
+    border-color: var(--line-strong);
+    text-align: center;
+  }
+  #delight .part-no { justify-content: center; }
+  #delight h2 { font-size: clamp(1.7rem, 7vw, 2.4rem); }
+  .razor-fact { font-family: var(--serif); font-size: 1.18rem; color: var(--ink); font-style: italic; max-width: 40ch; margin: 0 auto 16px; }
+  .razor-svg { margin: 8px auto 22px; display: block; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    margin-top: 70px;
+    border-top: 1px solid var(--line);
+    padding-top: 30px;
+    text-align: center;
+  }
+  .foot-nav { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .foot-nav a {
+    font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-soft); text-decoration: none;
+    border: 1px solid var(--line); border-radius: 30px; padding: 9px 18px;
+    transition: all 0.25s;
+  }
+  .foot-nav a:hover { color: #07101a; background: var(--teal-bright); border-color: var(--teal-bright); }
+  .foot-meta { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--ink-faint); line-height: 1.9; }
+  .foot-meta .razor-line { color: var(--teal); }
+
+  @media (max-width: 430px) {
+    .card { padding: 28px 20px 30px; }
+    .readout { grid-template-columns: 1fr; }
+    .wrap { padding: 0 16px 100px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bench-progress">
+  <span>Bench</span>
+  <span class="count" id="pcount">01 / 09</span>
+  <span class="bar"><i id="pbar"></i></span>
+  <span id="plabel">Setup</span>
+</div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Meliorism 2.0 <span class="dot">·</span> Mental Models <span class="dot">·</span> Field Edition</div>
+    <h1 class="title">Occam<span class="apos">&rsquo;</span>s Razor</h1>
+    <p class="subtitle">Strip a problem down to the fewest parts that still explain it. Then know when <em>not</em> to.</p>
+    <div class="toolrail" aria-hidden="true">
+      <span class="ln"></span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4fc3a1" stroke-width="1.4"><path d="M5 19l9-9M14 10l4-4a2 2 0 1 0-3-3l-4 4M11 8l5 5"/></svg>
+      <span class="ln"></span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d9a45b" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><path d="M12 4v3M12 17v3M4 12h3M17 12h3"/></svg>
+      <span class="ln"></span>
+    </div>
+    <div class="byline">A workbench, not a lecture &nbsp;·&nbsp; build &nbsp;test&nbsp; refine</div>
+  </header>
+
+  <!-- 01 -->
+  <section class="card" data-label="Setup">
+    <div class="part-no"><span class="tag">Part 01</span><span class="label">On the bench</span></div>
+    <h2>Pull up a stool. We&rsquo;re building a <em>model</em>.</h2>
+    <p class="lead">I have sat across from the tangle you&rsquo;re holding. A client describes a problem and ten possible causes spill out at once. The temptation is to honor all ten.</p>
+    <p>Don&rsquo;t. On this bench we build explanations the way a model-maker builds: start with raw parts, clamp the thing in the vise, add only what the evidence forces you to add. Every assumption is a part you bolt on. Parts cost weight. Weight costs truth.</p>
+    <p class="micro">// the heuristic, plain: when explanations compete, reach first for the one carrying the fewest assumptions.</p>
+  </section>
+
+  <!-- 02 -->
+  <section class="card" data-label="The Principle">
+    <div class="part-no"><span class="tag">Part 02</span><span class="label">The blade</span></div>
+    <h2>What the razor actually cuts</h2>
+    <div class="pull">&ldquo;Entities should not be multiplied beyond necessity.&rdquo;</div>
+    <p>William of Ockham, a 14th-century friar, never said it in those exact words &mdash; but the instinct is his. The razor doesn&rsquo;t say the simple answer is <strong>true</strong>. It says the simple answer is where you should <strong>look first</strong>, because every extra assumption is one more thing that has to independently be correct.</p>
+    <p>Three assumptions stacked, each 80% likely to hold, leave you at barely half. The blade trims the stack.</p>
+  </section>
+
+  <!-- 03 — INTERACTIVE -->
+  <section class="card" id="bench" data-label="The Dial">
+    <div class="part-no"><span class="tag">Part 03</span><span class="label">Build &amp; test</span></div>
+    <h2>The dial: how many <em>parts</em> does your model need?</h2>
+    <p>Here is the whole lesson in one control. Drag the dial to add assumptions to your explanation. Watch two things move at once.</p>
+
+    <div class="dial-stage">
+      <div class="chart-head">
+        <span class="ttl">Model performance</span>
+        <div class="legend">
+          <span class="fit"><i></i> Fits this case</span>
+          <span class="pred"><i></i> Predicts the next</span>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <svg class="chart" viewBox="0 0 340 200" preserveAspectRatio="xMidYMid meet" aria-label="Two curves: fit rises with assumptions, predictive accuracy rises then falls.">
+          <defs>
+            <linearGradient id="predFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4fc3a1" stop-opacity="0.32"/>
+              <stop offset="100%" stop-color="#4fc3a1" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- gridlines -->
+          <g stroke="rgba(79,195,161,0.10)" stroke-width="1">
+            <line x1="34" y1="20" x2="324" y2="20"/>
+            <line x1="34" y1="65" x2="324" y2="65"/>
+            <line x1="34" y1="110" x2="324" y2="110"/>
+            <line x1="34" y1="155" x2="324" y2="155"/>
+          </g>
+          <!-- axes -->
+          <line x1="34" y1="170" x2="324" y2="170" stroke="rgba(79,195,161,0.4)" stroke-width="1"/>
+          <line x1="34" y1="20" x2="34" y2="170" stroke="rgba(79,195,161,0.4)" stroke-width="1"/>
+          <!-- y label -->
+          <text x="10" y="98" fill="#5e7b73" font-family="JetBrains Mono, monospace" font-size="8" transform="rotate(-90 10 98)" letter-spacing="1">ACCURACY</text>
+          <text x="172" y="192" fill="#5e7b73" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle" letter-spacing="1">ASSUMPTIONS ADDED →</text>
+
+          <!-- sweet-spot band (drawn by JS) -->
+          <rect id="sweetBand" x="0" y="20" width="0" height="150" fill="rgba(111,230,194,0.07)" />
+
+          <path id="predArea" fill="url(#predFill)" d=""/>
+          <path id="fitLine" fill="none" stroke="#8fa3ad" stroke-width="2.4" stroke-linecap="round" d="" stroke-dasharray="2 4"/>
+          <path id="predLine" fill="none" stroke="#6fe6c2" stroke-width="2.8" stroke-linecap="round" d=""/>
+
+          <!-- moving marker -->
+          <line id="markX" x1="34" y1="20" x2="34" y2="170" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-dasharray="3 3"/>
+          <circle id="dotFit" cx="34" cy="170" r="4" fill="#8fa3ad" stroke="#07101a" stroke-width="1.5"/>
+          <circle id="dotPred" cx="34" cy="170" r="5" fill="#6fe6c2" stroke="#07101a" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <div class="readout">
+        <div class="cell fit"><div class="k">Fit to the case in hand</div><div class="v" id="vfit">12%</div></div>
+        <div class="cell pred"><div class="k">Predicts the next case</div><div class="v" id="vpred">28%</div></div>
+      </div>
+
+      <div class="dial-control">
+        <div class="dial-label">
+          <span>Assumptions in your model</span>
+          <span class="assum"><b id="adigit">0</b>/ 10</span>
+        </div>
+        <input type="range" class="dial" id="dial" min="0" max="10" value="0" step="1" aria-label="Number of assumptions added to the model" />
+        <div class="ticks"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span></div>
+      </div>
+
+      <div class="verdict">
+        <div class="state under" id="vstate">Underfit</div>
+        <div class="say" id="vsay">Too few parts. Your explanation is so bare it barely covers the case in front of you &mdash; and it&rsquo;ll miss the next one too.</div>
+      </div>
+
+      <div class="sweet-hint" id="shint">Keep turning. Find where the teal line peaks.</div>
+    </div>
+
+    <p class="micro" style="margin-top:18px;">// what you just felt is the bias&ndash;variance tradeoff. The simplest model that <strong style="color:var(--ink)">still fits</strong> is the one that predicts best. That is Occam&rsquo;s Razor, drawn as a curve.</p>
+  </section>
+
+  <!-- 04 -->
+  <section class="card" data-label="Underfit">
+    <div class="part-no"><span class="tag">Part 04</span><span class="label">Too few parts</span></div>
+    <h2>The bare frame falls over</h2>
+    <p>Strip too far and you&rsquo;re not being elegant &mdash; you&rsquo;re being lazy. &ldquo;The client is just unmotivated&rdquo; is a one-part model. It fits nothing and predicts nothing. It&rsquo;s a label wearing the costume of an explanation.</p>
+    <p>The razor removes <strong>unnecessary</strong> assumptions, not <strong>necessary</strong> ones. Ockham&rsquo;s own phrase ends with <em>beyond necessity</em>. Keep every part the evidence demands. Cut only what it doesn&rsquo;t.</p>
+  </section>
+
+  <!-- 05 -->
+  <section class="card" data-label="Overfit">
+    <div class="part-no"><span class="tag">Part 05</span><span class="label">Too many parts</span></div>
+    <h2>The over-built model that <em>only</em> fits today</h2>
+    <p>This is the failure mode I see most in skilled practitioners. You add a part for every wrinkle: the childhood, the boss, the Mercury retrograde, the gut biome. Each part makes today&rsquo;s case fit a little tighter. The model becomes a beautiful, bespoke sculpture of <strong>this one person on this one Tuesday.</strong></p>
+    <p>Then the next case walks in, and your masterpiece predicts nothing. You didn&rsquo;t build a model. You memorized a moment. <strong>That&rsquo;s overfitting</strong> &mdash; and the dial showed you its exact price: the teal line falling off the cliff.</p>
+    <div class="fieldnote">
+      <div class="fn-h">Field note · spotting it live</div>
+      <p>If your explanation needs a <em>new special reason</em> for every new fact, you don&rsquo;t have an explanation. You have an excuse generator. Real models get <em>simpler</em> as they get truer.</p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="card" data-label="Calibration">
+    <div class="part-no"><span class="tag">Part 06</span><span class="label">The edge case</span></div>
+    <h2>When the complex answer is the real one</h2>
+    <p>Here&rsquo;s the part most people skip, and it&rsquo;s the part that makes you a practitioner instead of a parrot. <strong>Simplest is not always true.</strong> Sometimes the tangle <em>is</em> the truth.</p>
+    <p>Rare diseases are rare for a reason &mdash; but they exist, and the patient in front of you might be the one. The razor tells you where to look <em>first</em>, not where to stop. The skill isn&rsquo;t cutting. The skill is <strong>calibration</strong>: knowing when the simple model has stopped fitting the evidence, and being honest enough to add the part you were hoping not to need.</p>
+    <p class="micro">// rule of thumb: simple until the evidence breaks it. Then &mdash; and only then &mdash; add exactly one more part and test again.</p>
+  </section>
+
+  <!-- 07 -->
+  <section class="card" data-label="Practice">
+    <div class="part-no"><span class="tag">Part 07</span><span class="label">At the bench tomorrow</span></div>
+    <h2>Three moves you can run this week</h2>
+    <ul class="parts">
+      <li><span class="n">01</span><div><b>Count the parts out loud.</b> When you catch yourself explaining, literally count the assumptions. Three or more? Ask which one the evidence actually forces.</div></li>
+      <li><span class="n">02</span><div><b>Run the next-case test.</b> Before you commit to a theory, ask: would this still explain a <em>different</em> person with the same symptom? If not, you&rsquo;ve overfit.</div></li>
+      <li><span class="n">03</span><div><b>Name the part you&rsquo;re avoiding.</b> When the simple model keeps breaking, the complex answer is usually the one you didn&rsquo;t want to be true. Say it. Test it.</div></li>
+    </ul>
+  </section>
+
+  <!-- 08 -->
+  <section class="card" data-label="The Cut">
+    <div class="part-no"><span class="tag">Part 08</span><span class="label">Final pass</span></div>
+    <h2>Lift it out of the vise</h2>
+    <p>The model is built. It has the fewest parts that still explain the case &mdash; and it&rsquo;ll hold up when the next one walks in. That&rsquo;s the whole craft: not the simplest possible, but the simplest <em>sufficient.</em></p>
+    <div class="pull">The better explanation was already there. We just stopped bolting parts onto it.</div>
+    <p class="micro">// you came in holding ten possible causes. You leave holding the two that were doing all the work.</p>
+  </section>
+
+  <!-- 09 — DELIGHT -->
+  <section class="card" id="delight" data-label="Off the clock">
+    <div class="part-no"><span class="tag">Part 09</span><span class="label">Off the clock</span></div>
+    <svg class="razor-svg" width="120" height="48" viewBox="0 0 120 48" fill="none" aria-hidden="true">
+      <path d="M8 38 L96 10 a8 8 0 0 1 9 2 l5 5 a4 4 0 0 1 -1 6 L24 44 a10 10 0 0 1 -16 -6Z" fill="rgba(79,195,161,0.12)" stroke="#6fe6c2" stroke-width="1.4"/>
+      <line x1="14" y1="34" x2="92" y2="14" stroke="#d9a45b" stroke-width="1.2"/>
+      <circle cx="100" cy="16" r="2" fill="#d9a45b"/>
+    </svg>
+    <h2>A razor that shaved nothing</h2>
+    <p class="razor-fact">Ockham&rsquo;s razor is named for a man who, as far as history records, never owned a razor for this idea, never drew a curve, and was excommunicated &mdash; not for the principle, but for arguing the Pope shouldn&rsquo;t own property.</p>
+    <p>The crispest version we quote today &mdash; <em>&ldquo;entities must not be multiplied beyond necessity&rdquo;</em> &mdash; was written by John Punch, an Irish friar, three hundred years after Ockham died. We attached the sharpest line in philosophy to the wrong man and kept it there for centuries. The simplest story (one friar, one blade, one sentence) was, fittingly, too simple to be true.</p>
+    <p class="micro" style="margin-top:18px; color:var(--teal-dim);">— and that, off the record, is the most Occam thing about Occam&rsquo;s Razor.</p>
+  </section>
+
+  <footer>
+    <div class="foot-nav">
+      <a href="../../index.html">Library</a>
+      <a href="#bench">Weather</a>
+      <a href="../../index.html">Home</a>
+    </div>
+    <div class="foot-meta">
+      Meliorism 2.0 &nbsp;·&nbsp; The Field Edition &nbsp;·&nbsp; Issue: Occam&rsquo;s Razor<br/>
+      <span class="razor-line">Simplest sufficient. Not simplest possible.</span><br/>
+      Built at the bench &mdash; clarity, weather teal.
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------------- Chart geometry ---------------- */
+  var X0 = 34, X1 = 324, Y0 = 170, Y1 = 20;   // plot box
+  var STEPS = 10;
+
+  function px(a) { return X0 + (a / STEPS) * (X1 - X0); }      // assumptions -> x
+  function py(v) { return Y0 - v * (Y0 - Y1); }                // value 0..1 -> y
+
+  /* ---- The two models, as functions of assumption count a (0..10) ---- */
+
+  // FIT: monotonic, diminishing returns. Rises toward ~1 as parts pile on.
+  // 1 - 0.92^a  gives a clean saturating climb.
+  function fitAt(a) {
+    return 1 - Math.pow(0.86, a);
+  }
+
+  // PREDICT: rises then falls — overfitting. Peak near a = 3.
+  // bell-ish: base climb minus an overfit penalty that grows with a^2.
+  function predAt(a) {
+    var climb = 1 - Math.pow(0.55, a);          // fast early gain
+    var penalty = 0.013 * a * a;                // accelerating overfit cost
+    var v = climb - penalty;
+    return Math.max(0, Math.min(1, v));
+  }
+
+  // Find the integer peak of predict() — the sweet spot.
+  var SWEET = 0, sweetVal = -1;
+  for (var i = 0; i <= STEPS; i++) {
+    var pv = predAt(i);
+    if (pv > sweetVal) { sweetVal = pv; SWEET = i; }
+  }
+
+  /* ---------------- Build static curve paths ---------------- */
+  function buildPath(fn) {
+    var d = "";
+    var SUB = 60;
+    for (var s = 0; s <= SUB; s++) {
+      var a = (s / SUB) * STEPS;
+      var x = px(a), y = py(fn(a));
+      d += (s === 0 ? "M" : "L") + x.toFixed(1) + " " + y.toFixed(1) + " ";
+    }
+    return d.trim();
+  }
+  function buildArea(fn) {
+    return buildPath(fn) + " L" + px(STEPS).toFixed(1) + " " + Y0 + " L" + X0 + " " + Y0 + " Z";
+  }
+
+  var fitLine  = document.getElementById('fitLine');
+  var predLine = document.getElementById('predLine');
+  var predArea = document.getElementById('predArea');
+  fitLine.setAttribute('d', buildPath(fitAt));
+  predLine.setAttribute('d', buildPath(predAt));
+  predArea.setAttribute('d', buildArea(predAt));
+
+  // sweet-spot band: a soft column around the integer peak
+  var band = document.getElementById('sweetBand');
+  var bandHalf = (X1 - X0) / STEPS * 0.5;
+  var bx = px(SWEET) - bandHalf;
+  band.setAttribute('x', bx.toFixed(1));
+  band.setAttribute('width', (bandHalf * 2).toFixed(1));
+
+  /* ---------------- Live elements ---------------- */
+  var dial   = document.getElementById('dial');
+  var adigit = document.getElementById('adigit');
+  var markX  = document.getElementById('markX');
+  var dotFit = document.getElementById('dotFit');
+  var dotPred= document.getElementById('dotPred');
+  var vfit   = document.getElementById('vfit');
+  var vpred  = document.getElementById('vpred');
+  var vstate = document.getElementById('vstate');
+  var vsay   = document.getElementById('vsay');
+  var shint  = document.getElementById('shint');
+
+  var reachedSweet = false;
+
+  var COPY = {
+    under: [
+      "Too few parts. Your explanation is so bare it barely covers the case in front of you &mdash; and it&rsquo;ll miss the next one too.",
+      "Still underfit. One assumption isn&rsquo;t an explanation &mdash; it&rsquo;s a label. The evidence is asking for more.",
+      "Closer. The frame is taking shape, but it&rsquo;s wobbling. One or two more parts and the model stands on its own."
+    ],
+    sweet:
+      "<em>This is the cut.</em> The fewest parts that still explain the case &mdash; and the teal line is at its peak. Add nothing more. This model will hold when the next case walks in.",
+    over: [
+      "Over-built. You&rsquo;re still nailing this case tighter, but watch the teal line drop: you&rsquo;re trading the next case for this one.",
+      "Overfitting hard. Every part you add now is a special reason that only this Tuesday could ever need.",
+      "You&rsquo;ve built a sculpture of one moment. It fits today perfectly and predicts nothing. This is the trap the razor exists to prevent."
+    ]
+  };
+
+  function fmtPct(v) { return Math.round(v * 100) + "%"; }
+
+  function render(a) {
+    var f = fitAt(a), p = predAt(a);
+
+    adigit.textContent = a;
+    vfit.textContent = fmtPct(f);
+    vpred.textContent = fmtPct(p);
+
+    var x = px(a);
+    markX.setAttribute('x1', x); markX.setAttribute('x2', x);
+    dotFit.setAttribute('cx', x);  dotFit.setAttribute('cy', py(f));
+    dotPred.setAttribute('cx', x); dotPred.setAttribute('cy', py(p));
+
+    // verdict
+    var stateClass, stateText, sayText;
+    if (a < SWEET) {
+      stateClass = 'under'; stateText = 'Underfit · too simple';
+      var idx = Math.min(COPY.under.length - 1, Math.floor(a / Math.max(1, SWEET) * COPY.under.length));
+      sayText = COPY.under[idx];
+    } else if (a === SWEET) {
+      stateClass = 'sweet'; stateText = 'The sweet spot · simplest sufficient';
+      sayText = COPY.sweet;
+      reachedSweet = true;
+    } else {
+      stateClass = 'over'; stateText = 'Overfit · too complex';
+      var span = STEPS - SWEET;
+      var oi = Math.min(COPY.over.length - 1, Math.floor((a - SWEET - 1) / Math.max(1, span) * COPY.over.length));
+      if (oi < 0) oi = 0;
+      sayText = COPY.over[oi];
+    }
+    vstate.className = 'state ' + stateClass;
+    vstate.textContent = stateText;
+    vsay.innerHTML = sayText;
+
+    // hint
+    if (reachedSweet) {
+      shint.classList.add('found');
+      shint.innerHTML = "✦ You found it: the peak sits at " + SWEET + " assumptions. The simplest model that still fits.";
+    } else {
+      shint.classList.remove('found');
+      shint.textContent = "Keep turning. Find where the teal line peaks.";
+    }
+  }
+
+  dial.addEventListener('input', function () { render(parseInt(dial.value, 10)); });
+  render(0);
+
+  /* ---------------- Reveal on scroll + progress ---------------- */
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var pcount = document.getElementById('pcount');
+  var pbar   = document.getElementById('pbar');
+  var plabel = document.getElementById('plabel');
+  var total  = cards.length;
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) e.target.classList.add('lit');
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    cards.forEach(function (c) { io.observe(c); });
+  } else {
+    cards.forEach(function (c) { c.classList.add('lit'); });
+  }
+
+  // progress tracker — which card is most centered
+  function updateProgress() {
+    var mid = window.innerHeight * 0.42;
+    var best = 0, bestDist = Infinity;
+    for (var k = 0; k < cards.length; k++) {
+      var r = cards[k].getBoundingClientRect();
+      var c = r.top + r.height / 2;
+      var d = Math.abs(c - mid);
+      if (d < bestDist) { bestDist = d; best = k; }
+    }
+    pcount.textContent = pad(best + 1) + ' / ' + pad(total);
+    pbar.style.width = (((best + 1) / total) * 100) + '%';
+    plabel.textContent = cards[best].getAttribute('data-label') || '';
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      window.requestAnimationFrame(function () { updateProgress(); ticking = false; });
+      ticking = true;
+    }
+  }, { passive: true });
+  window.addEventListener('resize', updateProgress, { passive: true });
+  updateProgress();
+})();
+</script>
+</body>
+</html>

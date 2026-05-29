@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Occam's Razor — The Light Table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg0:#141824;
+    --bg1:#141620;
+    --film:#1b2230;
+    --film2:#1e2636;
+    --line:#2a3344;
+    --slate:#7fa8c4;
+    --slate-dim:#5a7589;
+    --slate-bright:#a9cce4;
+    --ink:#d7e2ec;
+    --ink-dim:#8b9aac;
+    --ink-faint:#586677;
+    --warn:#d98a76;
+    --clear:#9fd4c4;
+    --serif:'Spectral',Georgia,serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--serif);
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(127,168,196,0.06), transparent 60%),
+      linear-gradient(165deg,var(--bg0) 0%, var(--bg1) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+  /* fog veils */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(60% 40% at 18% 12%, rgba(127,168,196,0.05), transparent 70%),
+      radial-gradient(50% 50% at 82% 88%, rgba(127,168,196,0.04), transparent 70%);
+    animation:drift 26s ease-in-out infinite alternate;
+  }
+  @keyframes drift{0%{transform:translate(-1.5%,-1%) scale(1.02);}100%{transform:translate(1.5%,1%) scale(1.06);}}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.035;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  .wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:0 22px;}
+
+  /* ---- masthead ---- */
+  header.mast{padding:64px 0 18px;}
+  .kicker{font-family:var(--mono);font-size:0.8rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--slate-dim);font-weight:400;}
+  .kicker .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--slate);margin:0 9px 2px;vertical-align:middle;box-shadow:0 0 8px var(--slate);}
+  h1.title{font-family:var(--serif);font-weight:300;font-size:clamp(2.9rem,11vw,4.6rem);line-height:0.98;letter-spacing:-0.02em;margin:22px 0 14px;color:var(--ink);}
+  h1.title em{font-style:italic;color:var(--slate-bright);}
+  .dek{font-size:1.12rem;color:var(--ink-dim);max-width:46ch;font-weight:300;}
+  .readout{font-family:var(--mono);font-size:0.8rem;color:var(--ink-faint);letter-spacing:0.08em;margin-top:26px;display:flex;gap:18px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;}
+  .readout span b{color:var(--slate);font-weight:500;}
+
+  /* ---- progress film-strip nav ---- */
+  .filmstrip{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,rgba(20,24,36,0.96),rgba(20,24,36,0.7));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:11px 0;margin-top:38px;}
+  .filmstrip .inner{max-width:760px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:10px;overflow-x:auto;scrollbar-width:none;}
+  .filmstrip .inner::-webkit-scrollbar{display:none;}
+  .frame{flex:0 0 auto;width:26px;height:34px;border:1px solid var(--line);border-radius:2px;position:relative;background:var(--film);cursor:pointer;transition:.4s;opacity:.5;}
+  .frame::before{content:"";position:absolute;inset:3px;border:1px dashed rgba(127,168,196,.18);border-radius:1px;}
+  .frame.active{opacity:1;border-color:var(--slate);box-shadow:0 0 0 1px var(--slate),0 0 14px rgba(127,168,196,.4);background:#202a3a;}
+  .frame.seen{opacity:.8;border-color:var(--slate-dim);}
+  .strip-label{font-family:var(--mono);font-size:0.8rem;color:var(--ink-faint);letter-spacing:0.14em;margin-left:auto;flex:0 0 auto;text-transform:uppercase;}
+
+  /* ---- cards ---- */
+  section.card{padding:56px 0;border-bottom:1px solid var(--line);scroll-margin-top:64px;}
+  .cardnum{font-family:var(--mono);font-size:0.8rem;letter-spacing:0.3em;color:var(--slate-dim);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+  .cardnum .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);}
+  h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,6.4vw,2.5rem);line-height:1.12;letter-spacing:-0.01em;margin-bottom:20px;color:var(--ink);}
+  h2 em{font-style:italic;color:var(--slate-bright);}
+  p.body{font-size:1.08rem;color:var(--ink-dim);font-weight:300;margin-bottom:18px;}
+  p.body strong{color:var(--ink);font-weight:500;}
+  .lead{font-size:1.28rem;color:var(--ink);font-weight:300;line-height:1.5;}
+  .pull{font-family:var(--serif);font-style:italic;font-size:1.5rem;line-height:1.35;color:var(--slate-bright);border-left:2px solid var(--slate);padding-left:22px;margin:30px 0;font-weight:300;}
+
+  /* x-ray plate generic */
+  .plate{position:relative;margin:32px 0;border:1px solid var(--line);border-radius:4px;background:radial-gradient(120% 120% at 50% 0%, #1a212e, #141824);overflow:hidden;}
+  .plate .corner{position:absolute;width:14px;height:14px;border:1px solid var(--slate-dim);opacity:.5;}
+  .c1{top:8px;left:8px;border-right:0;border-bottom:0;}
+  .c2{top:8px;right:8px;border-left:0;border-bottom:0;}
+  .c3{bottom:8px;left:8px;border-right:0;border-top:0;}
+  .c4{bottom:8px;right:8px;border-left:0;border-top:0;}
+
+  /* ===== THE CORE INTERACTIVE: the light box ===== */
+  .lightbox{padding:0 0 8px;}
+  .instruction{font-family:var(--mono);font-size:0.8rem;color:var(--slate);letter-spacing:0.06em;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .instruction::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--slate);box-shadow:0 0 10px var(--slate);animation:pulse 2.4s infinite;}
+  @keyframes pulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+
+  .panel{
+    position:relative;
+    background:
+      radial-gradient(140% 100% at 50% 30%, rgba(127,168,196,0.12), transparent 65%),
+      linear-gradient(180deg,#0e131c,#0b0f17);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:20px 16px 18px;
+    box-shadow:inset 0 0 60px rgba(127,168,196,0.05), 0 20px 60px rgba(0,0,0,.4);
+  }
+  /* the backlit image beneath the films */
+  .specimen{position:relative;height:230px;border-radius:4px;overflow:hidden;border:1px solid #232c3c;
+    background:radial-gradient(80% 90% at 50% 55%, #243042, #10151f 75%);display:flex;align-items:center;justify-content:center;}
+  .specimen .glow{position:absolute;inset:0;background:radial-gradient(50% 60% at 50% 52%, rgba(159,212,196,0.0), transparent 70%);transition:1s;}
+  .specimen.resolved .glow{background:radial-gradient(55% 65% at 50% 50%, rgba(159,212,196,0.22), transparent 72%);}
+  /* the rib/lung diagnostic shape rendered in CSS */
+  .anatomy{position:relative;width:200px;height:160px;opacity:.32;transition:1s;}
+  .specimen.resolved .anatomy{opacity:.85;filter:drop-shadow(0 0 14px rgba(159,212,196,.5));}
+  .specimen.broken .anatomy{opacity:.85;filter:drop-shadow(0 0 14px rgba(217,138,118,.55));}
+  .anatomy .spine{position:absolute;left:50%;top:6%;width:6px;height:88%;transform:translateX(-50%);background:linear-gradient(180deg,#7fa8c4,#4d6679);border-radius:4px;}
+  .anatomy .rib{position:absolute;height:3px;background:#6f93ab;border-radius:3px;left:50%;}
+  .verdict{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);font-size:0.8rem;letter-spacing:.08em;text-align:center;padding:9px;background:linear-gradient(0deg,rgba(11,15,23,.95),transparent);color:var(--ink-faint);transition:.6s;}
+  .specimen.resolved .verdict{color:var(--clear);}
+  .specimen.broken .verdict{color:var(--warn);}
+
+  /* the stack of films */
+  .films{margin-top:14px;display:flex;flex-direction:column;gap:9px;}
+  .film{
+    position:relative;
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:14px 15px 14px 48px;
+    background:linear-gradient(180deg,rgba(30,38,52,0.9),rgba(24,30,42,0.9));
+    cursor:pointer;
+    transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .55s,margin .55s,border-color .3s,background .3s;
+    user-select:none;
+    overflow:hidden;
+  }
+  .film:hover{border-color:var(--slate-dim);background:linear-gradient(180deg,rgba(36,46,64,0.95),rgba(28,36,50,0.95));}
+  .film .tag{font-family:var(--mono);font-size:0.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--slate-dim);}
+  .film .claim{font-size:1rem;color:var(--ink);font-weight:300;margin-top:3px;line-height:1.4;}
+  .film .assume{font-family:var(--mono);font-size:0.8rem;color:var(--ink-faint);margin-top:6px;letter-spacing:.03em;}
+  .film .chip{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:1px solid var(--slate-dim);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.8rem;color:var(--slate);transition:.3s;}
+  .film:hover .chip{border-color:var(--slate);box-shadow:0 0 10px rgba(127,168,196,.4);}
+  .film .hoverhint{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:0.8rem;color:var(--slate-dim);opacity:0;transition:.3s;letter-spacing:.1em;}
+  .film:hover .hoverhint{opacity:1;}
+  /* peeled state */
+  .film.peeled{transform:translateX(118%) rotate(2deg);opacity:0;margin-top:-58px;margin-bottom:-9px;pointer-events:none;}
+  /* the load-bearing film */
+  .film.core{border-left:2px solid var(--slate-dim);}
+  .film.core .tag{color:var(--slate);}
+
+  /* meters */
+  .meters{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+  .meter{border:1px solid var(--line);border-radius:4px;padding:12px 13px;background:rgba(20,24,36,.5);}
+  .meter .ml{font-family:var(--mono);font-size:0.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);display:flex;justify-content:space-between;}
+  .meter .ml b{color:var(--slate);font-weight:500;transition:.4s;}
+  .bar{height:6px;border-radius:3px;background:#1a212e;margin-top:9px;overflow:hidden;}
+  .bar .fill{height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--slate-dim),var(--slate-bright));transition:width .6s cubic-bezier(.2,.8,.2,1),background .4s;}
+  .meter.clarity .fill.hot{background:linear-gradient(90deg,var(--slate),var(--clear));box-shadow:0 0 12px rgba(159,212,196,.5);}
+  .meter.clarity .fill.over{background:linear-gradient(90deg,var(--warn),#e3a392);box-shadow:0 0 12px rgba(217,138,118,.5);}
+
+  .statusline{margin-top:16px;font-family:var(--mono);font-size:0.8rem;letter-spacing:.03em;color:var(--ink-dim);min-height:42px;border-top:1px dashed var(--line);padding-top:14px;line-height:1.55;transition:.4s;}
+  .statusline.good{color:var(--clear);}
+  .statusline.bad{color:var(--warn);}
+  .reset{margin-top:14px;font-family:var(--mono);font-size:0.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--slate-dim);background:none;border:1px solid var(--line);border-radius:3px;padding:9px 16px;cursor:pointer;transition:.3s;}
+  .reset:hover{border-color:var(--slate);color:var(--slate);}
+
+  /* small explanatory diagram cards */
+  .assumlist{list-style:none;margin:18px 0;}
+  .assumlist li{font-size:1.02rem;color:var(--ink-dim);font-weight:300;padding:11px 0 11px 30px;border-bottom:1px solid var(--line);position:relative;}
+  .assumlist li::before{content:"−";position:absolute;left:4px;top:11px;font-family:var(--mono);color:var(--slate);}
+  .assumlist li:last-child{border-bottom:0;}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0;}
+  .cell{border:1px solid var(--line);border-radius:4px;padding:16px;background:rgba(20,24,36,.4);}
+  .cell h4{font-family:var(--mono);font-size:0.8rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;}
+  .cell.cut h4{color:var(--clear);}
+  .cell.keep h4{color:var(--warn);}
+  .cell p{font-size:0.98rem;color:var(--ink-dim);font-weight:300;}
+
+  /* delight */
+  .delight{background:linear-gradient(165deg,#161b27,#11151f);border:1px solid var(--line);border-radius:6px;padding:34px 26px;margin:50px 0 30px;position:relative;overflow:hidden;}
+  .delight::after{content:"";position:absolute;top:-40%;right:-20%;width:60%;height:160%;background:radial-gradient(closest-side,rgba(127,168,196,.1),transparent);}
+  .delight .dl{font-family:var(--mono);font-size:0.8rem;letter-spacing:.3em;color:var(--slate-dim);text-transform:uppercase;}
+  .delight h3{font-family:var(--serif);font-weight:300;font-size:1.7rem;margin:14px 0 12px;color:var(--ink);font-style:italic;}
+
+  /* footer */
+  footer{padding:50px 0 70px;text-align:center;}
+  footer .nav{display:flex;justify-content:center;gap:28px;font-family:var(--mono);font-size:0.8rem;letter-spacing:.18em;text-transform:uppercase;flex-wrap:wrap;}
+  footer .nav a{color:var(--slate-dim);text-decoration:none;transition:.3s;position:relative;}
+  footer .nav a:hover{color:var(--slate-bright);}
+  footer .nav a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:1px;background:var(--slate-bright);transition:.3s;}
+  footer .nav a:hover::after{width:100%;}
+  footer .colophon{margin-top:30px;font-family:var(--mono);font-size:0.8rem;color:var(--ink-faint);letter-spacing:.08em;line-height:1.8;}
+  footer .colophon .dot{color:var(--slate-dim);margin:0 8px;}
+
+  @media (max-width:430px){
+    h1.title{font-size:clamp(2.4rem,13vw,3rem);}
+    .meters{grid-template-columns:1fr;}
+    .twocol{grid-template-columns:1fr;}
+    .pull{font-size:1.25rem;}
+    .film{padding-left:46px;}
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<div class="wrap">
+  <header class="mast">
+    <div class="kicker">Signal&nbsp;OS <span class="dot"></span> The Practitioner's Lab <span class="dot"></span> No.&nbsp;031</div>
+    <h1 class="title">Occam's <em>Razor</em></h1>
+    <p class="dek">Read the films. Strip the assumptions. Find the simplest sufficient explanation — and learn where the cut goes too far.</p>
+    <div class="readout">
+      <span>WEATHER&nbsp;·&nbsp;<b>FOG</b></span>
+      <span>VIEWER&nbsp;·&nbsp;<b>LIGHT TABLE</b></span>
+      <span>FILMS&nbsp;·&nbsp;<b>08</b></span>
+    </div>
+  </header>
+</div>
+
+<!-- film-strip progress nav -->
+<nav class="filmstrip" id="strip">
+  <div class="inner" id="stripInner">
+    <span class="strip-label">Light&nbsp;Table</span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- CARD 1 -->
+  <section class="card" id="c1">
+    <div class="cardnum">Film 01 <span class="rule"></span> The Backlit Panel</div>
+    <h2>You are a radiologist at a <em>backlit panel.</em></h2>
+    <p class="lead">A case comes in as a tangle. Five explanations clipped over one image, each plausible, each casting its own shadow.</p>
+    <p class="body">The amateur adds films. The expert removes them. Occam's razor is not a rule about truth — it is a rule about <strong>where to look first.</strong> When competing explanations fit the same evidence, start with the one carrying the fewest assumptions.</p>
+    <div class="plate" style="height:140px;">
+      <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;color:var(--ink-faint);letter-spacing:.1em;text-align:center;padding:0 30px;line-height:1.7;">CASE FILE OPEN<br>5 OVERLAPPING DIAGNOSES · 1 IMAGE BENEATH</div>
+    </div>
+    <p class="body">Below, the actual light box. Each film is one explanation. Read it. Decide if its extra assumption is needed. Then peel it away.</p>
+  </section>
+
+  <!-- CARD 2 — THE CORE INTERACTION -->
+  <section class="card" id="c2">
+    <div class="cardnum">Film 02 <span class="rule"></span> The Light Box</div>
+    <h2>Peel until the image is <em>sharp.</em></h2>
+    <p class="body">A patient: persistent cough, mild fever, recent long-haul flight, owns two cats, smokes occasionally. Five films are clipped over the X-ray. <strong>Tap each film to peel it off.</strong> Watch the assumption count and the clarity meter as you cut.</p>
+    <div class="instruction">Tap a film to remove that assumption</div>
+
+    <div class="lightbox">
+      <div class="panel">
+        <div class="specimen" id="specimen">
+          <div class="glow"></div>
+          <div class="anatomy" id="anatomy"></div>
+          <div class="verdict" id="verdict">IMAGE OBSCURED — 5 FILMS CLIPPED</div>
+        </div>
+
+        <div class="films" id="filmStack">
+          <!-- films injected by JS -->
+        </div>
+
+        <div class="meters">
+          <div class="meter">
+            <div class="ml"><span>Assumptions</span><b id="assumeVal">4</b></div>
+            <div class="bar"><div class="fill" id="assumeFill" style="width:100%;background:linear-gradient(90deg,#5a7589,#7fa8c4);"></div></div>
+          </div>
+          <div class="meter clarity">
+            <div class="ml"><span>Diagnostic clarity</span><b id="clarityVal">12%</b></div>
+            <div class="bar"><div class="fill" id="clarityFill" style="width:12%;"></div></div>
+          </div>
+        </div>
+
+        <div class="statusline" id="status">Five explanations compete. Most carry an assumption the evidence does not require. Begin cutting.</div>
+        <button class="reset" id="resetBtn">↺ Re-clip all films</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARD 3 -->
+  <section class="card" id="c3">
+    <div class="cardnum">Film 03 <span class="rule"></span> What You Just Felt</div>
+    <h2>Simplest <em>sufficient</em> — not simplest possible.</h2>
+    <p class="body">If you peeled the load-bearing film, the image broke. That is the lesson the meter cannot teach in words: there is a floor. Cut past the explanation that still <strong>accounts for all the evidence</strong>, and you have not found elegance — you have found error.</p>
+    <div class="pull">The razor trims assumptions. It does not trim facts.</div>
+    <p class="body">A cough plus a fever plus a chest film with a clear infiltrate needs <em>one</em> sufficient cause. The cats, the flight, the cigarettes — extra entities the evidence does not demand. But the infiltrate itself is data. Remove your acknowledgment of it and the simplest story stops being true.</p>
+  </section>
+
+  <!-- CARD 4 -->
+  <section class="card" id="c4">
+    <div class="cardnum">Film 04 <span class="rule"></span> The Two Cuts</div>
+    <h2>Two ways to use a blade.</h2>
+    <div class="twocol">
+      <div class="cell cut">
+        <h4>✓ Cut here</h4>
+        <p>Rival theories that each add an unobserved cause. The exotic infection. The rare syndrome. The conspiracy of coincidences. None earns its keep while a plainer cause fits.</p>
+      </div>
+      <div class="cell keep">
+        <h4>✕ Keep this</h4>
+        <p>Any explanation the evidence actively requires. If the data only fits a more complex model, the complexity is real. The razor never overrides observation.</p>
+      </div>
+    </div>
+    <p class="body">Calibration is the whole craft: knowing the difference between an assumption you imported and a fact the world handed you.</p>
+  </section>
+
+  <!-- CARD 5 -->
+  <section class="card" id="c5">
+    <div class="cardnum">Film 05 <span class="rule"></span> At the Table With a Client</div>
+    <h2>The tangle a person brings.</h2>
+    <p class="body">A client arrives with a knot: the launch failed, the team is misaligned, the market shifted, the tool broke, morale is low, and possibly the strategy was wrong from the start. Six films, one outcome.</p>
+    <ul class="assumlist">
+      <li>Resist the grand theory that requires all six to be true at once.</li>
+      <li>Ask: what is the smallest set that fully explains the failure?</li>
+      <li>Usually one or two films account for everything. The rest are shadows.</li>
+      <li>But verify the floor — if the evidence needs the complex story, keep it.</li>
+    </ul>
+  </section>
+
+  <!-- CARD 6 -->
+  <section class="card" id="c6">
+    <div class="cardnum">Film 06 <span class="rule"></span> The Failure Mode</div>
+    <h2>When the razor <em>lies.</em></h2>
+    <p class="lead">Heuristics are confident. That is their danger.</p>
+    <p class="body">Occam's razor feels like rigor, so it gets reached for when the simple answer is merely the <strong>comfortable</strong> one. Fraud is simpler than a complex accounting error — until it isn't. A single cause feels cleaner than three interacting ones — until the system is genuinely coupled.</p>
+    <p class="body">The fix is not to abandon the razor. It is to hold it as a <em>starting hypothesis</em>, not a verdict. Look at the simplest first. Then test whether it actually suffices.</p>
+  </section>
+
+  <!-- CARD 7 -->
+  <section class="card" id="c7">
+    <div class="cardnum">Film 07 <span class="rule"></span> The One Move</div>
+    <h2>The practice, in a sentence.</h2>
+    <div class="pull">When explanations compete, sort them by assumptions, test the cheapest first — and stop cutting the moment one still explains everything.</div>
+    <p class="body">That is the entire discipline. Not "the simple answer is right." Rather: <strong>look where the assumptions are fewest, then earn your way back up only as far as the evidence forces you.</strong></p>
+  </section>
+
+  <!-- DELIGHT -->
+  <section class="card" id="c8" style="border-bottom:0;">
+    <div class="delight">
+      <div class="dl">Film 08 · Off The Record</div>
+      <h3>Occam never owned the razor.</h3>
+      <p class="body" style="margin-bottom:0;">William of Ockham, a 14th-century English friar, never wrote the famous line "entities should not be multiplied beyond necessity." That phrasing was coined three centuries later by another scholar, John Punch. Ockham did argue the principle — but the elegant sentence everyone quotes is itself an invented entity, attached to him for no reason the evidence requires. The razor, by its own logic, should have trimmed his name off it. It is perhaps the only principle in philosophy that quietly violates itself in the citation.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="nav">
+      <a href="/library">Library</a>
+      <a href="/weather">Weather</a>
+      <a href="/">Home</a>
+    </div>
+    <div class="colophon">
+      SIGNAL OS <span class="dot">·</span> THE PRACTITIONER'S LAB <span class="dot">·</span> ISSUE 031<br>
+      WEATHER: FOG <span class="dot">·</span> ARCHETYPE: THE QUIET SCIENTIST <span class="dot">·</span> VIEWER: LIGHT TABLE
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- the five films ---- *
+   * Each carries an "assumption" the evidence may or may not require.
+   * Exactly one is the simplest SUFFICIENT explanation (core, load-bearing).
+   * Peeling the core breaks the image — proving you cut too far.
+   */
+  var FILMS = [
+    { id:'cats', tag:'Diagnosis A', claim:'Hypersensitivity pneumonitis from the two house cats.',
+      assume:'assumes: an allergic reaction the bloodwork does not show', extra:true },
+    { id:'flight', tag:'Diagnosis B', claim:'Pulmonary embolism seeded by the long-haul flight.',
+      assume:'assumes: a clot, with no leg pain, no D-dimer flag', extra:true },
+    { id:'exotic', tag:'Diagnosis C', claim:'A rare imported fungal infection from travel.',
+      assume:'assumes: an exotic pathogen over a common one', extra:true },
+    { id:'smoke', tag:'Diagnosis D', claim:'Early malignancy linked to occasional smoking.',
+      assume:'assumes: a tumor, with no mass on the film', extra:true },
+    { id:'pneumonia', tag:'Diagnosis E', claim:'Community-acquired pneumonia. Cough, fever, infiltrate.',
+      assume:'load-bearing: fully fits the evidence on the plate', extra:false, core:true }
+  ];
+
+  var stack = document.getElementById('filmStack');
+  var specimen = document.getElementById('specimen');
+  var anatomy = document.getElementById('anatomy');
+  var verdict = document.getElementById('verdict');
+  var assumeVal = document.getElementById('assumeVal');
+  var assumeFill = document.getElementById('assumeFill');
+  var clarityVal = document.getElementById('clarityVal');
+  var clarityFill = document.getElementById('clarityFill');
+  var status = document.getElementById('status');
+  var resetBtn = document.getElementById('resetBtn');
+
+  /* build the rib anatomy once */
+  (function buildAnatomy(){
+    for(var i=0;i<6;i++){
+      var top = 14 + i*22;
+      var w = 38 + i*7;
+      var L = document.createElement('div');
+      L.className='rib';
+      L.style.top=top+'px'; L.style.width=w+'px';
+      L.style.transform='translateX(-'+(w+2)+'px) rotate(18deg)';
+      var R = document.createElement('div');
+      R.className='rib';
+      R.style.top=top+'px'; R.style.width=w+'px';
+      R.style.transform='translateX(2px) rotate(-18deg)';
+      anatomy.appendChild(L); anatomy.appendChild(R);
+    }
+    var spine=document.createElement('div'); spine.className='spine'; anatomy.appendChild(spine);
+  })();
+
+  function render(){
+    stack.innerHTML='';
+    FILMS.forEach(function(f){
+      var el = document.createElement('div');
+      el.className = 'film' + (f.core?' core':'');
+      el.setAttribute('data-id', f.id);
+      el.setAttribute('role','button');
+      el.setAttribute('tabindex','0');
+      el.innerHTML =
+        '<span class="chip">−</span>' +
+        '<div class="tag">'+f.tag+'</div>' +
+        '<div class="claim">'+f.claim+'</div>' +
+        '<div class="assume">'+f.assume+'</div>' +
+        '<span class="hoverhint">peel →</span>';
+      el.addEventListener('click', function(){ peel(f.id, el); });
+      el.addEventListener('keydown', function(e){
+        if(e.key==='Enter'||e.key===' '){ e.preventDefault(); peel(f.id, el); }
+      });
+      stack.appendChild(el);
+    });
+  }
+
+  // state
+  var peeled = {};      // id -> true
+  var coreGone = false;
+
+  function peeledCount(){ var n=0; for(var k in peeled){ if(peeled[k]) n++; } return n; }
+
+  function peel(id, el){
+    if(peeled[id]) return;
+    peeled[id]=true;
+    el.classList.add('peeled');
+    var f = FILMS.filter(function(x){return x.id===id;})[0];
+    if(f && f.core){ coreGone = true; }
+    update(id, f);
+  }
+
+  function update(lastId, lastFilm){
+    var removed = peeledCount();
+    var remaining = 5 - removed;
+
+    // assumptions remaining = how many EXTRA (non-load-bearing) films still clipped + 1 base if core present
+    // simpler model: assumptions = count of still-clipped films minus (1 if core still present, since core is the necessary one)
+    var stillExtra = FILMS.filter(function(f){ return !peeled[f.id] && f.extra; }).length;
+    var corePresent = !peeled['pneumonia'];
+    var assumptions = stillExtra + (corePresent?0:0); // extras are the assumptions
+    // base assumption count display: total films still adding unneeded assumptions
+    assumeVal.textContent = assumptions;
+    var assumePct = (assumptions/4)*100; // 4 extras max
+    assumeFill.style.width = assumePct + '%';
+
+    // CLARITY logic:
+    // clarity rises as you remove EXTRA films, peaks when only the core remains (all 4 extras gone, core kept).
+    // removing the core collapses clarity to near zero and flips to "broken".
+    var clarity;
+    var broken = coreGone;
+    if(broken){
+      clarity = 6;
+    } else {
+      var extrasRemoved = 4 - stillExtra;       // 0..4
+      clarity = 12 + extrasRemoved * 22;         // 12,34,56,78,100
+      if(extrasRemoved===4) clarity = 100;
+    }
+    clarityVal.textContent = clarity + '%';
+    clarityFill.style.width = clarity + '%';
+
+    clarityFill.classList.remove('hot','over');
+    specimen.classList.remove('resolved','broken');
+
+    // verdict + status states
+    var resolved = (!broken && stillExtra===0 && corePresent);
+
+    if(broken){
+      clarityFill.classList.add('over');
+      specimen.classList.add('broken');
+      verdict.textContent = 'IMAGE WRONG — SUFFICIENT EXPLANATION REMOVED';
+      status.className='statusline bad';
+      status.textContent = 'You cut past the floor. The pneumonia film was load-bearing — it alone fit the cough, the fever, the infiltrate. Strip the simplest SUFFICIENT cause and the simplest answer is no longer true. That is the edge case: simplest possible ≠ simplest sufficient.';
+      resetBtn.style.display='inline-block';
+      markStrip(2);
+      return;
+    }
+
+    if(resolved){
+      clarityFill.classList.add('hot');
+      specimen.classList.add('resolved');
+      verdict.textContent = 'CLEAR — ONE SUFFICIENT EXPLANATION REMAINS';
+      status.className='statusline good';
+      status.textContent = 'There it is. Four assumptions cut, one explanation standing — and it accounts for every finding on the plate. You did not pick the simple answer. You removed the unneeded ones until the sufficient one was the only one left. That is the razor.';
+      markStrip(2);
+      return;
+    }
+
+    // mid-progress
+    status.className='statusline';
+    var msgs = {
+      cats:'Cut. The allergic story needed bloodwork the chart never showed — an assumption, not a finding.',
+      flight:'Cut. No leg pain, no D-dimer signal. The clot was imported by the story, not the evidence.',
+      exotic:'Cut. A rare pathogen is more assumptions than a common one, and the film shows nothing exotic.',
+      smoke:'Cut. No mass, no nodule. The malignancy was a fear, not a finding.'
+    };
+    var add = msgs[lastId] || 'Film removed.';
+    var left = stillExtra;
+    if(left>0){
+      status.textContent = add + ' ' + left + ' assumption-laden film' + (left>1?'s':'') + ' still clipped. Keep cutting toward the one that fits.';
+    } else {
+      status.textContent = add;
+    }
+    if(clarity>=78){ clarityFill.classList.add('hot'); }
+    markStrip(2);
+  }
+
+  /* ---- film-strip progress nav (8 cards) ---- */
+  var stripInner = document.getElementById('stripInner');
+  var sections = [];
+  for(var i=1;i<=8;i++){
+    var s = document.getElementById('c'+i);
+    if(s) sections.push(s);
+  }
+  var frames=[];
+  var label = stripInner.querySelector('.strip-label');
+  sections.forEach(function(sec, idx){
+    var fr = document.createElement('div');
+    fr.className='frame';
+    fr.title = 'Film 0'+(idx+1);
+    fr.addEventListener('click', function(){
+      sec.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+    stripInner.insertBefore(fr, label);
+    frames.push(fr);
+  });
+  function markStrip(activeIdx){
+    // optional: highlight a frame explicitly
+    if(typeof activeIdx==='number' && frames[activeIdx]){ /* no-op visual aid */ }
+  }
+  // scroll-spy
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var idx = sections.indexOf(e.target);
+      if(idx<0) return;
+      if(e.isIntersecting && e.intersectionRatio>0.3){
+        frames.forEach(function(f,i){
+          f.classList.toggle('active', i===idx);
+          if(i<idx) f.classList.add('seen');
+        });
+      }
+    });
+  }, {threshold:[0.3,0.6]});
+  sections.forEach(function(s){ io.observe(s); });
+
+  /* ---- reset ---- */
+  resetBtn.addEventListener('click', function(){
+    peeled={}; coreGone=false;
+    render();
+    assumeVal.textContent='4';
+    assumeFill.style.width='100%';
+    assumeFill.style.background='linear-gradient(90deg,#5a7589,#7fa8c4)';
+    clarityVal.textContent='12%';
+    clarityFill.style.width='12%';
+    clarityFill.classList.remove('hot','over');
+    specimen.classList.remove('resolved','broken');
+    verdict.textContent='IMAGE OBSCURED — 5 FILMS CLIPPED';
+    status.className='statusline';
+    status.textContent='Five explanations compete. Most carry an assumption the evidence does not require. Begin cutting.';
+  });
+
+  // init
+  render();
+  // initial assumptions = 4 extras
+  assumeVal.textContent='4';
+  assumeFill.style.width='100%';
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The People v. The Obvious — Occam's Razor on Trial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#120a22;
+    --bg-1:#1a0f2e;
+    --bg-2:#1a0838;
+    --ink:#ece6f7;
+    --ink-dim:#a99fc4;
+    --ink-faint:#7d72a0;
+    --violet:#a78bfa;
+    --violet-hot:#c4b5fd;
+    --violet-deep:#6d28d9;
+    --red:#ff3d5e;
+    --red-string:#e02850;
+    --gold:#f4c95d;
+    --line:rgba(167,139,250,.18);
+    --card:rgba(167,139,250,.05);
+    --maxw:720px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-1);
+    background:linear-gradient(168deg,#1a0f2e 0%,#160a30 45%,#1a0838 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.0625rem;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--violet);color:#150a2c;}
+
+  /* grain + spotlight wash */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 80% at 50% -10%,rgba(167,139,250,.16),transparent 60%);
+    mix-blend-mode:screen;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  main{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 1.25rem;}
+
+  /* ---------- shared section grammar ---------- */
+  .panel{padding:3.5rem 0 1rem;border-top:1px solid var(--line);}
+  .panel:first-of-type{border-top:none;}
+  .docket{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--violet);display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem;
+  }
+  .docket::before{content:"";width:1.6rem;height:1px;background:var(--violet);opacity:.7;}
+  .docket .no{color:var(--ink-faint);}
+  h1,h2,h3{font-family:'Fraunces',serif;line-height:1.02;letter-spacing:-.02em;}
+  h2{font-size:clamp(2rem,8vw,3.2rem);font-weight:900;margin-bottom:.9rem;}
+  p{margin-bottom:1.15rem;color:var(--ink-dim);}
+  p strong, .lead strong{color:var(--ink);font-weight:500;}
+  .lead{font-size:1.18rem;color:var(--ink);line-height:1.55;}
+  em{font-style:italic;color:var(--violet-hot);}
+
+  /* ---------- HERO / opening of the trial ---------- */
+  .hero{
+    min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+    padding:5rem 0 3.5rem;position:relative;
+  }
+  .seal{
+    font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:.35em;
+    text-transform:uppercase;color:var(--violet);margin-bottom:2rem;
+    display:flex;flex-direction:column;gap:.35rem;
+  }
+  .seal .case{color:var(--ink-faint);}
+  .hero h1{
+    font-size:clamp(3rem,16vw,6.5rem);font-weight:900;
+    background:linear-gradient(150deg,#fff 0%,var(--violet-hot) 55%,var(--violet) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    margin-bottom:1.5rem;
+  }
+  .hero h1 .small{display:block;font-size:.38em;font-weight:600;letter-spacing:-.01em;color:var(--ink-dim);-webkit-text-fill-color:var(--ink-dim);margin-top:.4rem;}
+  .hero .charge{font-size:1.22rem;color:var(--ink);max-width:34ch;line-height:1.5;}
+  .hero .charge b{color:var(--violet-hot);font-weight:500;}
+  .scroll-cue{
+    margin-top:3rem;font-family:'JetBrains Mono',monospace;font-size:0.8rem;
+    letter-spacing:.28em;text-transform:uppercase;color:var(--ink-faint);
+    display:flex;align-items:center;gap:.6rem;
+  }
+  .scroll-cue .arr{display:inline-block;animation:bob 1.8s ease-in-out infinite;color:var(--violet);}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+  /* gavel mark */
+  .gavel{
+    position:absolute;top:8%;right:-1rem;font-size:7rem;opacity:.07;
+    transform:rotate(-18deg);filter:grayscale(1);
+  }
+
+  /* ---------- pull / provocation blocks ---------- */
+  .provoke{
+    font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.6rem,6vw,2.4rem);
+    line-height:1.18;color:var(--ink);margin:2rem 0;padding-left:1.3rem;
+    border-left:3px solid var(--red);
+  }
+  .provoke em{color:var(--red);font-style:normal;font-weight:900;}
+
+  .evidence-tag{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.8rem;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+    border:1px solid rgba(244,201,93,.4);padding:.25rem .6rem;border-radius:2px;
+    transform:rotate(-1.5deg);margin-bottom:1rem;
+  }
+
+  /* ---------- EVIDENCE BOARD intro card ---------- */
+  .board-frame{
+    position:relative;margin:1.5rem 0 .5rem;padding:1.5rem 1.25rem 1.75rem;
+    background:rgba(10,5,22,.55);border:1px solid var(--line);border-radius:10px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 24px 60px -30px rgba(0,0,0,.8);
+  }
+  .board-frame .pin{
+    position:absolute;width:11px;height:11px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#ff8aa0,var(--red));
+    box-shadow:0 2px 5px rgba(0,0,0,.6);
+  }
+  .pin.tl{top:-5px;left:18px}.pin.tr{top:-5px;right:18px}
+  .pin.bl{bottom:-5px;left:18px}.pin.br{bottom:-5px;right:18px}
+
+  /* ---------- THE INTERACTION : RANK THE SUSPECTS ---------- */
+  .trial{padding-top:2rem;}
+  .trial .case-file{
+    background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0));
+    border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:8px;padding:1.1rem 1.2rem;margin-bottom:1.6rem;
+  }
+  .case-file .h{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
+  .case-file p{margin:0;color:var(--ink);font-size:1.05rem;}
+
+  .rank-instructions{
+    font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.04em;
+    color:var(--violet-hot);background:rgba(167,139,250,.08);
+    border:1px dashed rgba(167,139,250,.35);border-radius:7px;
+    padding:.85rem 1rem;margin-bottom:1.3rem;line-height:1.5;
+  }
+  .rank-instructions b{color:#fff;}
+
+  .scale-labels{
+    display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);
+    margin:0 .1rem .55rem;
+  }
+  .scale-labels .top{color:var(--violet);}
+
+  #board{display:flex;flex-direction:column;gap:.7rem;position:relative;touch-action:pan-y;}
+
+  .suspect{
+    position:relative;background:#1e1338;
+    background:linear-gradient(135deg,#221542,#1a0f33);
+    border:1px solid rgba(167,139,250,.22);border-radius:9px;
+    padding:.95rem 1rem .95rem 3.1rem;cursor:grab;
+    box-shadow:0 10px 30px -18px rgba(0,0,0,.9);
+    transition:box-shadow .2s,border-color .2s,transform .12s,background .3s;
+    user-select:none;-webkit-user-select:none;
+  }
+  .suspect:active{cursor:grabbing;}
+  .suspect.dragging{
+    opacity:.92;cursor:grabbing;z-index:50;
+    box-shadow:0 26px 60px -16px rgba(0,0,0,.95),0 0 0 1px var(--violet);
+    border-color:var(--violet);transform:scale(1.02);
+  }
+  .suspect .rank-badge{
+    position:absolute;left:.7rem;top:50%;transform:translateY(-50%);
+    width:1.7rem;height:1.7rem;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-weight:900;font-size:1rem;
+    background:rgba(167,139,250,.14);color:var(--violet-hot);
+    border:1px solid rgba(167,139,250,.4);
+  }
+  .suspect .grip{
+    position:absolute;right:.85rem;top:.85rem;color:var(--ink-faint);
+    font-size:1rem;letter-spacing:1px;line-height:.5;
+  }
+  .suspect .label{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.25rem;}
+  .suspect .claim{font-family:'Fraunces',serif;font-weight:600;font-size:1.12rem;line-height:1.22;color:var(--ink);display:block;}
+
+  /* assumption meter — hidden until verdict */
+  .suspect .assumptions{
+    margin-top:.6rem;max-height:0;opacity:0;overflow:hidden;
+    transition:max-height .5s ease,opacity .4s ease,margin .4s;
+  }
+  .suspect.revealed .assumptions{max-height:240px;opacity:1;margin-top:.7rem;}
+  .assumptions .meter-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.45rem;}
+  .assumptions .dots{display:flex;gap:4px;}
+  .assumptions .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12);}
+  .assumptions .dot.on{background:var(--red);box-shadow:0 0 6px rgba(255,61,94,.7);}
+  .assumptions .dot.on.low{background:var(--violet);box-shadow:0 0 6px rgba(167,139,250,.7);}
+  .assumptions .count{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:.08em;color:var(--ink-dim);text-transform:uppercase;}
+  .assumptions ul{list-style:none;margin:.2rem 0 0;padding:0;}
+  .assumptions li{font-size:.85rem;color:var(--ink-faint);padding-left:1rem;position:relative;margin-bottom:.2rem;line-height:1.4;}
+  .assumptions li::before{content:"assumes —";position:absolute;left:0;color:var(--red-string);font-family:'JetBrains Mono',monospace;font-size:0.8rem;top:.18rem;display:none;}
+  .assumptions li{padding-left:0;}
+  .assumptions li::marker{content:"";}
+  .assumptions li b{color:var(--violet-hot);font-weight:700;}
+
+  .suspect.revealed{border-color:rgba(255,61,94,.28);}
+  .suspect.is-truth.revealed{border-color:rgba(167,139,250,.7);box-shadow:0 0 0 1px rgba(167,139,250,.4),0 18px 50px -20px rgba(109,40,217,.8);}
+  .suspect.is-truth.revealed .rank-badge{background:var(--violet);color:#150a2c;border-color:var(--violet-hot);}
+
+  /* drop placeholder */
+  .ph{
+    border:2px dashed rgba(167,139,250,.5);border-radius:9px;
+    background:rgba(167,139,250,.06);transition:height .12s;
+  }
+
+  .verdict-btn{
+    display:block;width:100%;margin-top:1.6rem;padding:1rem;
+    font-family:'JetBrains Mono',monospace;font-size:.82rem;letter-spacing:.22em;
+    text-transform:uppercase;font-weight:700;color:#150a2c;cursor:pointer;
+    background:linear-gradient(100deg,var(--violet),var(--violet-hot));
+    border:none;border-radius:8px;transition:transform .15s,box-shadow .25s,opacity .3s;
+    box-shadow:0 12px 30px -12px rgba(167,139,250,.7);
+  }
+  .verdict-btn:hover{transform:translateY(-2px);box-shadow:0 18px 38px -12px rgba(167,139,250,.85);}
+  .verdict-btn:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none;}
+  .verdict-btn.recalled{background:transparent;border:1px solid var(--line);color:var(--ink-dim);box-shadow:none;}
+
+  /* the ruling */
+  .ruling{
+    margin-top:1.6rem;max-height:0;overflow:hidden;opacity:0;
+    transition:max-height .7s ease,opacity .6s ease;
+  }
+  .ruling.show{max-height:1600px;opacity:1;}
+  .ruling .stamp{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-weight:700;
+    font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--violet-hot);
+    border:2px solid var(--violet);padding:.45rem .9rem;border-radius:4px;
+    transform:rotate(-3deg);margin-bottom:1.2rem;
+  }
+  .ruling h3{font-size:1.5rem;font-weight:900;color:#fff;margin-bottom:.8rem;}
+  .ruling .verdict-note{font-size:1.05rem;color:var(--ink);margin-bottom:1.1rem;}
+  .ruling .verdict-note b{color:var(--red);}
+  .ruling .verdict-note .truth{color:var(--violet-hot);}
+
+  /* ---------- generic content cards ---------- */
+  .insight{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:1.4rem 1.3rem;margin:1.3rem 0;
+  }
+  .insight h3{font-size:1.3rem;font-weight:600;color:#fff;margin-bottom:.6rem;}
+  .insight p:last-child{margin-bottom:0;}
+
+  .crossexam{
+    border-left:3px solid var(--violet);padding:.3rem 0 .3rem 1.2rem;margin:1.6rem 0;
+  }
+  .crossexam .q{font-family:'Fraunces',serif;font-weight:600;font-size:1.18rem;color:#fff;margin-bottom:.4rem;}
+  .crossexam .a{color:var(--ink-dim);margin:0;}
+  .crossexam .a b{color:var(--violet-hot);font-weight:500;}
+
+  /* the edge case — danger card */
+  .danger{
+    background:linear-gradient(160deg,rgba(255,61,94,.1),rgba(255,61,94,.02));
+    border:1px solid rgba(255,61,94,.35);border-radius:10px;padding:1.5rem 1.3rem;margin:1.5rem 0;
+  }
+  .danger .warn{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem;}
+  .danger .warn::before{content:"⚠";font-size:.9rem;}
+  .danger h3{color:#fff;font-size:1.35rem;font-weight:600;margin-bottom:.6rem;}
+  .danger p:last-child{margin-bottom:0;}
+
+  /* practitioner takeaway */
+  .field{
+    background:rgba(167,139,250,.06);border:1px solid var(--line);
+    border-radius:10px;padding:1.5rem 1.3rem;margin:1.5rem 0;
+  }
+  .field .tag{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--violet);margin-bottom:.9rem;}
+  .field ul{list-style:none;padding:0;margin:0;}
+  .field li{position:relative;padding-left:1.6rem;margin-bottom:.85rem;color:var(--ink-dim);line-height:1.5;}
+  .field li:last-child{margin-bottom:0;}
+  .field li::before{content:"§";position:absolute;left:0;top:0;color:var(--violet);font-family:'Fraunces',serif;font-weight:900;}
+  .field li b{color:var(--ink);font-weight:500;}
+
+  /* ---------- DELIGHT CARD ---------- */
+  .delight{
+    margin-top:3.5rem;padding:3rem 1.5rem;border-radius:14px;
+    background:radial-gradient(130% 120% at 80% 0%,rgba(244,201,93,.12),transparent 55%),linear-gradient(160deg,#1c1238,#160a30);
+    border:1px solid rgba(244,201,93,.22);text-align:center;position:relative;overflow:hidden;
+  }
+  .delight .spark{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+  .delight h3{font-size:clamp(1.6rem,7vw,2.3rem);font-weight:900;color:#fff;margin-bottom:1rem;line-height:1.08;}
+  .delight p{color:var(--ink-dim);max-width:46ch;margin:0 auto 1.1rem;}
+  .delight p:last-child{margin-bottom:0;}
+  .delight .razor{font-size:3.5rem;opacity:.9;margin-bottom:.5rem;display:block;filter:drop-shadow(0 0 18px rgba(244,201,93,.4));}
+  .delight em{color:var(--gold);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    margin-top:4rem;border-top:1px solid var(--line);
+    padding:2.5rem 0 3rem;text-align:center;
+  }
+  footer .nav{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.4rem;}
+  footer a{
+    font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--violet);text-decoration:none;
+    border-bottom:1px solid transparent;transition:border-color .2s,color .2s;padding-bottom:2px;
+  }
+  footer a:hover{color:var(--violet-hot);border-color:var(--violet-hot);}
+  footer .colophon{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:.12em;color:var(--ink-faint);line-height:1.8;}
+  footer .colophon .w{color:var(--violet);}
+
+  @media (max-width:430px){
+    main{padding:0 1.1rem;}
+    .panel{padding-top:2.8rem;}
+    .gavel{display:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- ============ OPENING : THE COURT IS CALLED ============ -->
+  <section class="hero">
+    <div class="gavel">⚖</div>
+    <div class="seal">
+      <span>Meliorism 2.0 · The Surge Series</span>
+      <span class="case">CASE NO. 1287 — THE PEOPLE v. THE OBVIOUS</span>
+    </div>
+    <h1>Occam<br>on Trial
+      <span class="small">The simplest story usually wins. Usually.</span>
+    </h1>
+    <p class="charge">You are the judge. Four explanations want your belief. Most people convict the wrong one — because the <b>elaborate</b> story <b>feels</b> like the true one. Today you sharpen the blade that cuts assumptions away.</p>
+    <div class="scroll-cue"><span class="arr">↓</span> Enter the courtroom</div>
+  </section>
+
+  <!-- ============ 1 · OPENING STATEMENT ============ -->
+  <section class="panel">
+    <div class="docket"><span class="no">01 /</span> Opening Statement</div>
+    <h2>The blade, defined.</h2>
+    <p class="lead">A 14th-century friar named William of Ockham left us one instruction sharp enough to survive 700 years: <strong>do not multiply entities beyond necessity.</strong></p>
+    <p>Translated for people who don't speak medieval Latin: when two explanations both fit the facts, the one demanding fewer unproven assumptions is the better bet. Not the prettier one. Not the more dramatic one. The leaner one.</p>
+    <p class="provoke">You don't reward the truest theory. You reward the one with the best <em>story</em>. Occam's razor is how you stop.</p>
+  </section>
+
+  <!-- ============ 2 · THE EVIDENCE ============ -->
+  <section class="panel">
+    <div class="docket"><span class="no">02 /</span> The Evidence Board</div>
+    <span class="evidence-tag">Exhibit A — pinned to the wall</span>
+    <h2>One event. Four suspects.</h2>
+    <p>A real situation lands on your desk. Four competing explanations get pinned to the board, connected by red string. Each one <em>could</em> be true. Only one carries the lightest load of assumptions — and your instinct will fight you on which.</p>
+
+    <div class="board-frame">
+      <span class="pin tl"></span><span class="pin tr"></span><span class="pin bl"></span><span class="pin br"></span>
+      <div class="case-file" style="margin-bottom:0">
+        <div class="h">The Facts — undisputed</div>
+        <p>A six-person product team shipped its launch <strong>three weeks late.</strong> The lead, Maya, went quiet in the final fortnight — fewer messages, no standup updates, a missed demo. The work eventually arrived, polished but overdue. Now: <em>why?</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3 · THE INTERACTION : RANK THE SUSPECTS ============ -->
+  <section class="panel trial">
+    <div class="docket"><span class="no">03 /</span> Examination — You Decide the Order</div>
+    <h2>Rank the suspects.</h2>
+    <p>Drag the four explanations into order. <strong>Heaviest at the top</strong> — the one that demands the most leaps of faith to be true. <strong>Lightest at the bottom</strong> — the one that needs the fewest. Trust your gut. Then we test it.</p>
+
+    <div class="rank-instructions">
+      ↕ <b>Drag</b> a card up or down to reorder. Works on touch &amp; mouse.<br>
+      When the four are in your order, hit <b>RETURN THE VERDICT</b>.
+    </div>
+
+    <div class="scale-labels">
+      <span class="top">▲ Most assumptions (you bet this is true)</span>
+      <span>▼ Fewest</span>
+    </div>
+
+    <div id="board" aria-label="Draggable list of four explanations to rank">
+      <!-- cards injected by JS, but written here for no-JS fallback -->
+    </div>
+
+    <button id="verdictBtn" class="verdict-btn" disabled>Return the verdict</button>
+
+    <!-- THE RULING -->
+    <div id="ruling" class="ruling" aria-live="polite">
+      <span class="stamp">Verdict Entered</span>
+      <h3 id="rulingTitle">The court rules.</h3>
+      <p class="verdict-note" id="rulingBody"></p>
+      <div class="insight">
+        <h3>What just happened</h3>
+        <p id="rulingExplain"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4 · CROSS-EXAMINATION ============ -->
+  <section class="panel">
+    <div class="docket"><span class="no">04 /</span> Cross-Examination</div>
+    <h2>Why the leanest survives.</h2>
+    <p>Put each theory on the stand. The complex ones collapse not because they're <em>impossible</em> — but because every added assumption is another claim that has to <em>also</em> be true. Probability is multiplicative. Stack four maybes and you've built a house of maybes.</p>
+
+    <div class="crossexam">
+      <div class="q">"Maya was secretly job-hunting and checked out."</div>
+      <p class="a">Requires: a hidden job search, a decision to disengage, that the disengagement caused the delay, and that nobody noticed the search. <b>Four unproven claims.</b> Each plausible. Together, fragile.</p>
+    </div>
+    <div class="crossexam">
+      <div class="q">"The original scope was bigger than two weeks of work."</div>
+      <p class="a">Requires: one thing — that the estimate was wrong. <b>One claim, and the most common failure mode in shipped software.</b> It explains the silence (heads-down), the late demo (not ready), and the eventual polish (it got finished).</p>
+    </div>
+    <p>Notice what the lean theory does: it explains <em>all</em> the facts with the fewest moving parts. That's not luck. That's the razor working.</p>
+  </section>
+
+  <!-- ============ 5 · THE EDGE CASE / DANGER ============ -->
+  <section class="panel">
+    <div class="docket"><span class="no">05 /</span> The Dissent</div>
+    <h2>When the blade lies.</h2>
+    <div class="danger">
+      <div class="warn">Mistrial Risk</div>
+      <h3>Simplest is not the same as true.</h3>
+      <p>Occam's razor tells you where to <em>look first</em> — not what you'll find. The simplest sufficient explanation is the best opening hypothesis, not a verdict. Sometimes the elaborate story is the real one: conspiracies happen, rare diseases exist, the quiet teammate really was burning out.</p>
+      <p>The razor fails the moment "simple" stops <em>sufficiently explaining the facts.</em> A theory that's elegant but leaves evidence on the floor isn't simpler — it's just smaller. Cut assumptions, never evidence.</p>
+    </div>
+    <p class="provoke">Cutting too much isn't rigor. It's <em>laziness wearing a lab coat.</em></p>
+  </section>
+
+  <!-- ============ 6 · CALIBRATION ============ -->
+  <section class="panel">
+    <div class="docket"><span class="no">06 /</span> The Calibration</div>
+    <h2>The skill is knowing when to cut.</h2>
+    <p>Anyone can pick the simple answer. The practitioner's edge is <strong>calibration</strong> — sensing when the simple answer is sufficient and when the facts genuinely demand a heavier theory.</p>
+    <div class="insight">
+      <h3>The test, every time</h3>
+      <p>Hold each explanation against the full set of facts. Strike any that leave a fact unexplained. Among the survivors, the lightest wins your first bet. Then go gather the one piece of evidence that would <em>break</em> it. If it survives that, you're calibrated.</p>
+    </div>
+  </section>
+
+  <!-- ============ 7 · THE PRACTITIONER APPLICATION ============ -->
+  <section class="panel">
+    <div class="docket"><span class="no">07 /</span> Closing — Take It to the Field</div>
+    <h2>For the room you're walking into.</h2>
+    <p>When a client, a student, or a team hands you a tangle of possible causes, they almost always hand you the <em>elaborate</em> one first — because elaborate feels like effort, and effort feels like care. Your job is to resist the performance and find the load-bearing wall.</p>
+    <div class="field">
+      <div class="tag">Bench Notes · carry these</div>
+      <ul>
+        <li><b>Count the assumptions, not the words.</b> The longest theory often hides the most unproven claims. List them out loud.</li>
+        <li><b>Name the single sufficient cause first.</b> Ask: what's the one thing that, if true, explains everything on the table?</li>
+        <li><b>Distrust the story that flatters someone.</b> "They're brilliant but blocked by X" is elaborate comfort. Check it.</li>
+        <li><b>Cut assumptions, guard evidence.</b> The instant simplifying drops a real fact, stop cutting.</li>
+        <li><b>Look first, don't convict.</b> The lean theory earns your investigation — not your certainty.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 8 · DELIGHT CARD ============ -->
+  <section class="panel" style="border-top:none">
+    <div class="docket"><span class="no">08 /</span> Off the Record</div>
+    <div class="delight">
+      <span class="razor">🪒</span>
+      <span class="spark">A thing worth knowing</span>
+      <h3>William of Ockham never wrote the razor.</h3>
+      <p>The principle bears his name, but the phrase "Occam's razor" was coined <em>centuries after his death</em> — and the famous Latin line <em>entia non sunt multiplicanda</em> appears nowhere in his surviving work. He argued the idea in scattered, clunkier forms; later scholars sharpened it, named it after him, and let history do the polishing.</p>
+      <p>Which is its own small joke. The cleanest version of an idea about cleanliness was itself an elaboration — assembled, attributed, and refined by people who came after. Even the razor needed editing.</p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="nav">
+      <a href="/library">Library</a>
+      <a href="/weather">Weather</a>
+      <a href="/">Home</a>
+    </div>
+    <div class="colophon">
+      THE PEOPLE v. THE OBVIOUS · CASE NO. 1287<br>
+      Weather: <span class="w">Surge</span> · Archetype: The Provocateur<br>
+      Meliorism 2.0 — discomfort is the method.
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- the four suspects ----------
+     truthRank = correct position by ASSUMPTION LOAD,
+     where 1 = heaviest (most assumptions) ... 4 = lightest.
+     The "instinct trap" is the elaborate one most people believe.
+  */
+  var SUSPECTS = [
+    {
+      id:"conspiracy",
+      label:"Theory I — The Hidden Agenda",
+      claim:"Maya was secretly interviewing elsewhere and quietly checked out.",
+      load:4,                       // heaviest
+      isTruth:false, trap:true,
+      assumptions:[
+        "a hidden job search nobody knew about",
+        "a deliberate choice to disengage",
+        "that the disengagement caused the delay",
+        "that her later polish was guilt, not pride"
+      ]
+    },
+    {
+      id:"culture",
+      label:"Theory II — The Toxic Dynamic",
+      claim:"A teammate undermined her, so she withdrew in protest.",
+      load:3,
+      isTruth:false, trap:false,
+      assumptions:[
+        "a specific person undermined her",
+        "she perceived it as an attack",
+        "withdrawal was her response to it"
+      ]
+    },
+    {
+      id:"personal",
+      label:"Theory III — The Private Crisis",
+      claim:"Something heavy happened at home and consumed her bandwidth.",
+      load:2,
+      isTruth:false, trap:false,
+      assumptions:[
+        "an unrelated life event occurred",
+        "its timing lined up with the sprint"
+      ]
+    },
+    {
+      id:"scope",
+      label:"Theory IV — The Estimate Was Wrong",
+      claim:"The work was simply bigger than the two-week estimate. She went heads-down to finish it.",
+      load:1,                        // lightest — the truth
+      isTruth:true, trap:false,
+      assumptions:[
+        "the original estimate was too low — the single most common reason software ships late"
+      ]
+    }
+  ];
+
+  var board = document.getElementById('board');
+  var verdictBtn = document.getElementById('verdictBtn');
+  var ruling = document.getElementById('ruling');
+
+  /* ---------- build the cards ---------- */
+  function buildCard(s){
+    var el = document.createElement('div');
+    el.className = 'suspect' + (s.isTruth ? ' is-truth' : '');
+    el.setAttribute('data-id', s.id);
+    el.setAttribute('role','listitem');
+    el.setAttribute('tabindex','0');
+    el.setAttribute('aria-label', s.label + ': ' + s.claim + '. Use arrow up or down to reorder.');
+
+    var dots = '';
+    for(var i=0;i<4;i++){
+      var on = i < s.load;
+      var lowClass = (s.load<=1) ? ' low' : '';
+      dots += '<span class="dot'+(on?(' on'+(s.load<=1?' low':'')):'')+'"></span>';
+    }
+    var assumpLis = s.assumptions.map(function(a){return '<li>· '+a+'</li>';}).join('');
+    var word = s.load===1 ? 'assumption' : 'assumptions';
+
+    el.innerHTML =
+      '<span class="rank-badge"></span>' +
+      '<span class="grip">⋮⋮</span>' +
+      '<span class="label">'+s.label+'</span>' +
+      '<span class="claim">'+s.claim+'</span>' +
+      '<div class="assumptions">' +
+        '<div class="meter-row"><span class="dots">'+dots+'</span>' +
+        '<span class="count">'+s.load+' '+word+'</span></div>' +
+        '<ul>'+assumpLis+'</ul>' +
+      '</div>';
+    return el;
+  }
+
+  // shuffle so the truth isn't pre-sorted (Fisher–Yates)
+  function shuffled(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t=a[i];a[i]=a[j];a[j]=t;
+    }
+    // guarantee it's not already in heaviest→lightest order
+    var sorted = a.every(function(s,i){return i===0 || a[i-1].load>=s.load;});
+    if(sorted){ var x=a[0];a[0]=a[1];a[1]=x; }
+    return a;
+  }
+
+  shuffled(SUSPECTS).forEach(function(s){ board.appendChild(buildCard(s)); });
+  refreshBadges();
+
+  function refreshBadges(){
+    var cards = board.querySelectorAll('.suspect');
+    cards.forEach(function(c,i){
+      c.querySelector('.rank-badge').textContent = (i+1);
+    });
+  }
+
+  /* ============================================================
+     POINTER-BASED DRAG & DROP — works for mouse + touch
+     ============================================================ */
+  var dragEl = null, placeholder = null, startY = 0, offsetY = 0,
+      pointerId = null, startScroll = 0, hasMoved = false;
+
+  function onPointerDown(e){
+    var card = e.target.closest('.suspect');
+    if(!card || ruling.classList.contains('show')) return;
+    // ignore multi-touch
+    if(pointerId !== null) return;
+    pointerId = e.pointerId;
+    dragEl = card;
+    hasMoved = false;
+
+    var rect = card.getBoundingClientRect();
+    startY = e.clientY;
+    offsetY = e.clientY - rect.top;
+    startScroll = window.scrollY;
+
+    // create placeholder
+    placeholder = document.createElement('div');
+    placeholder.className = 'ph';
+    placeholder.style.height = rect.height + 'px';
+
+    card.style.width = rect.width + 'px';
+    card.style.position = 'fixed';
+    card.style.left = rect.left + 'px';
+    card.style.top = rect.top + 'px';
+    card.style.zIndex = 999;
+    card.classList.add('dragging');
+
+    board.insertBefore(placeholder, card.nextSibling);
+    board.insertBefore(card, placeholder); // keep order; card now fixed-positioned
+
+    try{ card.setPointerCapture(pointerId); }catch(_){}
+    document.addEventListener('pointermove', onPointerMove, {passive:false});
+    document.addEventListener('pointerup', onPointerUp);
+    document.addEventListener('pointercancel', onPointerUp);
+    e.preventDefault();
+  }
+
+  function onPointerMove(e){
+    if(!dragEl || e.pointerId !== pointerId) return;
+    e.preventDefault();
+    if(Math.abs(e.clientY - startY) > 3) hasMoved = true;
+
+    var y = e.clientY - offsetY;
+    dragEl.style.top = y + 'px';
+
+    // find which sibling we should sit before
+    var cards = Array.prototype.slice.call(board.querySelectorAll('.suspect')).filter(function(c){return c!==dragEl;});
+    var mid = e.clientY;
+    var inserted = false;
+    for(var i=0;i<cards.length;i++){
+      var r = cards[i].getBoundingClientRect();
+      if(mid < r.top + r.height/2){
+        board.insertBefore(placeholder, cards[i]);
+        inserted = true;
+        break;
+      }
+    }
+    if(!inserted){
+      board.appendChild(placeholder);
+    }
+  }
+
+  function onPointerUp(e){
+    if(!dragEl) return;
+    // drop the card where the placeholder is
+    board.insertBefore(dragEl, placeholder);
+    if(placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
+
+    dragEl.classList.remove('dragging');
+    dragEl.style.position = '';
+    dragEl.style.left = '';
+    dragEl.style.top = '';
+    dragEl.style.width = '';
+    dragEl.style.zIndex = '';
+
+    try{ dragEl.releasePointerCapture(pointerId); }catch(_){}
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerup', onPointerUp);
+    document.removeEventListener('pointercancel', onPointerUp);
+
+    dragEl = null; placeholder = null; pointerId = null;
+    refreshBadges();
+    enableVerdict();
+  }
+
+  board.addEventListener('pointerdown', onPointerDown);
+
+  /* ---------- keyboard reorder (accessibility) ---------- */
+  board.addEventListener('keydown', function(e){
+    var card = e.target.closest('.suspect');
+    if(!card || ruling.classList.contains('show')) return;
+    if(e.key === 'ArrowUp'){
+      e.preventDefault();
+      var prev = card.previousElementSibling;
+      if(prev && prev.classList.contains('suspect')) board.insertBefore(card, prev);
+      card.focus(); refreshBadges(); enableVerdict();
+    } else if(e.key === 'ArrowDown'){
+      e.preventDefault();
+      var next = card.nextElementSibling;
+      if(next && next.classList.contains('suspect')) board.insertBefore(next, card);
+      card.focus(); refreshBadges(); enableVerdict();
+    }
+  });
+
+  function enableVerdict(){
+    verdictBtn.disabled = false;
+  }
+  // allow verdict from the start too (gives instinctive order a chance)
+  enableVerdict();
+
+  /* ============================================================
+     THE VERDICT — reveal assumption loads, expose the bias
+     ============================================================ */
+  var delivered = false;
+  verdictBtn.addEventListener('click', function(){
+    if(delivered){
+      // recall the jury — reset
+      resetTrial();
+      return;
+    }
+    deliverVerdict();
+  });
+
+  function lookup(id){
+    for(var i=0;i<SUSPECTS.length;i++){ if(SUSPECTS[i].id===id) return SUSPECTS[i]; }
+    return null;
+  }
+
+  function deliverVerdict(){
+    delivered = true;
+    var cards = Array.prototype.slice.call(board.querySelectorAll('.suspect'));
+
+    // the order the reader chose, top -> bottom
+    var orderedIds = cards.map(function(c){return c.getAttribute('data-id');});
+    var topId = orderedIds[0];          // what reader bet is MOST elaborate / most likely true
+    var bottomId = orderedIds[orderedIds.length-1];
+
+    var topSuspect = lookup(topId);
+    var bottomSuspect = lookup(bottomId);
+    var truth = SUSPECTS.filter(function(s){return s.isTruth;})[0];
+    var trap = SUSPECTS.filter(function(s){return s.trap;})[0];
+
+    // reveal the hidden assumption meters, staggered
+    cards.forEach(function(c, i){
+      setTimeout(function(){ c.classList.add('revealed'); }, 160 * i);
+    });
+
+    // sort by true load so reader sees the objective answer alongside theirs
+    var trueOrder = SUSPECTS.slice().sort(function(a,b){return b.load - a.load;});
+    var readerCorrect = orderedIds.every(function(id,i){ return id === trueOrder[i].id; });
+
+    // build the ruling text
+    var title, body;
+    if(readerCorrect){
+      title = "Calibrated. The court concurs.";
+      body = 'You ranked them exactly by assumption-load. The heaviest theory — '
+        + '<b>"'+trap.claim+'"</b> — is the one most people instinctively convict, '
+        + 'because elaborate stories feel like the truth. You didn\'t fall for it. '
+        + 'The leanest survivor, <span class="truth">"'+truth.claim+'"</span>, '
+        + 'needs just one assumption and explains every fact. <span class="truth">That\'s the razor.</span>';
+    } else {
+      var topWasTrap = (topSuspect.trap);
+      title = "Verdict entered — now watch your bias.";
+      body = 'You bet <b>"'+topSuspect.claim+'"</b> carried the most assumptions'
+        + (topWasTrap
+            ? ' — and it does (' + topSuspect.load + ' of them). Here\'s the provocation: that exact theory is the one <b>most people quietly believe is true.</b> Elaborate stories feel true precisely because they\'re elaborate.'
+            : ', but the real heavyweight is <b>"'+trap.claim+'"</b> with '+trap.load+' assumptions — the theory most people instinctively believe, because complexity masquerades as insight.')
+        + ' Meanwhile the explanation you can least afford to ignore — '
+        + '<span class="truth">"'+truth.claim+'"</span> — rides on a single assumption and explains '
+        + 'all the facts. <span class="truth">The razor would have pointed you there first.</span>';
+    }
+
+    document.getElementById('rulingTitle').innerHTML = title;
+    document.getElementById('rulingBody').innerHTML = body;
+    document.getElementById('rulingExplain').innerHTML =
+      'Each card just revealed its hidden assumption-count — the unproven claims it needs to be true. '
+      + 'Probability is multiplicative: every extra assumption is another coin that has to land your way. '
+      + 'The theory you instinctively favored (' + trap.load + ' assumptions) is far less likely than the lean one ('
+      + truth.load + ' assumption) — even though it tells a better story. '
+      + '<b>Occam\'s razor isn\'t about what\'s true. It\'s about where a clear-eyed judge looks first.</b>';
+
+    verdictBtn.textContent = 'Recall the jury — try again';
+    verdictBtn.classList.add('recalled');
+
+    ruling.classList.add('show');
+    setTimeout(function(){
+      ruling.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 250);
+  }
+
+  function resetTrial(){
+    delivered = false;
+    ruling.classList.remove('show');
+    var cards = board.querySelectorAll('.suspect');
+    cards.forEach(function(c){ c.classList.remove('revealed'); });
+    // reshuffle
+    var nodes = Array.prototype.slice.call(cards);
+    var newOrder = shuffled(SUSPECTS.map(function(s){return s.id;}));
+    newOrder.forEach(function(id){
+      var node = board.querySelector('.suspect[data-id="'+id+'"]');
+      board.appendChild(node);
+    });
+    refreshBadges();
+    verdictBtn.textContent = 'Return the verdict';
+    verdictBtn.classList.remove('recalled');
+    board.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+})();
+</script>
+</body>
+</html>
