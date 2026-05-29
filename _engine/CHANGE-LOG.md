@@ -29,10 +29,10 @@
 
 ### 2026-05-29 — Issue 029: the-annotated-estimate
 
-**What changed:** Clock changed from UTC to PT.
-**Why:** UTC is not Brian's timezone. PT is.
-**Carries forward:** YES
-**Rule going forward:** All issue clocks show PT. Use `Intl.DateTimeFormat` with `timeZone:'America/Los_Angeles'`. Never UTC display in any issue. Label: `HH:MM:SS PT`.
+**What changed:** Clock changed from UTC to PT on Issue 029 (theme: time/labor documentation).
+**Why:** UTC is not Brian's timezone. PT is. However: clocks should only appear in issues where time is part of the theme or format concept.
+**Carries forward:** NO — corrected 2026-05-29
+**Rule going forward:** Do NOT include a clock in every issue. A clock is a design element, not a mandatory structural element. Include it only when the issue's theme relates to time, timing, scheduling, or temporal awareness. When a clock IS included, it must show PT using `Intl.DateTimeFormat` with `timeZone:'America/Los_Angeles'`. Never UTC. The mandatory clock in Phase 8c gate is removed — see Phase 8c update.
 
 ---
 

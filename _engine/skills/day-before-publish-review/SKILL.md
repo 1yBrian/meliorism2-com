@@ -95,13 +95,15 @@ Open the draft HTML at `_engine/staging/YYYY-MM-DD-[slug]-draft.html` and evalua
 
 ---
 
-### Gate 6 — PT Clock (Not UTC)
+### Gate 6 — Clock (Conditional)
 
-**What to check:** The JavaScript clock implementation uses `Intl.DateTimeFormat` with `timeZone: 'America/Los_Angeles'`. The clock label reads `HH:MM:SS PT` or equivalent Pacific Time label. No UTC display is present anywhere in the HTML.
+**What to check:** Does this issue include a clock element? A clock is NOT mandatory — it is a design choice. Include a clock only when the issue's theme relates to time, timing, scheduling, or temporal awareness. Most issues should have no clock.
 
-**PASS:** Clock uses America/Los_Angeles timezone. Label confirms PT. No UTC reference found.
+**If a clock IS present:** verify it uses `Intl.DateTimeFormat` with `timeZone: 'America/Los_Angeles'` and displays a PT label. Never UTC.
 
-**FAIL:** "GATE 6 FAIL — Clock is not PT. Clock must use `Intl.DateTimeFormat` with `timeZone: 'America/Los_Angeles'` and display a PT label. UTC display is not acceptable."
+**PASS:** No clock present (correct for most issues). OR clock is present and shows PT.
+
+**FAIL:** "GATE 6 FAIL — Clock present but shows UTC. Change to `Intl.DateTimeFormat` with `timeZone: 'America/Los_Angeles'`." — OR — "GATE 6 NOTE — Clock is present on an issue where the theme does not relate to time. Consider removing it."
 
 ---
 
