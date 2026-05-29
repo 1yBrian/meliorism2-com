@@ -690,6 +690,17 @@ a:hover{background:rgba(139,111,71,0.06);}
   .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
   h1{font-size:1.9rem;}
   h2{font-size:1.4rem;}
+  /* ── 16px MOBILE FLOOR (PUBLICATION-SOUL minimum) ── */
+  .date-tag,.issue-format-badge,.section-number,.highlight-label,
+  .begin-prompt button,.sb-label,.sb-clock,.sb-logo,
+  .progress-label,.entry-stamp,.entry-enter,.entry-corner,
+  .doc-footer,.footer-bar,.citation,.research-block .researcher,
+  .concept-box .cb-label,.scenario-label,.response-option .ro-label,
+  .role-chip,.estimate-hint,.margin-note,.estimate-table td,
+  .estimate-table th,.estimate-table tfoot td,.bibliography h3{
+    font-size:1rem!important;
+    letter-spacing:0.06em;
+  }
 }
 </style>
 </head>
@@ -1099,13 +1110,15 @@ a:hover{background:rgba(139,111,71,0.06);}
 </div>
 
 <script>
-/* ── UTC CLOCK ── */
+/* ── CLOCK (PT) ── */
 function tick(){
-  const n=new Date();
-  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
-    .map(v=>String(v).padStart(2,'0')).join(':');
   const el=document.getElementById('clk');
-  if(el)el.textContent='UTC '+t;
+  if(!el)return;
+  const t=new Intl.DateTimeFormat('en-US',{
+    hour:'2-digit',minute:'2-digit',second:'2-digit',
+    hour12:false,timeZone:'America/Los_Angeles'
+  }).format(new Date());
+  el.textContent=t+' PT';
 }
 tick();setInterval(tick,1000);
 
