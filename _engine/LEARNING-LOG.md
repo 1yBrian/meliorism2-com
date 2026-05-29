@@ -73,3 +73,29 @@ Discounting the rate for the same work is never the right option. When a client'
 ---
 
 *Log grows downward. Do not delete entries — the history is the learning.*
+
+---
+
+## Design Vision — Standing Directive
+*Confirmed by Brian, 2026-05-29. Read before any Phase 8a Design Amplification.*
+
+**The Current Gap:** The publication's writing and research quality exceeds its design. The design does not yet reflect the vision.
+
+**The Direction:**
+
+**1. Energy Gradients tied to Emotional Weather**
+Each emotional weather state should have a corresponding gradient language — not a palette swap, but a visual temperature. A "quiet defiance" issue reads differently in color than a "solidarity in a long week" issue. The gradient IS the emotional weather made visible. Phase 8a must define the gradient signature for every issue based on its weather reading.
+
+**2. A New Design Skill Per Article**
+Every issue introduces at least one design element that has not appeared in any previous issue. Not a layout variant — a new capability. A new interaction. A new visual grammar. The reader should feel they're entering a space they've never entered before, even if the publication is familiar. The Cover Agent owns this discovery.
+
+**3. 365 Formats — The Template Library**
+Long-game quest: research and document 365 distinct publication formats, templates, and design systems that could serve as the basis for an issue. Bright, readable, immersive, topic-resonant. Sources: editorial design, data journalism, museum exhibition design, game UI, architectural publications. One per day of the year — each a starting point, not a constraint.
+
+**4. Style Guide Per Issue**
+Every issue generates a `YYYY-MM-DD-[slug]-style-guide.md` in `_engine/staging/`. Documents: palette and gradient values, font pairing, unique design elements introduced, energy archetype's visual expression, what was borrowed from and how it was transformed. This file accumulates into the template library.
+
+**5. Template Licensing — Future Revenue**
+The style guides become a product. Quarterly: pull the style guide archive into a template deck. Offer to clients as newsletter, blog, or publication templates — with the design logic documented so they understand what they're buying. The methodology is the product as much as the templates.
+
+**The Standard Brian Set:** *"There is music to every article."* Every issue should feel like it has a distinctive sound — not just good writing, but a visual register that could only belong to this issue, this topic, this weather.
