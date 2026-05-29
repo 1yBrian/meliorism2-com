@@ -733,17 +733,17 @@ a:hover{background:rgba(139,111,71,0.06);}
     <div class="card" id="card-signal">
       <div class="card-inner">
 
+        <figure class="hero-figure" style="margin:0 -40px 32px;">
+          <img src="the-annotated-estimate-hero.jpg" alt="Close view of an invoice on aged paper, beside a pen, amber lamp, and handwritten marginal notes on each line item" class="hero-image" style="margin:0;border:none;" loading="eager" decoding="async">
+          <figcaption style="padding:6px 40px 0;">Photo by <a href="https://unsplash.com/@lauraadaiphoto?utm_source=meliorism2&utm_medium=referral">laura adai</a> on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral">Unsplash</a></figcaption>
+        </figure>
+
         <div class="metadata">
           <div class="date-tag">May 29, 2026 · Friday</div>
           <div class="issue-format-badge">≡ Annotated Estimate · Issue 029</div>
           <h1>The Annotated Estimate</h1>
           <p class="subtitle">On invisible labor, structural underpayment, and the practitioner tool that changes everything — starting with your own relationship to your rate</p>
         </div>
-
-        <figure class="hero-figure">
-          <img src="the-annotated-estimate-hero.jpg" alt="Close view of an invoice on aged paper, beside a pen, amber lamp, and handwritten marginal notes on each line item" class="hero-image" loading="eager" decoding="async">
-          <figcaption>Photo by <a href="https://unsplash.com/@lauraadaiphoto?utm_source=meliorism2&utm_medium=referral">laura adai</a> on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral">Unsplash</a></figcaption>
-        </figure>
 
         <div class="highlight">
           <span class="highlight-label">90-Second Signal</span>
@@ -950,7 +950,7 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <h3>When the Client Can't Afford the Annotated Rate</h3>
 
-        <p>This is real data. If a client presents a budget that, when mapped against an honest annotated estimate, represents a below-cost engagement, that is information worth having. The practitioner has three options: negotiate the scope to match the budget; accept the engagement at a loss with a clear-eyed understanding of what they are subsidizing and why; or decline. All three are legitimate choices. The annotated estimate does not make the choice. It makes the choice visible — which is the precondition for making it intentionally rather than by default.</p>
+        <p>This is real data. If a client presents a budget that, when mapped against an honest annotated estimate, represents a below-cost engagement, that is information worth having. The practitioner has three options: add something to the engagement — a bonus session, a resource library, an extended follow-up call — that makes the existing rate feel right for both parties without reducing what the practitioner earns per unit of labor; adjust the visible scope of the deliverable so that the rate per unit stays intact even if the total is lower; or decline with a clear record of why the number proposed would not have covered the actual cost of delivery. Discounting — reducing the rate for the same work — is not among the options. It trains the client that rates are negotiable downward when challenged, and establishes a baseline the practitioner will be defending next year. The annotated estimate exists precisely so that the practitioner is never in a position of defending a feeling. They are presenting a document. The document either supports the engagement or it doesn't.</p>
 
         <div class="margin-note">
           Wheatley (2017) frames the practitioner's relationship to their own value as a political and ethical question, not just an economic one. The practitioner who cannot name what they produce cannot advocate for the conditions required to produce it. Annotation is a form of professional self-respect, not just a pricing tactic.
@@ -1032,6 +1032,17 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <p>The first annotated estimate Sol writes will not be perfect. It will be incomplete in some categories and over-specified in others. That is not a failure. It is the beginning of a practice. The estimate improves as the practitioner's awareness of their own invisible labor improves. The rate follows the clarity. Miles Davis knew what his name was worth because he had done the accounting — across a career, not in a single invoice. The Annotated Estimate is where that accounting begins.</p>
 
+        <!-- ETYMOLOGY -->
+        <div class="bibliography" style="margin-top:40px;">
+          <h3>Etymology</h3>
+          <div class="citation" style="padding-left:0;text-indent:0;">
+            <strong>estimate (v.)</strong> — From Latin <em>aestimāre</em>, to appraise, to reckon the worth of. The root connects to <em>aes</em>, the Latin word for copper and bronze — the metals weighed to establish value in early Roman commerce. To estimate was, originally, to weigh the metal. To know what a thing was worth, you had to handle it, measure it, count it.
+          </div>
+          <div class="citation" style="padding-left:0;text-indent:0;margin-top:12px;">
+            <em>Esteem</em> shares the same root. What you estimate correctly, you can esteem accurately. The practitioner who has never counted their invisible labor cannot esteem it — because they have never weighed it. The Annotated Estimate is the act of picking up the metal.
+          </div>
+        </div>
+
         <!-- BIBLIOGRAPHY -->
         <div class="bibliography">
           <h3>Sources</h3>
@@ -1080,9 +1091,11 @@ a:hover{background:rgba(139,111,71,0.06);}
 
 <!-- FOOTER BAR -->
 <div class="footer-bar">
-  <a href="/archive/index.html">← THE LIBRARY</a>
+  <a href="/archive/index.html">← LIBRARY</a>
   <span class="footer-sep">·</span>
-  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+  <a href="/weather.html">WEATHER</a>
+  <span class="footer-sep">·</span>
+  <a href="/" id="footer-home">HOME</a>
 </div>
 
 <script>
@@ -1119,7 +1132,13 @@ const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','E
 let currentCard=0;
 
 function goTo(index){
-  if(index<0||index>=CARDS.length)return;
+  if(index<0)return;
+  // Past last card → go to library
+  if(index>=CARDS.length){
+    track('navigate','archive_exit');
+    window.location.href='/archive/index.html';
+    return;
+  }
   const cards=document.querySelectorAll('.card');
   if(cards[currentCard])cards[currentCard].scrollTop=0;
   currentCard=index;
@@ -1129,7 +1148,18 @@ function goTo(index){
   const label=document.getElementById('progress-label');
   if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
   document.getElementById('nav-prev').disabled=index===0;
-  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  const nextBtn=document.getElementById('nav-next');
+  if(index===CARDS.length-1){
+    nextBtn.disabled=false;
+    nextBtn.textContent='← LIBRARY';
+    nextBtn.style.letterSpacing='0.08em';
+    nextBtn.style.color='var(--amber)';
+  } else {
+    nextBtn.disabled=false;
+    nextBtn.textContent='→';
+    nextBtn.style.letterSpacing='0.1em';
+    nextBtn.style.color='';
+  }
   track('navigate',CARDS[index]);
 }
 
