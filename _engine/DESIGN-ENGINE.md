@@ -57,6 +57,22 @@ Test: would a tired practitioner at the end of this issue feel *given to*? Not i
 
 ---
 
+## THE LAW OF THE GENEROUS WRONG  *(invite the mistake — it teaches more than the right answer)*
+
+When the engine asks the reader to predict, choose, or guess — it must **encourage them to risk being wrong**, and then **honor the wrong answer when it comes.**
+
+> The gap between a confident wrong guess and the truth is the steepest learning curve there is. A reader who guesses right learns nothing they didn't already have. A reader who guesses wrong — and feels the gap — keeps it.
+
+This is productive failure, and it is also the Meliorist stance: the reader is the agent, the space is brave, the discomfort is invited and the harm is not. Every prediction gate must:
+
+- **Lower the stakes of being wrong, out loud.** *"Guess freely — being wrong here teaches more than being right."* Never make a wrong guess feel like failure.
+- **Honor the wrong answer specifically.** When the reveal confronts the reader's miscalibration, the tone is recognition, not correction: *"You reached for the elaborate story. So does almost everyone. That pull is exactly what we're here to notice."*
+- **Name the gift in the gap.** Tell the reader, plainly, that the mistake they just made is the thing they'll remember — and that the perfect answer would have taught them less.
+
+A design that punishes the wrong guess is a quiz. A design that *rewards the courage to guess wrong* is a teacher. The engine builds teachers.
+
+---
+
 ## THE FOUR GENERATIVE LAYERS
 
 Uniqueness is combinatorial. Four layers, each chosen fresh per issue, multiply into an effectively infinite design space. No two issues land on the same coordinates.

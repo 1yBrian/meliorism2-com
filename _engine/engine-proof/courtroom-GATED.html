@@ -19,135 +19,104 @@ html,body{height:100%;}
 body{
   font-family:'Space Grotesk',system-ui,sans-serif;
   background:linear-gradient(165deg,var(--bg0) 0%,var(--bg1) 55%,var(--bg2) 100%);
-  background-attachment:fixed;
-  color:var(--ink);
-  overflow:hidden;
-  position:fixed;inset:0;
+  background-attachment:fixed;color:var(--ink);
+  overflow:hidden;position:fixed;inset:0;
 }
-
-/* ── STAGE SYSTEM — full viewport, no scroll between ── */
 .stage{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:64px 24px 92px;
-  opacity:0;visibility:hidden;
-  transform:translateY(24px);
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:62px 24px 92px;
+  opacity:0;visibility:hidden;transform:translateY(24px);
   transition:opacity .7s ease, transform .7s ease, visibility .7s;
   overflow-y:auto;
 }
 .stage.active{opacity:1;visibility:visible;transform:translateY(0);}
-.stage-inner{width:100%;max-width:620px;margin:auto;}
-
-/* ── MASTHEAD ── */
+.stage-inner{width:100%;max-width:640px;margin:auto;}
 .mast{
   position:fixed;top:0;left:0;right:0;height:48px;z-index:50;
   display:flex;align-items:center;gap:14px;padding:0 20px;
-  background:rgba(15,8,32,0.7);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
+  background:rgba(15,8,32,0.7);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
 }
 .mast a{color:var(--violet);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.18em;font-weight:700;}
 .mast .case{flex:1;font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;color:var(--mut);text-transform:uppercase;}
-
-/* ── PROGRESS RAIL — earned, not clickable forward ── */
 .rail{
   position:fixed;bottom:0;left:0;right:0;height:64px;z-index:50;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  background:rgba(15,8,32,0.8);backdrop-filter:blur(12px);
-  border-top:1px solid var(--line);padding:0 20px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:rgba(15,8,32,0.8);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:0 20px;
 }
-.pip{
-  width:34px;height:5px;border-radius:3px;background:var(--surface);
-  position:relative;transition:background .5s;
-}
+.pip{width:26px;height:5px;border-radius:3px;background:var(--surface);transition:background .5s, box-shadow .5s;}
 .pip.done{background:var(--violet);}
 .pip.current{background:var(--gold);box-shadow:0 0 12px var(--gold);}
-.rail-label{
-  position:absolute;left:50%;transform:translateX(-50%);bottom:34px;
-  font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.14em;
-  color:var(--dim);text-transform:uppercase;white-space:nowrap;
-}
-
-/* ── TYPE ── */
-.kicker{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--violet);margin-bottom:18px;}
-h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.6rem,9vw,4.4rem);line-height:1.02;letter-spacing:-0.02em;margin-bottom:20px;}
+.rail-label{position:absolute;left:50%;transform:translateX(-50%);bottom:34px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.14em;color:var(--dim);text-transform:uppercase;white-space:nowrap;}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--violet);margin-bottom:16px;}
+h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.5rem,8.5vw,4.2rem);line-height:1.02;letter-spacing:-0.02em;margin-bottom:18px;}
 h1 em{font-style:italic;color:var(--violet);}
-h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.12;margin-bottom:18px;}
-.lede{font-size:1.08rem;line-height:1.7;color:var(--mut);margin-bottom:14px;}
+h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.65rem,5vw,2.3rem);line-height:1.14;margin-bottom:16px;}
+.lede{font-size:1.06rem;line-height:1.68;color:var(--mut);margin-bottom:13px;}
 .lede b{color:var(--ink);font-weight:500;}
-
-/* ── BUTTONS ── */
+.encourage{font-style:italic;font-family:'Fraunces',serif;color:var(--gold);font-size:1.02rem;line-height:1.6;margin:6px 0 4px;}
 .act{
-  display:inline-flex;align-items:center;gap:10px;
-  font-family:'JetBrains Mono',monospace;font-size:0.9rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;
-  background:var(--violet);color:#160a2e;border:none;border-radius:3px;
-  padding:16px 30px;cursor:pointer;margin-top:14px;
+  display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;
+  font-size:0.9rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;
+  background:var(--violet);color:#160a2e;border:none;border-radius:3px;padding:16px 30px;cursor:pointer;margin-top:14px;
   transition:transform .15s, box-shadow .3s, opacity .3s, background .3s;
-  box-shadow:0 0 0 rgba(167,139,250,0);
 }
 .act:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--violet-glow);}
 .act:disabled{background:var(--surface2);color:var(--dim);cursor:not-allowed;transform:none;box-shadow:none;}
-.act.ghost{background:none;border:1px solid var(--violet-d);color:var(--violet);}
-
-/* ── STAGE 1 gavel ── */
-.gavel{font-size:4.5rem;margin-bottom:8px;filter:drop-shadow(0 6px 20px var(--violet-glow));animation:float 4s ease-in-out infinite;}
+.gavel{font-size:4.4rem;margin-bottom:8px;filter:drop-shadow(0 6px 20px var(--violet-glow));animation:float 4s ease-in-out infinite;}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-10px) rotate(4deg);}}
-
-/* ── PREDICTION CARDS (stage 2) ── */
-.choices{display:flex;flex-direction:column;gap:12px;margin:24px 0 8px;}
-.choice{
-  text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:6px;
-  padding:18px 20px;cursor:pointer;transition:border-color .2s, background .2s, transform .15s;
-  font-size:1rem;color:var(--ink);line-height:1.5;
-}
+.choices{display:flex;flex-direction:column;gap:12px;margin:22px 0 6px;}
+.choice{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:17px 19px;cursor:pointer;transition:border-color .2s, background .2s, transform .15s;font-size:1rem;color:var(--ink);line-height:1.5;}
 .choice:hover{border-color:var(--violet-d);transform:translateX(4px);}
 .choice.picked{border-color:var(--gold);background:var(--surface2);box-shadow:0 0 18px rgba(232,200,120,0.18);}
 .choice .ctag{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.12em;color:var(--gold);display:block;margin-bottom:5px;}
-
-/* ── RANKING (stage 3) ── */
-.rank-hint{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;color:var(--dim);text-transform:uppercase;text-align:center;margin-bottom:16px;}
-.theory{
-  display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);
-  border-radius:6px;padding:14px 16px;margin-bottom:10px;transition:background .25s, border-color .25s, transform .3s;
-}
-.theory .grip{font-family:'Fraunces',serif;font-size:1.4rem;color:var(--violet);width:24px;text-align:center;flex-shrink:0;}
-.theory .ttext{flex:1;font-size:0.98rem;line-height:1.45;}
+.rank-hint{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;color:var(--dim);text-transform:uppercase;text-align:center;margin-bottom:15px;}
+.theory{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:13px 15px;margin-bottom:10px;transition:background .25s, border-color .25s;}
+.theory .grip{font-family:'Fraunces',serif;font-size:1.35rem;color:var(--violet);width:24px;text-align:center;flex-shrink:0;}
+.theory .ttext{flex:1;font-size:0.96rem;line-height:1.44;}
 .theory .dots{display:flex;gap:4px;margin-top:7px;height:9px;opacity:0;transition:opacity .6s;}
 .theory.revealed .dots{opacity:1;}
 .theory .dot{width:9px;height:9px;border-radius:50%;background:var(--red);}
 .theory .move{display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
-.theory .move button{
-  background:var(--surface2);border:1px solid var(--line);color:var(--violet);
-  width:34px;height:26px;border-radius:4px;cursor:pointer;font-size:0.9rem;line-height:1;
-  transition:background .15s,opacity .15s;
-}
+.theory .move button{background:var(--surface2);border:1px solid var(--line);color:var(--violet);width:34px;height:26px;border-radius:4px;cursor:pointer;font-size:0.9rem;line-height:1;transition:background .15s,opacity .15s;}
 .theory .move button:hover{background:var(--violet-d);color:#160a2e;}
 .theory .move button:disabled{opacity:0.25;cursor:not-allowed;}
 .theory.survivor{border-color:var(--green);box-shadow:0 0 22px rgba(111,207,151,0.25);}
 .theory.survivor .dot{background:var(--green);}
 .theory.tap-target{cursor:pointer;}
 .theory.tap-target:hover{border-color:var(--gold);}
-
-/* ── VERDICT callout ── */
-.callback{
-  background:linear-gradient(135deg,var(--surface2),var(--surface));
-  border-left:4px solid var(--gold);border-radius:0 6px 6px 0;
-  padding:18px 20px;margin:20px 0;font-size:1rem;line-height:1.6;color:var(--ink);
-}
+.callback{background:linear-gradient(135deg,var(--surface2),var(--surface));border-left:4px solid var(--gold);border-radius:0 6px 6px 0;padding:17px 19px;margin:18px 0;font-size:1rem;line-height:1.6;color:var(--ink);}
 .callback b{color:var(--gold);}
 .assumption-count{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--gold);letter-spacing:0.08em;margin-left:6px;}
-
-/* ── DELIGHT (stage 6) ── */
+/* EXHIBITS (evidence stage) */
+.exhibits{display:flex;flex-direction:column;gap:11px;margin:20px 0 8px;}
+.exhibit{background:var(--surface);border:1px dashed var(--violet-d);border-radius:6px;padding:15px 18px;cursor:pointer;transition:background .25s,border-color .25s,transform .15s;}
+.exhibit:hover{transform:translateX(4px);border-color:var(--gold);}
+.exhibit .ex-tag{font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.12em;color:var(--violet);display:block;margin-bottom:6px;}
+.exhibit .ex-body{font-size:1rem;line-height:1.5;color:var(--dim);transition:color .3s;}
+.exhibit.entered{border-style:solid;border-color:var(--green);background:var(--surface2);}
+.exhibit.entered .ex-body{color:var(--ink);}
+.exhibit.entered .ex-tag{color:var(--green);}
+.exhibit.entered .ex-tag::after{content:' · ENTERED INTO EVIDENCE';}
+/* BIBLIOGRAPHY */
+.biblio{margin-top:8px;text-align:left;}
+.cite{font-size:0.92rem;line-height:1.6;color:var(--mut);padding:11px 0;border-top:1px solid var(--line);}
+.cite:first-child{border-top:none;}
+.cite b{color:var(--ink);font-weight:500;}
+.cite em{font-style:italic;color:var(--violet);}
+.reveal-sources{margin-top:6px;}
+.etym{background:var(--surface);border-radius:6px;padding:18px 20px;margin:18px 0;text-align:left;}
+.etym .w{font-family:'Fraunces',serif;font-style:italic;font-size:1.15rem;color:var(--gold);}
+.etym p{font-size:0.96rem;line-height:1.62;color:var(--mut);margin-top:6px;}
+/* DELIGHT */
 .gift{text-align:center;}
-.otter{font-size:3.6rem;letter-spacing:-10px;margin:6px 0 22px;display:block;animation:bob 5s ease-in-out infinite;}
+.otter{font-size:3.4rem;letter-spacing:-10px;margin:6px 0 20px;display:block;animation:bob 5s ease-in-out infinite;}
 @keyframes bob{0%,100%{transform:translateX(-6px);}50%{transform:translateX(6px);}}
 .gift h2{color:var(--gold);}
-.gift p{font-size:1.12rem;line-height:1.78;color:var(--mut);margin-bottom:16px;}
+.gift p{font-size:1.1rem;line-height:1.76;color:var(--mut);margin-bottom:15px;}
 .gift p b{color:var(--ink);font-weight:500;font-style:italic;font-family:'Fraunces',serif;}
-.footer-links{display:flex;gap:18px;justify-content:center;margin-top:28px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;}
+.footer-links{display:flex;gap:18px;justify-content:center;margin-top:26px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;}
 .footer-links a{color:var(--violet);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;transition:border-color .2s;}
 .footer-links a:hover{border-bottom-color:var(--violet);}
-
 .fadein{animation:fi .8s ease both;}
 @keyframes fi{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 .locked-note{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--dim);letter-spacing:0.08em;margin-top:12px;min-height:1.2em;transition:color .3s;}
@@ -161,7 +130,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem,5vw,2.4re
   <span class="case">The People v. The Obvious · §05</span>
 </div>
 
-<!-- STAGE 1 — TAKE THE BENCH -->
+<!-- 0 · BENCH -->
 <section class="stage active" data-stage="0">
   <div class="stage-inner" style="text-align:center;">
     <span class="gavel">⚖️</span>
@@ -173,65 +142,115 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem,5vw,2.4re
   </div>
 </section>
 
-<!-- STAGE 2 — COMMIT YOUR INSTINCT (gate: must pick) -->
+<!-- 1 · COMMIT INSTINCT (gate: pick) -->
 <section class="stage" data-stage="1">
   <div class="stage-inner">
     <div class="kicker">Opening · Before the evidence</div>
     <h2>What does your gut say caused the delay?</h2>
-    <p class="lede">Commit before you see the case. This is on the record.</p>
+    <p class="encourage">Guess freely. Being wrong here will teach you more than being right — that's the whole point of a courtroom.</p>
     <div class="choices" id="predict">
       <button class="choice" data-pred="agenda"><span class="ctag">Theory A</span>Someone protected their own position — a hidden agenda slowed everything down.</button>
       <button class="choice" data-pred="skills"><span class="ctag">Theory B</span>The team lacked the skills and quietly fell behind.</button>
       <button class="choice" data-pred="estimate"><span class="ctag">Theory C</span>The original estimate was simply wrong.</button>
     </div>
-    <div class="locked-note" id="note2">Select your instinct to proceed.</div>
-    <button class="act" id="adv2" disabled onclick="go(2)">Enter the courtroom →</button>
+    <div class="locked-note" id="note1">Select your instinct to proceed.</div>
+    <button class="act" id="adv1" disabled onclick="go(2)">Enter the courtroom →</button>
   </div>
 </section>
 
-<!-- STAGE 3 — RANK THE THEORIES (gate: must order all) -->
+<!-- 2 · EVIDENCE (gate: enter all exhibits) -->
 <section class="stage" data-stage="2">
   <div class="stage-inner">
-    <div class="kicker">Evidence · The four theories</div>
+    <div class="kicker">Discovery · The facts in the record</div>
+    <h2>Enter each exhibit into evidence.</h2>
+    <p class="lede">Tap each card to admit it. You cannot rule on what you haven't read.</p>
+    <div class="exhibits" id="exhibits">
+      <div class="exhibit" data-ex="1"><span class="ex-tag">Exhibit A</span><span class="ex-body">The timeline was set in a single meeting — before the team was even assembled.</span></div>
+      <div class="exhibit" data-ex="2"><span class="ex-tag">Exhibit B</span><span class="ex-body">Two senior engineers were pulled onto an unrelated emergency in week three.</span></div>
+      <div class="exhibit" data-ex="3"><span class="ex-tag">Exhibit C</span><span class="ex-body">No comparable project this team had run had ever finished in the time allotted.</span></div>
+      <div class="exhibit" data-ex="4"><span class="ex-tag">Exhibit D</span><span class="ex-body">Nobody on the team stood to gain from the delay. Everyone wanted it shipped.</span></div>
+    </div>
+    <div class="locked-note" id="note2">Admit all four exhibits to proceed.</div>
+    <button class="act" id="adv2" disabled onclick="go(3)">Examine the theories →</button>
+  </div>
+</section>
+
+<!-- 3 · RANK (gate: order) -->
+<section class="stage" data-stage="3">
+  <div class="stage-inner">
+    <div class="kicker">Examination · The four theories</div>
     <h2>Rank them by how much they ask you to believe.</h2>
-    <p class="rank-hint">Heaviest (most assumptions) at top → lightest at bottom. Use the arrows.</p>
+    <p class="rank-hint">Heaviest (most assumptions) at top → lightest at bottom.</p>
     <div id="ranklist"></div>
-    <div class="locked-note" id="note3">Move every theory at least once to return a verdict.</div>
+    <div class="locked-note" id="note3">Move the theories to return a verdict.</div>
     <button class="act" id="adv3" disabled onclick="returnVerdict()">Return the verdict →</button>
   </div>
 </section>
 
-<!-- STAGE 4 — THE VERDICT (gate: must tap survivor) -->
-<section class="stage" data-stage="3">
+<!-- 4 · VERDICT (gate: tap survivor) -->
+<section class="stage" data-stage="4">
   <div class="stage-inner">
     <div class="kicker">Verdict · The hidden weight</div>
     <h2>Each theory carried assumptions you couldn't see.</h2>
     <div id="verdictlist"></div>
     <div class="callback" id="callback"></div>
-    <p class="lede">One theory needs only a single assumption and explains every fact. <b>Tap it to deliver the cut.</b></p>
+    <p class="lede">One theory needs only a single assumption and fits every exhibit. <b>Tap it to deliver the cut.</b></p>
     <div class="locked-note" id="note4">Identify the survivor.</div>
   </div>
 </section>
 
-<!-- STAGE 5 — THE PRINCIPLE (earned) -->
-<section class="stage" data-stage="4">
-  <div class="stage-inner" style="text-align:center;">
-    <div class="kicker">Ruling</div>
-    <h2 style="font-size:clamp(1.9rem,5.5vw,2.8rem);">Occam's Razor is not<br>"the simplest is true."</h2>
-    <p class="lede">It is: <b>start where the assumptions are fewest.</b> Not because the simple answer is always right — but because it is where you should look first, and what you must rule out before reaching for the elaborate one.</p>
-    <p class="lede">You believed the heavy theory. Most people do. The razor is the discipline of noticing that — and cutting.</p>
-    <button class="act" onclick="go(5)">Receive the court's gift →</button>
+<!-- 5 · THE NUANCE (gate: second guess) -->
+<section class="stage" data-stage="5">
+  <div class="stage-inner">
+    <div class="kicker">Cross-examination · The nuance</div>
+    <h2>But the simplest is not always true.</h2>
+    <p class="lede">A patient arrives with a thunderclap headache. The simplest explanation: dehydration. The elaborate one: a brain aneurysm.</p>
+    <p class="encourage">Guess — and don't be afraid to be wrong:</p>
+    <div class="choices" id="predict2">
+      <button class="choice" data-p2="cut"><span class="ctag">Option 1</span>Occam says: call it dehydration. The simplest answer wins.</button>
+      <button class="choice" data-p2="look"><span class="ctag">Option 2</span>Occam says: look at dehydration <em>first</em> — but rule it out before you stop.</button>
+    </div>
+    <div id="nuance-reveal" style="display:none;" class="fadein">
+      <div class="callback" id="nuance-callback"></div>
+    </div>
+    <div class="locked-note" id="note5">Make your call.</div>
+    <button class="act" id="adv5" disabled onclick="go(6)">To the ruling →</button>
   </div>
 </section>
 
-<!-- STAGE 6 — THE DELIGHT (earned reward, off-brief) -->
-<section class="stage" data-stage="5">
+<!-- 6 · RULING + ETYMOLOGY + BIBLIOGRAPHY (gate: reveal sources) -->
+<section class="stage" data-stage="6">
+  <div class="stage-inner">
+    <div class="kicker">Ruling</div>
+    <h2>The razor is a direction, not a destination.</h2>
+    <p class="lede"><b>Begin where the assumptions are fewest.</b> Not because the simple answer is always right — but because it is where you must look first, and what you must rule out before you reach for the elaborate one. The razor tells you where to start cutting. It never tells you when the wood runs out.</p>
+    <div class="etym">
+      <span class="ex-tag" style="color:var(--violet);font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:0.12em;">Etymology</span>
+      <p><span class="w">parsimony</span> — from Latin <em>parsimonia</em>, "sparingness," from <em>parcere</em>, to spare. And <span class="w">razor</span>: the blade that shaves away — not what is false, but what is <em>unnecessary</em>. Ockham never wrote of a razor. The metaphor was sharpened onto his name centuries later.</p>
+    </div>
+    <button class="act" id="showsources" onclick="revealSources()">Read the record →</button>
+    <div class="reveal-sources" id="sources" style="display:none;">
+      <div class="kicker" style="margin:22px 0 10px;">Bibliography</div>
+      <div class="biblio fadein">
+        <div class="cite"><b>William of Ockham.</b> <em>Summa Logicae</em> &amp; <em>Quodlibeta Septem</em> (c. 1323). The principle in his own words: <em>"Numquam ponenda est pluralitas sine necessitate"</em> — plurality must never be posited without necessity.</div>
+        <div class="cite"><b>John Punch (Johannes Poncius).</b> Commentary on Duns Scotus, 1639. Source of the famous phrasing <em>"Entia non sunt multiplicanda praeter necessitatem"</em> — the line everyone quotes as Ockham's, written three centuries after his death.</div>
+        <div class="cite"><b>Sober, Elliott.</b> <em>Ockham's Razors: A User's Manual.</em> Cambridge University Press, 2015. On when parsimony is a guide to truth and when it is merely a guide to where to look.</div>
+        <div class="cite"><b>Akaike, Hirotugu.</b> "A New Look at the Statistical Model Identification." <em>IEEE Transactions on Automatic Control,</em> 1974. The razor made mathematical: a criterion that penalizes added assumptions — formal proof that simpler models often predict better.</div>
+        <div class="cite"><b>Walter of Chatton.</b> Ockham's contemporary, who proposed an <em>anti-razor</em>: if a few things do not suffice, posit more. The dissent that keeps the razor honest.</div>
+      </div>
+      <button class="act" onclick="go(7)">Receive the court's gift →</button>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · DELIGHT -->
+<section class="stage" data-stage="7">
   <div class="stage-inner gift">
     <div class="kicker" style="color:var(--gold);">For reaching the end</div>
     <span class="otter">🦦&nbsp;🦦</span>
     <h2>Sea otters hold hands while they sleep.</h2>
-    <p>Not for warmth. For <b>anchorage.</b> Adrift on the open water, an otter can wake to find the current has carried it far from everyone it knows. So before they sleep, they reach out and take the paw of another — sometimes a whole raft of them, linked, drifting together so none drifts alone.</p>
-    <p>Pups who haven't yet learned the habit are sometimes wrapped in giant kelp by their mothers — moored to the seabed like a small boat — so they stay put while she dives.</p>
+    <p>Not for warmth. For <b>anchorage.</b> Adrift on open water, an otter can wake to find the current has carried it far from everyone it knows. So before they sleep, they reach out and take the paw of another — sometimes a whole raft of them, linked, drifting together so none drifts alone.</p>
+    <p>Pups who haven't learned the habit are sometimes wrapped in giant kelp by their mothers — moored to the seabed like a small boat — so they stay put while she dives.</p>
     <p style="color:var(--violet);font-style:italic;font-family:'Fraunces',serif;">No mechanism. No lesson. Just something true and good, because you walked all the way here.</p>
     <div class="footer-links">
       <a href="/archive/index.html">← Library</a>
@@ -241,80 +260,72 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem,5vw,2.4re
   </div>
 </section>
 
-<!-- PROGRESS RAIL -->
 <div class="rail" id="rail">
   <span class="rail-label" id="raillabel">Take the bench</span>
-  <div class="pip current" data-pip="0"></div>
-  <div class="pip" data-pip="1"></div>
-  <div class="pip" data-pip="2"></div>
-  <div class="pip" data-pip="3"></div>
-  <div class="pip" data-pip="4"></div>
-  <div class="pip" data-pip="5"></div>
+  <div class="pip current" data-pip="0"></div><div class="pip" data-pip="1"></div>
+  <div class="pip" data-pip="2"></div><div class="pip" data-pip="3"></div>
+  <div class="pip" data-pip="4"></div><div class="pip" data-pip="5"></div>
+  <div class="pip" data-pip="6"></div><div class="pip" data-pip="7"></div>
 </div>
 
 <script>
-/* ── STATE ── */
-var cur = 0;
-var maxReached = 0;
-var prediction = null;
-var moved = {};            // which theories have been moved (rank gate)
-var RAIL = ['Take the bench','Commit your instinct','Rank the theories','The verdict','The ruling','Your gift'];
+var cur=0, maxReached=0, prediction=null, moved={}, enteredCount=0;
+var RAIL=['Take the bench','Commit your instinct','Hear the evidence','Rank the theories','The verdict','The nuance','The ruling','Your gift'];
 
-/* ── THE THEORIES — assumptions hidden until verdict ── */
-var THEORIES = [
-  {id:'agenda',   label:'A hidden agenda — someone deliberately slowed the work to protect their position.', a:4, name:'Hidden agenda'},
-  {id:'skills',   label:'A skills gap — the team quietly lacked the ability and fell behind.', a:3, name:'Skills gap'},
-  {id:'scope',    label:'Silent scope creep — stakeholders kept adding unspoken requirements.', a:2, name:'Scope creep'},
-  {id:'estimate', label:'The estimate was wrong — the work was always going to take this long.', a:1, name:'Wrong estimate'}
-];
-// reader-facing order starts shuffled (fixed non-sorted order, no RNG needed)
-var order = ['skills','estimate','agenda','scope'];
-
-/* ── STAGE NAVIGATION (gated) ── */
 function go(n){
-  if(n > maxReached + 1) return;          // cannot skip ahead
+  if(n>maxReached+1) return;
   document.querySelector('.stage.active').classList.remove('active');
   document.querySelector('[data-stage="'+n+'"]').classList.add('active');
-  cur = n;
-  if(n > maxReached) maxReached = n;
+  cur=n; if(n>maxReached) maxReached=n;
   paintRail();
-  if(n===2) renderRanks();
-  // scroll the stage's own inner content to top
-  document.querySelector('[data-stage="'+n+'"]').scrollTop = 0;
+  if(n===3) renderRanks();
+  document.querySelector('[data-stage="'+n+'"]').scrollTop=0;
 }
 function paintRail(){
   document.querySelectorAll('.pip').forEach(function(p){
-    var i = +p.dataset.pip;
-    p.classList.toggle('done', i < cur);
-    p.classList.toggle('current', i === cur);
+    var i=+p.dataset.pip;
+    p.classList.toggle('done', i<cur);
+    p.classList.toggle('current', i===cur);
   });
-  document.getElementById('raillabel').textContent = RAIL[cur];
+  document.getElementById('raillabel').textContent=RAIL[cur];
 }
 
-/* ── STAGE 2: prediction gate ── */
+/* 1 · prediction */
 document.querySelectorAll('#predict .choice').forEach(function(c){
-  c.addEventListener('click', function(){
+  c.addEventListener('click',function(){
     document.querySelectorAll('#predict .choice').forEach(x=>x.classList.remove('picked'));
-    c.classList.add('picked');
-    prediction = c.dataset.pred;
-    var btn = document.getElementById('adv2');
-    btn.disabled = false;
-    var note = document.getElementById('note2');
-    note.textContent = 'On the record. Proceed when ready.';
-    note.classList.add('ready');
+    c.classList.add('picked'); prediction=c.dataset.pred;
+    document.getElementById('adv1').disabled=false;
+    var n=document.getElementById('note1'); n.textContent='On the record. Proceed when ready.'; n.classList.add('ready');
   });
 });
 
-/* ── STAGE 3: ranking ── */
+/* 2 · exhibits */
+document.querySelectorAll('#exhibits .exhibit').forEach(function(ex){
+  ex.addEventListener('click',function(){
+    if(ex.classList.contains('entered')) return;
+    ex.classList.add('entered'); enteredCount++;
+    if(enteredCount>=4){
+      document.getElementById('adv2').disabled=false;
+      var n=document.getElementById('note2'); n.textContent='All exhibits admitted.'; n.classList.add('ready');
+    }
+  });
+});
+
+/* 3 · ranking */
+var THEORIES=[
+  {id:'agenda',label:'A hidden agenda — someone deliberately slowed the work to protect their position.',a:4},
+  {id:'skills',label:'A skills gap — the team quietly lacked the ability and fell behind.',a:3},
+  {id:'scope',label:'Silent scope creep — stakeholders kept adding unspoken requirements.',a:2},
+  {id:'estimate',label:'The estimate was wrong — the work was always going to take this long.',a:1}
+];
+var order=['skills','estimate','agenda','scope'];
 function renderRanks(){
-  var list = document.getElementById('ranklist');
-  list.innerHTML = '';
-  order.forEach(function(id, idx){
-    var t = THEORIES.find(x=>x.id===id);
-    var row = document.createElement('div');
-    row.className = 'theory'; row.dataset.id = id;
-    row.innerHTML =
-      '<span class="grip">'+(idx+1)+'</span>'+
+  var list=document.getElementById('ranklist'); list.innerHTML='';
+  order.forEach(function(id,idx){
+    var t=THEORIES.find(x=>x.id===id);
+    var row=document.createElement('div'); row.className='theory';
+    row.innerHTML='<span class="grip">'+(idx+1)+'</span>'+
       '<div class="ttext">'+t.label+'<div class="dots"></div></div>'+
       '<div class="move">'+
         '<button aria-label="up" onclick="move(\''+id+'\',-1)" '+(idx===0?'disabled':'')+'>▲</button>'+
@@ -323,58 +334,69 @@ function renderRanks(){
     list.appendChild(row);
   });
 }
-function move(id, dir){
-  var i = order.indexOf(id);
-  var j = i + dir;
+function move(id,dir){
+  var i=order.indexOf(id), j=i+dir;
   if(j<0||j>=order.length) return;
-  var tmp = order[i]; order[i]=order[j]; order[j]=tmp;
-  moved[id] = true; moved[order[i]] = true;
+  var t=order[i]; order[i]=order[j]; order[j]=t;
+  moved[id]=true; moved[order[i]]=true;
   renderRanks();
-  // gate: at least 3 of 4 touched (enough to prove engagement / a real ordering)
-  if(Object.keys(moved).length >= 3){
-    var btn = document.getElementById('adv3');
-    btn.disabled = false;
-    var note = document.getElementById('note3');
-    note.textContent = 'Verdict ready to return.';
-    note.classList.add('ready');
+  if(Object.keys(moved).length>=3){
+    document.getElementById('adv3').disabled=false;
+    var n=document.getElementById('note3'); n.textContent='Verdict ready to return.'; n.classList.add('ready');
   }
 }
 
-/* ── STAGE 4: verdict reveal + survivor gate ── */
+/* 4 · verdict */
 function returnVerdict(){
-  go(3);
-  var vl = document.getElementById('verdictlist');
-  vl.innerHTML = '';
-  // show in the reader's ranked order, reveal true assumption counts
+  go(4);
+  var vl=document.getElementById('verdictlist'); vl.innerHTML='';
   order.forEach(function(id){
-    var t = THEORIES.find(x=>x.id===id);
-    var row = document.createElement('div');
-    row.className = 'theory revealed fadein' + (t.a===1?' survivor tap-target':'');
-    var dots = '';
-    for(var k=0;k<t.a;k++) dots += '<span class="dot"></span>';
-    row.innerHTML =
-      '<span class="grip">'+(t.a===1?'✓':t.a)+'</span>'+
-      '<div class="ttext">'+t.label+
-        '<div class="dots">'+dots+'</div></div>';
-    if(t.a===1){
-      row.addEventListener('click', deliverCut);
-    }
+    var t=THEORIES.find(x=>x.id===id);
+    var row=document.createElement('div');
+    row.className='theory revealed fadein'+(t.a===1?' survivor tap-target':'');
+    var dots=''; for(var k=0;k<t.a;k++) dots+='<span class="dot"></span>';
+    row.innerHTML='<span class="grip">'+(t.a===1?'✓':t.a)+'</span>'+
+      '<div class="ttext">'+t.label+'<div class="dots">'+dots+'</div></div>';
+    if(t.a===1) row.addEventListener('click',deliverCut);
     vl.appendChild(row);
   });
-  // callback to their prediction
-  var predName = {agenda:'the hidden agenda',skills:'the skills gap',estimate:'the wrong estimate'}[prediction] || 'a theory';
-  var predA = ({agenda:4,skills:3,estimate:1})[prediction];
-  var cb = document.getElementById('callback');
+  var predName={agenda:'the hidden agenda',skills:'the skills gap',estimate:'the wrong estimate'}[prediction]||'a theory';
+  var predA=({agenda:4,skills:3,estimate:1})[prediction];
+  var cb=document.getElementById('callback');
   if(prediction==='estimate'){
-    cb.innerHTML = 'You predicted <b>the wrong estimate</b> — the one-assumption explanation.<span class="assumption-count">1 assumption</span> You cut clean before you ever saw the evidence. Rare.';
+    cb.innerHTML='You predicted <b>the wrong estimate</b> — the single-assumption explanation.<span class="assumption-count">1 assumption</span> You cut clean before you saw a shred of evidence. Rare. Trust that instinct.';
   } else {
-    cb.innerHTML = 'You predicted <b>'+predName+'</b>.<span class="assumption-count">'+predA+' assumptions</span> The theory your gut reached for is among the heaviest. So does almost everyone’s. That pull toward the elaborate story is exactly what the razor exists to cut.';
+    cb.innerHTML='You reached for <b>'+predName+'</b>.<span class="assumption-count">'+predA+' assumptions</span> The heavy story. So does almost everyone — and that pull is exactly what the razor exists to notice. The wrong guess you just made is the thing you\'ll remember. A correct one would have taught you nothing.';
   }
 }
 function deliverCut(){
-  document.getElementById('note4').textContent = 'Ruling entered.';
-  document.getElementById('note4').classList.add('ready');
-  setTimeout(function(){ go(4); }, 550);
+  var n=document.getElementById('note4'); n.textContent='Ruling entered.'; n.classList.add('ready');
+  setTimeout(function(){go(5);},550);
+}
+
+/* 5 · nuance second guess */
+document.querySelectorAll('#predict2 .choice').forEach(function(c){
+  c.addEventListener('click',function(){
+    document.querySelectorAll('#predict2 .choice').forEach(x=>x.classList.remove('picked'));
+    c.classList.add('picked');
+    var pick=c.dataset.p2;
+    var rev=document.getElementById('nuance-reveal');
+    var cb=document.getElementById('nuance-callback');
+    rev.style.display='block';
+    if(pick==='look'){
+      cb.innerHTML='<b>Right where it counts.</b> Occam never said the simple answer is true. He said start there — and the headache that turns out to be the aneurysm is exactly why you rule out the simple before you stop looking. The razor points; it does not pronounce.';
+    } else {
+      cb.innerHTML='<b>And here is the gift of being wrong.</b> If you call it dehydration and go home, the razor just killed your patient. It never said "simplest is true" — it said "look there first." Feel that gap? That correction is worth more than if you\'d picked right on the first pass.';
+    }
+    document.getElementById('adv5').disabled=false;
+    var n=document.getElementById('note5'); n.textContent='Cross-examination complete.'; n.classList.add('ready');
+  });
+});
+
+/* 6 · sources */
+function revealSources(){
+  document.getElementById('sources').style.display='block';
+  document.getElementById('showsources').style.display='none';
 }
 
 paintRail();
