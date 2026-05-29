@@ -276,7 +276,7 @@ Examples of correct register:
 - *"🌊 Sitting with something real"*
 - *"☀️ Permission to charge what you're worth"*
 
-The emotional weather is set by the Emotional Weather Agent (see `_engine/scripts/emotional_weather_agent.py`) and stored in `editorial_calendar.emotional_weather` before Phase 8c.
+The emotional weather is set by the **composing agent during Phase 4** — same session, no separate tool, no API call. The composing agent reads the issue it just wrote, picks the emoji and phrase, and places the chip on the entry screen. It then writes the value to `editorial_calendar.emotional_weather` via the Supabase service role key.
 
 ---
 

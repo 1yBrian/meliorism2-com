@@ -95,7 +95,7 @@
 **What changed:** Emotional Weather Report missing from entry screen.
 **Why:** PUBLICATION-SOUL §Emotional Weather was not written until today (v1.2). Cannot retroactively fix a live issue.
 **Carries forward:** YES
-**Rule going forward:** Every entry screen (Card 1) must include the emotional weather chip: `[emoji] [label] · learn more → /weather`. Low visual weight, fine-print register, positioned near the bottom of the entry overlay. Run emotional_weather_agent.py before Phase 8c to get the reading.
+**Rule going forward:** Every entry screen (Card 1) must include the emotional weather chip: `[emoji] [label] · learn more → /weather`. Low visual weight, fine-print register, positioned near the bottom of the entry overlay. The composing agent sets it during Phase 4 — no separate script, no API call.
 
 ---
 
