@@ -7,7 +7,7 @@
 <!-- meliorism2:dimension: Becoming Adaptable -->
 <!-- meliorism2:sources: 5 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-weather="deceleration">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -562,6 +562,12 @@ a:hover{background:var(--surface);}
   .section-label{margin:0 -20px 20px;}
   .act-grid{grid-template-columns:1fr;}
 }
+
+.weather-block{margin:28px 0 4px;padding:16px 18px;background:rgba(128,128,128,0.05);border:1px solid rgba(128,128,128,0.1);border-radius:10px;}
+.weather-chip{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{font-size:0.72rem;opacity:0.55;letter-spacing:0.04em;font-style:italic;}
+.weather-onboard{font-size:0.68rem;opacity:0.38;line-height:1.55;max-width:380px;}
 </style>
 </head>
 <body>
@@ -590,7 +596,14 @@ a:hover{background:var(--surface);}
     </div>
     <h1 class="entry-title">The Pressure<br>Log</h1>
     <p class="entry-sub">A continuous reading of the practitioner's system — the moment before rigidity sets in</p>
-    <button class="entry-enter" onclick="openMain()">Log the pressure →</button>
+    <div class="weather-block">
+  <div class="weather-chip">
+    <span class="weather-emoji">🕯️</span>
+    <span class="weather-label">Emotional weather: deliberate slowing · warmth at the bottom</span>
+  </div>
+  <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — that deliberate-slowing quality — the warmth that only becomes available when you stop moving fast enough to feel it — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
+</div>
+      <button class="entry-enter" onclick="openMain()">Log the pressure →</button>
   </div>
 </div>
 
@@ -606,9 +619,15 @@ a:hover{background:var(--surface);}
     </div>
 
     <!-- HERO IMAGE -->
-    <img src="the-pressure-log-hero.jpg"
-         alt="Vintage aircraft altimeter resting on a raw wooden workbench — needle mid-dial, glass slightly fogged"
-         class="hero-img">
+    <figure style="margin:0;padding:0;">
+      <img src="the-pressure-log-hero.jpg"
+           alt="Vintage aircraft altimeter resting on a raw wooden workbench — needle mid-dial, glass slightly fogged"
+           class="hero-img">
+      <figcaption style="font-size:0.8rem;color:#999;text-align:right;padding:4px 0 0;font-family:monospace;">
+        Photo by <a href="https://unsplash.com/@lukash?utm_source=meliorism2&utm_medium=referral" style="color:#999;">Lukas</a>
+        on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral" style="color:#999;">Unsplash</a>
+      </figcaption>
+    </figure>
 
     <!-- 90-SECOND SIGNAL -->
     <div class="signal-block" data-section="signal">
@@ -627,9 +646,9 @@ a:hover{background:var(--surface);}
 
       <p>That gap — between who you were at the conference and who you are right now — is not a motivation problem. It is not a sign that the conference was useless or that the ideas won't stick. It is a <strong>pressure reading</strong>. Your system is under load. The question is whether you can read the load accurately before you walk into the session.</p>
 
-      <h3>What the 83% burnout statistic actually says</h3>
+      <h3>What the burnout research actually says</h3>
 
-      <p>Eight in ten practitioners in the training and facilitation field report burnout. The common interpretation: the work is too much. People need better self-care. Resilience training.</p>
+      <p>Industry surveys of trainers, coaches, and facilitators consistently report majority-level burnout — multiple studies across the ATD, ICF, and related bodies place the figure above 75%, with some sector surveys reaching higher. The common interpretation: the work is too much. People need better self-care. Resilience training.</p>
 
       <p>That interpretation is wrong — or at minimum, insufficient. The research on psychological flexibility suggests a different mechanism: burnout is predominantly a <strong>rigidity problem</strong>, not a volume problem. Practitioners are not burning out because they work too much. They are burning out because they have built internal systems that cannot bend — rigid rules about what a good session looks like, rigid self-narratives that cannot accommodate failure, rigid behavioral repertoires that narrow under exactly the conditions (high stakes, high uncertainty, sustained ambiguity) that define the job.</p>
 
@@ -726,7 +745,7 @@ a:hover{background:var(--surface);}
 
       <p>A pressure log is a sequential record of readings taken at measured intervals under load conditions — the way a diver's depth gauge records what the environment demanded at each stage. The practitioner's pressure log takes readings at the internal level: nervous system arousal, cognitive rigidity signals, values contact, present-moment availability.</p>
 
-      <p>The log does not analyze. It does not prescribe. It records. The practitioner who can read their own log is more likely to catch the moment before rigidity locks in — before the amygdala runs the session, before the most-practiced script deploys without inspection, before the 83% statistic adds another entry.</p>
+      <p>The log does not analyze. It does not prescribe. It records. The practitioner who can read their own log is more likely to catch the moment before rigidity locks in — before the amygdala runs the session, before the most-practiced script deploys without inspection, before the burnout statistic adds another entry.</p>
 
       <div class="margin-note">
         The senior manager at ATD delivering the new feedback model verbatim — wooden, scripted, no eye contact — is running a rigidity-preservation script. The conference gave them the words. It didn't give them the structural flexibility to inhabit the words under pressure. That gap between acquired framework and embodied skill is the post-ATD hangover in miniature.
@@ -751,7 +770,7 @@ a:hover{background:var(--surface);}
 
       <h3>Adaptability language as internalized suppression</h3>
 
-      <p>The 83% burnout finding has a secondary signal that gets less attention: highly adaptable practitioners sometimes have the lowest boundaries. The practitioner who has thoroughly internalized the "flexible, responsive, present" identity can find themselves using adaptability language to rationalize absorbing load that should be declined, renegotiated, or named as structural rather than personal.</p>
+      <p>The high burnout finding has a secondary signal that gets less attention: highly adaptable practitioners sometimes have the lowest boundaries. The practitioner who has thoroughly internalized the "flexible, responsive, present" identity can find themselves using adaptability language to rationalize absorbing load that should be declined, renegotiated, or named as structural rather than personal.</p>
 
       <p>"I need to be more flexible about this" applied to a genuinely unreasonable demand is not adaptability. It is suppression with professional vocabulary. The pressure log catches this by requiring a values check: flexible <em>toward what</em>? If the answer is not a value — if it is just relief from pressure — the log shows accommodation, not adaptation.</p>
 
@@ -893,10 +912,18 @@ a:hover{background:var(--surface);}
 </div><!-- #main-panel -->
 
 <!-- FOOTER BAR -->
+<section id="card-delight" style="max-width:700px;margin:48px auto;padding:32px 24px;">
+  <span style="display:inline-block;margin-bottom:12px;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;">§ · The Delight</span>
+  <h2 style="margin-bottom:1.2rem;">The Man Who Proved the Sky Has Weight</h2>
+  <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(128,128,128,0.12);text-align:center;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;">Meliorism2.com · Daily briefings for practitioners</div>
+</section>
+
 <div class="footer-bar">
-  <a href="/archive/index.html">← THE LIBRARY</a>
+  <a href="/archive/index.html">&#8592; LIBRARY</a>
   <span class="footer-sep">·</span>
-  <span style="color:var(--accent);">TODAY'S BRIEFING · CURRENT</span>
+  <a href="/weather.html">WEATHER</a>
+  <span class="footer-sep">·</span>
+  <a href="/" id="footer-home">HOME</a>
 </div>
 
 <script>
