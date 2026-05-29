@@ -108,4 +108,13 @@
 
 ---
 
+### 2026-05-29 — Issue 029: the-annotated-estimate (post-publish patch)
+
+**What changed:** Added McKinsey November 2025 outcome-based pricing research to Card 3 (Evidence). Reframed Card 4 "Value-Based Pricing" section to lead with results-over-hours philosophy.
+**Why:** The issue framed the practitioner's pricing problem as "how do I justify my hours." Brian's philosophy is that the question is "how do I create the results the client wants." McKinsey's shift to outcome-based fees (25% of global revenue, Nov 2025) provides external validation. The premium investment principle was absent.
+**Carries forward:** YES
+**Rule going forward:** Any issue touching pricing, rates, or income — particularly Living Income dimension — must include: (1) results-over-hours framing (what outcomes will you create?), (2) pricing principle: good price between real worth and client budget; best price is often a premium reach, (3) premium dividend: done right, on time, quality. Discounting is never framed as an option. McKinsey 2025 is a citeable source for any issue on professional service pricing.
+
+---
+
 *Log grows downward. Never delete entries.*

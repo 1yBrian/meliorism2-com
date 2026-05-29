@@ -56,4 +56,20 @@
 
 ---
 
+---
+
+## Editorial Philosophy — Standing Principles
+*Confirmed by Brian. Read before any issue touching pricing, income, or practitioner worth.*
+
+**The Results Principle** *(added 2026-05-29)*
+The practitioner's pricing question is not "how do I justify my hours." It is: "what results will I create for this client, and what is that worth?" McKinsey now prices ~25% of global work on outcomes (Birshan, Nov 2025). When better methods make work faster, the value of the result does not decrease. Bill for the result. Annotate the labor to know your floor.
+
+**The Premium Principle** *(added 2026-05-29)*
+A good price sits between the real worth of the work and the client's budget. The best price is often a premium reach — and that is appropriate. Premium investment pays dividends: done right, on time, quality. The practitioner who prices at the premium with a documented case is not overcharging. They are charging what quality costs.
+
+**The Anti-Discount Rule** *(added 2026-05-29)*
+Discounting the rate for the same work is never the right option. When a client's budget is short: (1) add value or bonus to justify the existing rate, (2) adjust scope while holding rate per unit, (3) decline. Discounting trains the client that rates are negotiable downward.
+
+---
+
 *Log grows downward. Do not delete entries — the history is the learning.*
