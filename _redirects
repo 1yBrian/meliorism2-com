@@ -1,0 +1,4 @@
+# Cloudflare Pages redirect rules
+# Block internal toolchain from being web-served. _engine is build/pipeline
+# tooling — never a public URL. Returns 404 for any /_engine/* request.
+/_engine/*    /404.html    404
