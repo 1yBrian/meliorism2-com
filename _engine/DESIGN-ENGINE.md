@@ -125,7 +125,32 @@ Always earned, always off-brief. A video. A poem. A map. A strange fact. A 1963 
 | 14 | **Threshold Tipping** | pushes a value until a system breaks | finds the edge by feeling for it |
 | 15 | **Sensory Toggle** | flips a dimension (sound/silence, signal/noise) | contrast through embodiment |
 
-The set grows. Every issue may discover a 16th. New primitives are logged and become permanent vocabulary — same protocol as energy archetypes.
+| 16 | **Decision Architect** | designs the choice *someone else* will face | role elevation — building a decision teaches more than making one |
+
+The set grows. Every issue may discover a 17th. New primitives are logged and become permanent vocabulary — same protocol as energy archetypes.
+
+---
+
+## THE LAW OF ROLE ELEVATION  *(move the reader up the ladder)*
+
+There is a ladder of engagement, and most media never climbs past the first rung:
+
+1. **Observer** — reads what happened. (A newsletter.)
+2. **Chooser** — makes the decision themselves. (The courtroom — already rare.)
+3. **Architect** — designs the decision *someone else* will make.
+
+The third rung is where the practitioner actually lives. A coach, a trainer, a teacher, a facilitator — their craft is not deciding. It is **building the moment of choice another person steps into.** Framing the real options instead of the false binary. Sequencing what gets revealed and when. Setting the stakes honestly. Then stepping back and leaving the decision where it belongs — with the client.
+
+So the engine's most powerful issues don't ask the reader to choose. They ask the reader to **build a choice for their client** — and then show the reader the consequence of their architecture. You don't pick the answer. You construct the decision, set its options, decide what the other person sees first — and watch whether the person you built it for walks away with their agency intact or quietly steered.
+
+**The Decision Architect primitive, in practice:**
+- The reader is handed a client/student scenario and must *assemble* the decision that person will face — drag in the real options, cut the false ones, order the reveal, name the stakes.
+- The issue then plays the decision forward through the eyes of the client: did the architecture clarify, or manipulate? Did it open agency, or extract compliance?
+- The reader discovers their own design instincts — including the manipulative ones they didn't know they had.
+
+**The ethical spine (non-negotiable, and pure Meliorist):** decision architecture done right *preserves the other person's agency* — it removes friction so their own judgment can operate. Done wrong, it is a dark pattern: a decision engineered to extract a predetermined outcome. The engine only ever teaches the agency-preserving kind. The reader is the agent — *and so is the reader's client.* An issue that teaches a practitioner to steer their clients has failed the publication's soul, no matter how engaging the mechanic.
+
+This is the recursion that makes Meliorism2 different: the reader is an agent learning to build spaces where *other* agents decide freely. That is the whole job, modeled in the design itself.
 
 ---
 
