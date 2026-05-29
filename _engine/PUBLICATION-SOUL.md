@@ -20,6 +20,10 @@ That is the only job. Everything else — the format, the research, the design �
 
 They hold rooms.
 
+But they are not the watcher — they are inside the room, not observing from outside it. They are not the decision-maker — the decision belongs to the client, the participant, the learner. They are the **architect of conditions that make real decisions possible for someone else.** They design the container. They ask the question that opens the space. They structure the session so another person can do their own work. Then they step back. Their greatest skill is not deciding. It is building the conditions in which someone else can decide for themselves.
+
+This is the register the writing lives in. Not "what to do" — that's the decision-maker's register. Not "what to watch for" — that's the watcher's. **What conditions to create so the room can do what a room can do when it's working.**
+
 Aqua-aerobics classes with older adults who are fighting gravity and loneliness. High-energy Pilates studios where the pressure is performance. One-on-one coaching sessions in corners of hotel lobbies. Corporate training floors with skeptical executives. Church halls. Community centers. Online breakout rooms. Anywhere humans gather to change.
 
 The setting changes. The work is the same: standing in front of people who are trying to become something, and figuring out what is actually in the way.
@@ -96,6 +100,8 @@ That is not peer-level. That is a poster in a gym nobody reads. The reader has b
 ## Reader Agency (Non-Negotiable)
 
 The reader is the agent. Not the subject of intervention. Not someone who needs to be fixed or helped or improved.
+
+More precisely: they are the **architect** of agency for others. They do not hold the decision — they build the room in which someone else gets to hold it. Write to that position. The copy that serves them most is not "here's what to decide" and not "here's what to observe." It is "here's what to build so the people in your room can decide for themselves."
 
 The practitioner reading this already carries extraordinary capability. The issue is not trying to give them something they lack. It is removing friction from what is already there.
 
@@ -187,103 +193,10 @@ That is the standard. Every issue. Every day.
 
 ---
 
-## §Energy Archetypes
-
-*The speaker voice behind each issue — and each card. Every issue has one primary archetype. Strong issues layer at least two. The Friend from the Field is always the ground state underneath every other voice.*
-
-### The Archetypes
-
-**1. Friend from the Field** *(ground state · default)*
-Always the foundation. Peer-level, warm, no jargon. The smart colleague who reads everything and translates it over coffee. The reader never feels talked at — they feel remembered. When in doubt, this is the voice.
-- **Tempo:** Conversational, direct, occasionally wry
-- **Where it lives:** Card 2 openings, Card 7 Application, transition passages
-
-**2. The Great Professor**
-Deep knowledge delivered without condescension. The evidence matters. Sources are named. Logic is airtight. Earns every claim. Can run cold — warmth is earned by precision. Best when the research is genuinely surprising.
-- **Tempo:** Methodical, building
-- **Where it lives:** Card 3 Evidence, Card 6 Roots
-
-**3. The Field Practitioner**
-In-the-room, in-the-body. "I have been in your exact situation at 3 PM on a Thursday." No distance between writer and reader — they are standing in the same hallway. Tactical and specific.
-- **Tempo:** Urgent, present-tense, short sentences
-- **Where it lives:** Card 5 Edge Cases, WWYD scenarios, Agitator prompts
-
-**4. The Quiet Scientist**
-Economy of words. Data talks. One clean sentence where others use a paragraph. Does not explain — states. Best paired with The Great Professor on adjacent cards for contrast.
-- **Tempo:** Spare, minimal, earning every line break
-- **Where it lives:** Research callouts, concept boxes, section openers
-
-**5. The Provocateur**
-Challenges the comfortable assumption. Makes the practitioner uncomfortable in the way only truth can. Does not apologize. The discomfort IS the method — not cruelty, precision applied to a belief that has been coasting.
-- **Tempo:** Sharp, staccato → unexpected reversal
-- **Where it lives:** Card 2 turn moment, edge case openings, WWYD's wrong-option framing
-
-**6. The Coach-in-the-Hall**
-90 seconds between classes. What you say when you see a colleague struggling and only have the length of a hallway. Brief. Urgent. Human. Does not perform empathy — acts from it.
-- **Tempo:** Quick, warm, slightly breathless, fragments welcome
-- **Where it lives:** Entry screen copy, CTA text, card transition sentences
-
-**7. The Witness**
-Sees what others walk past in the room. Present-tense observation. Does not interpret — names what is. The reader thinks: *that is exactly what was happening and I could not name it.* Recognition, not instruction.
-- **Tempo:** Slow, deliberate, specific sensory detail
-- **Where it lives:** 90-Second Signal, Card 1 phenomenon openers, etymology
-
----
-
-### Weekly Addition Protocol — Every Thursday
-
-Brian or the composing agent names one new trainer type observed in the field that week. It joins this list permanently. The list grows indefinitely. No archetype is retired.
-
-**Format:**
-```
-**[N]. [Name]** *(added YYYY-MM-DD · [what prompted it])*
-[Two-sentence description of the voice and when it fits.]
-- **Tempo:** [one word or phrase]
-- **Where it lives:** [card types or contexts]
-```
-
----
-
-### Assignment Rules
-
-1. **Every issue: one primary archetype.** Stated in `EDITORIAL-DECISIONS.md` as `energy_archetype: [name]`.
-2. **Every issue: minimum two archetypes across all cards.** Primary carries the issue; secondary appears on at least two cards.
-3. **No two consecutive issues: same primary archetype.** Mix it up.
-4. **Default when none assigned:** Friend from the Field.
-5. **Delight Card (Card 8): archetype-free.** It operates outside the system.
-
----
-
-## §Emotional Weather
-
-*Not the practitioner's mood — the issue's atmosphere. A reading of what is in the air of this specific issue.*
-
-The Emotional Weather Report appears on every issue as a low-visual-weight chip: one emoji, one short phrase, one link to `/weather`. It is not a judgment of the reader — it is a reading of the issue's own temperature. The practitioner uses it as a lens: *which of my clients are in this weather right now?*
-
-**Placement rules (in priority order):**
-1. **Card 1 (Entry screen)** — chip + `/weather` link, fine-print register, near the bottom
-2. **Card 2 (Phenomenon)** — chip + one inline onboarding paragraph (no link needed)
-3. **Card 6 (Roots/Bibliography)** — fallback only when Cards 1 and 2 are too immersive to interrupt
-
-**Chip format:** `[emoji] [label] · [learn more →](/weather)` (Card 1 only)
-
-**Tone register:** Not clinical. Not precious. One short phrase that a practitioner could say aloud in a break room and have it mean something.
-
-Examples of correct register:
-- *"🌧️ Solidarity in a long week"*
-- *"⚡ The good kind of unsettled"*
-- *"🌿 Quiet defiance"*
-- *"🌊 Sitting with something real"*
-- *"☀️ Permission to charge what you're worth"*
-
-The emotional weather is set by the **composing agent during Phase 4** — same session, no separate tool, no API call. The composing agent reads the issue it just wrote, picks the emoji and phrase, and places the chip on the entry screen. It then writes the value to `editorial_calendar.emotional_weather` via the Supabase service role key.
-
----
-
 ## Version Log
 *Each entry records what changed and which issue prompted the change.*
 
 | Version | Date | Change | Prompted by |
 |---------|------|--------|-------------|
 | 1.0 | 2026-05-27 | Initial constitution written | Session with Brian — core mission articulated |
-| 1.2 | 2026-05-29 | §Energy Archetypes (7 archetypes + weekly addition protocol) + §Emotional Weather added | Brian session — 029 revealed these sections missing from v1.0 |
+| 1.1 | 2026-05-29 | Architect framing added to Reader + Reader Agency sections | Brian: "our audience isn't the watcher or the decision-maker — they are the architect of giving others decisions to make" |

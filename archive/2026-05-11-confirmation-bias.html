@@ -7,7 +7,7 @@
 <!-- meliorism2:sources: 9 -->
 <!-- meliorism2:tags: #cognition #behavior-change #reasoning -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-weather="fog">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -238,7 +238,7 @@ strong{color:var(--cream);}
   .wc{width:52px;height:80px;font-size:1.2rem;}
 }
 
-/* ── Signal-OS Enhancement Layer ── */
+/* ── Meliorism2 Enhancement Layer ── */
 .sos-toolbar{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
 .sos-btn{background:rgba(20,20,20,0.92);color:#e8e0d0;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:8px 16px;font-size: 12px;letter-spacing:2px;cursor:pointer;font-family:monospace;backdrop-filter:blur(8px);transition:all 0.2s;white-space:nowrap;}
 .sos-btn:hover{background:rgba(40,40,40,0.98);border-color:rgba(255,255,255,0.3);}
@@ -249,6 +249,18 @@ strong{color:var(--cream);}
 .sos-read-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4CAF50;margin-left:6px;vertical-align:middle;opacity:0;transition:opacity 0.4s;}
 .sos-read-dot.seen{opacity:1;}
 
+
+.weather-block{margin:28px 0 4px;padding:16px 18px;background:rgba(128,128,128,0.05);border:1px solid rgba(128,128,128,0.1);border-radius:10px;}
+.weather-chip{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{font-size:0.72rem;opacity:0.55;letter-spacing:0.04em;font-style:italic;}
+.weather-onboard{font-size:0.68rem;opacity:0.38;line-height:1.55;max-width:380px;}
+
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:var(--bg,#fff);border-top:1px solid var(--border,rgba(128,128,128,0.15));display:flex;align-items:center;justify-content:center;gap:22px;font-size:0.8rem;letter-spacing:2px;transition:opacity 0.3s;}
+.footer-bar.hidden{display:none;}
+.footer-bar a{color:var(--accent,#888);text-decoration:none;border:none;}
+.footer-bar a:hover{opacity:0.7;background:transparent;}
+.footer-sep{opacity:0.3;}
 </style>
 </head>
 <body>
@@ -272,7 +284,14 @@ strong{color:var(--cream);}
     <div class="pin-card">We checked: our design is evidence-based.</div>
     <div class="pin-card final">We only see what we're looking for.</div>
   </div>
-  <button class="entry-btn" onclick="openMain()">Examine the Evidence →</button>
+  <div class="weather-block">
+  <div class="weather-chip">
+    <span class="weather-emoji">🌫️</span>
+    <span class="weather-label">Emotional weather: low visibility · working through uncertainty</span>
+  </div>
+  <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — that low-visibility state where you know something is present but cannot quite make it out yet — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
+</div>
+      <button class="entry-btn" onclick="openMain()">Examine the Evidence →</button>
 </div>
 
 <div id="main">
@@ -405,7 +424,13 @@ strong{color:var(--cream);}
     </div>
   </div>
 
-  <footer class="main-footer">
+  <section id="card-delight" style="max-width:700px;margin:48px auto;padding:32px 24px;">
+  <span style="display:inline-block;margin-bottom:12px;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;">§ · The Delight</span>
+  <h2 style="margin-bottom:1.2rem;">The Man Who Kept Getting the Weather Wrong — On Purpose</h2>
+  <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(128,128,128,0.12);text-align:center;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;">Meliorism2.com · Daily briefings for practitioners</div>
+</section>
+
+<footer class="main-footer">
     <a href="/archive/index.html">← THE LIBRARY</a>
     <span class="footer-sep">|</span>
     <span>Issue 011 · Confirmation Bias · 2026-05-11</span>
@@ -480,7 +505,7 @@ const obs=new IntersectionObserver((entries)=>{
 document.querySelectorAll('[data-track]').forEach(el=>obs.observe(el));
 </script>
 <script>
-// ── Signal-OS Enhancement Layer ──
+// ── Meliorism2 Enhancement Layer ──
 (function(){
   const SLUG = document.title.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,40);
   const KEY = 'sos-progress-' + SLUG;
@@ -561,5 +586,12 @@ document.querySelectorAll('[data-track]').forEach(el=>obs.observe(el));
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
 })();
 </script>
+<div class="footer-bar">
+  <a href="/archive/index.html">&#8592; LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <a href="/weather.html">WEATHER</a>
+  <span class="footer-sep">·</span>
+  <a href="/" id="footer-home">HOME</a>
+</div>
 </body>
 </html>

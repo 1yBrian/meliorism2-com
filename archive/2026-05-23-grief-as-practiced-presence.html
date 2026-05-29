@@ -6,7 +6,7 @@
 <!-- meliorism2:dimension: Witnessing -->
 <!-- meliorism2:sources: 6 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-weather="still">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -305,6 +305,12 @@ a:hover{background:#f0ebe5;}
   h1{font-size:1.8rem;}
   h2{font-size:1.3rem;}
 }
+
+.weather-block{margin:28px 0 4px;padding:16px 18px;background:rgba(128,128,128,0.05);border:1px solid rgba(128,128,128,0.1);border-radius:10px;}
+.weather-chip{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{font-size:0.72rem;opacity:0.55;letter-spacing:0.04em;font-style:italic;}
+.weather-onboard{font-size:0.68rem;opacity:0.38;line-height:1.55;max-width:380px;}
 </style>
 </head>
 <body>
@@ -330,7 +336,14 @@ a:hover{background:#f0ebe5;}
     </div>
     <h1 class="entry-title">Grief as Practiced<br>Presence</h1>
     <p class="entry-sub">On why loss in the room is not a failure of the container</p>
-    <button class="entry-enter" onclick="openMain()">Enter the room →</button>
+    <div class="weather-block">
+  <div class="weather-chip">
+    <span class="weather-emoji">🌊</span>
+    <span class="weather-label">Emotional weather: still water · quiet attention</span>
+  </div>
+  <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — that settled, attentive quality — the room that is already quiet before anything is said — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
+</div>
+      <button class="entry-enter" onclick="openMain()">Enter the room →</button>
   </div>
 </div>
 
@@ -504,10 +517,18 @@ a:hover{background:#f0ebe5;}
   </div>
 </div>
 
+<section id="card-delight" style="max-width:700px;margin:48px auto;padding:32px 24px;">
+  <span style="display:inline-block;margin-bottom:12px;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;">§ · The Delight</span>
+  <h2 style="margin-bottom:1.2rem;">The Man Who Mapped Silence</h2>
+  <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(128,128,128,0.12);text-align:center;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;">Meliorism2.com · Daily briefings for practitioners</div>
+</section>
+
 <div class="footer-bar">
-  <a href="/archive/index.html">← THE LIBRARY</a>
+  <a href="/archive/index.html">&#8592; LIBRARY</a>
   <span class="footer-sep">·</span>
-  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+  <a href="/weather.html">WEATHER</a>
+  <span class="footer-sep">·</span>
+  <a href="/" id="footer-home">HOME</a>
 </div>
 
 <script>
@@ -598,7 +619,7 @@ const _sos=(()=>{
 })();
 
 function track(event,label,extra){
-  console.log('[signal-os]',event,label,extra||'');
+  console.log('[meliorism2]',event,label,extra||'');
   _sos.track(event,label,extra);
 }
 

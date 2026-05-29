@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-weather="still">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,10 +19,18 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
   --gold:#b8962e;
   --gold-bright:#d4a830;
   --gold-dark:#8a6e1c;
+  --amber:#b07d3a;
   --text:#2a2218;
   --text-mid:#5a4e3a;
   --text-dim:#8a7a62;
   --wall:#f0ead8;
+  --bg:#f7f3ec;
+  --border:rgba(184,168,130,0.3);
+  --accent:#8a7a62;
+  --surface:#f9f6f0;
+  /* FIX 3 — GRADIENT CSS TOKENS · still */
+  --gradient-bg: linear-gradient(180deg, #F0EDE8 0%, #E8E5E0 100%);
+  --gradient: linear-gradient(180deg, #CDD0D8 0%, #E4DFD6 100%);
 }
 
 /* ══════════════════════════════
@@ -74,7 +82,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
 .lobby-sub{
   font-family:'Cormorant Garamond',serif;
   font-size:1.2rem;font-style:italic;font-weight:300;
-  color:rgba(255,255,255,0.7);margin-bottom:48px;
+  color:rgba(255,255,255,0.7);margin-bottom:24px;
   letter-spacing:1px;
 }
 .lobby-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}
@@ -98,6 +106,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
 }
 .btn-music:hover{color:#fff;border-color:rgba(255,255,255,0.6)}
 .btn-music.playing{color:#d4a830;border-color:#d4a830}
+
+/* FIX 1 — WEATHER CHIP CSS */
+.weather-block{margin:0 0 28px;padding:16px 18px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;max-width:420px;text-align:left;}
+.weather-chip{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{font-size:0.72rem;opacity:0.65;letter-spacing:0.04em;font-style:italic;color:rgba(255,255,255,0.8);}
+.weather-onboard{font-size:0.68rem;opacity:0.45;line-height:1.55;max-width:380px;color:rgba(255,255,255,0.9);}
 
 /* ══════════════════════════════
    MAP HALL
@@ -276,6 +291,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
   transition:all 0.15s;text-decoration:none;display:inline-block;
 }
 .nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+.nav-btn.library-link{color:var(--amber);border-color:var(--amber);}
+.nav-btn.library-link:hover{color:var(--gold-bright);border-color:var(--gold-bright);}
 .room-nav-title{
   font-family:'Playfair Display',serif;
   font-size:0.95rem;font-weight:700;color:var(--text);
@@ -539,14 +556,48 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
 }
 
 /* ══════════════════════════════
-   EXPERIMENT ROOM
+   DELIGHT ROOM
 ══════════════════════════════ */
-#room-7{background:var(--cream);}
-#room-7 .painting-wall{background:var(--cream);}
-#room-7 .painting-canvas{
-  background:linear-gradient(162deg,#101808 0%,#1c2e10 40%,#0c1808 100%);
+#room-delight{
+  background:var(--cream);
+  display:flex;flex-direction:column;
+  overflow:hidden;
 }
-#room-7 .painting-wall::before{background:var(--stone);}
+#room-delight .room-body{
+  flex:1;overflow-y:auto;
+  display:block;
+  padding:40px;
+}
+.delight-inner{
+  max-width:680px;margin:0 auto;
+  padding-bottom:80px;
+}
+.delight-section-num{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.667rem;letter-spacing:4px;text-transform:uppercase;
+  background:var(--surface);color:var(--text-dim);
+  border:1px solid var(--warm);padding:4px 12px;
+  margin-bottom:24px;
+}
+.delight-inner h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;
+  color:var(--text);line-height:1.15;margin-bottom:20px;
+}
+.delight-inner p{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;line-height:1.85;color:var(--text-mid);
+  margin-bottom:16px;
+}
+.delight-footer{
+  margin-top:40px;padding-top:24px;
+  border-top:1px solid rgba(184,168,130,0.2);
+  text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--text-dim);opacity:0.5;
+}
 
 /* ══════════════════════════════
    RESPONSIVE
@@ -561,7 +612,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
 @media(max-width:500px){
   .lobby-title{font-size:2.6rem;}
   .panel-inner{padding:24px 20px 40px;min-width:unset;}
+  #room-delight .room-body{padding:24px 20px;}
 }
+
+/* FIX 4 — FOOTER BAR CSS */
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:var(--bg,#fff);border-top:1px solid var(--border,rgba(128,128,128,0.15));display:flex;align-items:center;justify-content:center;gap:22px;font-size:0.8rem;letter-spacing:2px;transition:opacity 0.3s;}
+.footer-bar.hidden{display:none;}
+.footer-bar a{color:var(--accent,#888);text-decoration:none;border:none;font-family:'JetBrains Mono',monospace;}
+.footer-bar a:hover{color:var(--amber,#b07d3a);background:transparent;}
+.footer-sep{color:var(--border,rgba(128,128,128,0.3));}
 </style>
 </head>
 <body>
@@ -591,6 +650,16 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
     <p class="lobby-eyebrow">Meliorism2.com &nbsp;·&nbsp; Exhibition No. 002 &nbsp;·&nbsp; Withness</p>
     <h1 class="lobby-title">Trust Before<br>Thought</h1>
     <p class="lobby-sub">The Biology of Contact</p>
+
+    <!-- FIX 1 — WEATHER CHIP -->
+    <div class="weather-block">
+      <div class="weather-chip">
+        <span class="weather-emoji">🌊</span>
+        <span class="weather-label">Emotional weather: still · quiet attention</span>
+      </div>
+      <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — a day when you can slow down and listen beneath the words — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
+    </div>
+
     <div class="lobby-actions">
       <button class="btn-enter" onclick="enterGallery()">Enter the Exhibition &nbsp;→</button>
       <button class="btn-music" id="btn-music" onclick="toggleMusic()">♫ &nbsp;Play Music</button>
@@ -1068,7 +1137,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
       <div class="room-nav-sub">6 of 6 &nbsp;·&nbsp; Click the painting to read</div>
     </div>
     <div class="room-nav-right">
-      <button class="nav-btn" onclick="goToMap()">Back to Map</button>
+      <button class="nav-btn" onclick="goToDelight()">The Delight →</button>
     </div>
   </nav>
   <div class="room-body">
@@ -1104,6 +1173,43 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
     </div>
   </div>
 </section>
+
+<!-- FIX 2 — DELIGHT ROOM (§ 07 · The Delight) -->
+<section id="room-delight" class="section gallery-room">
+  <nav class="room-nav">
+    <div class="room-nav-left">
+      <button class="nav-btn" onclick="goToRoom(6)">← Gallery VI</button>
+      <button class="nav-btn" onclick="goToMap()">Map</button>
+    </div>
+    <div>
+      <div class="room-nav-title">§ 07 &nbsp;·&nbsp; The Delight</div>
+      <div class="room-nav-sub">Coda · Something completely different</div>
+    </div>
+    <div class="room-nav-right">
+      <a class="nav-btn library-link" href="/archive/index.html">← LIBRARY</a>
+    </div>
+  </nav>
+  <div class="room-body">
+    <div class="delight-inner">
+      <span class="delight-section-num">§ 07 · The Delight</span>
+      <h2>The Conductor Who Heard Music in a Train Wreck</h2>
+      <p>On the night of January 13, 1939, Arturo Toscanini walked off the stage of the NBC Symphony Orchestra mid-rehearsal, furious at the broadcast engineers. The problem: he could hear a slight 60-cycle hum in the monitors and was convinced it was ruining the performance. The engineers insisted the audience at home could hear nothing. Toscanini disagreed with the certainty of a man who had memorized over 200 complete scores — not just melodies, but every instrument, every dynamic marking, every rest — entirely by heart, because his eyesight was too poor to read music at performance distance.</p>
+      <p>He conducted the NBC Symphony for seventeen years without a score in front of him. Not a lead sheet, not a cheat sheet. The full orchestral score, held in his memory. When he made an error — which was rare enough to be remarkable — he would stop the orchestra, correct himself out loud, and continue. He described the experience of conducting from memory not as remembering, but as <em>hearing the music before it happened</em> and then listening to confirm it was right.</p>
+      <p style="margin-top:1.5rem;font-size:0.85rem;opacity:0.6;font-style:italic;line-height:1.7;">What Toscanini was doing — holding the whole structure in mind before acting — is exactly what neuroception does with safety. The scan happens before the note plays. The body already knows what it heard.</p>
+      <p style="margin-top:1.5rem;font-size:0.78rem;opacity:0.35;border-top:1px solid rgba(184,168,130,0.2);padding-top:1rem;">Source: Joseph Horowitz, <em>Understanding Toscanini</em> (1987); NBC Symphony broadcast archives, Library of Congress.</p>
+      <div class="delight-footer">Meliorism2.com · Daily briefings for practitioners</div>
+    </div>
+  </div>
+</section>
+
+<!-- FIX 4 — FOOTER BAR -->
+<div class="footer-bar">
+  <a href="/archive/index.html">← LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <a href="/weather.html">WEATHER</a>
+  <span class="footer-sep">·</span>
+  <a href="/" id="footer-home">HOME</a>
+</div>
 
 <script>
 // ── State ────────────────────────────────────
@@ -1145,6 +1251,14 @@ function goToRoom(n) {
   if (cells[n-1]) cells[n-1].classList.add('visited');
 }
 
+function goToDelight() {
+  // Close any open panels first
+  for (var i = 1; i <= 6; i++) {
+    closePanel(i);
+  }
+  showSection('room-delight');
+}
+
 // ── Music ────────────────────────────────────
 // ── Music fallback chain ─────────────────────────────────────────────
 var MUSIC_SOURCES = [
@@ -1156,15 +1270,15 @@ var musicSourceIdx = 0;
 
 if (music) {
   music.addEventListener('error', function(e) {
-    console.warn('[Signal-OS music] Source failed:', music.src, e);
+    console.warn('[Meliorism2 music] Source failed:', music.src, e);
     musicSourceIdx++;
     if (musicSourceIdx < MUSIC_SOURCES.length) {
-      console.log('[Signal-OS music] Trying fallback:', MUSIC_SOURCES[musicSourceIdx]);
+      console.log('[Meliorism2 music] Trying fallback:', MUSIC_SOURCES[musicSourceIdx]);
       music.src = MUSIC_SOURCES[musicSourceIdx];
       music.load();
       if (musicPlaying) music.play().catch(function(){});
     } else {
-      console.warn('[Signal-OS music] All sources failed.');
+      console.warn('[Meliorism2 music] All sources failed.');
       var btn = document.getElementById('btn-music');
       if (btn) { btn.textContent = '♫  Music N/A'; btn.style.opacity = '0.35'; }
     }
@@ -1185,7 +1299,7 @@ function startMusic() {
         var btn = document.getElementById('btn-music');
         if (btn) { btn.classList.add('playing'); btn.textContent = '♫  Music On'; }
       }).catch(function(e) {
-        console.warn('[Signal-OS music] play() blocked:', e.message);
+        console.warn('[Meliorism2 music] play() blocked:', e.message);
         // Browser blocked autoplay — let manual click still work
         var btn = document.getElementById('btn-music');
         if (btn) { btn.textContent = '♫  Click to Play'; }
@@ -1230,18 +1344,24 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     if (currentSection.startsWith('room-')) {
       var n = parseInt(currentSection.replace('room-',''));
-      closePanel(n);
+      if (!isNaN(n)) closePanel(n);
     }
   }
   if (e.key === 'ArrowLeft' && currentSection.startsWith('room-')) {
     var n = parseInt(currentSection.replace('room-',''));
-    if (n > 1) goToRoom(n - 1);
-    else goToMap();
+    if (!isNaN(n)) {
+      if (n > 1) goToRoom(n - 1);
+      else goToMap();
+    } else if (currentSection === 'room-delight') {
+      goToRoom(6);
+    }
   }
   if (e.key === 'ArrowRight' && currentSection.startsWith('room-')) {
     var n = parseInt(currentSection.replace('room-',''));
-    if (n < 6) goToRoom(n + 1);
-    else goToMap();
+    if (!isNaN(n)) {
+      if (n < 6) goToRoom(n + 1);
+      else goToDelight();
+    }
   }
   if (e.key === 'm' || e.key === 'M') {
     if (currentSection !== 'lobby') goToMap();
