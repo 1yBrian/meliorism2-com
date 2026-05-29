@@ -187,9 +187,103 @@ That is the standard. Every issue. Every day.
 
 ---
 
+## §Energy Archetypes
+
+*The speaker voice behind each issue — and each card. Every issue has one primary archetype. Strong issues layer at least two. The Friend from the Field is always the ground state underneath every other voice.*
+
+### The Archetypes
+
+**1. Friend from the Field** *(ground state · default)*
+Always the foundation. Peer-level, warm, no jargon. The smart colleague who reads everything and translates it over coffee. The reader never feels talked at — they feel remembered. When in doubt, this is the voice.
+- **Tempo:** Conversational, direct, occasionally wry
+- **Where it lives:** Card 2 openings, Card 7 Application, transition passages
+
+**2. The Great Professor**
+Deep knowledge delivered without condescension. The evidence matters. Sources are named. Logic is airtight. Earns every claim. Can run cold — warmth is earned by precision. Best when the research is genuinely surprising.
+- **Tempo:** Methodical, building
+- **Where it lives:** Card 3 Evidence, Card 6 Roots
+
+**3. The Field Practitioner**
+In-the-room, in-the-body. "I have been in your exact situation at 3 PM on a Thursday." No distance between writer and reader — they are standing in the same hallway. Tactical and specific.
+- **Tempo:** Urgent, present-tense, short sentences
+- **Where it lives:** Card 5 Edge Cases, WWYD scenarios, Agitator prompts
+
+**4. The Quiet Scientist**
+Economy of words. Data talks. One clean sentence where others use a paragraph. Does not explain — states. Best paired with The Great Professor on adjacent cards for contrast.
+- **Tempo:** Spare, minimal, earning every line break
+- **Where it lives:** Research callouts, concept boxes, section openers
+
+**5. The Provocateur**
+Challenges the comfortable assumption. Makes the practitioner uncomfortable in the way only truth can. Does not apologize. The discomfort IS the method — not cruelty, precision applied to a belief that has been coasting.
+- **Tempo:** Sharp, staccato → unexpected reversal
+- **Where it lives:** Card 2 turn moment, edge case openings, WWYD's wrong-option framing
+
+**6. The Coach-in-the-Hall**
+90 seconds between classes. What you say when you see a colleague struggling and only have the length of a hallway. Brief. Urgent. Human. Does not perform empathy — acts from it.
+- **Tempo:** Quick, warm, slightly breathless, fragments welcome
+- **Where it lives:** Entry screen copy, CTA text, card transition sentences
+
+**7. The Witness**
+Sees what others walk past in the room. Present-tense observation. Does not interpret — names what is. The reader thinks: *that is exactly what was happening and I could not name it.* Recognition, not instruction.
+- **Tempo:** Slow, deliberate, specific sensory detail
+- **Where it lives:** 90-Second Signal, Card 1 phenomenon openers, etymology
+
+---
+
+### Weekly Addition Protocol — Every Thursday
+
+Brian or the composing agent names one new trainer type observed in the field that week. It joins this list permanently. The list grows indefinitely. No archetype is retired.
+
+**Format:**
+```
+**[N]. [Name]** *(added YYYY-MM-DD · [what prompted it])*
+[Two-sentence description of the voice and when it fits.]
+- **Tempo:** [one word or phrase]
+- **Where it lives:** [card types or contexts]
+```
+
+---
+
+### Assignment Rules
+
+1. **Every issue: one primary archetype.** Stated in `EDITORIAL-DECISIONS.md` as `energy_archetype: [name]`.
+2. **Every issue: minimum two archetypes across all cards.** Primary carries the issue; secondary appears on at least two cards.
+3. **No two consecutive issues: same primary archetype.** Mix it up.
+4. **Default when none assigned:** Friend from the Field.
+5. **Delight Card (Card 8): archetype-free.** It operates outside the system.
+
+---
+
+## §Emotional Weather
+
+*Not the practitioner's mood — the issue's atmosphere. A reading of what is in the air of this specific issue.*
+
+The Emotional Weather Report appears on every issue as a low-visual-weight chip: one emoji, one short phrase, one link to `/weather`. It is not a judgment of the reader — it is a reading of the issue's own temperature. The practitioner uses it as a lens: *which of my clients are in this weather right now?*
+
+**Placement rules (in priority order):**
+1. **Card 1 (Entry screen)** — chip + `/weather` link, fine-print register, near the bottom
+2. **Card 2 (Phenomenon)** — chip + one inline onboarding paragraph (no link needed)
+3. **Card 6 (Roots/Bibliography)** — fallback only when Cards 1 and 2 are too immersive to interrupt
+
+**Chip format:** `[emoji] [label] · [learn more →](/weather)` (Card 1 only)
+
+**Tone register:** Not clinical. Not precious. One short phrase that a practitioner could say aloud in a break room and have it mean something.
+
+Examples of correct register:
+- *"🌧️ Solidarity in a long week"*
+- *"⚡ The good kind of unsettled"*
+- *"🌿 Quiet defiance"*
+- *"🌊 Sitting with something real"*
+- *"☀️ Permission to charge what you're worth"*
+
+The emotional weather is set by the Emotional Weather Agent (see `_engine/scripts/emotional_weather_agent.py`) and stored in `editorial_calendar.emotional_weather` before Phase 8c.
+
+---
+
 ## Version Log
 *Each entry records what changed and which issue prompted the change.*
 
 | Version | Date | Change | Prompted by |
 |---------|------|--------|-------------|
 | 1.0 | 2026-05-27 | Initial constitution written | Session with Brian — core mission articulated |
+| 1.2 | 2026-05-29 | §Energy Archetypes (7 archetypes + weekly addition protocol) + §Emotional Weather added | Brian session — 029 revealed these sections missing from v1.0 |
