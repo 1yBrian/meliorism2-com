@@ -28,6 +28,35 @@ This is the difference between a document and a space. A document is delivered t
 
 ---
 
+## THE LAW OF EARNED ADVANCE  *(non-negotiable · the structural test)*
+
+> **You cannot scroll to the next piece of information. You must DO something to reach it. The gesture that advances IS the interaction.**
+
+A newsletter scrolls. Information is free — the reader slides past it, skims, leaves. The interaction, if any, is a widget bolted onto a document the reader could ignore entirely.
+
+A space **gates**. The next idea is *earned*, not delivered. To reach the verdict, you must rank the theories. To see the cleared X-ray, you must peel the films. To find the sweet spot, you must move the dial there yourself. The information is the *reward* for the engagement — never the default state.
+
+**The structural test, applied to every generated issue:**
+- Could the reader reach the end by scrolling and never touching anything? → **FAIL. Rebuild.**
+- Is there a "next" arrow they can mash without engaging? → **FAIL.** The advance gesture must require the interaction's real input.
+- Does each card's content unlock only after its micro-action is completed? → **PASS.**
+
+This is why `IntersectionObserver` reveal-on-scroll and `scrollIntoView` navigation are **forbidden as the primary progression mechanism.** They reproduce the newsletter. Scroll is for re-reading what you've already earned — never for first discovery.
+
+The engine-proof run (3 Occam variants, 2026-05-29) violated this — all three scrolled like newsletters with widgets attached. That failure is what produced this law. Every issue from here forward gates progression behind the doing.
+
+---
+
+## THE LAW OF REAL DELIGHT  *(the gift must actually delight)*
+
+The Delight Card is not clever trivia. "Ockham never wrote the razor" is intellectually neat — and it is not delight. Delight makes someone **sigh with appreciation, laugh quietly, or want to go somewhere.** A footnote about authorship does none of those.
+
+And under Earned Advance, the delight is the **final reward** — revealed only when the reader has done the work to reach it. It is never scrolled-past. It is the thing waiting at the end of the space, opened like a gift, because they earned it.
+
+Test: would a tired practitioner at the end of this issue feel *given to*? Not informed — *given to*. If not, it is not delight. Rebuild it.
+
+---
+
 ## THE FOUR GENERATIVE LAYERS
 
 Uniqueness is combinatorial. Four layers, each chosen fresh per issue, multiply into an effectively infinite design space. No two issues land on the same coordinates.
