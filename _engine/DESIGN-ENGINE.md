@@ -104,6 +104,8 @@ The set grows. Every issue may discover a 16th. New primitives are logged and be
 
 **Speed target:** spec in under 5 minutes of agent time. Build in under an hour. The engine is judged on throughput × uniqueness × quality — not on perfecting one template.
 
+**HARD TYPOGRAPHY FLOOR (non-negotiable, every output):** No font-size below **0.8rem** anywhere in any generated file. The only defensible exception is SVG-internal axis tick labels. This is a standing Brian standard — the engine-proof run violated it across all three variants (down to 0.6rem) and it had to be fixed after the fact. Bake it in: every generation runs a final pass bumping any sub-0.8rem font-size to 0.8rem before the file is considered done. Mobile body text stays at the 1rem (≈18px) floor from PUBLICATION-SOUL.
+
 ---
 
 ## THE UNIQUENESS GUARANTEE
