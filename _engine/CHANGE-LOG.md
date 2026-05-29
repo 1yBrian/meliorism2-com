@@ -117,4 +117,60 @@
 
 ---
 
+### 2026-05-29 — SYSTEM: PUBLICATION-SOUL.md
+**What changed:** §Energy Archetypes and §Emotional Weather added to PUBLICATION-SOUL.md (v1.2).
+**Why:** v1.0 was missing these sections entirely — SKILL.md referenced them as requirements but the canonical spec document did not define them, creating an unresolvable contradiction for composing agents.
+**Carries forward:** YES
+**Rule going forward:** PUBLICATION-SOUL.md must carry a version header. Any time PUBLICATION-SOUL.md is updated, the Phase 4, Phase 5, and Phase 9 checklists must be reviewed and updated in the same session before closing. Phase 4 Step 0 must confirm the version header is present before drafting begins — if absent, stop and report to Brian.
+
+---
+
+### 2026-05-29 — Issue 028 + Issue 029: SYSTEM
+**What changed:** Delight Card (Card 8) retroactively identified as missing from Issues 028 and 029.
+**Why:** Phase 4 SKILL.md listed Card 8 in the card table but the Iron Law and Output section still declared "7 cards" — an internal contradiction that composing agents resolved in favor of the lower number.
+**Carries forward:** YES
+**Rule going forward:** Phase 4 SKILL.md Iron Law and Output section must read "8 cards." Phase 9 pre-flight must verify: `[ ] sections-rail CSS width is 800% and width:calc(100%/8) — confirming 8 cards in DOM`. An issue with 7 cards fails pre-flight and does not deploy.
+
+---
+
+### 2026-05-29 — Issue 028 + Issue 029: SYSTEM
+**What changed:** Emotional Weather chip retroactively identified as missing from Issues 028 and 029.
+**Why:** §Emotional Weather did not exist in PUBLICATION-SOUL.md until v1.2. Phase 4 SKILL.md listed it as mandatory but no phase had a checkable output criterion for its presence.
+**Carries forward:** YES
+**Rule going forward:** Phase 5 design-review checklist must include: `[ ] Emotional Weather chip present on entry screen — emoji + label + /weather link`. Phase 9 pre-flight must include: `[ ] .weather-chip or .weather-block element present on Card 1`. Run emotional_weather_agent.py before Phase 8c to obtain the reading.
+
+---
+
+### 2026-05-29 — Issue 028 + Issue 029: SYSTEM
+**What changed:** Energy archetype metadata comment retroactively identified as missing from Issues 028 and 029.
+**Why:** PUBLICATION-SOUL §Energy Archetypes did not exist until v1.2. No phase skill file listed `<!-- meliorism2:energy: -->` as a required metadata comment, and Phase 9 pre-flight metadata checklist did not include it.
+**Carries forward:** YES
+**Rule going forward:** Phase 4 SKILL.md metadata comment block must include `<!-- meliorism2:energy: [archetype] -->`. Phase 9 pre-flight metadata checklist must include: `[ ] meliorism2:energy: comment present and populated with a named archetype`.
+
+---
+
+### 2026-05-29 — SYSTEM: Phase 4 input list
+**What changed:** LEARNING-LOG.md §Editorial Philosophy — Standing Principles added as a required Phase 4 Step 0 input.
+**Why:** The Results Principle, Premium Principle, and Anti-Discount Rule existed in Brian's practice but were not a pipeline gate — composing agents had no instruction to read the Editorial Philosophy section before drafting, so pricing-register violations reached publication.
+**Carries forward:** YES
+**Rule going forward:** Phase 4 SKILL.md Step 0 must include: "Read LEARNING-LOG.md §Editorial Philosophy — Standing Principles. For any issue touching pricing, rates, income, or the Living Income dimension, the Results Principle, Premium Principle, and Anti-Discount Rule are mandatory. McKinsey 2025 (Birshan, Nov 2025) is a citable source for outcome-based pricing."
+
+---
+
+### 2026-05-29 — SYSTEM: CHANGE-LOG.md did not exist before Issue 029 session
+**What changed:** CHANGE-LOG.md created. All post-publish corrections to Issues 027, 028, and 029 documented for the first time.
+**Why:** No change log existed before tonight — post-publish fixes to Issue 027 and earlier could not carry forward to later issues because there was no record of them.
+**Carries forward:** YES
+**Rule going forward:** Phase 4 Step 0 must include CHANGE-LOG.md as a required input alongside LEARNING-LOG.md. Every composing agent reads all entries marked "Carries forward: YES" before drafting a single word. After any post-publish fix, an entry is added to CHANGE-LOG.md before the session closes.
+
+---
+
+### 2026-05-29 — SYSTEM: Phase 9 pre-flight checklist gaps
+**What changed:** The following checks were absent from Phase 9 pre-flight and must be added: card count (8), energy archetype metadata, Emotional Weather chip, etymology block, footer link structure (LIBRARY · WEATHER · HOME), clock timezone (PT not UTC), mobile font floor block, goTo() library redirect on final card, Card 0 DOM order (image before metadata).
+**Why:** Phase 9 pre-flight was not wired to PUBLICATION-SOUL.md as a dependency — when the spec changed, the pre-flight checklist was not updated, so every new requirement introduced after the checklist was written silently bypassed the final quality gate.
+**Carries forward:** YES
+**Rule going forward:** Phase 9 pre-flight must include all of the following before any deploy is permitted: `[ ] Card count: 8 cards in DOM (sections-rail width 800%)` · `[ ] meliorism2:energy: comment present and populated` · `[ ] Emotional Weather chip on Card 1` · `[ ] <h3>Etymology</h3> present on Roots/Application card` · `[ ] Footer bar: ← LIBRARY · WEATHER · HOME — no static labels` · `[ ] Clock uses Intl.DateTimeFormat timeZone:'America/Los_Angeles', label reads HH:MM:SS PT` · `[ ] @media(max-width:640px) mobile font floor block present` · `[ ] goTo() redirects to /archive/index.html at index >= CARDS.length, final nav-next labeled ← LIBRARY in amber` · `[ ] Card 0 DOM order: hero image is first child of .card-inner`.
+
+---
+
 *Log grows downward. Never delete entries.*
