@@ -3,238 +3,258 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>Meliorism2 — World Engine (prototype)</title>
+<title>Meliorism2 — World Engine (depth)</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --dark:#16110b; --amber:#c8922a; --amber-dim:#8b6f47; --cream:#f4ead8; --crmut:#b3a892;
-  }
+  :root{ --amber:#c8922a; --amber-dim:#8b6f47; --cream:#f4ead8; --crmut:#b3a892; }
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   html,body{width:100%;height:100%;overflow:hidden;background:#000;
     font-family:'Crimson Text',Georgia,serif;color:var(--cream);
     -webkit-user-select:none;user-select:none;touch-action:none;cursor:grab}
   body.dragging{cursor:grabbing}
 
-  /* ── THE WORLD (large, pannable) ── */
-  #viewport{position:fixed;inset:0;overflow:hidden}
-  #world{position:absolute;width:3200px;height:2000px;left:50%;top:50%;
-    transform:translate(-50%,-50%);
-    transition:transform 900ms cubic-bezier(.22,1,.36,1);
+  /* ── 3D STAGE ── */
+  #scene{position:fixed;inset:0;overflow:hidden;
+    perspective:760px;perspective-origin:50% 44%;
+    background:linear-gradient(180deg,#0b0905 0%,#0f0b06 46%,#15100a 60%,#0c0905 100%);}
+  #cam{position:absolute;inset:0;transform-style:preserve-3d;
+    transition:transform 70ms linear}
+  #cam.flying{transition:transform 1100ms cubic-bezier(.22,1,.36,1)}
+
+  /* every spatial element is a plane in Z */
+  .plane{position:absolute;left:50%;top:50%;transform-style:preserve-3d}
+
+  /* COLUMNS — tall stone piers, repeated down the hall, both sides */
+  .col{width:120px;height:760px;margin-left:-60px;margin-top:-380px;border-radius:6px;
+    background:linear-gradient(90deg,#2a2012 0%,#4a3a22 18%,#6b5436 50%,#43341f 82%,#241a0e 100%);
+    box-shadow:inset 0 0 40px rgba(0,0,0,.6), 0 0 60px rgba(0,0,0,.5);}
+  .col::before{content:"";position:absolute;left:0;right:0;top:-26px;height:34px;
+    background:linear-gradient(90deg,#3a2c18,#7a6038,#3a2c18);border-radius:4px}/* capital */
+  .col::after{content:"";position:absolute;left:0;right:0;bottom:-22px;height:30px;
+    background:linear-gradient(90deg,#2c2114,#5e4a2c,#2c2114);border-radius:4px}/* base */
+
+  /* FLOOR + CEILING — big planes laid flat, gridded, receding */
+  .deck{width:2600px;height:5200px;margin-left:-1300px;margin-top:-2600px;
     background:
-      radial-gradient(1100px 750px at 30% 70%, rgba(200,146,42,0.34), transparent 72%),
-      radial-gradient(900px 650px at 78% 26%, rgba(160,120,70,0.26), transparent 72%),
-      radial-gradient(700px 520px at 55% 50%, rgba(120,90,50,0.18), transparent 70%),
-      linear-gradient(160deg, #2a2012 0%, #1d1509 55%, #140d05 100%);
-  }
-  /* depth haze layers — parallax feel (lightened so navigation stays legible) */
-  #world::before{content:"";position:absolute;inset:0;
-    background:radial-gradient(1500px 1000px at 50% 55%, transparent 55%, rgba(0,0,0,0.34) 100%);
-    pointer-events:none}
+      repeating-linear-gradient(90deg, rgba(200,146,42,.10) 0 2px, transparent 2px 150px),
+      repeating-linear-gradient(0deg, rgba(200,146,42,.09) 0 2px, transparent 2px 150px),
+      linear-gradient(180deg,#1a1209,#0c0805);}
+  #floor{transform:rotateX(90deg) translateZ(380px)}
+  #ceil{transform:rotateX(90deg) translateZ(-380px);opacity:.5}
 
-  /* floor grid suggests a space you move through */
-  .floor{position:absolute;left:0;right:0;bottom:0;height:46%;
+  /* ARTIFACTS — text-bearing objects, embedded at depth */
+  .artifact{width:120px;margin-left:-60px;margin-top:-60px;text-align:center;cursor:pointer}
+  .artifact .halo{position:absolute;left:50%;top:24px;width:260px;height:260px;transform:translate(-50%,-50%);
+    border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(200,146,42,.42) 0%,rgba(200,146,42,.12) 42%,transparent 70%)}
+  .artifact .glyph{position:relative;z-index:1;font-size:80px;line-height:1;
+    filter:drop-shadow(0 0 26px rgba(200,146,42,.95))}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+  .artifact .glyph{display:inline-block;animation:breathe 4.5s ease-in-out infinite}
+  .artifact .tag{font-family:'Courier Prime',monospace;font-size:13px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--amber);margin-top:14px;text-shadow:0 2px 12px #000}
+
+  /* atmospheric depth — fog sits over the far end */
+  #fog{position:fixed;inset:0;pointer-events:none;z-index:5;
     background:
-      repeating-linear-gradient(90deg, rgba(200,146,42,0.06) 0 1px, transparent 1px 96px),
-      repeating-linear-gradient(0deg, rgba(200,146,42,0.05) 0 1px, transparent 1px 70px);
-    transform:perspective(700px) rotateX(64deg);transform-origin:bottom;opacity:.6;pointer-events:none}
+      radial-gradient(60% 45% at 50% 42%, rgba(120,92,48,.20), transparent 70%),
+      linear-gradient(180deg, rgba(8,6,3,.55) 0%, transparent 22%, transparent 70%, rgba(8,6,3,.85) 100%);}
+  /* a near vignette adds “inside a vehicle” containment */
+  #vignette{position:fixed;inset:0;pointer-events:none;z-index:6;
+    background:radial-gradient(120% 90% at 50% 50%, transparent 52%, rgba(0,0,0,.72) 100%)}
 
-  /* ── ARTIFACTS (text-bearing objects in the world) ── */
-  .artifact{position:absolute;transform:translate(-50%,-50%);text-align:center;cursor:pointer;
-    transition:transform 500ms cubic-bezier(.22,1,.36,1), filter 400ms, opacity 400ms}
-  /* each artifact sits in a halo of light so it reads as a beacon while flying */
-  .artifact::after{content:"";position:absolute;left:50%;top:26px;width:170px;height:170px;
-    transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
-    background:radial-gradient(circle, rgba(200,146,42,.34) 0%, rgba(200,146,42,.10) 40%, transparent 70%)}
-  .artifact .glyph{position:relative;z-index:1;font-size:60px;line-height:1;
-    filter:drop-shadow(0 0 22px rgba(200,146,42,.85))}
-  .artifact .tag{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--amber);margin-top:10px;opacity:.0;transition:opacity .4s}
-  .artifact .hint{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.12em;
-    color:var(--crmut);margin-top:6px;opacity:0;transition:opacity .4s}
-  .artifact:hover .tag,.artifact:hover .hint{opacity:.85}
-  .artifact:hover .glyph{filter:drop-shadow(0 0 30px rgba(200,146,42,.9))}
-  .artifact.dim{opacity:.28;filter:blur(1px)}
-  /* a soft pulse so artifacts read as "alive" / approachable */
-  @keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.06)}}
-  .artifact .glyph{animation:breathe 4.5s ease-in-out infinite}
-
-  /* ── FOCUS PANEL (text brought "full into screen") ── */
-  #focus{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-    padding:7vh 7vw;opacity:0;pointer-events:none;z-index:40;
-    background:radial-gradient(circle at 50% 45%, rgba(10,7,3,0.72), rgba(6,4,1,0.93));
-    backdrop-filter:blur(3px);transition:opacity 600ms ease}
-  #focus.open{opacity:1;pointer-events:all}
-  .panel{max-width:640px;transform:translateY(24px) scale(.98);transition:transform 600ms cubic-bezier(.22,1,.36,1)}
-  #focus.open .panel{transform:none}
-  .panel .eyebrow{font-family:'Courier Prime',monospace;font-size:13px;letter-spacing:.25em;
-    text-transform:uppercase;color:var(--amber);margin-bottom:22px}
-  .panel h2{font-size:clamp(30px,5vw,46px);font-weight:600;line-height:1.12;margin-bottom:22px;color:var(--cream)}
-  .panel h2 em{font-style:italic;color:var(--amber)}
-  .panel p{font-size:clamp(17px,2.4vw,21px);line-height:1.7;color:var(--crmut);margin-bottom:16px}
-  .panel .back{margin-top:30px;font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.15em;
-    text-transform:uppercase;color:var(--amber-dim);cursor:pointer}
-  .panel .back:hover{color:var(--amber)}
-
-  /* ── DRONE HUD (the phone-as-drone hallway conceit) ── */
-  #hud{position:fixed;inset:0;pointer-events:none;z-index:30}
+  /* ── DRONE HUD ── */
+  #hud{position:fixed;inset:0;pointer-events:none;z-index:20}
   .corner{position:absolute;width:34px;height:34px;border:2px solid rgba(200,146,42,.5)}
   .corner.tl{top:18px;left:18px;border-right:0;border-bottom:0}
   .corner.tr{top:18px;right:18px;border-left:0;border-bottom:0}
   .corner.bl{bottom:18px;left:18px;border-right:0;border-top:0}
   .corner.br{bottom:18px;right:18px;border-left:0;border-top:0}
-  .reticle{position:absolute;top:50%;left:50%;width:30px;height:30px;transform:translate(-50%,-50%);opacity:.5}
+  .reticle{position:absolute;top:44%;left:50%;width:30px;height:30px;transform:translate(-50%,-50%);opacity:.45}
   .reticle::before,.reticle::after{content:"";position:absolute;background:rgba(200,146,42,.6)}
   .reticle::before{left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%)}
   .reticle::after{top:50%;left:0;right:0;height:1px;transform:translateY(-50%)}
   #hud .label{position:absolute;top:24px;left:50%;transform:translateX(-50%);
-    font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.3em;color:rgba(200,146,42,.7);text-transform:uppercase}
+    font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.3em;color:rgba(200,146,42,.75);text-transform:uppercase;text-align:center}
   #hud .telem{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
-    font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.18em;color:rgba(179,168,146,.6);text-transform:uppercase}
+    font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.16em;color:rgba(179,168,146,.6);text-transform:uppercase;text-align:center}
+  #depthbar{position:absolute;right:22px;top:50%;transform:translateY(-50%);width:3px;height:160px;background:rgba(200,146,42,.18)}
+  #depthfill{position:absolute;left:0;right:0;top:0;background:rgba(200,146,42,.7)}
 
-  /* ── ONBOARD (written into the story, not a tutorial overlay) ── */
-  #onboard{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;text-align:center;padding:8vw;
-    background:radial-gradient(circle at 50% 50%, rgba(10,7,3,.7), rgba(4,3,1,.97));transition:opacity .8s}
+  /* ── FOCUS PANEL ── */
+  #focus{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+    padding:7vh 7vw;opacity:0;pointer-events:none;z-index:40;
+    background:radial-gradient(circle at 50% 45%, rgba(10,7,3,.74), rgba(6,4,1,.94));
+    backdrop-filter:blur(4px);transition:opacity 600ms ease}
+  #focus.open{opacity:1;pointer-events:all}
+  .panel{max-width:640px;transform:translateY(24px) scale(.98);transition:transform 600ms cubic-bezier(.22,1,.36,1)}
+  #focus.open .panel{transform:none}
+  .panel .eyebrow{font-family:'Courier Prime',monospace;font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--amber);margin-bottom:22px}
+  .panel h2{font-size:clamp(30px,5vw,46px);font-weight:600;line-height:1.12;margin-bottom:22px;color:var(--cream)}
+  .panel h2 em{font-style:italic;color:var(--amber)}
+  .panel p{font-size:clamp(17px,2.4vw,21px);line-height:1.7;color:var(--crmut);margin-bottom:16px}
+  .panel .back{margin-top:30px;font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber-dim);cursor:pointer}
+  .panel .back:hover{color:var(--amber)}
+
+  /* ── ONBOARD ── */
+  #onboard{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8vw;
+    background:radial-gradient(circle at 50% 50%, rgba(10,7,3,.6), rgba(4,3,1,.96));transition:opacity .8s}
   #onboard.gone{opacity:0;pointer-events:none}
   #onboard .k{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.3em;color:var(--amber);text-transform:uppercase;margin-bottom:26px}
   #onboard h1{font-size:clamp(28px,5vw,44px);font-weight:600;line-height:1.2;margin-bottom:20px;max-width:760px}
   #onboard h1 em{font-style:italic;color:var(--amber)}
   #onboard p{font-size:18px;color:var(--crmut);max-width:520px;line-height:1.65;margin-bottom:34px}
-  #onboard .go{font-family:'Courier Prime',monospace;font-size:13px;letter-spacing:.15em;text-transform:uppercase;
-    color:var(--dark);background:var(--amber);padding:16px 40px;cursor:pointer;pointer-events:all}
-  #onboard .go:hover{background:#e0a832}
+  #onboard .go{font-family:'Courier Prime',monospace;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:#16110b;background:var(--amber);padding:16px 40px;cursor:pointer;pointer-events:all}
 </style>
 </head>
 <body>
-  <div id="viewport">
-    <div id="world">
-      <div class="floor"></div>
-      <!-- artifacts injected by the engine from WORLD config -->
-    </div>
-  </div>
+  <div id="scene"><div id="cam">
+    <div class="plane deck" id="floor"></div>
+    <div class="plane deck" id="ceil"></div>
+    <!-- columns + artifacts injected by engine -->
+  </div></div>
+  <div id="fog"></div>
+  <div id="vignette"></div>
 
   <div id="hud">
     <div class="corner tl"></div><div class="corner tr"></div>
     <div class="corner bl"></div><div class="corner br"></div>
     <div class="reticle"></div>
-    <div class="label" id="hudLabel">DRONE · CHAMBER A</div>
-    <div class="telem" id="hudTelem">DRAG TO FLY · TAP A LIGHT TO READ</div>
+    <div class="label" id="hudLabel">DRONE</div>
+    <div class="telem">DRAG TO FLY · ↑ FORWARD · TAP A LIGHT TO READ</div>
+    <div id="depthbar"><div id="depthfill"></div></div>
   </div>
 
   <div id="focus"><div class="panel">
-    <div class="eyebrow" id="fEye"></div>
-    <h2 id="fTitle"></h2>
-    <div id="fBody"></div>
-    <div class="back" id="fBack">↩ pull back to the world</div>
+    <div class="eyebrow" id="fEye"></div><h2 id="fTitle"></h2>
+    <div id="fBody"></div><div class="back" id="fBack">↩ pull back to the world</div>
   </div></div>
 
   <div id="onboard">
-    <div class="k">Meliorism2 · World Engine · prototype</div>
-    <h1>You are flying a drone through <em>a room that has been waiting for you.</em></h1>
-    <p>There is no screen of text here. There is a world. The words are inside it — on the things that hold them. Find a light. Bring it close. Read what it has to say.</p>
+    <div class="k">Meliorism2 · World Engine · depth build</div>
+    <h1>You are flying a drone down <em>a hall that was built for you.</em></h1>
+    <p>No screen of text. A corridor. Fly into it — columns will pass on either side. The words are ahead, held by lights in the dark. Reach one and it opens.</p>
     <div class="go" id="enter">Take the controls →</div>
   </div>
 
 <script>
 /* ============================================================
-   THE ENGINE — built once. Worlds are DATA, not new code.
-   To make a new issue: replace WORLD. The engine never changes.
-   This is the Signature Law in code: engine = sameness, WORLD = difference.
+   THE ENGINE — one engine, worlds as DATA. New issue = new WORLD.
+   Real 3D: every element is a plane at a Z depth inside a
+   perspective camera. Flying changes camera Z/X — near columns
+   scale up and pass; far ones drift slowly. That is depth.
    ============================================================ */
 const WORLD = {
-  label: "DRONE · THE PRACTITIONER'S CHAMBER",
-  // x,y in world coords (world is 3200x2000, center 1600,1000)
+  label: "DRONE · THE PRACTITIONER'S HALL",
+  hallLength: 4200,           // how deep the corridor runs (z)
   artifacts: [
-    { x:1600, y:1000, glyph:"📜", tag:"Carved in stone", eyebrow:"What the room knows",
+    { z:700,  x:0,    glyph:"📜", tag:"Carved in stone", eyebrow:"What the hall knows",
       title:"You were never the <em>audience</em>.",
-      body:["Every publication you ever read was written for someone else. The executive. The academic. The coach who already arrived. You learned to translate — to take what was meant for them and bend it toward the pool at 5 a.m.",
-            "This room was built the other way around. It assumes you. It is the first one that did."] },
-    { x:840, y:760, glyph:"🪧", tag:"A plaque beneath a painting", eyebrow:"Exhibit one",
+      body:["Every publication you ever read was written for someone else. The executive. The academic. The coach who already arrived. You learned to translate — to bend what was meant for them toward the pool at 5 a.m.",
+            "This hall was built the other way around. It assumes you. It is the first one that did."] },
+    { z:1500, x:-330, glyph:"🪧", tag:"A plaque on the wall", eyebrow:"Exhibit one",
       title:"The hours <em>nobody counts.</em>",
       body:["The setup before anyone arrives. The conversation in the parking lot. The plan you redrew at midnight because one person needed it different.",
-            "It is not extra. It is the work. The room runs on it — and so does every room you have ever held."] },
-    { x:2380, y:780, glyph:"🗝", tag:"Words on a key", eyebrow:"Exhibit two",
+            "It is not extra. It is the work. The hall runs on it — and so does every room you have ever held."] },
+    { z:2300, x:330,  glyph:"🗝", tag:"Words on a key", eyebrow:"Exhibit two",
       title:"You already <em>know.</em>",
       body:["You don't undercharge because you misjudge your worth. You undercharge because no room ever priced it back to you at what it costs.",
             "Nothing here is being added to you. Something is being removed."] },
-    { x:1080, y:1320, glyph:"🕯", tag:"A voice in the dark", eyebrow:"Someone is here",
+    { z:3100, x:-300, glyph:"🕯", tag:"A voice in the dark", eyebrow:"Someone is here",
       title:"“Stay a moment.”",
-      body:["“Most people fly straight through. They came for an answer and they want it on the wall in big letters.”",
-            "“But you slowed down. You brought the light close. That's the whole trick — the room only opens for the ones who stop.”"] },
-    { x:2120, y:1340, glyph:"⚖", tag:"Etched into the floor", eyebrow:"The standard",
+      body:["“Most people fly straight through. They came for an answer and want it on the wall in big letters.”",
+            "“You slowed down. You brought the light close. That's the whole trick — the hall only opens for the ones who stop.”"] },
+    { z:3900, x:0,    glyph:"⚖", tag:"Etched into the floor", eyebrow:"The standard",
       title:"What it should <em>cost.</em>",
-      body:["Hold what you give beside what the room pays. Feel the gap. That gap is not humility. It is a number that has been hidden from you on purpose.",
-            "You can leave knowing it. That is the only thing this room was built to do."] },
+      body:["Hold what you give beside what the room pays. Feel the gap. That gap is not humility. It is a number hidden from you on purpose.",
+            "You can leave knowing it. That is the only thing this hall was built to do."] },
   ]
 };
 
-/* ---- engine internals ---- */
-const world = document.getElementById('world');
-const vp = document.getElementById('viewport');
-let camX = 0, camY = 0;            // camera offset
-const W = 3200, H = 2000;
+const cam = document.getElementById('cam');
+const P = 760;                 // must match CSS perspective
+let cz = 0, cx = 0;            // camera position down the hall / lateral
+const MAXZ = WORLD.hallLength; // travel bound
 
-function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
-function render(){
-  const maxX = (W - window.innerWidth)/2, maxY = (H - window.innerHeight)/2;
-  camX = clamp(camX, -maxX, maxX); camY = clamp(camY, -maxY, maxY);
-  world.style.transform = `translate(calc(-50% + ${-camX}px), calc(-50% + ${-camY}px))`;
+function place(el, x, y, z){ el.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,${z}px)`; }
+
+/* build the colonnade: pairs of columns every step down the hall */
+const STEP = 520, SIDE = 470;
+for(let z=300; z<=WORLD.hallLength+400; z+=STEP){
+  for(const sx of [-SIDE, SIDE]){
+    const c = document.createElement('div');
+    c.className = 'plane col';
+    place(c, sx, 0, -z);            // negative z = ahead of camera
+    c.dataset.basez = z;
+    cam.appendChild(c);
+  }
 }
 
-// build artifacts from data
-document.getElementById('hudLabel').textContent = WORLD.label;
-WORLD.artifacts.forEach((a,i)=>{
+/* build artifacts */
+const artEls = [];
+WORLD.artifacts.forEach(a=>{
   const el = document.createElement('div');
-  el.className = 'artifact';
-  el.style.left = a.x+'px'; el.style.top = a.y+'px';
-  el.innerHTML = `<div class="glyph">${a.glyph}</div><div class="tag">${a.tag}</div><div class="hint">tap to bring close</div>`;
-  el.addEventListener('click',(e)=>{ e.stopPropagation(); focusArtifact(a, a.x, a.y); });
-  world.appendChild(el);
+  el.className = 'plane artifact';
+  el.innerHTML = `<div class="halo"></div><div class="glyph">${a.glyph}</div><div class="tag">${a.tag}</div>`;
+  place(el, a.x, -10, -a.z);
+  el.addEventListener('click',e=>{e.stopPropagation();flyTo(a);});
+  cam.appendChild(el);
+  artEls.push({a, el});
 });
+document.getElementById('hudLabel').textContent = WORLD.label;
 
-// ---- drag to fly ----
-let dragging=false, sx=0, sy=0, moved=0, snapTransition=true;
-function down(x,y){dragging=true;moved=0;sx=x;sy=y;document.body.classList.add('dragging');world.style.transition='none';}
-function move(x,y){ if(!dragging)return; const dx=x-sx, dy=y-sy; moved+=Math.abs(dx)+Math.abs(dy);
-  camX-=dx; camY-=dy; sx=x; sy=y; render(); }
-function up(){dragging=false;document.body.classList.remove('dragging');world.style.transition='';}
-vp.addEventListener('mousedown',e=>down(e.clientX,e.clientY));
+/* camera update: move the whole world opposite to camera.
+   translateZ(cz) brings far planes toward the viewer = walking forward. */
+function render(){
+  cz = Math.max(-200, Math.min(MAXZ, cz));
+  cx = Math.max(-700, Math.min(700, cx));
+  // subtle look-shift: strafing nudges perspective origin so it feels like turning
+  document.getElementById('scene').style.perspectiveOrigin = `${50 - cx/40}% 44%`;
+  cam.style.transform = `translateZ(${cz}px) translateX(${-cx}px)`;
+  const fill = document.getElementById('depthfill');
+  fill.style.height = (8 + 92*(cz/MAXZ)) + '%';
+}
+
+/* fly to an artifact: stop just short of it, centered */
+function flyTo(a){
+  cam.classList.add('flying');
+  cz = a.z - 430;            // pull up just in front of it
+  cx = a.x;                  // strafe to line up
+  render();
+  document.getElementById('fEye').textContent = a.eyebrow||'';
+  document.getElementById('fTitle').innerHTML = a.title;
+  document.getElementById('fBody').innerHTML = a.body.map(p=>`<p>${p}</p>`).join('');
+  setTimeout(()=>{document.getElementById('focus').classList.add('open');cam.classList.remove('flying');}, 760);
+}
+function closeFocus(){document.getElementById('focus').classList.remove('open');}
+document.getElementById('fBack').addEventListener('click',closeFocus);
+document.getElementById('focus').addEventListener('click',e=>{if(e.target.id==='focus')closeFocus();});
+
+/* ---- controls: drag up/down = fly forward/back, left/right = strafe ---- */
+let dragging=false, px=0, py=0;
+function down(x,y){dragging=true;px=x;py=y;document.body.classList.add('dragging');cam.classList.remove('flying');}
+function move(x,y){ if(!dragging)return;
+  cx += (x-px)* -1.1;          // drag right → world shifts → feels like moving left/looking
+  cz += (py-y)* 2.4;           // drag UP (y decreases) → fly FORWARD
+  px=x; py=y; render(); }
+function up(){dragging=false;document.body.classList.remove('dragging');}
+const scene=document.getElementById('scene');
+scene.addEventListener('mousedown',e=>down(e.clientX,e.clientY));
 window.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
 window.addEventListener('mouseup',up);
-vp.addEventListener('touchstart',e=>down(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
+scene.addEventListener('touchstart',e=>down(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
 window.addEventListener('touchmove',e=>move(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
 window.addEventListener('touchend',up);
-// keys: arrow / WASD nudge the drone
 window.addEventListener('keydown',e=>{
-  const step=120;
-  if(e.key==='ArrowRight'||e.key==='d')camX+=step;
-  if(e.key==='ArrowLeft'||e.key==='a')camX-=step;
-  if(e.key==='ArrowDown'||e.key==='s')camY+=step;
-  if(e.key==='ArrowUp'||e.key==='w')camY-=step;
+  if(e.key==='ArrowUp'||e.key==='w')cz+=180;
+  if(e.key==='ArrowDown'||e.key==='s')cz-=180;
+  if(e.key==='ArrowLeft'||e.key==='a')cx-=120;
+  if(e.key==='ArrowRight'||e.key==='d')cx+=120;
   if(e.key==='Escape')closeFocus();
   render();
 });
 
-// ---- focus: fly to artifact, bring text full into screen ----
-const focus=document.getElementById('focus');
-function focusArtifact(a, ax, ay){
-  // ease camera to center the artifact
-  camX = ax - W/2; camY = ay - H/2; render();
-  document.querySelectorAll('.artifact').forEach(el=>el.classList.add('dim'));
-  document.getElementById('fEye').textContent = a.eyebrow || '';
-  document.getElementById('fTitle').innerHTML = a.title;
-  document.getElementById('fBody').innerHTML = a.body.map(p=>`<p>${p}</p>`).join('');
-  setTimeout(()=>focus.classList.add('open'), 260);
-}
-function closeFocus(){focus.classList.remove('open');document.querySelectorAll('.artifact').forEach(el=>el.classList.remove('dim'));}
-document.getElementById('fBack').addEventListener('click',closeFocus);
-focus.addEventListener('click',e=>{if(e.target===focus)closeFocus();});
-
-// ---- enter ----
-document.getElementById('enter').addEventListener('click',()=>{
-  document.getElementById('onboard').classList.add('gone');
-});
-window.addEventListener('resize',render);
+document.getElementById('enter').addEventListener('click',()=>document.getElementById('onboard').classList.add('gone'));
 render();
 </script>
 </body>
