@@ -1,4 +1,4 @@
-# Cloudflare Pages redirect rules
-# Block internal toolchain from being web-served. _engine is build/pipeline
-# tooling — never a public URL. Returns 404 for any /_engine/* request.
-/_engine/*    /404.html    404
+# Cloudflare redirect rules.
+# Under Workers Static Assets, valid status codes are 200, 301, 302, 303, 307, 308 — NOT 404.
+# Internal paths are blocked via .assetsignore (not uploaded at all) — no rule needed here.
+# Add legitimate redirects here as needed, one per line.
