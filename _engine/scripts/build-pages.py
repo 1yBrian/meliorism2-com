@@ -17,7 +17,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 SITE = "https://meliorism2.com"
 EMAIL = "brian@melioristgroup.com"
 
-# Core taxonomy (the 5 filter-chip dimensions). Descriptions are DRAFT — refine in Brian's voice.
+# Taxonomy → one hub per dimension. An expanding set (target 13+ → a book).
+# Descriptions are DRAFT — refine in Brian's voice anytime; re-run this script to update.
 DIMS = [
     ("witnessing-authentic-humanity", "Witnessing Authentic Humanity",
      "Seeing people as they actually are — beneath role, performance, and assumption — and what that asks of a practitioner."),
@@ -29,6 +30,14 @@ DIMS = [
      "What embodied, in-the-room presence does that mediated interaction cannot — and why it still matters."),
     ("gender-generational-difference", "Gender & Generational Difference",
      "How gender and generation shape trust, learning, and communication in practitioner settings."),
+    ("critical-consciousness", "Critical Consciousness",
+     "Seeing the systems, incentives, and power structures shaping a situation — and helping clients act with that awareness."),
+    ("becoming-adaptable", "Becoming Adaptable",
+     "Building the capacity to adjust — staying effective and grounded as tools, conditions, and expectations shift."),
+    ("somatic-body-intelligence", "Somatic / Body Intelligence",
+     "What the body registers before the mind names it — using somatic signal as practitioner information."),
+    ("adventure", "Adventure",
+     "Risk, exploration, and the practice of moving toward the unfamiliar on purpose."),
 ]
 
 def issues():
