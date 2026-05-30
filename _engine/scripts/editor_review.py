@@ -55,11 +55,17 @@ HARD_GATES = [
 ]
 
 SOFT_GATES = [
-    ("exploratorium_check.py", "Exploratorium (Invariant 2)","Signature Law §Invariant Gate"),
     ("cta_check.py",           "Contextual entry CTA",      "MELIORISM2-DIRECTIVE §2"),
     ("voice_drift_check.py",   "Voice drift",               "LEARNING-LOG §Voice Drift Watch"),
     ("section_title_score.py", "Non-blog title scoring",    "MELIORISM2-DIRECTIVE §15"),
     ("link_check.py",          "External links",            "L5 hygiene"),
+]
+
+# REPORT-ONLY tools — run, print, but produce NO pass/fail verdict. These cover
+# meaning-level invariants no scanner can judge (calibration proved a regex mislabels
+# the exemplar). The verdict is the editor's, reading against the Signature Law checklist.
+REPORTERS = [
+    ("exploratorium_check.py", "Exploratorium (Invariant 2) — HUMAN CALL", "Signature Law"),
 ]
 
 COLORS = {"pass": "\033[32m", "warn": "\033[33m", "fail": "\033[31m", "off": "\033[0m"}
@@ -110,15 +116,27 @@ def main():
             for line in out.splitlines():
                 print(f"      {line}")
 
+    print("\n─── REPORTERS (no verdict — human reads these) ───")
+    for script, label, source in REPORTERS:
+        _, out = run(script, target)
+        print(f"  📋 {label:42} [{source}]")
+        for line in out.splitlines():
+            print(f"      {line}")
+
     print()
     if hard_failed:
         print(f"VERDICT: BLOCKED — {len(hard_failed)} hard gate(s) failed. Issue does not ship.")
+        print("  NOTE: a green pipeline is necessary, not sufficient — the meaning-level")
+        print("  invariants (physics derived, removal-not-installation, 'how did they know')")
+        print("  are confirmed by the editor, not the gates. Read the reporters above.")
         sys.exit(1)
     if soft_warned:
         print(f"VERDICT: REGRESSION — all hard gates pass; {len(soft_warned)} soft gate(s) warn.")
         print("        Ship is technically allowed; rebuild recommended.")
         sys.exit(2)
-    print("VERDICT: READY — every gate passed. Ship.")
+    print("VERDICT: READY — every automated gate passed.")
+    print("  Final call is the editor's: read the reporters above and confirm the meaning-level")
+    print("  invariants (Exploratorium, physics-derived, removal-not-installation, 'how did they know').")
     sys.exit(0)
 
 if __name__ == "__main__":

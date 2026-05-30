@@ -76,25 +76,30 @@ def main():
         if re.search(r"(setTimeout|setInterval|requestAnimationFrame|@keyframes)", html):
             deco.append("time-driven animation, no input dependency")
 
-    score = len(strong)
-    print(f"Exploratorium check — {path.name}  (ADVISORY — heuristic; cannot judge meaning)")
+    print(f"Exploratorium reporter — {path.name}  (REPORT-ONLY · machinery, not meaning)")
     if strong:
-        print(f"  STRONG signals ({score}) — the reader's input changes downstream state:")
-        for s in strong: print(f"    + {s}")
+        print("  Interactive machinery detected (necessary, NOT sufficient):")
+        for s in strong: print(f"    · {s}")
     if deco:
-        print("  DECORATION-only signals (no input source detected):")
-        for s in deco: print(f"    - {s}")
+        print("  Only static-reveal machinery detected (no reader-input source):")
+        for s in deco: print(f"    · {s}")
+    if not strong and not deco:
+        print("  No interaction machinery detected at all.")
 
-    if score >= 1:
-        print("PASS (advisory): machinery of system-changing interaction present.")
-        print("  → Still confirm by hand: would a DIFFERENT input produce a DIFFERENT experience?")
-        sys.exit(0)
-    else:
-        print("WARN (advisory): no system-changing interaction detected — likely DECORATION.")
-        print("  → Invariant 2 (Exploratorium test) at risk. This is where 'vibe without stakes' hides.")
-        print("    Confirm the reader's input changes the world, or redesign before publish.")
-        # SOFT gate: exit non-zero so editor_review surfaces the warning; tier ensures it never blocks.
-        sys.exit(2)
+    # NO automated PASS/WARN verdict. Calibration against the real archive proved a regex
+    # cannot separate stakes from vibe: the Annotated Estimate (9/9 exemplar) and the
+    # 23-Minute Problem (2/9 decoration) are structurally indistinguishable to a scanner —
+    # both reveal content on a handler; the difference is what the reveal MEANS. Invariant 2
+    # is meaning-level. This script reports the machinery it sees and hands the verdict to a
+    # human. It NEVER blocks and NEVER auto-passes — a false green here trains the team to
+    # ignore the one test that matters most.
+    print("\n  ── INVARIANT 2 IS A HUMAN CALL ──")
+    print("  A scanner sees machinery, not meaning. Answer by hand before publish:")
+    print("    1. Does the reader put something of her own in (a choice, a number, a position)?")
+    print("    2. Would a DIFFERENT input produce a GENUINELY different experience?")
+    print("    3. Or does every reader, whatever they do, end at the same pre-written place?")
+    print("  If (3): it's decoration — vibe without stakes. Redesign so her input changes the world.")
+    sys.exit(0)  # report-only: never blocks, never auto-passes
 
 if __name__ == "__main__":
     main()
