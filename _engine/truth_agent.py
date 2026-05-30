@@ -12,9 +12,32 @@ Exit codes:
   2 = ERROR         — agent couldn't run; deploy continues with warning
 """
 
-import sys, os, re, json, html as html_lib
+import sys, os, re, json, hashlib, html as html_lib
 from datetime import datetime
 from pathlib import Path
+
+# ── Verdict cache ─────────────────────────────────────────────────────────────
+# Verdicts are keyed by a hash of the PROSE the agent judges (not the whole file),
+# so SEO/markup edits never bust the cache — only prose changes trigger a re-judge.
+# This makes the gate DETERMINISTIC (same prose → same verdict) and free on re-runs.
+# Bypass with TRUTH_NO_CACHE=1.
+
+def _cache_path(repo_root):
+    return repo_root / '_engine' / 'staging' / '.truth-cache.json'
+
+def load_cache(repo_root):
+    try:
+        return json.loads(_cache_path(repo_root).read_text(encoding='utf-8'))
+    except Exception:
+        return {}
+
+def save_cache(repo_root, cache):
+    p = _cache_path(repo_root)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(cache, indent=2), encoding='utf-8')
+
+def prose_key(prose):
+    return hashlib.sha256(prose.encode('utf-8')).hexdigest()
 
 # ── HTML → readable text ──────────────────────────────────────────────────────
 
@@ -181,10 +204,20 @@ def main():
     print(f"  {'─' * 48}")
 
     text = extract_text(html_content)
-    response = call_api(text, title, slug)
+    prose = text[:6000]
+    key = prose_key(prose)
+    cache = {} if os.environ.get('TRUTH_NO_CACHE') else load_cache(repo_root)
+    cached = cache.get(key)
 
-    if response is None:
-        sys.exit(0)  # Graceful skip — key missing or API unreachable
+    if cached:
+        response = cached['response']
+        print("  ⟳ cached verdict (prose unchanged) — no API call")
+    else:
+        response = call_api(text, title, slug)
+        if response is None:
+            sys.exit(0)  # Graceful skip — key missing or API unreachable
+        cache[key] = {'response': response, 'slug': slug, 'ts': datetime.now().strftime('%Y-%m-%d %H:%M')}
+        save_cache(repo_root, cache)
 
     verdict  = parse_verdict(response)
     op_count = parse_count(response, 'OVER_PROMISES')

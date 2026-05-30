@@ -6,7 +6,7 @@
 <!-- meliorism2:dimension: Living Income -->
 <!-- meliorism2:sources: 8 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-weather="clarity">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -132,7 +132,56 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
   .e-wrap{padding:0 20px;}
   #entry{overflow-y:auto;padding-bottom:80px;}
 }
+
+.weather-block{margin:28px 0 4px;padding:16px 18px;background:rgba(128,128,128,0.05);border:1px solid rgba(128,128,128,0.1);border-radius:10px;}
+.weather-chip{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{font-size:0.72rem;opacity:0.55;letter-spacing:0.04em;font-style:italic;}
+.weather-onboard{font-size:0.68rem;opacity:0.38;line-height:1.55;max-width:380px;}
+
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:var(--bg,#fff);border-top:1px solid var(--border,rgba(128,128,128,0.15));display:flex;align-items:center;justify-content:center;gap:22px;font-size:0.8rem;letter-spacing:2px;transition:opacity 0.3s;}
+.footer-bar.hidden{display:none;}
+.footer-bar a{color:var(--accent,#888);text-decoration:none;border:none;}
+.footer-bar a:hover{opacity:0.7;background:transparent;}
+.footer-sep{opacity:0.3;}
 </style>
+  <!-- m2-seo -->
+  <meta name="description" content="Tradecraft — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <link rel="canonical" href="https://meliorism2.com/archive/2026-05-21-tradecraft.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Tradecraft">
+  <meta property="og:description" content="Tradecraft — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <meta property="og:url" content="https://meliorism2.com/archive/2026-05-21-tradecraft.html">
+  <meta property="og:site_name" content="Meliorism 2.0">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Tradecraft",
+    "name": "Meliorism2.com · Issue 007 · Tradecraft",
+    "url": "https://meliorism2.com/archive/2026-05-21-tradecraft.html",
+    "mainEntityOfPage": "https://meliorism2.com/archive/2026-05-21-tradecraft.html",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Brian Oney",
+      "url": "https://brianoney.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Meliorist Group",
+      "url": "https://melioristgroup.com"
+    },
+    "isPartOf": {
+      "@type": "CreativeWorkSeries",
+      "name": "Meliorism 2.0",
+      "url": "https://meliorism2.com"
+    },
+    "datePublished": "2026-05-21",
+    "articleSection": "Issue 7"
+  }
+  </script>
 </head>
 <body>
 
@@ -160,7 +209,14 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
     <h1 class="e-title">Trade<br>craft.</h1>
     <p class="e-sub">Meliorism2.com · Issue 007 · Living Income</p>
     <p class="e-brief">John Walker Jr. ran a spy ring for 18 years and sold over 1,100 classified documents. He wasn't technically gifted. He was exceptionally good at one thing: knowing what his client actually needed before his client said it. The practitioners who earn what they're worth have always operated the same way. Intelligence research now explains the mechanism.</p>
-    <button class="e-btn" onclick="openBoard()">ACCESS GRANTED &nbsp;→</button>
+    <div class="weather-block">
+  <div class="weather-chip">
+    <span class="weather-emoji">🌤️</span>
+    <span class="weather-label">Emotional weather: open and clear · fresh seeing</span>
+  </div>
+  <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — that open, clear-sky quality — the moment when the ground is visible and the path can be seen — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
+</div>
+      <button class="e-btn" onclick="openBoard()">ACCESS GRANTED &nbsp;→</button>
   </div>
 </section>
 
@@ -177,7 +233,7 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
   <!-- 90-second signal strip -->
   <div style="background:#8B2020;color:#f5f0e8;padding:14px 28px;display:flex;align-items:baseline;gap:24px;border-bottom:2px solid rgba(0,0,0,0.2);">
     <span style="font-family:'JetBrains Mono',monospace;font-size: 12px;letter-spacing:3px;opacity:0.75;white-space:nowrap;">90-SECOND SIGNAL</span>
-    <span style="font-family:'Source Serif 4',serif;font-size:15px;font-weight:400;line-height:1.55;">Expert practitioners earn more because they see what's actually happening in the room before anyone names it. This is <em>anticipatory cognition</em> — a trainable neurological skill, not a personality trait. Every factual claim below is sourced. The 7-day drill builds the library.</span>
+    <span style="font-family:'Source Serif 4',serif;font-size:15px;font-weight:400;line-height:1.55;">Expert practitioners earn more because they see what's actually happening in the room before anyone names it. This is <em>anticipatory cognition</em> — a skill that can be developed, not a fixed personality trait. Every factual claim below is sourced. The 7-day drill builds the library.</span>
   </div>
 
   <div class="cork">
@@ -254,7 +310,7 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
       <div class="fc-body">
         <div class="fc-code">Field Protocol · Experiment</div>
         <div class="fc-title">7-Day OODA Awareness Drill</div>
-        <div class="fc-teaser">One observation exercise per day. By day seven you'll have a baseline map of what you consistently miss in the room — and what to do about it.</div>
+        <div class="fc-teaser">One observation exercise per day. Over seven days you'll begin building a baseline map of what you consistently miss in the room — and what to do about it.</div>
       </div>
       <div class="fc-foot"><span class="fc-open">OPEN FILE</span><span>→</span></div>
     </div>
@@ -284,9 +340,19 @@ html,body{height:100%;background:var(--manila);color:var(--ink);font-family:'Spa
 <div id="bd" onclick="closeFile()"></div>
 
 <!-- ── FOOTER ── -->
-<footer class="site-footer">
-  <a href="/archive/index.html">MELIORISM2.COM LIBRARY</a>
-</footer>
+<section id="card-delight" style="max-width:700px;margin:48px auto;padding:32px 24px;">
+  <span style="display:inline-block;margin-bottom:12px;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;">§ · The Delight</span>
+  <h2 style="margin-bottom:1.2rem;">The Grandmaster Who Quit at 22 — Paul Morphy</h2>
+  <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(128,128,128,0.12);text-align:center;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;">Meliorism2.com · Daily briefings for practitioners</div>
+</section>
+
+<div class="footer-bar">
+  <a href="/archive/index.html">&#8592; LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <a href="/weather.html">WEATHER</a>
+  <span class="footer-sep">·</span>
+  <a href="/" id="footer-home">HOME</a>
+</div>
 
 <script>
 const FILES = {
@@ -471,5 +537,13 @@ function tick(){
 }
 setInterval(tick,1000);tick();
 </script>
+
+  <!-- m2-seo -->
+  <div style="font-family:'Courier Prime',monospace;font-size:0.72rem;letter-spacing:0.04em;text-align:center;color:#8a8070;background:#1a1714;padding:18px 24px;line-height:1.7;">
+    Meliorism 2.0 is a research instrument and daily briefing published by
+    <a href="https://brianoney.com" style="color:#c8a87a;text-decoration:none;">Brian Oney</a> ·
+    <a href="https://melioristgroup.com" style="color:#c8a87a;text-decoration:none;">Meliorist Group</a>,
+    San Francisco.
+  </div>
 </body>
 </html>

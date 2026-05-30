@@ -5,7 +5,7 @@
 <!-- meliorism2:format: Provenance Document -->
 <!-- meliorism2:architecture: horizontal-swipe -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-weather="integrate">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +30,8 @@
   --dark-band: #1a1714;
   --cream:     #c8b99a;
   --ink:       #1a1714;
+  --gradient-bg: linear-gradient(160deg, #1E2E24 0%, #263A2E 100%);
+  --gradient:    linear-gradient(160deg, #3D6B4F 0%, #7A9E86 100%);
 }
 
 html,body{
@@ -162,7 +164,7 @@ html,body{
   font-family:'Crimson Text',serif;
   font-size:1.2rem;font-style:italic;
   color:rgba(240,225,195,0.65);
-  margin-bottom:36px;
+  margin-bottom:20px;
   opacity:0;transform:translateY(8px);
   animation:fadeUp 0.8s ease 0.85s forwards;
 }
@@ -192,6 +194,13 @@ html,body{
   .entry-trace{bottom:190px;}
 }
 
+/* ── WEATHER CHIP ── */
+.weather-block{margin:0 0 28px;padding:16px 18px;background:rgba(255,255,255,0.07);border:1px solid rgba(210,180,130,0.18);border-radius:10px;opacity:0;animation:fadeUp 0.7s ease 1.1s forwards;}
+.weather-chip{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{font-size:0.72rem;opacity:0.7;letter-spacing:0.04em;font-style:italic;color:rgba(240,225,195,0.8);}
+.weather-onboard{font-size:0.68rem;opacity:0.5;line-height:1.55;max-width:380px;color:rgba(240,225,195,0.75);}
+
 /* ── MAIN PANEL ── */
 #main-panel{
   position:fixed;inset:0;top:36px;bottom:40px;
@@ -208,14 +217,14 @@ html,body{
 .sections-rail{
   display:flex;
   flex-direction:row;
-  width:700%;
+  width:800%;
   height:100%;
   transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
   will-change:transform;
 }
 
 .card{
-  width:calc(100% / 7);
+  width:calc(100% / 8);
   flex-shrink:0;
   height:100%;
   overflow-y:auto;
@@ -677,13 +686,8 @@ p{
 }
 
 /* ── FOOTER BAR ── */
-.footer-bar{
-  position:fixed;bottom:0;left:0;right:0;z-index:1000;
-  height:40px;background:var(--bg);
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;gap:22px;
-  font-size:0.8rem;letter-spacing:2px;
-}
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:var(--bg);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:22px;font-size:0.8rem;letter-spacing:2px;transition:opacity 0.3s;}
+.footer-bar.hidden{display:none;}
 .footer-bar a{color:var(--accent);text-decoration:none;border:none;}
 .footer-bar a:hover{color:var(--amber);background:transparent;}
 .footer-sep{color:var(--border-h);}
@@ -701,6 +705,42 @@ a:hover{background:rgba(139,111,71,0.06);}
   h2{font-size:1.4rem;}
 }
 </style>
+  <!-- m2-seo -->
+  <meta name="description" content="The Provenance Document — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <link rel="canonical" href="https://meliorism2.com/archive/2026-05-30-the-provenance-document.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Provenance Document">
+  <meta property="og:description" content="The Provenance Document — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <meta property="og:url" content="https://meliorism2.com/archive/2026-05-30-the-provenance-document.html">
+  <meta property="og:site_name" content="Meliorism 2.0">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Provenance Document",
+    "name": "Meliorism2.com · The Provenance Document",
+    "url": "https://meliorism2.com/archive/2026-05-30-the-provenance-document.html",
+    "mainEntityOfPage": "https://meliorism2.com/archive/2026-05-30-the-provenance-document.html",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Brian Oney",
+      "url": "https://brianoney.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Meliorist Group",
+      "url": "https://melioristgroup.com"
+    },
+    "isPartOf": {
+      "@type": "CreativeWorkSeries",
+      "name": "Meliorism 2.0",
+      "url": "https://meliorism2.com"
+    },
+    "datePublished": "2026-05-30"
+  }
+  </script>
 </head>
 <body>
 
@@ -729,6 +769,16 @@ a:hover{background:rgba(139,111,71,0.06);}
     </div>
     <h1 class="entry-title">The<br>Provenance<br>Document</h1>
     <p class="entry-sub">Before you teach a framework, know where it came from — whose field it emerged from, and what got erased in translation.</p>
+
+    <!-- EMOTIONAL WEATHER -->
+    <div class="weather-block">
+      <div class="weather-chip">
+        <span class="weather-emoji">🌿</span>
+        <span class="weather-label">Emotional weather: integrate · assimilation · slow meaning-making</span>
+      </div>
+      <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — the particular focus that arrives when something you thought you understood turns out to have deeper roots — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
+    </div>
+
     <button class="entry-enter" onclick="openMain()">Trace the provenance →</button>
   </div>
 </div>
@@ -1090,6 +1140,24 @@ a:hover{background:rgba(139,111,71,0.06);}
       </div>
     </div>
 
+    <!-- CARD 7: THE DELIGHT -->
+    <div class="card" id="card-delight">
+      <div class="card-inner">
+        <span class="section-number" style="background:var(--dark-band);color:var(--cream);">§ 07 · The Delight</span>
+        <h2>The Footnote That Saved a Language</h2>
+
+        <p>In 1786, a British judge named Sir William Jones stood before the Asiatic Society in Calcutta and delivered a lecture that contained a single offhand observation — a footnote-level remark, really — that would reshape how all of human history is understood. He noted that Sanskrit bore such a striking resemblance to Greek and Latin, and to Gothic and Celtic and Persian, that no scholar examining them could doubt they had all "sprung from some common source, which, perhaps, no longer exists." He was describing, for the first time with precision, what we now call the Proto-Indo-European language family.</p>
+
+        <p>Jones was not a linguist by training. He was a lawyer. He had taught himself thirteen languages — including Persian, Arabic, and Sanskrit — as a hobby, the way other men of his era collected butterflies. His observation was a throwaway moment in a talk about something else entirely. It launched the entire discipline of comparative linguistics, gave scholars the tools to reconstruct a language spoken 6,000 years ago, and eventually traced the common ancestry of nearly half the world's speakers back to a single source community on the Pontic steppe.</p>
+
+        <p style="margin-top:1.5rem;font-size:0.85rem;opacity:0.6;font-style:italic;line-height:1.7;">The provenance of languages, it turns out, can be traced the same way the provenance of frameworks can — by looking for the structural resemblances that survive the translation.</p>
+
+        <p style="margin-top:1.5rem;font-size:0.78rem;opacity:0.35;border-top:1px solid rgba(128,128,128,0.15);padding-top:1rem;">Jones, Sir William. "The Third Anniversary Discourse, Delivered 2 February 1786." <em>Asiatick Researches,</em> vol. 1, 1788. The reconstructed Proto-Indo-European language is designated PIE; its speakers left no writing, but their vocabulary survives in every word that shares roots across the language family.</p>
+
+        <div class="doc-footer" style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(128,128,128,0.12);text-align:center;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;">Meliorism2.com · Daily briefings for practitioners</div>
+      </div>
+    </div>
+
   </div><!-- /sections-rail -->
 
   <!-- PROGRESS + NAV -->
@@ -1106,9 +1174,11 @@ a:hover{background:rgba(139,111,71,0.06);}
 
 <!-- FOOTER BAR -->
 <div class="footer-bar">
-  <a href="/archive/index.html">← THE LIBRARY</a>
+  <a href="/archive/index.html">← LIBRARY</a>
   <span class="footer-sep">·</span>
-  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+  <a href="/weather.html">WEATHER</a>
+  <span class="footer-sep">·</span>
+  <a href="/" id="footer-home">HOME</a>
 </div>
 
 <script>
@@ -1140,22 +1210,37 @@ function openMain(){
 }
 
 /* ── CARD NAVIGATION ── */
-const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application'];
-const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application'];
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','roots','application','delight'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','The Roots','Application','The Delight'];
 let currentCard=0;
 
 function goTo(index){
-  if(index<0||index>=CARDS.length)return;
+  if(index<0)return;
+  if(index>=CARDS.length){
+    window.location.href='/archive/index.html';
+    return;
+  }
   const cards=document.querySelectorAll('.card');
   if(cards[currentCard])cards[currentCard].scrollTop=0;
   currentCard=index;
-  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/8)}%)`;
   const fill=document.getElementById('progress-fill');
   if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
   const label=document.getElementById('progress-label');
   if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
   document.getElementById('nav-prev').disabled=index===0;
-  document.getElementById('nav-next').disabled=index===CARDS.length-1;
+  const nextBtn=document.getElementById('nav-next');
+  if(index===CARDS.length-1){
+    nextBtn.disabled=false;
+    nextBtn.textContent='← LIBRARY';
+    nextBtn.style.letterSpacing='0.08em';
+    nextBtn.style.color='var(--amber,#b07d3a)';
+  } else {
+    nextBtn.disabled=false;
+    nextBtn.textContent='→';
+    nextBtn.style.letterSpacing='';
+    nextBtn.style.color='';
+  }
   track('navigate',CARDS[index]);
 }
 
@@ -1295,5 +1380,13 @@ document.addEventListener('click',e=>{
   }
 });
 </script>
+
+  <!-- m2-seo -->
+  <div style="font-family:'Courier Prime',monospace;font-size:0.72rem;letter-spacing:0.04em;text-align:center;color:#8a8070;background:#1a1714;padding:18px 24px;line-height:1.7;">
+    Meliorism 2.0 is a research instrument and daily briefing published by
+    <a href="https://brianoney.com" style="color:#c8a87a;text-decoration:none;">Brian Oney</a> ·
+    <a href="https://melioristgroup.com" style="color:#c8a87a;text-decoration:none;">Meliorist Group</a>,
+    San Francisco.
+  </div>
 </body>
 </html>

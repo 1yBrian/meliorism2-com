@@ -5,7 +5,7 @@
 <!-- meliorism2:format: Annotated Estimate -->
 <!-- meliorism2:architecture: horizontal-swipe -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-weather="clarity">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -208,14 +208,14 @@ html,body{
 .sections-rail{
   display:flex;
   flex-direction:row;
-  width:800%;
+  width:700%;
   height:100%;
   transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);
   will-change:transform;
 }
 
 .card{
-  width:calc(100% / 8);
+  width:calc(100% / 7);
   flex-shrink:0;
   height:100%;
   overflow-y:auto;
@@ -690,19 +690,50 @@ a:hover{background:rgba(139,111,71,0.06);}
   .entry-title{font-size:clamp(3.8rem,9vw,7rem);line-height:1.0;letter-spacing:-0.02em;}
   h1{font-size:1.9rem;}
   h2{font-size:1.4rem;}
-  /* ── 16px MOBILE FLOOR (PUBLICATION-SOUL minimum) ── */
-  .date-tag,.issue-format-badge,.section-number,.highlight-label,
-  .begin-prompt button,.sb-label,.sb-clock,.sb-logo,
-  .progress-label,.entry-stamp,.entry-enter,.entry-corner,
-  .doc-footer,.footer-bar,.citation,.research-block .researcher,
-  .concept-box .cb-label,.scenario-label,.response-option .ro-label,
-  .role-chip,.estimate-hint,.margin-note,.estimate-table td,
-  .estimate-table th,.estimate-table tfoot td,.bibliography h3{
-    font-size:1rem!important;
-    letter-spacing:0.06em;
-  }
 }
+
+.weather-block{margin:28px 0 4px;padding:16px 18px;background:rgba(128,128,128,0.05);border:1px solid rgba(128,128,128,0.1);border-radius:10px;}
+.weather-chip{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{font-size:0.72rem;opacity:0.55;letter-spacing:0.04em;font-style:italic;}
+.weather-onboard{font-size:0.68rem;opacity:0.38;line-height:1.55;max-width:380px;}
 </style>
+  <!-- m2-seo -->
+  <meta name="description" content="The Annotated Estimate — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <link rel="canonical" href="https://meliorism2.com/archive/2026-05-29-the-annotated-estimate.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Annotated Estimate">
+  <meta property="og:description" content="The Annotated Estimate — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <meta property="og:url" content="https://meliorism2.com/archive/2026-05-29-the-annotated-estimate.html">
+  <meta property="og:site_name" content="Meliorism 2.0">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Annotated Estimate",
+    "name": "Meliorism2.com · The Annotated Estimate",
+    "url": "https://meliorism2.com/archive/2026-05-29-the-annotated-estimate.html",
+    "mainEntityOfPage": "https://meliorism2.com/archive/2026-05-29-the-annotated-estimate.html",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Brian Oney",
+      "url": "https://brianoney.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Meliorist Group",
+      "url": "https://melioristgroup.com"
+    },
+    "isPartOf": {
+      "@type": "CreativeWorkSeries",
+      "name": "Meliorism 2.0",
+      "url": "https://meliorism2.com"
+    },
+    "datePublished": "2026-05-29"
+  }
+  </script>
 </head>
 <body>
 
@@ -731,7 +762,14 @@ a:hover{background:rgba(139,111,71,0.06);}
     </div>
     <h1 class="entry-title">The<br>Annotated<br>Estimate</h1>
     <p class="entry-sub">What you actually do is not what you are paid for. That is a structural argument, not a personal grievance — and there is a tool for it.</p>
-    <button class="entry-enter" onclick="openMain()">Open the estimate →</button>
+    <div class="weather-block">
+  <div class="weather-chip">
+    <span class="weather-emoji">🌤️</span>
+    <span class="weather-label">Emotional weather: open and clear · fresh seeing</span>
+  </div>
+  <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — that open, clear-sky quality — the moment when the ground is visible and the path can be seen — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
+</div>
+      <button class="entry-enter" onclick="openMain()">Open the estimate →</button>
   </div>
 </div>
 
@@ -744,17 +782,17 @@ a:hover{background:rgba(139,111,71,0.06);}
     <div class="card" id="card-signal">
       <div class="card-inner">
 
-        <figure class="hero-figure" style="margin:0 -40px 32px;">
-          <img src="the-annotated-estimate-hero.jpg" alt="Close view of an invoice on aged paper, beside a pen, amber lamp, and handwritten marginal notes on each line item" class="hero-image" style="margin:0;border:none;" loading="eager" decoding="async">
-          <figcaption style="padding:6px 40px 0;">Photo by <a href="https://unsplash.com/@lauraadaiphoto?utm_source=meliorism2&utm_medium=referral">laura adai</a> on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral">Unsplash</a></figcaption>
-        </figure>
-
         <div class="metadata">
           <div class="date-tag">May 29, 2026 · Friday</div>
           <div class="issue-format-badge">≡ Annotated Estimate · Issue 029</div>
           <h1>The Annotated Estimate</h1>
           <p class="subtitle">On invisible labor, structural underpayment, and the practitioner tool that changes everything — starting with your own relationship to your rate</p>
         </div>
+
+        <figure class="hero-figure">
+          <img src="the-annotated-estimate-hero.jpg" alt="Close view of an invoice on aged paper, beside a pen, amber lamp, and handwritten marginal notes on each line item" class="hero-image" loading="eager" decoding="async">
+          <figcaption>Photo by <a href="https://unsplash.com/@lauraadaiphoto?utm_source=meliorism2&utm_medium=referral">laura adai</a> on <a href="https://unsplash.com?utm_source=meliorism2&utm_medium=referral">Unsplash</a></figcaption>
+        </figure>
 
         <div class="highlight">
           <span class="highlight-label">90-Second Signal</span>
@@ -837,16 +875,6 @@ a:hover{background:rgba(139,111,71,0.06);}
         <div class="cite">
           "We are all in the business of moving people — and that labor is as real as any other, even when it is entirely invisible on the invoice."<br>
           — Pink, D. H. <em>To Sell Is Human.</em> Riverhead Books, 2012.
-        </div>
-
-        <div class="research-block">
-          <span class="researcher">McKinsey, November 2025 — The Billable Hour Under Pressure</span>
-          <p>In November 2025, McKinsey's UK managing partner Michael Birshan confirmed that roughly one quarter of the firm's global fees now come from outcome-based pricing arrangements — a direct departure from the billable hour. The driver: when AI tools reduced McKinsey's internal research and synthesis time by approximately 30 percent, billing those hours became indefensible. The value delivered to clients did not shrink because the method got faster. McKinsey shifted its pricing question from "what will this scope cost?" to "what result does the client need, and what is it worth to deliver it properly?" Birshan's observation extends beyond consulting: if McKinsey cannot defend the billable hour, neither can the legal firms, agencies, accounting practices, or professional service providers that follow the same model. The practitioner in a helping profession is not exempt from this logic.</p>
-        </div>
-
-        <div class="cite">
-          "Doing more performance-based arrangements with our clients."<br>
-          — Michael Birshan, McKinsey UK Managing Partner. <em>The Street,</em> November 2025.
         </div>
 
       </div>
@@ -967,15 +995,11 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <h3>Value-Based Pricing and Labor Annotation</h3>
 
-        <p>The question is not how to justify the hours. The question is: what results will you create for the client — and what is that worth? McKinsey now prices roughly a quarter of its engagements on outcomes. When their tools made certain work 30 percent faster, billing those hours became incoherent. The value of the result didn't change because the method improved. Every practitioner in a helping profession is working inside the same logic, whether they have named it yet or not.</p>
-
-        <p>A good price sits between what the work is actually worth and what the client's budget can reach. The best price is often a premium — a stretch — and that is appropriate. Premium investment pays specific dividends: work done right, delivered on time, built to the quality that less expensive alternatives cannot match. When a client reaches for a premium, they are not overpaying. They are buying certainty. The practitioner who prices at the premium with a documented case for the value is not asking for more than the work is worth. They are charging what quality costs.</p>
-
-        <p>The annotated estimate is the foundation, not the ceiling. You discover what the floor is — so that value-based pricing doesn't accidentally go below cost. And you discover what the ceiling is when you ask what result the client actually needs, and what it is worth to have it delivered properly. The annotation answers the first question. The conversation about results answers the second. Neither replaces the other.</p>
+        <p>Value-based pricing argues that the practitioner's rate should be set by the value delivered, not the labor invested. This is correct as a long-run principle. A consultant who generates $2M in measurable organizational improvement can legitimately charge $200K regardless of whether the engagement took two months or two weeks. The labor annotation does not contradict this. It precedes it. The practitioner who has never counted their invisible labor cannot assess whether their value-based rate is above or below their real cost basis. Annotation is the foundation, not the ceiling. You discover what the floor is so that value-based pricing doesn't accidentally set the rate below it.</p>
 
         <h3>When the Client Can't Afford the Annotated Rate</h3>
 
-        <p>This is real data. If a client presents a budget that, when mapped against an honest annotated estimate, represents a below-cost engagement, that is information worth having. The practitioner has three options: add something to the engagement — a bonus session, a resource library, an extended follow-up call — that makes the existing rate feel right for both parties without reducing what the practitioner earns per unit of labor; adjust the visible scope of the deliverable so that the rate per unit stays intact even if the total is lower; or decline with a clear record of why the number proposed would not have covered the actual cost of delivery. Discounting — reducing the rate for the same work — is not among the options. It trains the client that rates are negotiable downward when challenged, and establishes a baseline the practitioner will be defending next year. The annotated estimate exists precisely so that the practitioner is never in a position of defending a feeling. They are presenting a document. The document either supports the engagement or it doesn't.</p>
+        <p>This is real data. If a client presents a budget that, when mapped against an honest annotated estimate, represents a below-cost engagement, that is information worth having. The practitioner has three options: negotiate the scope to match the budget; accept the engagement at a loss with a clear-eyed understanding of what they are subsidizing and why; or decline. All three are legitimate choices. The annotated estimate does not make the choice. It makes the choice visible — which is the precondition for making it intentionally rather than by default.</p>
 
         <div class="margin-note">
           Wheatley (2017) frames the practitioner's relationship to their own value as a political and ethical question, not just an economic one. The practitioner who cannot name what they produce cannot advocate for the conditions required to produce it. Annotation is a form of professional self-respect, not just a pricing tactic.
@@ -1057,17 +1081,6 @@ a:hover{background:rgba(139,111,71,0.06);}
 
         <p>The first annotated estimate Sol writes will not be perfect. It will be incomplete in some categories and over-specified in others. That is not a failure. It is the beginning of a practice. The estimate improves as the practitioner's awareness of their own invisible labor improves. The rate follows the clarity. Miles Davis knew what his name was worth because he had done the accounting — across a career, not in a single invoice. The Annotated Estimate is where that accounting begins.</p>
 
-        <!-- ETYMOLOGY -->
-        <div class="bibliography" style="margin-top:40px;">
-          <h3>Etymology</h3>
-          <div class="citation" style="padding-left:0;text-indent:0;">
-            <strong>estimate (v.)</strong> — From Latin <em>aestimāre</em>, to appraise, to reckon the worth of. The root connects to <em>aes</em>, the Latin word for copper and bronze — the metals weighed to establish value in early Roman commerce. To estimate was, originally, to weigh the metal. To know what a thing was worth, you had to handle it, measure it, count it.
-          </div>
-          <div class="citation" style="padding-left:0;text-indent:0;margin-top:12px;">
-            <em>Esteem</em> shares the same root. What you estimate correctly, you can esteem accurately. The practitioner who has never counted their invisible labor cannot esteem it — because they have never weighed it. The Annotated Estimate is the act of picking up the metal.
-          </div>
-        </div>
-
         <!-- BIBLIOGRAPHY -->
         <div class="bibliography">
           <h3>Sources</h3>
@@ -1089,10 +1102,6 @@ a:hover{background:rgba(139,111,71,0.06);}
           </div>
 
           <div class="citation">
-            Birshan, Michael (McKinsey UK Managing Partner). Quoted in: "AI is forcing McKinsey, BCG, Bain to rethink consulting fees." <em>The Street,</em> November 2025. — On McKinsey's shift to outcome-based pricing; approximately 25% of global fees now tied to results rather than hours billed.
-          </div>
-
-          <div class="citation">
             Wheatley, Margaret. <em>Who Do We Choose to Be?: Facing Reality, Claiming Leadership, Restoring Sanity.</em> Berrett-Koehler, 2017. — The practitioner's relationship to the value of their own work as a political and ethical question; the connection between naming what you produce and advocating for the conditions required to produce it.
           </div>
         </div>
@@ -1104,42 +1113,15 @@ a:hover{background:rgba(139,111,71,0.06);}
       </div>
     </div>
 
-    <!-- CARD 7: THE DELIGHT -->
-    <div class="card" id="card-delight">
-      <div class="card-inner">
+  </div>
 
-        <span class="section-number" style="background:var(--dark-band);color:var(--cream);">§ 07 · The Delight</span>
-
-        <h2 style="margin-top:8px;">The Two Oil Drums</h2>
-
-        <p style="color:var(--dim);font-size:0.95rem;margin-bottom:1.5rem;">1963. Brian Tracy is twenty-three, broke, and crossing the Sahara in a Volkswagen bus that keeps breaking down. Sandstorms mean he can only ever see two things at once: the oil drum he just passed, and the one ahead. 1,300 people died on this stretch before him. He drives to the next barrel.</p>
-
-        <!-- YouTube embed — free to embed, attribution via YouTube player -->
-        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:2px;margin-bottom:1.2rem;background:#111;">
-          <iframe
-            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
-            src="https://www.youtube.com/embed/X0mZIpBS9cY"
-            title="Crossing The Sahara Deserts of Life with Brian Tracy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-            loading="lazy">
-          </iframe>
-        </div>
-
-        <p style="font-size:0.78rem;color:var(--dim);margin-bottom:0.5rem;">Also: <a href="https://www.youtube.com/watch?v=H2A1TCA-HjY" target="_blank" rel="noopener" style="color:var(--accent);">Success Is a Journey — the full speech</a></p>
-
-        <p style="margin-top:1.5rem;font-size:0.85rem;color:var(--muted);font-style:italic;line-height:1.7;">He built one of the most successful personal development businesses in history on what he learned out there. The lesson wasn't about confidence. It was simpler than that: you don't need to see the whole route. You only ever need the next barrel.</p>
-
-        <p style="margin-top:1.5rem;font-size:0.78rem;color:var(--dim);border-top:1px solid var(--border);padding-top:1rem;">Tracy, Brian. <em>Success Is a Journey.</em> Brian Tracy International, 1998. · Video via YouTube — no payment required; attribution via player.</p>
-
-        <div class="doc-footer" style="margin-top:40px;">
-          Meliorism2.com · Daily briefings for practitioners
-        </div>
-
-      </div>
-    </div>
-
-  </div><!-- /sections-rail -->
+<div class="card" id="card-delight">
+  <div class="card-inner">
+    <span class="section-number" style="display:inline-block;margin-bottom:12px;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;">§ · The Delight</span>
+    <h2 style="margin-bottom:1.2rem;">The Two Oil Drums</h2>
+    <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(128,128,128,0.12);text-align:center;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;">Meliorism2.com · Daily briefings for practitioners</div>
+  </div>
+</div><!-- /sections-rail -->
 
   <!-- PROGRESS + NAV -->
   <div class="reading-progress" id="reading-progress">
@@ -1155,7 +1137,7 @@ a:hover{background:rgba(139,111,71,0.06);}
 
 <!-- FOOTER BAR -->
 <div class="footer-bar">
-  <a href="/archive/index.html">← LIBRARY</a>
+  <a href="/archive/index.html">&#8592; LIBRARY</a>
   <span class="footer-sep">·</span>
   <a href="/weather.html">WEATHER</a>
   <span class="footer-sep">·</span>
@@ -1163,15 +1145,13 @@ a:hover{background:rgba(139,111,71,0.06);}
 </div>
 
 <script>
-/* ── CLOCK (PT) ── */
+/* ── UTC CLOCK ── */
 function tick(){
+  const n=new Date();
+  const t=[n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds()]
+    .map(v=>String(v).padStart(2,'0')).join(':');
   const el=document.getElementById('clk');
-  if(!el)return;
-  const t=new Intl.DateTimeFormat('en-US',{
-    hour:'2-digit',minute:'2-digit',second:'2-digit',
-    hour12:false,timeZone:'America/Los_Angeles'
-  }).format(new Date());
-  el.textContent=t+' PT';
+  if(el)el.textContent='UTC '+t;
 }
 tick();setInterval(tick,1000);
 
@@ -1198,34 +1178,17 @@ const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','E
 let currentCard=0;
 
 function goTo(index){
-  if(index<0)return;
-  // Past last card → go to library
-  if(index>=CARDS.length){
-    track('navigate','archive_exit');
-    window.location.href='/archive/index.html';
-    return;
-  }
+  if(index<0||index>=CARDS.length)return;
   const cards=document.querySelectorAll('.card');
   if(cards[currentCard])cards[currentCard].scrollTop=0;
   currentCard=index;
-  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/8)}%)`;
+  document.getElementById('sections-rail').style.transform=`translateX(-${index*(100/7)}%)`;
   const fill=document.getElementById('progress-fill');
   if(fill)fill.style.width=`${(index/(CARDS.length-1))*100}%`;
   const label=document.getElementById('progress-label');
   if(label)label.textContent=`§ ${String(index).padStart(2,'0')} · ${CARD_TITLES[index].toUpperCase()}`;
   document.getElementById('nav-prev').disabled=index===0;
-  const nextBtn=document.getElementById('nav-next');
-  if(index===CARDS.length-1){
-    nextBtn.disabled=false;
-    nextBtn.textContent='← LIBRARY';
-    nextBtn.style.letterSpacing='0.08em';
-    nextBtn.style.color='var(--amber)';
-  } else {
-    nextBtn.disabled=false;
-    nextBtn.textContent='→';
-    nextBtn.style.letterSpacing='0.1em';
-    nextBtn.style.color='';
-  }
+  document.getElementById('nav-next').disabled=index===CARDS.length-1;
   track('navigate',CARDS[index]);
 }
 
@@ -1361,5 +1324,13 @@ document.addEventListener('click',e=>{
   }
 });
 </script>
+
+  <!-- m2-seo -->
+  <div style="font-family:'Courier Prime',monospace;font-size:0.72rem;letter-spacing:0.04em;text-align:center;color:#8a8070;background:#1a1714;padding:18px 24px;line-height:1.7;">
+    Meliorism 2.0 is a research instrument and daily briefing published by
+    <a href="https://brianoney.com" style="color:#c8a87a;text-decoration:none;">Brian Oney</a> ·
+    <a href="https://melioristgroup.com" style="color:#c8a87a;text-decoration:none;">Meliorist Group</a>,
+    San Francisco.
+  </div>
 </body>
 </html>

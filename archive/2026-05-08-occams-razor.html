@@ -6,7 +6,7 @@
 <!-- meliorism2:dimension: Brave Spaces -->
 <!-- meliorism2:sources: 10 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-weather="clarity">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -412,7 +412,56 @@ html,body{height:100%;background:var(--wood-d);color:var(--ink);overflow:hidden;
   .comp-main,.comp-contre,.comp-nature,.comp-story,.comp-bib,.comp-signal,.comp-gear{transform:none;}
   .content-panel{order:2;overflow-y:auto;padding-bottom:80px;}
 }
+
+.weather-block{margin:28px 0 4px;padding:16px 18px;background:rgba(128,128,128,0.05);border:1px solid rgba(128,128,128,0.1);border-radius:10px;}
+.weather-chip{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{font-size:0.72rem;opacity:0.55;letter-spacing:0.04em;font-style:italic;}
+.weather-onboard{font-size:0.68rem;opacity:0.38;line-height:1.55;max-width:380px;}
+
+.footer-bar{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:40px;background:var(--bg,#fff);border-top:1px solid var(--border,rgba(128,128,128,0.15));display:flex;align-items:center;justify-content:center;gap:22px;font-size:0.8rem;letter-spacing:2px;transition:opacity 0.3s;}
+.footer-bar.hidden{display:none;}
+.footer-bar a{color:var(--accent,#888);text-decoration:none;border:none;}
+.footer-bar a:hover{opacity:0.7;background:transparent;}
+.footer-sep{opacity:0.3;}
 </style>
+  <!-- m2-seo -->
+  <meta name="description" content="Occam&#x27;s Razor — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <link rel="canonical" href="https://meliorism2.com/archive/2026-05-08-occams-razor.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Occam&#x27;s Razor">
+  <meta property="og:description" content="Occam&#x27;s Razor — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <meta property="og:url" content="https://meliorism2.com/archive/2026-05-08-occams-razor.html">
+  <meta property="og:site_name" content="Meliorism 2.0">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Occam's Razor",
+    "name": "Meliorism2.com · Issue 008 · Occam's Razor",
+    "url": "https://meliorism2.com/archive/2026-05-08-occams-razor.html",
+    "mainEntityOfPage": "https://meliorism2.com/archive/2026-05-08-occams-razor.html",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Brian Oney",
+      "url": "https://brianoney.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Meliorist Group",
+      "url": "https://melioristgroup.com"
+    },
+    "isPartOf": {
+      "@type": "CreativeWorkSeries",
+      "name": "Meliorism 2.0",
+      "url": "https://meliorism2.com"
+    },
+    "datePublished": "2026-05-08",
+    "articleSection": "Issue 8"
+  }
+  </script>
 </head>
 <body>
 
@@ -466,7 +515,14 @@ html,body{height:100%;background:var(--wood-d);color:var(--ink);overflow:hidden;
       FAILURE MODE: Boeing 737 MAX · Yellowstone wolves<br>
       CONTRAST: Cynefin, Systems Thinking, Evolution
     </div>
-    <button class="e-btn" onclick="openBench()">TAKE UP THE RAZOR &nbsp;→</button>
+    <div class="weather-block">
+  <div class="weather-chip">
+    <span class="weather-emoji">🌤️</span>
+    <span class="weather-label">Emotional weather: open and clear · fresh seeing</span>
+  </div>
+  <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — that open, clear-sky quality — the moment when the ground is visible and the path can be seen — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
+</div>
+      <button class="e-btn" onclick="openBench()">TAKE UP THE RAZOR &nbsp;→</button>
   </div>
 
 </section>
@@ -814,5 +870,26 @@ window._sosToggleListen=function(){
   setInterval(updateProg,2000);
 })();
 </script>
+<section id="card-delight" style="max-width:700px;margin:48px auto;padding:32px 24px;">
+  <span style="display:inline-block;margin-bottom:12px;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;">§ · The Delight</span>
+  <h2 style="margin-bottom:1.2rem;">The Man Who Weighed the Soul</h2>
+  <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(128,128,128,0.12);text-align:center;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;">Meliorism2.com · Daily briefings for practitioners</div>
+</section>
+
+<div class="footer-bar">
+  <a href="/archive/index.html">&#8592; LIBRARY</a>
+  <span class="footer-sep">·</span>
+  <a href="/weather.html">WEATHER</a>
+  <span class="footer-sep">·</span>
+  <a href="/" id="footer-home">HOME</a>
+</div>
+
+  <!-- m2-seo -->
+  <div style="font-family:'Courier Prime',monospace;font-size:0.72rem;letter-spacing:0.04em;text-align:center;color:#8a8070;background:#1a1714;padding:18px 24px;line-height:1.7;">
+    Meliorism 2.0 is a research instrument and daily briefing published by
+    <a href="https://brianoney.com" style="color:#c8a87a;text-decoration:none;">Brian Oney</a> ·
+    <a href="https://melioristgroup.com" style="color:#c8a87a;text-decoration:none;">Meliorist Group</a>,
+    San Francisco.
+  </div>
 </body>
 </html>

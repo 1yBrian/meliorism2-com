@@ -7,7 +7,7 @@
 <!-- meliorism2:sources: 7 -->
 <!-- meliorism2:architecture: horizontal-swipe -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-weather="integrate">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -996,7 +996,49 @@ a:hover{background:rgba(139,111,71,0.06);}
   h1{font-size:1.9rem;}
   h2{font-size:1.4rem;}
 }
+
+.weather-block{margin:28px 0 4px;padding:16px 18px;background:rgba(128,128,128,0.05);border:1px solid rgba(128,128,128,0.1);border-radius:10px;}
+.weather-chip{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;}
+.weather-emoji{font-size:1.1rem;line-height:1;}
+.weather-label{font-size:0.72rem;opacity:0.55;letter-spacing:0.04em;font-style:italic;}
+.weather-onboard{font-size:0.68rem;opacity:0.38;line-height:1.55;max-width:380px;}
 </style>
+  <!-- m2-seo -->
+  <meta name="description" content="The Barograph — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <link rel="canonical" href="https://meliorism2.com/archive/2026-05-25-the-barograph.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Barograph">
+  <meta property="og:description" content="The Barograph — an issue of Meliorism 2.0, the daily research-grounded briefing by Brian Oney (Meliorist Group) for trainers, coaches, and educators.">
+  <meta property="og:url" content="https://meliorism2.com/archive/2026-05-25-the-barograph.html">
+  <meta property="og:site_name" content="Meliorism 2.0">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Barograph",
+    "name": "Meliorism2.com · The Barograph",
+    "url": "https://meliorism2.com/archive/2026-05-25-the-barograph.html",
+    "mainEntityOfPage": "https://meliorism2.com/archive/2026-05-25-the-barograph.html",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Brian Oney",
+      "url": "https://brianoney.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Meliorist Group",
+      "url": "https://melioristgroup.com"
+    },
+    "isPartOf": {
+      "@type": "CreativeWorkSeries",
+      "name": "Meliorism 2.0",
+      "url": "https://meliorism2.com"
+    },
+    "datePublished": "2026-05-25"
+  }
+  </script>
 </head>
 <body>
 
@@ -1025,7 +1067,14 @@ a:hover{background:rgba(139,111,71,0.06);}
     </div>
     <h1 class="entry-title">The<br>Barograph</h1>
     <p class="entry-sub">The instrument is already running. The question is whether you've learned to read it.</p>
-    <button class="entry-enter" onclick="openMain()">Read the instrument →</button>
+    <div class="weather-block">
+  <div class="weather-chip">
+    <span class="weather-emoji">🌿</span>
+    <span class="weather-label">Emotional weather: assimilation · slow meaning-making</span>
+  </div>
+  <p class="weather-onboard">Every issue has an emotional frequency. Check yours before you read. If this one matches — that slow-composting quality — the work of making meaning from what has already happened, the integration that cannot be rushed — it was written for a day like today. If your weather is different, the library holds issues for turbulence, urgency, depletion, and everything in between. Find the one that meets you where you actually are. Your clients are somewhere on that same map right now too.</p>
+</div>
+      <button class="entry-enter" onclick="openMain()">Read the instrument →</button>
   </div>
 </div>
 
@@ -1488,7 +1537,15 @@ a:hover{background:rgba(139,111,71,0.06);}
       </div>
     </div>
 
-  </div><!-- /sections-rail -->
+  </div>
+
+<div class="card" id="card-delight">
+  <div class="card-inner">
+    <span class="section-number" style="display:inline-block;margin-bottom:12px;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;">§ · The Delight</span>
+    <h2 style="margin-bottom:1.2rem;">The Pianist Who Tuned the Room</h2>
+    <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(128,128,128,0.12);text-align:center;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;">Meliorism2.com · Daily briefings for practitioners</div>
+  </div>
+</div><!-- /sections-rail -->
 
   <!-- PROGRESS + NAV -->
   <div class="reading-progress" id="reading-progress">
@@ -1505,9 +1562,11 @@ a:hover{background:rgba(139,111,71,0.06);}
 
 <!-- FOOTER BAR -->
 <div class="footer-bar">
-  <a href="/archive/index.html">← THE LIBRARY</a>
+  <a href="/archive/index.html">&#8592; LIBRARY</a>
   <span class="footer-sep">·</span>
-  <span style="color:var(--accent);">TODAY'S BRIEFING ← CURRENT</span>
+  <a href="/weather.html">WEATHER</a>
+  <span class="footer-sep">·</span>
+  <a href="/" id="footer-home">HOME</a>
 </div>
 
 <script>
@@ -1539,8 +1598,8 @@ function openMain(){
 }
 
 /* ── CARD NAVIGATION ── */
-const CARDS=['signal','phenomenon','evidence','concept','edge-cases','etymology','application'];
-const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','Etymology','Application'];
+const CARDS=['signal','phenomenon','evidence','concept','edge-cases','etymology','application','delight'];
+const CARD_TITLES=['The Signal','The Phenomenon','The Evidence','The Concept','Edge Cases','Etymology','Application','The Delight'];
 let currentCard=0;
 
 function goTo(index){
@@ -1694,5 +1753,13 @@ document.addEventListener('click',e=>{
   }
 });
 </script>
+
+  <!-- m2-seo -->
+  <div style="font-family:'Courier Prime',monospace;font-size:0.72rem;letter-spacing:0.04em;text-align:center;color:#8a8070;background:#1a1714;padding:18px 24px;line-height:1.7;">
+    Meliorism 2.0 is a research instrument and daily briefing published by
+    <a href="https://brianoney.com" style="color:#c8a87a;text-decoration:none;">Brian Oney</a> ·
+    <a href="https://melioristgroup.com" style="color:#c8a87a;text-decoration:none;">Meliorist Group</a>,
+    San Francisco.
+  </div>
 </body>
 </html>
