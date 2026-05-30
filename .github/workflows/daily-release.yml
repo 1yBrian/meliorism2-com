@@ -10,6 +10,10 @@ on:
         description: 'Override date (YYYY-MM-DD) — leave blank for today'
         required: false
         default: ''
+      force:
+        description: 'Set "true" to publish even if editor_review blocks (USE WITH CARE)'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
@@ -23,26 +27,63 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Locate today's archive file
+        id: locate
+        run: |
+          DATE="${{ github.event.inputs.date_override }}"
+          if [ -z "$DATE" ]; then DATE=$(date -u +%Y-%m-%d); fi
+          FILE=$(ls archive/${DATE}-*.html 2>/dev/null | grep -E "archive/[0-9]{4}-[0-9]{2}-[0-9]{2}-.+\.html$" | head -1)
+          if [ -z "$FILE" ]; then
+            echo "no_archive=true" >> $GITHUB_OUTPUT
+            echo "::warning::No archive file for $DATE. Site stays on yesterday's issue."
+            exit 0
+          fi
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+          echo "Found: $FILE"
+
+      - name: Editor review (HARD gate)
+        id: editor
+        if: steps.locate.outputs.no_archive != 'true'
+        run: python3 _engine/scripts/editor_review.py "${{ steps.locate.outputs.file }}" --skip-links
+        continue-on-error: true
+
+      - name: Refuse to publish if editor blocked
+        if: steps.locate.outputs.no_archive != 'true' && steps.editor.outcome != 'success' && github.event.inputs.force != 'true'
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          MSG="🛑 Meliorism2 ${{ steps.locate.outputs.date }}: editor_review BLOCKED publish of ${{ steps.locate.outputs.file }}. Site stays on prior issue. Fix and re-run, or trigger workflow_dispatch with force=true. https://github.com/1yBrian/meliorism2-com/actions"
+          if [ -n "$TELEGRAM_TOKEN" ]; then
+            curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
+              -d chat_id=8497163817 --data-urlencode text="$MSG"
+          fi
+          echo "$MSG"
+          exit 1
+
       - name: Release today's issue
-        run: python3 .github/scripts/daily_release.py "${{ github.event.inputs.date_override }}"
+        if: steps.locate.outputs.no_archive != 'true'
+        run: python3 .github/scripts/daily_release.py "${{ steps.locate.outputs.date }}"
 
       - name: Regenerate sitemap.xml
+        if: steps.locate.outputs.no_archive != 'true'
         run: python3 _engine/scripts/generate_sitemap.py
 
       - name: Regenerate feed.xml
+        if: steps.locate.outputs.no_archive != 'true'
         run: python3 _engine/scripts/generate_rss.py
 
       - name: No-paid-API guard
         run: python3 _engine/scripts/no_anthropic_in_cron.py
 
       - name: Commit and push if anything changed
+        if: steps.locate.outputs.no_archive != 'true'
         run: |
           git config user.name "Meliorism2 Bot"
           git config user.email "dispatch@meliorism2.com"
           git add index.html sitemap.xml feed.xml
           if ! git diff --quiet --cached; then
             git commit -m "Daily release: $(cat /tmp/release_slug 2>/dev/null || date -u +%Y-%m-%d) [automated]"
-            # Race-safety: rebase in case Brian deployed via deploy-api.sh in parallel
             git pull --rebase origin main || true
             git push
             echo "✓ Pushed — Cloudflare deploying"

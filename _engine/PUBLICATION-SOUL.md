@@ -211,80 +211,62 @@ That is the standard. Every issue. Every day.
 
 ---
 
-## Issue Standard — The Bar (added v1.2)
-*Every new issue meets this bar before it ships. Pre-flight validates every line item deterministically. Past issues grandfather; the standard applies forward from 2026-05-31.*
+## Issue Standard — Source-of-Truth Pointer (v1.3)
+*This file is the soul. The bar is enforced by `editor_review.py`, which reads every law from the source documents below. Editing those documents updates the bar. Past issues grandfather; the standard applies forward from 2026-05-31.*
 
-### Structure
+### Source documents (read in this order)
 
-1. **One unified theme.** The issue names a single mechanism the practitioner can take into their next session.
-2. **Six article-equivalent screens.** Each is a distinct perspective or energy on the theme:
-   - Framework / mechanism naming
-   - Research anchors (with sources)
-   - Practitioner application — how-to in real time
-   - Case or scene — one practitioner, one moment
-   - Historical or contextual ground — why this developed
-   - Edge / complication — where the mechanism fails or stretches
-3. **One delight extra.** A 7th screen that breaks format — a poem, an image essay, a single question held without answer, a micro-meditation, or a footnote that opens a door. Never instructional. The piece that earns the reader's return.
-4. **Closing citations block.** Numbered. Every footnote `[N]` in the body resolves to an entry. Every claim sourced. Format: `[N] Author, Title (Year). URL.` Link to original where available.
+1. **`PUBLICATION-SOUL.md`** (this file) — the three non-negotiables (feel seen, language for tomorrow, remind why they matter), the architect frame, the Reader, the Voice.
+2. **`08 - The Intermodal Hub/Meliorism2 (Formally Signal-OS)/MELIORISM2-DIRECTIVE.md`** — the governing publication doc: 12 dimensions, format library, no-repetition rules, editorial calendar, image pipeline, typography Ogilvy standard, the 9-phase agent pipeline, navigation architecture (§14), navigation standard (§16), scoring (§15), and the 24-row Permanent Rules table (§11).
+3. **`_engine/DESIGN-ENGINE.md`** — the generative system: Law of Earned Advance, Law of Real Delight, Law of the Generous Wrong, Law of Role Elevation, four Generative Layers (Atmosphere · Container · Interaction · Delight), 15+ Interaction Primitives, 7 Weather Gradients (with "darkness is earned, never default"), Uniqueness Guarantee, HARD TYPOGRAPHY FLOOR (0.8rem).
+4. **`_engine/DESIGN-LEDGER.md`** — one row per issue. Every issue must have a fully-populated row before it ships: weather · archetype · container · primitive · primary hue. Collision rules enforced: no identical (container × primitive) ever; no same hue in rolling 7-issue window; no same container family in rolling 14; no same archetype as immediately prior issue.
+5. **`_engine/LEARNING-LOG.md`** — accumulating wisdom. Hall of Fame, Rewrite Queue, Design Notes (Flagged + Earned), Voice Drift Watch. `editor_review.py` reads "Flagged" entries and applies them as live checks.
+6. **`08 - The Intermodal Hub/Meliorism2 (Formally Signal-OS)/PHOTO-PROTOCOL.md`** — the image standard: Tier 1 generated art is the default; Tier 2 Unsplash documentary realism is the exception. Attribution, local file, UTM, rate limit. The alignment law (image = weather). The readability law (words always win).
+7. **`_engine/PIPELINE.md`** — the 9-phase agent chain. The deploy gate (Phase 9) requires every prior artifact present.
 
-### Voice + truth
+### Compliance gate map — what enforces what
 
-5. **Three non-negotiables satisfied** (per The Mission section above): make the reader feel seen, give them language for tomorrow, remind them why they matter. Miss one → rewrite.
-6. **Voice register matches the architect framing.** Conditions, not decisions. No "what to do" — "what to build so they can do."
-7. **Help Rule honored.** No "help/helped/helping" anywhere unless inside a quoted source.
-8. **Truth gate clean.** Deterministic `truth_lint.py` passes (no banned promises, no over-claims, no future-dated studies, no unsourced superlatives). The Anthropic-powered `truth_agent.py` runs only when Brian invokes it in chat — never in cron.
+| Gate (deterministic) | Source document | Block on fail? |
+|----------------------|-----------------|----------------|
+| `image_check.py` — every image ref resolves | PHOTO-PROTOCOL | HARD |
+| `citation_check.py` — closing block + footnote integrity | PIPELINE Phase 7 Iron Law | HARD |
+| `ledger_check.py` — DESIGN-LEDGER row complete + uniqueness | DESIGN-LEDGER + DESIGN-ENGINE Uniqueness Guarantee | HARD |
+| `typography_floor.py` — no font-size below 0.8rem | DESIGN-ENGINE HARD TYPOGRAPHY FLOOR + MELIORISM2-DIRECTIVE §7d | HARD |
+| `palette_check.py` — dark backgrounds declared + justified | LEARNING-LOG (Black-default flagged) + DESIGN-ENGINE 7 Weathers | HARD |
+| `truth_lint.py` — banned promises / over-claims / future studies | CLAUDE.md Recurring Issues table | HARD |
+| `unsplash_url_check.py` — no hotlinked CDN URLs | PHOTO-PROTOCOL Rule 2 | HARD |
+| `photo_check.py` — Unsplash attribution complete | PHOTO-PROTOCOL Rule 1 | HARD |
+| `help_rule_check.py` — Help Rule | CLAUDE.md Lexicon Rules | HARD |
+| `cta_check.py` — contextual entry CTA, "READ →" banned | MELIORISM2-DIRECTIVE §2 + §11 | SOFT |
+| `voice_drift_check.py` — LEARNING-LOG Voice Drift Watch patterns | LEARNING-LOG §Voice Drift Watch | SOFT |
+| `section_title_score.py` — non-blog title scoring | MELIORISM2-DIRECTIVE §15 | SOFT |
+| `link_check.py` — no dead external links | L5 hygiene | SOFT |
 
-### Visual + interactive
+`editor_review.py` wraps all of the above. Exit 0 = ready. Exit 1 = blocked (hard gate failed). Exit 2 = regression (hard pass, soft warn).
 
-9. **Hero image** with full Unsplash attribution markup per `PHOTO-PROTOCOL.md`: "Photo by NAME on Unsplash" with two clickable links and `utm_source=meliorism2` on at least one. Locally-hosted, never hotlinked.
-10. **AV config declared in metadata comments**: `<!-- meliorism2:av-mode: <mode> -->` and `<!-- meliorism2:av-palette: <palette> -->`. Background engine loads from `/_engine/av/engine.js` (shared, cached). Audio default off. Reduced-motion respected.
-11. **Image budget.** Hero ≤300KB optimized WebP. Inline images ≤150KB each. Total page weight target ≤1.5MB.
+### Subjective gates — not deterministic, require a chat session
 
-### Schema + SEO + AEO
+These cannot be enforced by cron. They require Brian or a Claude agent to read the issue and judge:
 
-12. **Per-issue Article schema** (already present): headline, datePublished, author, image, mainEntityOfPage.
-13. **FAQPage schema** with 3–5 Q&A distilled from the day's theme. Each answer ≤80 words, sourced from the body. High-value AEO surface.
-14. **Canonical** matches the URL the homepage links to. Extensionless if the deploy strips `.html`, with-extension if it doesn't. One shape, everywhere.
-15. **Static-DOM-first.** Every article's prose lives in the initial HTML response. Swipes are presentation, not content source. AI crawlers must see everything without executing JS.
+- **Three non-negotiables** (Mission section) — feel seen / language for tomorrow / remind why they matter
+- **The Agitator brief** (MELIORISM2-DIRECTIVE §3.5 / DESIGN-ENGINE Earned Advance) — what does the reader DO besides read?
+- **The screenshot test** — does the entry screen look worth screenshotting at thumbnail size?
+- **Voice match to the architect frame** (LEARNING-LOG Voice Drift Watch) — beyond pattern matching, the register itself
+- **Real Delight test** — would a tired practitioner feel given to?
+- **Earned palette content match** — even if dark is declared, does the subject genuinely earn dark?
 
-### Accessibility
+These run as Phase 5 / Phase 6 review sessions, not as cron gates.
 
-16. **WCAG AA color contrast.** Body text ≥4.5:1.
-17. **Reduced-motion media query respected.** AV background pauses/simplifies for users who prefer reduced motion.
-18. **ARIA labels** on all AV controls (play, pause, mute, swipe forward/back).
-19. **Keyboard navigable** — every interactive element reachable by Tab.
+### Where the gate runs
 
-### Metadata block (required at top of every issue)
+- **8 PM PT night before** — `preflight.py` (= `editor_review.py` minus link check). Telegram on fail.
+- **4 AM PT release** — `daily-release.yml` runs `editor_review.py` again; on hard fail, refuses to publish and stays on yesterday's issue. Workflow can be re-run with `force=true` if Brian deliberately overrides.
+- **4:15 AM PT** — `monitor.py` verifies the live site shows today's slug (heartbeat).
+- **Anytime** — Brian can run `python3 _engine/scripts/editor_review.py archive/YYYY-MM-DD-*.html` locally.
 
-```
-<!-- meliorism2:slug: <kebab-case> -->
-<!-- meliorism2:date: YYYY-MM-DD -->
-<!-- meliorism2:issue: NNN -->
-<!-- meliorism2:title: <Display Title> -->
-<!-- meliorism2:dimension: <dimension name from topic taxonomy> -->
-<!-- meliorism2:format: <format name from FORMAT-CONTENT-PAIRINGS.md> -->
-<!-- meliorism2:architecture: horizontal-swipe -->
-<!-- meliorism2:concept: <one-sentence concept for homepage card> -->
-<!-- meliorism2:reading-time: <N> min -->
-<!-- meliorism2:reviewer: <name or "unreviewed"> -->
-<!-- meliorism2:av-mode: <mode key or "none"> -->
-<!-- meliorism2:av-palette: <palette key> -->
-```
+### What this replaces
 
-### Pre-flight gate (runs at 8 PM PT night before release)
-
-`python3 _engine/scripts/preflight.py` runs sequentially:
-1. `citation_check.py` — closing block present; every footnote resolved
-2. `photo_check.py` — Unsplash attribution complete
-3. `truth_lint.py` — no banned phrases, no over-claims
-4. `link_check.py` — no dead links
-
-Any failure → Telegram alert with specifics → Brian has overnight to fix → cron at 4 AM PT ships.
-If no archive file for tomorrow → evergreen reserve auto-promotes.
-
-### Live verification (runs at 4:15 AM PT after cron)
-
-`python3 _engine/scripts/monitor.py` fetches the live homepage, compares featured slug to today's expected slug, Telegrams the result. Heartbeat every day, success or fail — silence means the monitor itself is down.
+Earlier versions of this section duplicated standards from MELIORISM2-DIRECTIVE.md and DESIGN-ENGINE.md. That created drift risk — two copies, only one can be right. This version is a pointer. The source documents are the source of truth. The `editor_review.py` gate map is the contract between the source documents and the cron path.
 
 ---
 
@@ -292,4 +274,5 @@ If no archive file for tomorrow → evergreen reserve auto-promotes.
 
 | Version | Date | Change | Prompted by |
 |---------|------|--------|-------------|
-| 1.2 | 2026-05-30 | Issue Standard appended — 19-point bar, pre-flight gate, live verification | Brian directive: "fix the whole system... meets my high expectations... no API charge is ever needed" |
+| 1.2 | 2026-05-30 | Issue Standard appended (19-point bar — withdrawn in v1.3) | Brian directive: "fix the whole system... meets my high expectations... no API charge is ever needed" |
+| 1.3 | 2026-05-30 | Issue Standard rewritten as pointer to MELIORISM2-DIRECTIVE + DESIGN-ENGINE + DESIGN-LEDGER + LEARNING-LOG + PHOTO-PROTOCOL. Compliance gate map added. `editor_review.py` wired into release pipeline as HARD block. | Brian: "we fixed a glitch but not the system" — and naming "page one earned black" as a missing design law that was already in LEARNING-LOG and never enforced. |

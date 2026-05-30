@@ -1,28 +1,23 @@
 #!/usr/bin/env python3
 """preflight.py — Pre-release validator. Runs every night at 8 PM PT.
 
-Targets the NEXT day's archive file by default (i.e. tomorrow's UTC date).
-Runs every deterministic gate against it. If any fail, prints specifics and
-exits 1 — the workflow then alerts via Telegram.
+Targets the NEXT day's archive file by default. Runs the full editorial review.
 
-If no archive file exists for tomorrow, exits 2 (separate signal — "no issue
-prepared" — so monitor can promote an evergreen reserve).
+  exit 0 — ready (every gate passed)
+  exit 1 — blocked (at least one HARD gate failed; human action needed)
+  exit 2 — regression (HARD pass, SOFT warn — ships but flagged)
+  exit 3 — NO_ARCHIVE (no file for tomorrow; evergreen reserve should promote)
+
+If exit 1 or 2 or 3, the workflow telegrams Brian.
 
 Usage:
     python3 _engine/scripts/preflight.py [YYYY-MM-DD]
 """
-import sys, subprocess, pathlib, glob, re
+import sys, subprocess, pathlib, re
 from datetime import datetime, timezone, timedelta
 
 REPO = pathlib.Path(__file__).resolve().parents[2]
 SCRIPTS = REPO / "_engine" / "scripts"
-
-GATES = [
-    ("citation_check.py", "Citations"),
-    ("photo_check.py",    "Photo attribution"),
-    ("truth_lint.py",     "Truth (deterministic)"),
-    ("link_check.py",     "External links"),
-]
 
 def find_archive(date_str: str) -> pathlib.Path | None:
     matches = list((REPO / "archive").glob(f"{date_str}-*.html"))
@@ -30,29 +25,18 @@ def find_archive(date_str: str) -> pathlib.Path | None:
     return sorted(matches)[0] if matches else None
 
 def main():
-    date_str = sys.argv[1] if len(sys.argv) > 1 else (datetime.now(timezone.utc) + timedelta(days=1)).strftime("%Y-%m-%d")
+    date_str = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1].strip() else (
+        datetime.now(timezone.utc) + timedelta(days=1)
+    ).strftime("%Y-%m-%d")
     print(f"Pre-flight target: {date_str}")
     arch = find_archive(date_str)
     if not arch:
-        print(f"NO_ARCHIVE: no file for {date_str}. Evergreen reserve will be promoted.")
-        sys.exit(2)
-    print(f"Checking: {arch.relative_to(REPO)}")
-    failed = []
-    for script, label in GATES:
-        path = SCRIPTS / script
-        if not path.exists():
-            print(f"  [{label}] script missing — skipped"); continue
-        result = subprocess.run(["python3", str(path), str(arch)], capture_output=True, text=True)
-        print(f"--- {label} ---")
-        print(result.stdout, end="")
-        if result.stderr: print(result.stderr, end="")
-        if result.returncode != 0:
-            failed.append(label)
-    if failed:
-        print(f"\nPRE-FLIGHT FAIL: {', '.join(failed)}")
-        sys.exit(1)
-    print("\nPRE-FLIGHT PASS — ready for release.")
-    sys.exit(0)
+        print(f"NO_ARCHIVE: no file for {date_str}. Evergreen reserve should promote.")
+        sys.exit(3)
+    print(f"Checking: {arch.relative_to(REPO)}\n")
+    # Run the full editor review
+    result = subprocess.run(["python3", str(SCRIPTS / "editor_review.py"), str(arch), "--skip-links"])
+    sys.exit(result.returncode)
 
 if __name__ == "__main__":
     main()

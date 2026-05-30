@@ -15,7 +15,9 @@ import re, sys, pathlib
 
 UTM_REQUIRED = "utm_source"
 UNSPLASH_HOST_PATTERN = re.compile(r'unsplash\.com|images\.unsplash\.com', re.IGNORECASE)
-ATTRIBUTION_PATTERN = re.compile(r'Photo\s+by\s+[^<\n]+?\s+on\s+(?:<a[^>]+>)?Unsplash', re.IGNORECASE)
+# Photographer name may be wrapped in <a>...</a>, so accept any non-newline chars (up to 200)
+# between "by" and "on Unsplash". Allow <a> tag around "Unsplash" itself.
+ATTRIBUTION_PATTERN = re.compile(r'Photo\s+by\s+[^\n]{1,200}?\s+on\s+(?:<a[^>]+>)?Unsplash', re.IGNORECASE)
 
 def main():
     if len(sys.argv) < 2:
