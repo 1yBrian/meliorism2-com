@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Meliorism2 AV Engine — Proof</title>
+<!-- meliorism2:av-mode: friction -->
+<!-- meliorism2:av-intensity: subtle -->
+<!-- meliorism2:av-audio: drone -->
+<!-- meliorism2:av-palette: amber -->
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{min-height:100%;background:#0a0805;color:#f0e9d8;font-family:'Crimson Text',Georgia,serif;line-height:1.7;}
+  .wrap{max-width:680px;margin:0 auto;padding:120px 32px 200px;position:relative;z-index:2;}
+  h1{font-size:clamp(2.6rem,6vw,4.4rem);font-weight:600;letter-spacing:-0.02em;line-height:1.05;margin-bottom:24px;color:#f5e6c4;}
+  .kicker{font-family:'Courier Prime',monospace;font-size:0.85rem;letter-spacing:0.18em;text-transform:uppercase;color:#e8b86d;margin-bottom:32px;}
+  p{font-size:1.15rem;margin-bottom:22px;color:rgba(240,233,216,0.88);}
+  p.sub{font-style:italic;font-size:1.3rem;color:rgba(240,233,216,0.78);margin-bottom:38px;}
+  .mode-switch{margin:60px 0 40px;padding:24px;background:rgba(0,0,0,0.42);border:1px solid rgba(232,184,109,0.22);border-radius:12px;backdrop-filter:blur(8px);}
+  .mode-switch label{display:block;font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;color:#e8b86d;margin-bottom:14px;}
+  .mode-switch button{display:inline-block;margin:4px 6px 4px 0;padding:8px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(232,184,109,0.3);color:#f0e9d8;border-radius:999px;cursor:pointer;font-family:'Courier Prime',monospace;font-size:0.8rem;letter-spacing:0.06em;transition:all 0.2s ease;}
+  .mode-switch button:hover{background:rgba(232,184,109,0.18);border-color:rgba(232,184,109,0.6);}
+  .mode-switch button.active{background:rgba(232,184,109,0.28);border-color:#e8b86d;color:#fff;}
+  .placeholder-mark{display:inline-block;font-size:0.65rem;color:rgba(232,184,109,0.6);margin-left:6px;font-style:italic;}
+  .notes{margin-top:50px;padding:24px;background:rgba(0,0,0,0.4);border-left:3px solid #e8b86d;border-radius:0 8px 8px 0;font-size:0.95rem;}
+  .notes h3{font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;color:#e8b86d;margin-bottom:10px;}
+  .notes ul{padding-left:18px;}
+  .notes li{margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Meliorism2 · AV Engine · Proof</div>
+  <h1>This is what a publication feels like.</h1>
+  <p class="sub">Not a blog with a header image. A room you walk into.</p>
+
+  <p>Behind these words, a quiet weather is happening. Heat blobs orbit slow Lissajous paths. Every ~38 seconds one of them pulses — pressure releasing without warning, without strobing, without asking for your attention. The motion is felt, not noticed.</p>
+
+  <p>Audio is off by default. You enabled nothing. You opted into nothing. Try the toggle in the bottom right when you're ready — a single low drone that won't interrupt your reading. Or don't. The atmosphere works without it.</p>
+
+  <p>If your operating system requests reduced motion, the engine respected that at boot. A single static frame is rendered. You can opt back in.</p>
+
+  <div class="mode-switch" id="mode-switch">
+    <label>Switch weather (live preview)</label>
+    <button data-mode="friction" class="active">friction</button>
+    <button data-mode="clarity">clarity <span class="placeholder-mark">placeholder</span></button>
+    <button data-mode="surge">surge <span class="placeholder-mark">placeholder</span></button>
+    <button data-mode="threshold">threshold <span class="placeholder-mark">placeholder</span></button>
+    <button data-mode="solidarity">solidarity <span class="placeholder-mark">placeholder</span></button>
+    <button data-mode="fog">fog <span class="placeholder-mark">placeholder</span></button>
+    <button data-mode="delight">delight <span class="placeholder-mark">placeholder</span></button>
+  </div>
+
+  <div class="notes">
+    <h3>What you're experiencing</h3>
+    <ul>
+      <li><b>Mode:</b> Friction — "pressure about to release"</li>
+      <li><b>Palette:</b> amber on warm-dark base, per DESIGN-ENGINE weather gradient</li>
+      <li><b>Motion:</b> 4 heat blobs on slow Lissajous orbits (~40–60s periods), one pulse every ~38s per blob</li>
+      <li><b>Audio:</b> off until you toggle it. Single drone at 82Hz, low-pass filtered, 3s fade-in</li>
+      <li><b>Accessibility:</b> reduced-motion respected, controls keyboard-reachable, ARIA-labeled</li>
+      <li><b>Performance:</b> 5 draw calls per frame, ~1ms paint time, pauses when tab hidden</li>
+    </ul>
+  </div>
+
+  <div class="notes">
+    <h3>The 6 placeholder modes need full implementations</h3>
+    <ul>
+      <li>Each is currently a static gradient — just enough to show the dispatch works</li>
+      <li>Next builds: <b>Solidarity</b> (warm green field for practitioner-to-practitioner issues), then <b>Clarity</b>, then <b>Threshold</b></li>
+      <li>Per the DESIGN-LEDGER uniqueness guarantee: each issue's weather must not repeat the prior issue's archetype</li>
+    </ul>
+  </div>
+</div>
+
+<script type="module">
+  import { boot } from "/av/engine.js";
+
+  // Mode switcher — rewrites the meta comment, then reloads engine state
+  document.getElementById("mode-switch").addEventListener("click", async (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    document.querySelectorAll("#mode-switch button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    // Update the metadata comment in <head> and re-boot the engine
+    const mode = btn.dataset.mode;
+    document.title = `Meliorism2 AV — ${mode}`;
+    // Cheap re-init: remove the canvas + controls, then re-boot
+    document.querySelectorAll("#av-canvas, #av-controls").forEach(n => n.remove());
+    // Patch the head meta comment in place
+    const html = document.head.innerHTML.replace(/meliorism2:av-mode:\s*[\w-]+/, `meliorism2:av-mode: ${mode}`);
+    document.head.innerHTML = html;
+    await boot();
+  });
+</script>
+</body>
+</html>
