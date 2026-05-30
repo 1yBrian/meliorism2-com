@@ -2,9 +2,8 @@ name: Daily Issue Release
 
 on:
   schedule:
-    # 08:00 UTC = midnight PST (UTC-8) / 1 AM PDT (UTC-7 in summer)
-    # Brian's target: midnight PST. Note: during PDT (Mar–Nov) this fires at 1 AM local.
-    - cron: '0 8 * * *'
+    # 4 AM PDT (Mar–Nov) / 3 AM PST (Nov–Mar). UTC doesn't observe DST.
+    - cron: '0 11 * * *'
   workflow_dispatch:
     inputs:
       date_override:
@@ -21,19 +20,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Release today's issue
         run: python3 .github/scripts/daily_release.py "${{ github.event.inputs.date_override }}"
 
-      - name: Commit and push if index.html changed
+      - name: Regenerate sitemap.xml
+        run: python3 _engine/scripts/generate_sitemap.py
+
+      - name: Regenerate feed.xml
+        run: python3 _engine/scripts/generate_rss.py
+
+      - name: No-paid-API guard
+        run: python3 _engine/scripts/no_anthropic_in_cron.py
+
+      - name: Commit and push if anything changed
         run: |
           git config user.name "Meliorism2 Bot"
           git config user.email "dispatch@meliorism2.com"
-          if ! git diff --quiet index.html; then
-            git add index.html
+          git add index.html sitemap.xml feed.xml
+          if ! git diff --quiet --cached; then
             git commit -m "Daily release: $(cat /tmp/release_slug 2>/dev/null || date -u +%Y-%m-%d) [automated]"
+            # Race-safety: rebase in case Brian deployed via deploy-api.sh in parallel
+            git pull --rebase origin main || true
             git push
-            echo "✓ Pushed — Cloudflare Pages deploying now"
+            echo "✓ Pushed — Cloudflare deploying"
           else
-            echo "No change to index.html — nothing to push"
+            echo "No change to index/sitemap/feed — nothing to push"
           fi

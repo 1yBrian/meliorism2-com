@@ -1,0 +1,36 @@
+name: Pre-flight (night before)
+
+on:
+  schedule:
+    # 8 PM PDT / 7 PM PST night before — gives Brian overnight to fix any failure
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Target date (YYYY-MM-DD); defaults to tomorrow'
+        required: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run pre-flight gates
+        id: preflight
+        run: python3 _engine/scripts/preflight.py "${{ inputs.date }}"
+        continue-on-error: true
+
+      - name: Telegram alert on failure or missing archive
+        if: steps.preflight.outcome != 'success'
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          if [ -z "$TELEGRAM_TOKEN" ]; then
+            echo "No TELEGRAM_BOT_TOKEN secret set — skipping alert."
+            exit 0
+          fi
+          MSG="⚠️ Pre-flight failed for tomorrow's Meliorism2 issue. Check GitHub Actions: https://github.com/1yBrian/meliorism2-com/actions"
+          curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
+            -d chat_id=8497163817 \
+            --data-urlencode text="$MSG"
