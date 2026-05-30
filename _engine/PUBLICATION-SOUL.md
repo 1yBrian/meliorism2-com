@@ -208,3 +208,88 @@ That is the standard. Every issue. Every day.
 |---------|------|--------|-------------|
 | 1.0 | 2026-05-27 | Initial constitution written | Session with Brian — core mission articulated |
 | 1.1 | 2026-05-29 | Architect framing added to Reader + Reader Agency sections | Brian: "our audience isn't the watcher or the decision-maker — they are the architect of giving others decisions to make" |
+
+---
+
+## Issue Standard — The Bar (added v1.2)
+*Every new issue meets this bar before it ships. Pre-flight validates every line item deterministically. Past issues grandfather; the standard applies forward from 2026-05-31.*
+
+### Structure
+
+1. **One unified theme.** The issue names a single mechanism the practitioner can take into their next session.
+2. **Six article-equivalent screens.** Each is a distinct perspective or energy on the theme:
+   - Framework / mechanism naming
+   - Research anchors (with sources)
+   - Practitioner application — how-to in real time
+   - Case or scene — one practitioner, one moment
+   - Historical or contextual ground — why this developed
+   - Edge / complication — where the mechanism fails or stretches
+3. **One delight extra.** A 7th screen that breaks format — a poem, an image essay, a single question held without answer, a micro-meditation, or a footnote that opens a door. Never instructional. The piece that earns the reader's return.
+4. **Closing citations block.** Numbered. Every footnote `[N]` in the body resolves to an entry. Every claim sourced. Format: `[N] Author, Title (Year). URL.` Link to original where available.
+
+### Voice + truth
+
+5. **Three non-negotiables satisfied** (per The Mission section above): make the reader feel seen, give them language for tomorrow, remind them why they matter. Miss one → rewrite.
+6. **Voice register matches the architect framing.** Conditions, not decisions. No "what to do" — "what to build so they can do."
+7. **Help Rule honored.** No "help/helped/helping" anywhere unless inside a quoted source.
+8. **Truth gate clean.** Deterministic `truth_lint.py` passes (no banned promises, no over-claims, no future-dated studies, no unsourced superlatives). The Anthropic-powered `truth_agent.py` runs only when Brian invokes it in chat — never in cron.
+
+### Visual + interactive
+
+9. **Hero image** with full Unsplash attribution markup per `PHOTO-PROTOCOL.md`: "Photo by NAME on Unsplash" with two clickable links and `utm_source=meliorism2` on at least one. Locally-hosted, never hotlinked.
+10. **AV config declared in metadata comments**: `<!-- meliorism2:av-mode: <mode> -->` and `<!-- meliorism2:av-palette: <palette> -->`. Background engine loads from `/_engine/av/engine.js` (shared, cached). Audio default off. Reduced-motion respected.
+11. **Image budget.** Hero ≤300KB optimized WebP. Inline images ≤150KB each. Total page weight target ≤1.5MB.
+
+### Schema + SEO + AEO
+
+12. **Per-issue Article schema** (already present): headline, datePublished, author, image, mainEntityOfPage.
+13. **FAQPage schema** with 3–5 Q&A distilled from the day's theme. Each answer ≤80 words, sourced from the body. High-value AEO surface.
+14. **Canonical** matches the URL the homepage links to. Extensionless if the deploy strips `.html`, with-extension if it doesn't. One shape, everywhere.
+15. **Static-DOM-first.** Every article's prose lives in the initial HTML response. Swipes are presentation, not content source. AI crawlers must see everything without executing JS.
+
+### Accessibility
+
+16. **WCAG AA color contrast.** Body text ≥4.5:1.
+17. **Reduced-motion media query respected.** AV background pauses/simplifies for users who prefer reduced motion.
+18. **ARIA labels** on all AV controls (play, pause, mute, swipe forward/back).
+19. **Keyboard navigable** — every interactive element reachable by Tab.
+
+### Metadata block (required at top of every issue)
+
+```
+<!-- meliorism2:slug: <kebab-case> -->
+<!-- meliorism2:date: YYYY-MM-DD -->
+<!-- meliorism2:issue: NNN -->
+<!-- meliorism2:title: <Display Title> -->
+<!-- meliorism2:dimension: <dimension name from topic taxonomy> -->
+<!-- meliorism2:format: <format name from FORMAT-CONTENT-PAIRINGS.md> -->
+<!-- meliorism2:architecture: horizontal-swipe -->
+<!-- meliorism2:concept: <one-sentence concept for homepage card> -->
+<!-- meliorism2:reading-time: <N> min -->
+<!-- meliorism2:reviewer: <name or "unreviewed"> -->
+<!-- meliorism2:av-mode: <mode key or "none"> -->
+<!-- meliorism2:av-palette: <palette key> -->
+```
+
+### Pre-flight gate (runs at 8 PM PT night before release)
+
+`python3 _engine/scripts/preflight.py` runs sequentially:
+1. `citation_check.py` — closing block present; every footnote resolved
+2. `photo_check.py` — Unsplash attribution complete
+3. `truth_lint.py` — no banned phrases, no over-claims
+4. `link_check.py` — no dead links
+
+Any failure → Telegram alert with specifics → Brian has overnight to fix → cron at 4 AM PT ships.
+If no archive file for tomorrow → evergreen reserve auto-promotes.
+
+### Live verification (runs at 4:15 AM PT after cron)
+
+`python3 _engine/scripts/monitor.py` fetches the live homepage, compares featured slug to today's expected slug, Telegrams the result. Heartbeat every day, success or fail — silence means the monitor itself is down.
+
+---
+
+## Version Log addendum
+
+| Version | Date | Change | Prompted by |
+|---------|------|--------|-------------|
+| 1.2 | 2026-05-30 | Issue Standard appended — 19-point bar, pre-flight gate, live verification | Brian directive: "fix the whole system... meets my high expectations... no API charge is ever needed" |
