@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Meliorism2 — World Engine (real 3D)</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--amber:#c8922a;--cream:#f4ead8;--crmut:#b3a892}
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;overflow:hidden;background:#000;
+    font-family:'Crimson Text',Georgia,serif;color:var(--cream);
+    -webkit-user-select:none;user-select:none;touch-action:none}
+  #c{position:fixed;inset:0;display:block;cursor:grab}
+  body.dragging #c{cursor:grabbing}
+
+  /* HUD */
+  #hud{position:fixed;inset:0;pointer-events:none;z-index:20}
+  .corner{position:absolute;width:34px;height:34px;border:2px solid rgba(200,146,42,.5)}
+  .corner.tl{top:18px;left:18px;border-right:0;border-bottom:0}
+  .corner.tr{top:18px;right:18px;border-left:0;border-bottom:0}
+  .corner.bl{bottom:18px;left:18px;border-right:0;border-top:0}
+  .corner.br{bottom:18px;right:18px;border-left:0;border-top:0}
+  .reticle{position:absolute;top:46%;left:50%;width:28px;height:28px;transform:translate(-50%,-50%);opacity:.4}
+  .reticle::before,.reticle::after{content:"";position:absolute;background:rgba(200,146,42,.6)}
+  .reticle::before{left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%)}
+  .reticle::after{top:50%;left:0;right:0;height:1px;transform:translateY(-50%)}
+  #label{position:absolute;top:24px;left:0;right:0;text-align:center;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.3em;color:rgba(200,146,42,.75);text-transform:uppercase}
+  #telem{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.16em;color:rgba(179,168,146,.6);text-transform:uppercase}
+
+  /* FOCUS PANEL */
+  #focus{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:7vh 7vw;
+    opacity:0;pointer-events:none;z-index:40;
+    background:radial-gradient(circle at 50% 45%, rgba(10,7,3,.72), rgba(6,4,1,.93));
+    backdrop-filter:blur(3px);transition:opacity .6s}
+  #focus.open{opacity:1;pointer-events:all}
+  .panel{max-width:640px;transform:translateY(22px) scale(.98);transition:transform .6s cubic-bezier(.22,1,.36,1)}
+  #focus.open .panel{transform:none}
+  .panel .eyebrow{font-family:'Courier Prime',monospace;font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--amber);margin-bottom:20px}
+  .panel h2{font-size:clamp(30px,5vw,46px);font-weight:600;line-height:1.12;margin-bottom:20px}
+  .panel h2 em{font-style:italic;color:var(--amber)}
+  .panel p{font-size:clamp(17px,2.4vw,21px);line-height:1.7;color:var(--crmut);margin-bottom:14px}
+  .panel .back{margin-top:26px;font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#8b6f47;cursor:pointer}
+
+  /* ONBOARD */
+  #onboard{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8vw;
+    background:radial-gradient(circle at 50% 50%, rgba(10,7,3,.55), rgba(3,2,1,.95));transition:opacity .8s}
+  #onboard.gone{opacity:0;pointer-events:none}
+  #onboard .k{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.3em;color:var(--amber);text-transform:uppercase;margin-bottom:24px}
+  #onboard h1{font-size:clamp(28px,5vw,42px);font-weight:600;line-height:1.2;margin-bottom:18px;max-width:740px}
+  #onboard h1 em{font-style:italic;color:var(--amber)}
+  #onboard p{font-size:18px;color:var(--crmut);max-width:520px;line-height:1.6;margin-bottom:32px}
+  #onboard .go{font-family:'Courier Prime',monospace;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:#16110b;background:var(--amber);padding:16px 40px;cursor:pointer;pointer-events:all}
+  #loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:70;background:#0a0703;
+    font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.25em;color:var(--amber);text-transform:uppercase}
+</style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="hud">
+    <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+    <div class="reticle"></div>
+    <div id="label">DRONE · THE PRACTITIONER'S HALL</div>
+    <div id="telem">DRAG TO FLY · ↑ FORWARD · TAP A LIGHT TO READ</div>
+  </div>
+  <div id="focus"><div class="panel">
+    <div class="eyebrow" id="fEye"></div><h2 id="fTitle"></h2><div id="fBody"></div>
+    <div class="back" id="fBack">↩ pull back to the world</div>
+  </div></div>
+  <div id="onboard">
+    <div class="k">Meliorism2 · World Engine · real 3D (Three.js)</div>
+    <h1>You are flying a drone down <em>a hall that was built for you.</em></h1>
+    <p>No screen of text. A real room, lit and deep. Fly into it — the columns are solid, the light is real. The words wait ahead, on the things that hold them.</p>
+    <div class="go" id="enter">Take the controls →</div>
+  </div>
+  <div id="loading">building the hall…</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+/* ============================================================
+   REAL 3D ENGINE — one engine, worlds as DATA.
+   True geometry, lights, shadows, fog, fly camera.
+   A new issue = a new WORLD config. Engine never changes.
+   ============================================================ */
+const WORLD = {
+  label: "DRONE · THE PRACTITIONER'S HALL",
+  hallLength: 90,
+  artifacts: [
+    { z:-10, x:0,    side:'floor', glyph:"📜", tag:"Carved in the end-stone", eyebrow:"What the hall knows",
+      title:"You were never the <em>audience</em>.",
+      body:["Every publication you ever read was written for someone else. The executive. The academic. The coach who already arrived. You learned to translate — to bend what was meant for them toward the pool at 5 a.m.",
+            "This hall was built the other way around. It assumes you. It is the first one that did."] },
+    { z:-26, x:-7.4, side:'left', glyph:"🪧", tag:"A plaque on the wall", eyebrow:"Exhibit one",
+      title:"The hours <em>nobody counts.</em>",
+      body:["The setup before anyone arrives. The conversation in the parking lot. The plan you redrew at midnight because one person needed it different.",
+            "It is not extra. It is the work. The hall runs on it — and so does every room you have ever held."] },
+    { z:-44, x:7.4,  side:'right', glyph:"🗝", tag:"Words on a key", eyebrow:"Exhibit two",
+      title:"You already <em>know.</em>",
+      body:["You don't undercharge because you misjudge your worth. You undercharge because no room ever priced it back to you at what it costs.",
+            "Nothing here is being added to you. Something is being removed."] },
+    { z:-62, x:-7.4, side:'left', glyph:"🕯", tag:"A voice in the dark", eyebrow:"Someone is here",
+      title:"“Stay a moment.”",
+      body:["“Most people fly straight through. They came for an answer and want it on the wall in big letters.”",
+            "“You slowed down. You brought the light close. That's the whole trick — the hall only opens for the ones who stop.”"] },
+    { z:-80, x:0,    side:'floor', glyph:"⚖", tag:"Etched into the floor", eyebrow:"The standard",
+      title:"What it should <em>cost.</em>",
+      body:["Hold what you give beside what the room pays. Feel the gap. That gap is not humility. It is a number hidden from you on purpose.",
+            "You can leave knowing it. That is the only thing this hall was built to do."] },
+  ]
+};
+
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0703);
+scene.fog = new THREE.FogExp2(0x0a0703, 0.018);
+
+const camera = new THREE.PerspectiveCamera(68, innerWidth/innerHeight, 0.1, 400);
+camera.position.set(0, 4.5, 18);
+
+function resize(){renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}
+addEventListener('resize',resize); resize();
+
+/* ---- materials ---- */
+const stone = new THREE.MeshStandardMaterial({color:0x6b5436, roughness:0.85, metalness:0.05});
+const darkStone = new THREE.MeshStandardMaterial({color:0x2a2014, roughness:0.95});
+const floorMat = new THREE.MeshStandardMaterial({color:0x1a130a, roughness:0.9});
+
+/* ---- floor + ceiling ---- */
+const L = WORLD.hallLength;
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(30, L+40), floorMat);
+floor.rotation.x = -Math.PI/2; floor.position.set(0,0,-L/2); floor.receiveShadow=true;
+scene.add(floor);
+const ceil = new THREE.Mesh(new THREE.PlaneGeometry(30, L+40), darkStone);
+ceil.rotation.x = Math.PI/2; ceil.position.set(0,14,-L/2);
+scene.add(ceil);
+/* side walls */
+for(const sx of [-11,11]){
+  const wall = new THREE.Mesh(new THREE.PlaneGeometry(L+40,14), darkStone);
+  wall.rotation.y = sx<0? Math.PI/2 : -Math.PI/2;
+  wall.position.set(sx,7,-L/2); wall.receiveShadow=true;
+  scene.add(wall);
+}
+
+/* ---- columns: real cylinders w/ capital + base, both sides down the hall ---- */
+function makeColumn(x,z){
+  const g = new THREE.Group();
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.9,1.0,11,24,1), stone);
+  shaft.position.y=6; shaft.castShadow=true; g.add(shaft);
+  const cap = new THREE.Mesh(new THREE.BoxGeometry(2.6,0.7,2.6), stone);
+  cap.position.y=11.6; cap.castShadow=true; g.add(cap);
+  const base = new THREE.Mesh(new THREE.BoxGeometry(2.6,0.8,2.6), stone);
+  base.position.y=0.4; base.castShadow=true; g.add(base);
+  g.position.set(x,0,z); scene.add(g);
+}
+for(let z=-4; z>-L-6; z-=9){ makeColumn(-8.5,z); makeColumn(8.5,z); }
+
+/* ---- ambient + warm fill ---- */
+scene.add(new THREE.AmbientLight(0x40301c, 0.7));
+const moon = new THREE.DirectionalLight(0xffe4b0, 0.25);
+moon.position.set(6,18,4); scene.add(moon);
+
+/* ---- the end-of-hall light (a destination) ---- */
+const endLight = new THREE.PointLight(0xffb24a, 60, 90, 2);
+endLight.position.set(0,7,-L-2); scene.add(endLight);
+const endGlow = new THREE.Mesh(new THREE.SphereGeometry(2.2,24,24),
+  new THREE.MeshBasicMaterial({color:0xffc060}));
+endGlow.position.copy(endLight.position); scene.add(endGlow);
+
+/* ---- artifacts: a glowing object + its own point light + a billboarded label sprite ---- */
+const artObjs = [];
+function labelSprite(text){
+  const cv=document.createElement('canvas'); cv.width=512; cv.height=128;
+  const ctx=cv.getContext('2d');
+  ctx.fillStyle='rgba(200,146,42,0.95)'; ctx.font='bold 40px "Courier New",monospace';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(text.toUpperCase(), 256, 64);
+  const tex=new THREE.CanvasTexture(cv);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false}));
+  sp.scale.set(7,1.75,1); return sp;
+}
+WORLD.artifacts.forEach(a=>{
+  const grp=new THREE.Group();
+  // a small glowing emblem (octahedron reads as a faceted gem/lantern)
+  const gem=new THREE.Mesh(new THREE.OctahedronGeometry(0.8,0),
+    new THREE.MeshStandardMaterial({color:0xffca6a,emissive:0xc8922a,emissiveIntensity:1.4,roughness:0.3,metalness:0.4}));
+  gem.castShadow=true; grp.add(gem);
+  // its own light pooling on nearby stone
+  const lp=new THREE.PointLight(0xffb24a, 22, 26, 2); grp.add(lp);
+  // a pedestal if floor-mounted, or a wall bracket if side-mounted
+  let y=1.4;
+  if(a.side==='floor'){ const ped=new THREE.Mesh(new THREE.CylinderGeometry(0.9,1.1,1.2,16),stone); ped.position.y=0.6; ped.castShadow=true; ped.receiveShadow=true; grp.add(ped); y=1.9; }
+  else { y=6.5; const br=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.4,1.2),stone); br.position.set(a.x>0?-0.9:0.9,0,0); grp.add(br); }
+  gem.position.y=y; lp.position.set(0,y,0);
+  const lab=labelSprite(a.tag); lab.position.set(0,y-1.35,0); grp.add(lab);
+  grp.position.set(a.x,0,a.z);
+  grp.userData={a,gem,baseY:y};
+  scene.add(grp); artObjs.push(grp);
+});
+
+/* ---- raycast for taps ---- */
+const ray=new THREE.Raycaster(), ptr=new THREE.Vector2();
+function pick(cx,cy){
+  ptr.x=(cx/innerWidth)*2-1; ptr.y=-(cy/innerHeight)*2+1;
+  ray.setFromCamera(ptr,camera);
+  const hits=ray.intersectObjects(artObjs.map(g=>g.userData.gem));
+  if(hits.length){ const grp=artObjs.find(g=>g.userData.gem===hits[0].object); if(grp) flyTo(grp.userData.a, grp.position); }
+}
+
+/* ---- fly controls ---- */
+let dragging=false,px=0,py=0,moved=0;
+const target=new THREE.Vector3().copy(camera.position);
+let flying=false;
+function down(x,y){dragging=true;moved=0;px=x;py=y;document.body.classList.add('dragging');flying=false;}
+function move(x,y){ if(!dragging)return; const dx=x-px,dy=y-py; moved+=Math.abs(dx)+Math.abs(dy);
+  target.x = THREE.MathUtils.clamp(target.x - dx*0.03, -8, 8);
+  target.z = THREE.MathUtils.clamp(target.z - dy*0.10, -L+6, 20);
+  px=x;py=y; }
+function up(x,y){ if(dragging&&moved<8){pick(x,y);} dragging=false;document.body.classList.remove('dragging'); }
+canvas.addEventListener('mousedown',e=>down(e.clientX,e.clientY));
+addEventListener('mousemove',e=>move(e.clientX,e.clientY));
+addEventListener('mouseup',e=>up(e.clientX,e.clientY));
+canvas.addEventListener('touchstart',e=>down(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
+addEventListener('touchmove',e=>move(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
+addEventListener('touchend',e=>{const t=e.changedTouches[0];up(t.clientX,t.clientY);});
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowUp'||e.key==='w')target.z-=3;
+  if(e.key==='ArrowDown'||e.key==='s')target.z+=3;
+  if(e.key==='ArrowLeft'||e.key==='a')target.x=Math.max(-8,target.x-2);
+  if(e.key==='ArrowRight'||e.key==='d')target.x=Math.min(8,target.x+2);
+  if(e.key==='Escape')closeFocus();
+});
+
+/* ---- focus ---- */
+const focus=document.getElementById('focus');
+let lookAt=new THREE.Vector3(0,4.5,-30);
+function flyTo(a,pos){
+  flying=true;
+  target.set(THREE.MathUtils.clamp(pos.x,-7,7), 4.5, pos.z+8);
+  lookAt.copy(pos);
+  document.getElementById('fEye').textContent=a.eyebrow||'';
+  document.getElementById('fTitle').innerHTML=a.title;
+  document.getElementById('fBody').innerHTML=a.body.map(p=>`<p>${p}</p>`).join('');
+  setTimeout(()=>focus.classList.add('open'),700);
+}
+function closeFocus(){focus.classList.remove('open');flying=false;}
+document.getElementById('fBack').addEventListener('click',closeFocus);
+focus.addEventListener('click',e=>{if(e.target===focus)closeFocus();});
+
+document.getElementById('enter').addEventListener('click',()=>document.getElementById('onboard').classList.add('gone'));
+document.getElementById('loading').style.display='none';
+
+/* ---- render loop ---- */
+let t=0;
+function animate(){
+  requestAnimationFrame(animate); t+=0.016;
+  camera.position.lerp(target, flying?0.05:0.12);
+  // gentle look toward hall depth, or toward focused artifact
+  const baseLook = flying ? lookAt : new THREE.Vector3(target.x*0.4,4.2,target.z-30);
+  camera.lookAt(baseLook);
+  // artifacts bob + spin softly so they read as alive
+  artObjs.forEach((g,i)=>{ g.userData.gem.rotation.y=t*0.6+i; g.userData.gem.position.y=g.userData.baseY+Math.sin(t*1.5+i)*0.12; });
+  endGlow.material.color.setHSL(0.09,0.8,0.55+Math.sin(t*2)*0.06);
+  renderer.render(scene,camera);
+}
+animate();
+</script>
+</body>
+</html>
