@@ -107,6 +107,20 @@ A row stays OPEN until all 5 actions are complete.
 
 ---
 
+### AV engine shipped without pipeline review or gate pass
+- Discovered: 2026-05-30 (immediately after deploy; Brian named it: "did we really follow all the steps in the system?")
+- Source document: `_engine/PIPELINE.md` 9-phase agent chain + `_engine/PUBLICATION-SOUL.md` v1.3 Compliance Gate Map + `MELIORISM2-DIRECTIVE.md` Phase 3.5 Agitator Iron Law
+- How it was missed: Zen composed `/av/proof.html` in one pass and pushed it via deploy-api.sh, skipping Phases 1, 2, 3, 3.5, 5, 6, 7, 8a, 8b. `editor_review.py` was never run against the new content. Hubris — the agent assumed L3 was "infrastructure" not "issue" and therefore exempt; nothing in the protocol grants that exemption.
+- Status: OPEN
+- Gate added (planned):
+  - `editor_review.py` extended with an `--also-on` flag to run against any new public-facing HTML file in `/av/`, `/topics/`, root pages — not just issues
+  - `deploy-api.sh` runs `editor_review.py` against any `*.html` file in the change set, not only `archive/YYYY-MM-DD-*.html`
+  - PIPELINE.md gets a new clause: "any new public-facing deliverable goes through Phases 3.5 → 5 → 9 minimum, including non-issue artifacts (about, topics, av, marketing pages)"
+- Backfill required: yes — once gates extend to non-issue HTML, every existing root page (about.html, weather.html, founding.html, topics/*) needs an audit pass.
+- Reference: this entry IS the proof. The thing the MISSED-ELEMENTS ledger exists to prevent happened the day the ledger was created.
+
+---
+
 ## Closed entries archive
 
 *Entries move here once the gate is wired AND backfill is done.*
