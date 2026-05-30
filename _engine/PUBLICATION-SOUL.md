@@ -270,6 +270,50 @@ Earlier versions of this section duplicated standards from MELIORISM2-DIRECTIVE.
 
 ---
 
+## Meta-Learning Protocol — Every Gap Becomes a Gate (v1.3)
+
+This protocol exists because the system has documented laws sitting in source documents (LEARNING-LOG "Flagged" rows, DESIGN-ENGINE Laws, MELIORISM2-DIRECTIVE Permanent Rules) that were never wired to enforcement. The pattern of "rule written, rule not enforced" is itself the failure mode this protocol prevents.
+
+### When a missed element is discovered
+
+Any time someone (Brian, Zen, an agent, a reader) names a gap between what the system *claims* to enforce and what it actually does:
+
+1. **Log it in `_engine/MISSED-ELEMENTS.md`** — one row, with the source document where the rule was already written, why it was missed, and the planned gate.
+2. **Build the gate.**
+   - Deterministic (cron-runnable): add a script in `_engine/scripts/` and wire into `editor_review.py` HARD or SOFT tier.
+   - Subjective (chat-runnable): document the agent role and add to a Phase 5 / Phase 6 review chat skill.
+3. **Update the Compliance Gate Map above** in this file.
+4. **Run `python3 _engine/scripts/system_audit.py`** — confirms the gate is now counted. Writes `_engine/SYSTEM-AUDIT-LATEST.md`.
+5. **Run `python3 _engine/scripts/backfill.py`** — re-audits every past issue against the new gate. Writes `_engine/BACKFILL-REPORT.md`.
+6. **Mark the MISSED-ELEMENTS entry CLOSED** when all five steps complete.
+
+A row stays OPEN until every step is done. Closed entries archive at the bottom of the same file.
+
+### The audit cadence
+
+- **`system_audit.py`** runs after every gate change. Goal: 100% of declared laws either have a deterministic gate OR a documented chat-skill enforcer.
+- **`backfill.py`** runs after every gate change AND on a weekly cadence. Goal: every past issue passes every current gate. No grandfathering.
+
+### The no-grandfathering rule
+
+> *An investor may check any issue for quality — and they all need to be there, and meet every standard. But that is secondary to going forward with above-standard creation.* — Brian, 2026-05-30
+
+The forward issue is always priority 1. Backfill is priority 2 — but mandatory. The publication ages well only if every issue can be opened and audited and pass.
+
+### How the documentation itself improves
+
+The protocol is self-improving by design. Every learning produces three artifacts:
+
+| Artifact | Purpose | Path |
+|----------|---------|------|
+| `MISSED-ELEMENTS.md` row | The discovery moment + the gate that catches it next time | `_engine/MISSED-ELEMENTS.md` |
+| `LEARNING-LOG.md` row | The standing wisdom — Hall of Fame, Rewrite Queue, Design Notes, Voice Drift Watch | `_engine/LEARNING-LOG.md` |
+| Gate script (or agent role) | The mechanism | `_engine/scripts/*.py` or skill folder |
+
+The LEARNING-LOG carries the *why*. The gates carry the *enforcement*. The MISSED-ELEMENTS ledger carries the *discovery date and reason*. Three documents, one closed loop.
+
+---
+
 ## Version Log addendum
 
 | Version | Date | Change | Prompted by |
