@@ -68,15 +68,20 @@ else
   cd "$SCRIPT_DIR"
 fi
 
-# ── Truth Agent gate (runs on any issue HTML before deploy) ──────────────────
-TRUTH_AGENT="$SCRIPT_DIR/_engine/truth_agent.py"
+# ── Deterministic truth gate (runs on any issue HTML before deploy) ──────────
+# Was: truth_agent.py (Anthropic API, paid). Removed 2026-05-30 per Brian:
+# "make it work so the api is not needed."
+# Now: truth_lint.py — same conceptual check (banned promises, over-claims,
+# future-dated studies, unsourced superlatives) via deterministic patterns.
+# Zero API calls, zero charge, no confirmation needed.
+TRUTH_LINT="$SCRIPT_DIR/_engine/scripts/truth_lint.py"
 BLOCKED=0
 
 for f in $FILES; do
   # Only check issue files: archive/YYYY-MM-DD-*.html (not archive/index.html)
   if [[ "$f" =~ ^archive/[0-9]{4}-[0-9]{2}-[0-9]{2}-.+\.html$ ]]; then
-    if [ -f "$TRUTH_AGENT" ] && command -v python3 &>/dev/null; then
-      python3 "$TRUTH_AGENT" "$SCRIPT_DIR/$f"
+    if [ -f "$TRUTH_LINT" ] && command -v python3 &>/dev/null; then
+      python3 "$TRUTH_LINT" "$SCRIPT_DIR/$f"
       STATUS=$?
       if [ $STATUS -eq 1 ]; then
         BLOCKED=1
