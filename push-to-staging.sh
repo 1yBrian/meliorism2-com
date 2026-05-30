@@ -51,6 +51,22 @@ ARCHIVE_PATH="archive/$ARCHIVE_NAME"
 echo "→ Staging: $DRAFT_PATH"
 echo "  Preview path: $ARCHIVE_PATH"
 
+# ── Truth gate — MOVED LEFT ───────────────────────────────────────────────────
+# Catch over-promises at draft/staging time, not at deploy. Same gate deploy uses;
+# blocking here means a draft never reaches the archive carrying an unsupported claim.
+if [[ "$ARCHIVE_NAME" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}-.+\.html$ ]] && [ -f "$SCRIPT_DIR/_engine/truth_agent.py" ] && command -v python3 &>/dev/null; then
+  set +e
+  python3 "$SCRIPT_DIR/_engine/truth_agent.py" "$SCRIPT_DIR/$DRAFT_PATH"
+  TRUTH_STATUS=$?
+  set -e
+  if [ "$TRUTH_STATUS" -eq 1 ]; then
+    echo ""
+    echo "  ✗ Staging blocked at draft time — fix the over-promises above, then re-push."
+    echo "    (Gate moved left: cheaper to fix now than after it is in the archive.)"
+    exit 1
+  fi
+fi
+
 # ── API helpers ───────────────────────────────────────────────────────────────
 api_get() {
   curl -sf -H "Authorization: token $TOKEN" -H "Accept: application/vnd.github.v3+json" "$API/$1"

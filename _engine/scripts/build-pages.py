@@ -21,23 +21,23 @@ EMAIL = "brian@melioristgroup.com"
 # Descriptions are DRAFT — refine in Brian's voice anytime; re-run this script to update.
 DIMS = [
     ("witnessing-authentic-humanity", "Witnessing Authentic Humanity",
-     "Seeing people as they actually are — beneath role, performance, and assumption — and what that asks of a practitioner."),
+     "Seeing the person in front of you as they actually are — past role, performance, and your own assumptions — and what it costs to keep looking."),
     ("brave-spaces", "Brave Spaces",
-     "Building rooms that can hold discomfort without harm, where honesty is possible and real change can happen."),
+     "Rooms built to hold discomfort without tipping into harm — where people can be honest enough that something actually changes."),
     ("living-income", "Living Income",
-     "The economics of practitioner work — value, pricing, and being paid for what you actually do."),
+     "The economics of human-centered work: pricing, value, and getting paid for what you actually do rather than what's easy to invoice."),
     ("in-person-presence", "In-Person Presence",
-     "What embodied, in-the-room presence does that mediated interaction cannot — and why it still matters."),
+     "What being in the room together does — shared rhythm, embodied attention — that no screen reproduces, and why it still decides outcomes."),
     ("gender-generational-difference", "Gender & Generational Difference",
-     "How gender and generation shape trust, learning, and communication in practitioner settings."),
+     "How gender and generation quietly shape trust, language, and authority in a room — and how to work with the differences instead of around them."),
     ("critical-consciousness", "Critical Consciousness",
-     "Seeing the systems, incentives, and power structures shaping a situation — and helping clients act with that awareness."),
+     "Reading the systems, incentives, and power moving beneath a situation — so you act on what's really there, not only what's visible."),
     ("becoming-adaptable", "Becoming Adaptable",
-     "Building the capacity to adjust — staying effective and grounded as tools, conditions, and expectations shift."),
+     "Staying effective and grounded as the tools, conditions, and expectations keep shifting underneath the work."),
     ("somatic-body-intelligence", "Somatic / Body Intelligence",
-     "What the body registers before the mind names it — using somatic signal as practitioner information."),
+     "The information the body registers before the mind can name it — and how to treat that signal as data, not noise."),
     ("adventure", "Adventure",
-     "Risk, exploration, and the practice of moving toward the unfamiliar on purpose."),
+     "Moving toward the unfamiliar on purpose — risk, exploration, and what leaving the known teaches a practitioner."),
 ]
 
 def issues():

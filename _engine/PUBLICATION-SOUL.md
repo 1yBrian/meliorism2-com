@@ -97,6 +97,14 @@ That is not peer-level. That is a poster in a gym nobody reads. The reader has b
 
 ---
 
+## Sourcing & Evidence (Non-Negotiable)
+
+Every specific study, statistic, percentage, named researcher, or empirical finding must trace to a **real, verifiable source** — named in the text or the bibliography. Do not invent studies, institutes, units, dates, or numbers to make a point land harder. A fabricated citation is the single fastest way to destroy a research-grounded publication's credibility, and the truth gate will block it.
+
+When the evidence isn't there, **make the point qualitatively** ("experienced practitioners often recognize a pattern before they can name it") rather than inventing precision ("a 2026 study found sub-400ms latencies"). Avoid absolute and superlative framing stated as fact — "the most," "only," "always," "changes everything," "guaranteed," "by day seven you'll have." Reach for the observed-pattern version instead ("often," "tends to," "in practice"). The truth agent runs at draft time (push-to-staging) and at deploy; clean prose passes both without friction.
+
+---
+
 ## Reader Agency (Non-Negotiable)
 
 The reader is the agent. Not the subject of intervention. Not someone who needs to be fixed or helped or improved.
