@@ -1,0 +1,43 @@
+# .assetsignore — files NEVER served to the public.
+# Workers Static Assets respects this like .gitignore (root = assets directory).
+# Goal: keep internal toolchain, secrets, source-only docs, and noise out of the deploy.
+
+# Git internals (Workers' auto-builder mistakenly tried to upload these)
+.git/
+.gitignore
+.gitattributes
+
+# GitHub Actions config — internal, never web-served
+.github/
+
+# Internal toolchain (build pipeline, agents, scripts, design docs)
+_engine/
+
+# Wrangler scratch
+.wrangler/
+wrangler.jsonc
+
+# Source docs (markdown isn't part of the published site)
+*.md
+
+# Shell scripts and python (deploy helpers, not public assets)
+*.sh
+*.py
+
+# Node noise (just in case)
+node_modules/
+package.json
+package-lock.json
+yarn.lock
+
+# Backups, staging, archives of source
+*.bak
+*.bak.md
+*.zip
+*.tar.gz
+staging/
+
+# OS / editor noise
+.DS_Store
+.idea/
+.vscode/
