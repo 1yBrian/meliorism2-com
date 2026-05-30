@@ -16,6 +16,12 @@
   #backdrop{position:fixed;inset:0;z-index:0;overflow:hidden;background:#03060c}
   #bgvideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s}
   #bgvideo.on{opacity:1}
+  /* scrim over the video — readability law: words always win over a bright backdrop */
+  #scrim{position:absolute;inset:0;opacity:0;transition:opacity 1.2s;pointer-events:none;
+    background:linear-gradient(180deg, rgba(6,12,22,.55) 0%, rgba(6,12,22,.30) 30%, rgba(6,12,22,.42) 70%, rgba(4,8,16,.72) 100%);}
+  #scrim.on{opacity:1}
+  /* when a video skin is live, hide the space fallback */
+  body.skin-video #starfield, body.skin-video #planet, body.skin-video #planetband{opacity:0;transition:opacity .8s}
   #starfield{position:absolute;inset:0;display:block}      /* canvas fallback / always-on depth */
   /* the planet — the "world" out the window */
   #planet{position:absolute;right:-6vw;top:18vh;width:46vw;height:46vw;border-radius:50%;
@@ -122,6 +128,7 @@
   <!-- SKIN -->
   <div id="backdrop">
     <video id="bgvideo" muted loop playsinline></video>   <!-- AI video drops here: bgvideo.src = '...' -->
+    <div id="scrim"></div>
     <canvas id="starfield"></canvas>
     <div id="planet"></div><div id="planetband"></div>
   </div>
@@ -165,7 +172,7 @@
    ============================================================ */
 const SKIN = {
   // drop an AI-generated clip here and it becomes the world:
-  video: "",   // e.g. "assets/flight-deck.mp4"
+  video: "assets/lake-backdrop.mp4",   // Lake Tahoe — the Meliorist Academy world
 };
 const ISSUES = [
   { x:"50%", y:"40%", w:1.0, eyebrow:"The Five-Day Foundation · v0.1",
@@ -268,7 +275,10 @@ document.getElementById('enter').addEventListener('click',()=>{
   document.getElementById('intro').classList.add('gone');
   // bring the video skin online if provided
   const v=document.getElementById('bgvideo');
-  if(SKIN.video){v.src=SKIN.video;v.play().then(()=>v.classList.add('on')).catch(()=>{});}
+  if(SKIN.video){v.src=SKIN.video;
+    document.body.classList.add('skin-video');
+    document.getElementById('scrim').classList.add('on');
+    v.play().then(()=>v.classList.add('on')).catch(()=>{v.classList.add('on');});}
 });
 </script>
 </body>
