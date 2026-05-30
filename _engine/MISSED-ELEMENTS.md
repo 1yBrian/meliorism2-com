@@ -125,7 +125,21 @@ A row stays OPEN until all 5 actions are complete.
 
 *Entries move here once the gate is wired AND backfill is done.*
 
-(none yet)
+### Instruction-writing for generative tools — short philosophical brief produces wrong register
+- Discovered: 2026-05-30 (logo design exercise — three rounds with external AI)
+- Source document: this is a new finding; no prior doc encoded it
+- How it was missed: Zen wrote BRAND-BRIEF.md as a philosophical document and assumed any AI fed it would produce results matching the intended register. Brian's much shorter prompt produced an over-decorated result; Zen's longer brief produced an over-minimal result; only a third middle-path block — specific + reference-anchored + with concrete do/don't rules — produced the chosen mark on the first run.
+- Status: CLOSED
+- Gate added: a pattern, not a script. Recorded as the standing template for any generative-tool prompt going forward:
+  1. Format and dimensions stated explicitly
+  2. Register anchored to 2–3 named comparables (e.g. Yale University Press, Folio Society)
+  3. Composition listed top-to-bottom, element by element
+  4. Colors named by hex
+  5. Concrete failure modes called out as "must" / "must not" rules (e.g. "laurel must read as organic leaves, not balloons")
+  6. A scale-down test mentioned (e.g. "must reproduce at favicon size")
+  Brief is short enough to paste, long enough to constrain. Philosophical context belongs in a separate doc, not the prompt.
+- Backfill required: no — pattern applies forward to all future generative-tool prompts
+- Reference: `08 - The Intermodal Hub/Meliorism2 (Formally Signal-OS)/Brand/README.md` documents the three rounds and the winning prompt structure
 
 ---
 
