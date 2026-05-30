@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Meliorism2 — The Cockpit (video skin · interaction skeleton)</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ice:#bfe3ff;--ice-dim:#6f97b8;--amber:#c8922a;--cream:#f4ead8;--glass:rgba(150,205,255,.10)}
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;overflow:hidden;background:#03060c;
+    font-family:'Crimson Text',Georgia,serif;color:var(--cream);
+    -webkit-user-select:none;user-select:none;touch-action:manipulation}
+
+  /* ── THE SKIN: video backdrop (AI clip drops in here) + live fallback ── */
+  #backdrop{position:fixed;inset:0;z-index:0;overflow:hidden;background:#03060c}
+  #bgvideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s}
+  #bgvideo.on{opacity:1}
+  #starfield{position:absolute;inset:0;display:block}      /* canvas fallback / always-on depth */
+  /* the planet — the "world" out the window */
+  #planet{position:absolute;right:-6vw;top:18vh;width:46vw;height:46vw;border-radius:50%;
+    background:
+      radial-gradient(38% 38% at 32% 30%, rgba(190,225,255,.35),transparent 60%),
+      radial-gradient(120% 120% at 30% 25%, #4a7fb0 0%, #2b5680 36%, #15324f 60%, #081625 80%, #03060c 100%);
+    box-shadow:inset -40px -30px 90px rgba(0,0,0,.7), 0 0 120px rgba(80,150,210,.25);
+    filter:saturate(1.05)}
+  #planet::after{content:"";position:absolute;inset:0;border-radius:50%;
+    background:radial-gradient(60% 50% at 70% 78%, rgba(0,0,0,.5), transparent 60%);}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #planetband{position:absolute;right:-6vw;top:18vh;width:46vw;height:46vw;border-radius:50%;opacity:.4;
+    background:repeating-radial-gradient(circle at 40% 35%, transparent 0 18px, rgba(180,210,240,.05) 18px 34px);}
+
+  /* ── COCKPIT FRAME (the hallway = the ship; you're piloting) ── */
+  #cockpit{position:fixed;inset:0;z-index:3;pointer-events:none}
+  /* dark structural surround framing the window */
+  #cockpit::before{content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(180deg, rgba(10,14,20,.96) 0%, rgba(10,14,20,.30) 12%, transparent 22%, transparent 74%, rgba(8,11,16,.55) 86%, rgba(6,9,13,.97) 100%),
+      linear-gradient(90deg, rgba(10,14,20,.95) 0%, rgba(10,14,20,.18) 11%, transparent 20%, transparent 80%, rgba(10,14,20,.18) 89%, rgba(10,14,20,.95) 100%);}
+  /* faint hex strut lines along the top */
+  #cockpit .strut{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(150,205,255,.18) 20%,rgba(150,205,255,.18) 80%,transparent)}
+  .strut.t{top:10vh}.strut.b{bottom:9vh}
+  /* console lights bottom */
+  #console{position:absolute;left:0;right:0;bottom:0;height:9vh;
+    background:linear-gradient(180deg, transparent, rgba(6,9,13,.9));}
+  .clamp{position:absolute;width:42px;height:42px;border:2px solid rgba(150,205,255,.4)}
+  .clamp.tl{top:3vh;left:3vw;border-right:0;border-bottom:0}
+  .clamp.tr{top:3vh;right:3vw;border-left:0;border-bottom:0}
+  .clamp.bl{bottom:11vh;left:3vw;border-right:0;border-top:0}
+  .clamp.br{bottom:11vh;right:3vw;border-left:0;border-top:0}
+
+  /* ── HOLO ARTIFACTS: floating article panels in the glass ── */
+  #holos{position:fixed;inset:0;z-index:4}
+  .holo{position:absolute;width:min(64vw,440px);pointer-events:auto;cursor:pointer;
+    border:1px solid rgba(150,205,255,.45);border-radius:4px;
+    background:linear-gradient(180deg, rgba(40,80,120,.22), rgba(20,45,75,.16));
+    box-shadow:0 0 30px rgba(80,150,210,.18), inset 0 0 40px rgba(120,190,255,.06);
+    backdrop-filter:blur(2px);padding:20px 22px;
+    transform:translateY(0);transition:transform .5s cubic-bezier(.22,1,.36,1), box-shadow .4s, opacity .5s;
+    animation:bob 6s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .holo:hover{box-shadow:0 0 46px rgba(120,190,255,.4), inset 0 0 50px rgba(120,190,255,.1)}
+  .holo .eyebrow{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ice);opacity:.85;margin-bottom:10px}
+  .holo h3{font-family:'Crimson Text',serif;font-size:25px;font-weight:600;line-height:1.15;color:#eaf4ff;margin-bottom:8px}
+  .holo h3 em{font-style:italic;color:var(--amber)}
+  .holo .open{margin-top:14px;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--ice);opacity:.7}
+  .holo .corner{position:absolute;width:14px;height:14px;border:1px solid rgba(150,205,255,.6)}
+  .holo .corner.a{top:6px;left:6px;border-right:0;border-bottom:0}
+  .holo .corner.b{top:6px;right:6px;border-left:0;border-bottom:0}
+  .holo .corner.c{bottom:6px;left:6px;border-right:0;border-top:0}
+  .holo .corner.d{bottom:6px;right:6px;border-left:0;border-top:0}
+
+  /* ── READ MODE: translucent panel, 3D space still alive behind ── */
+  #read{position:fixed;inset:0;z-index:8;display:flex;align-items:center;justify-content:center;
+    padding:6vh 6vw;opacity:0;pointer-events:none;transition:opacity .6s;
+    background:radial-gradient(circle at 60% 40%, rgba(6,12,22,.45), rgba(3,7,14,.74));
+    backdrop-filter:blur(5px)}
+  #read.open{opacity:1;pointer-events:all}
+  .reader{max-width:660px;width:100%;max-height:84vh;overflow-y:auto;
+    border:1px solid rgba(150,205,255,.5);border-radius:6px;
+    background:linear-gradient(180deg, rgba(22,42,68,.62), rgba(12,26,44,.66));
+    box-shadow:0 0 60px rgba(80,150,210,.22), inset 0 0 60px rgba(120,190,255,.05);
+    padding:clamp(26px,5vw,48px);
+    transform:translateY(26px) scale(.985);transition:transform .6s cubic-bezier(.22,1,.36,1)}
+  #read.open .reader{transform:none}
+  .reader .eyebrow{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--ice);margin-bottom:18px}
+  .reader h2{font-family:'Crimson Text',serif;font-size:clamp(28px,5vw,42px);font-weight:600;line-height:1.12;color:#f2f8ff;margin-bottom:6px}
+  .reader h2 em{font-style:italic;color:var(--amber)}
+  .reader .sub{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.12em;color:var(--ice-dim);text-transform:uppercase;margin-bottom:24px}
+  .reader p{font-size:clamp(16px,2.3vw,19px);line-height:1.75;color:#dce8f4;margin-bottom:15px}
+  .reader p strong{color:#f2f8ff}
+  .reader .back{margin-top:26px;display:inline-block;font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--ice);border:1px solid rgba(150,205,255,.5);padding:12px 26px;border-radius:3px;cursor:pointer}
+  .reader .back:hover{background:rgba(150,205,255,.12)}
+  .reader::-webkit-scrollbar{width:6px}.reader::-webkit-scrollbar-thumb{background:rgba(150,205,255,.3);border-radius:3px}
+
+  /* ── HUD ── */
+  #hud{position:fixed;inset:0;z-index:6;pointer-events:none}
+  #hud .title{position:absolute;top:3.4vh;left:0;right:0;text-align:center;
+    font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.4em;color:rgba(191,227,255,.75);text-transform:uppercase}
+  #hud .foot{position:absolute;bottom:3vh;left:0;right:0;text-align:center;
+    font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.2em;color:rgba(111,151,184,.7);text-transform:uppercase}
+
+  /* ── GAME INTRO: welcome aboard ── */
+  #intro{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:8vw;background:radial-gradient(circle at 50% 45%, rgba(8,16,28,.65), rgba(2,5,10,.97));transition:opacity 1s}
+  #intro.gone{opacity:0;pointer-events:none}
+  #intro .boot{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.3em;color:var(--ice);text-transform:uppercase;margin-bottom:8px;opacity:.85;min-height:16px}
+  #intro .k{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.3em;color:var(--amber);text-transform:uppercase;margin:22px 0}
+  #intro h1{font-size:clamp(30px,6vw,52px);font-weight:600;line-height:1.12;margin-bottom:18px;max-width:780px;color:#f2f8ff}
+  #intro h1 em{font-style:italic;color:var(--amber)}
+  #intro p{font-size:18px;color:#c3d4e6;max-width:520px;line-height:1.6;margin-bottom:34px}
+  #intro .go{font-family:'Courier Prime',monospace;font-size:13px;letter-spacing:.18em;text-transform:uppercase;
+    color:#04101e;background:var(--ice);padding:17px 46px;border-radius:3px;cursor:pointer;
+    box-shadow:0 0 30px rgba(150,205,255,.4);animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 24px rgba(150,205,255,.35)}50%{box-shadow:0 0 44px rgba(150,205,255,.6)}}
+</style>
+</head>
+<body>
+  <!-- SKIN -->
+  <div id="backdrop">
+    <video id="bgvideo" muted loop playsinline></video>   <!-- AI video drops here: bgvideo.src = '...' -->
+    <canvas id="starfield"></canvas>
+    <div id="planet"></div><div id="planetband"></div>
+  </div>
+
+  <!-- SKELETON -->
+  <div id="cockpit">
+    <div class="strut t"></div><div class="strut b"></div>
+    <div class="clamp tl"></div><div class="clamp tr"></div><div class="clamp bl"></div><div class="clamp br"></div>
+    <div id="console"></div>
+  </div>
+
+  <div id="holos"></div>
+
+  <div id="hud">
+    <div class="title">MELIORISM2 · FLIGHT DECK · ISSUE ARCHIVE</div>
+    <div class="foot">TAP A PANEL TO READ · DRAG TO LOOK AROUND</div>
+  </div>
+
+  <div id="read"><div class="reader">
+    <div class="eyebrow" id="rEye"></div>
+    <h2 id="rTitle"></h2>
+    <div class="sub" id="rSub"></div>
+    <div id="rBody"></div>
+    <span class="back" id="rBack">↩ back to the deck</span>
+  </div></div>
+
+  <div id="intro">
+    <div class="boot" id="boot">&nbsp;</div>
+    <div class="k">Meliorism2 · Flight Deck · v0.1</div>
+    <h1>Welcome aboard. <em>The archive is out the window.</em></h1>
+    <p>This is your deck. The issues drift in the glass ahead — each one a place, not a page. Reach one and it opens. The world stays with you while you read.</p>
+    <div class="go" id="enter">Power on →</div>
+  </div>
+
+<script>
+/* ============================================================
+   THE COCKPIT ENGINE — video skin, interaction skeleton.
+   Backdrop = a video (AI clip) OR the live canvas-space fallback.
+   Holo panels = the issues. Click → translucent read mode,
+   the 3D space still drifting behind. One engine; ISSUES is data.
+   ============================================================ */
+const SKIN = {
+  // drop an AI-generated clip here and it becomes the world:
+  video: "",   // e.g. "assets/flight-deck.mp4"
+};
+const ISSUES = [
+  { x:"50%", y:"40%", w:1.0, eyebrow:"The Five-Day Foundation · v0.1",
+    title:"A Retreat at the <em>Meliorist Academy</em>",
+    sub:"Sample issue · the door is the drive in",
+    body:[
+      "You arrive late afternoon on a Wednesday. The drive in is the first thing the Academy does to you — the road climbs, the trees thicken, the lake appears between them, and by the time you park you've already begun to slow down without being asked.",
+      "Your cabin is yours alone. A wood stove already lit. On the desk: a bound notebook with your name on the cover, and one sentence on a card — <strong>your work this week is to remember what you already know.</strong> No itinerary. No welcome packet.",
+      "Thursday begins in silence. Afternoons are practice, not class. Friday is the day the work gets harder — the faculty calls it the Brave Day. Saturday slows again. Sunday morning the closing circle is short: each fellow says one sentence — what they're carrying out that they did not carry in.",
+      "You came to rest. <strong>You leave with a practice.</strong> The rest was the doorway."
+    ] },
+  { x:"22%", y:"62%", w:0.78, eyebrow:"Exhibit · the uncounted",
+    title:"The hours <em>nobody counts</em>",
+    sub:"What the work actually costs",
+    body:[
+      "The setup before anyone arrives. The conversation in the parking lot. The plan you redrew at midnight because one person needed it different.",
+      "It is not extra. It is the work — and every room you have ever held runs on it."
+    ] },
+  { x:"75%", y:"66%", w:0.74, eyebrow:"The standard",
+    title:"What it should <em>cost</em>",
+    sub:"A number hidden on purpose",
+    body:[
+      "Hold what you give beside what the room pays. Feel the gap. That gap is not humility.",
+      "You can leave knowing it. That is the only thing this deck was built to do."
+    ] },
+];
+
+/* ---- starfield (live depth; also the fallback when no video) ---- */
+const cv=document.getElementById('starfield'), ctx=cv.getContext('2d');
+let stars=[], W,H, look={x:0,y:0}, lookT={x:0,y:0};
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;
+  stars=[];const n=Math.min(420,Math.floor(W*H/3200));
+  for(let i=0;i<n;i++)stars.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*1+0.2,r:Math.random()*1.4+0.2,tw:Math.random()*6.28});}
+addEventListener('resize',resize);resize();
+let t=0;
+function draw(){t+=0.016;
+  look.x+=(lookT.x-look.x)*0.06; look.y+=(lookT.y-look.y)*0.06;
+  ctx.clearRect(0,0,W,H);
+  // nebula wash
+  const g=ctx.createRadialGradient(W*0.62,H*0.4,0,W*0.62,H*0.4,W*0.7);
+  g.addColorStop(0,'rgba(30,60,95,0.25)');g.addColorStop(.5,'rgba(15,30,52,0.12)');g.addColorStop(1,'rgba(3,6,12,0)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  for(const s of stars){
+    const px=s.x - look.x*40*s.z, py=s.y - look.y*40*s.z;
+    const a=0.4+0.6*Math.abs(Math.sin(t*1.5+s.tw));
+    ctx.beginPath();ctx.arc((px+W)%W,(py+H)%H,s.r*s.z,0,6.28);
+    ctx.fillStyle=`rgba(200,225,255,${a*s.z})`;ctx.fill();
+  }
+  // parallax the planet + holos a touch
+  document.getElementById('planet').style.transform=`translate(${-look.x*22}px,${-look.y*16}px)`;
+  document.getElementById('planetband').style.transform=`translate(${-look.x*22}px,${-look.y*16}px) rotate(${t*2}deg)`;
+  document.getElementById('holos').style.transform=`translate(${-look.x*44}px,${-look.y*30}px)`;
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* drag to look around the deck */
+let dr=false,lx=0,ly=0;
+function dn(x,y){dr=true;lx=x;ly=y;}
+function mv(x,y){if(!dr)return;lookT.x=Math.max(-3,Math.min(3,lookT.x+(lx-x)*0.02));lookT.y=Math.max(-2,Math.min(2,lookT.y+(ly-y)*0.02));lx=x;ly=y;}
+function en(){dr=false;}
+addEventListener('mousedown',e=>dn(e.clientX,e.clientY));addEventListener('mousemove',e=>mv(e.clientX,e.clientY));addEventListener('mouseup',en);
+addEventListener('touchstart',e=>dn(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
+addEventListener('touchmove',e=>mv(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
+addEventListener('touchend',en);
+
+/* ---- build holo panels from ISSUES ---- */
+const holos=document.getElementById('holos');
+ISSUES.forEach((it,i)=>{
+  const el=document.createElement('div');el.className='holo';
+  el.style.left=it.x;el.style.top=it.y;el.style.transform='translate(-50%,-50%)';
+  el.style.width=`min(${64*it.w}vw,${440*it.w}px)`;
+  el.style.animationDelay=(i*1.3)+'s';
+  el.innerHTML=`<span class="corner a"></span><span class="corner b"></span><span class="corner c"></span><span class="corner d"></span>
+    <div class="eyebrow">${it.eyebrow}</div><h3>${it.title}</h3><div class="open">▸ open issue</div>`;
+  el.addEventListener('click',ev=>{ev.stopPropagation();openRead(it);});
+  holos.appendChild(el);
+});
+
+/* ---- read mode: translucent, space still alive behind ---- */
+const read=document.getElementById('read');
+function openRead(it){
+  document.getElementById('rEye').textContent=it.eyebrow;
+  document.getElementById('rTitle').innerHTML=it.title;
+  document.getElementById('rSub').textContent=it.sub||'';
+  document.getElementById('rBody').innerHTML=it.body.map(p=>`<p>${p}</p>`).join('');
+  read.classList.add('open');
+  holos.style.filter='blur(3px)';holos.style.opacity='.35';
+}
+function closeRead(){read.classList.remove('open');holos.style.filter='';holos.style.opacity='1';read.querySelector('.reader').scrollTop=0;}
+document.getElementById('rBack').addEventListener('click',closeRead);
+read.addEventListener('click',e=>{if(e.target===read)closeRead();});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeRead();});
+
+/* ---- game intro: boot sequence then power on ---- */
+const bootLines=["initializing flight deck…","loading archive…","life support: nominal","viewport: clear","ready."];
+let bi=0;const bootEl=document.getElementById('boot');
+const bootTimer=setInterval(()=>{bootEl.textContent=bootLines[bi++]||"ready.";if(bi>bootLines.length)clearInterval(bootTimer);},650);
+document.getElementById('enter').addEventListener('click',()=>{
+  document.getElementById('intro').classList.add('gone');
+  // bring the video skin online if provided
+  const v=document.getElementById('bgvideo');
+  if(SKIN.video){v.src=SKIN.video;v.play().then(()=>v.classList.add('on')).catch(()=>{});}
+});
+</script>
+</body>
+</html>
