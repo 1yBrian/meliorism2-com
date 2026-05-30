@@ -31,6 +31,7 @@ On collision, the engine regenerates the colliding layer and re-checks.
 | 029 | 2026-05-29 | the-annotated-estimate | Clarity | Great Professor | Annotated estimate / ledger | Reveal-on-Hover (table) | amber / cream | Living Income · McKinsey · Delight: Sahara video |
 | 030 | 2026-05-30 | the-provenance-document | — | — | Provenance document | — | — | NEEDS BACKFILL |
 | 031 | 2026-05-31 | the-load-bearing-wall | — | — | Architectural / structural | — | — | NEEDS BACKFILL |
+| — | 2026-06-01 | the-people-v-the-obvious | Friction | The Adjudicator | Courtroom chamber | Predict-Then-Reveal + Sort/Rank | dark mahogany / amber | Engine proof exemplar · 7 primitives · gated 8 stages · plants in corners |
 
 ---
 

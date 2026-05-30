@@ -55,6 +55,7 @@ HARD_GATES = [
 ]
 
 SOFT_GATES = [
+    ("exploratorium_check.py", "Exploratorium (Invariant 2)","Signature Law §Invariant Gate"),
     ("cta_check.py",           "Contextual entry CTA",      "MELIORISM2-DIRECTIVE §2"),
     ("voice_drift_check.py",   "Voice drift",               "LEARNING-LOG §Voice Drift Watch"),
     ("section_title_score.py", "Non-blog title scoring",    "MELIORISM2-DIRECTIVE §15"),
