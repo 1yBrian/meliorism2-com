@@ -110,7 +110,42 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       border-bottom: 1px solid #d8cfc4;
+      position: relative;
+      overflow: hidden;
     }
+    /* ── IMMERSIVE HINT — CSS-only depth, zero assets, ~0 load cost ──
+       A faint perspective floor receding under the left panel: suggests a
+       world you could step into. Doorway portal CTA hints at the app/game. */
+    .hero-left, .hero-right { position: relative; z-index: 2; }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 56%; height: 46%;
+      transform: perspective(440px) rotateX(76deg);
+      transform-origin: bottom center;
+      background:
+        repeating-linear-gradient(90deg, rgba(139,111,71,0.15) 0 1px, transparent 1px 8%),
+        repeating-linear-gradient(0deg,  rgba(139,111,71,0.12) 0 1px, transparent 1px 13%);
+      -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.45) 40%, transparent 80%);
+      mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.45) 40%, transparent 80%);
+      opacity: .6; z-index: 1; pointer-events: none;
+    }
+    @media (max-width: 820px){ .hero::after{ width: 100%; } }
+    .hero-portal {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-top: 18px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); text-decoration: none;
+      border: 1px solid rgba(139,111,71,0.5); border-radius: 3px;
+      padding: 12px 22px; align-self: flex-start;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .hero-portal:hover { background: rgba(200,146,42,0.10); border-color: var(--accent); transform: translateY(-1px); }
+    .hero-portal .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: portalpulse 2.6s ease-in-out infinite; }
+    @keyframes portalpulse { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.45)} }
+    @media (prefers-reduced-motion: reduce){ .hero-portal .dot{animation:none} }
 
     .hero-left {
       padding: 96px 64px 96px 80px;
@@ -719,6 +754,7 @@
         <em>clients' way?</em>
       </h1>
       <a href="/archive/2026-05-28-the-tide-pool-survey.html" class="hero-cta">Read Current Issue</a>
+      <a href="/archive/2026-05-28-the-tide-pool-survey.html" class="hero-portal"><span class="dot"></span>Step into the world</a>
     </div>
     <div class="hero-right">
       <div class="hero-label">What Meliorism2.com is</div>
