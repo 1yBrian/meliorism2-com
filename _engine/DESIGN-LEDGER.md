@@ -29,8 +29,8 @@ On collision, the engine regenerates the colliding layer and re-checks.
 | 027 | 2026-05-27 | the-tide-chart | Threshold | Witness | Tide chart (dark ocean) | Parallel Feeds | deep ocean blue | dark earned by subject |
 | 028 | 2026-05-28 | the-tide-pool-survey | Solidarity | Field Practitioner | Tide pool field survey | State Check-In | tidepool green | Witnessing Authentic Humanity |
 | 029 | 2026-05-29 | the-annotated-estimate | Clarity | Great Professor | Annotated estimate / ledger | Reveal-on-Hover (table) | amber / cream | Living Income · McKinsey · Delight: Sahara video |
-| 030 | 2026-05-30 | the-provenance-document | — | — | Provenance document | — | — | NEEDS BACKFILL |
-| 031 | 2026-05-31 | the-load-bearing-wall | — | — | Architectural / structural | — | — | NEEDS BACKFILL |
+| 030 | 2026-05-30 | the-provenance-document | Clarity | The Archivist | Provenance document | Provenance Trace | sepia / parchment | Chain-of-custody under trust |
+| 031 | 2026-05-31 | the-load-bearing-wall | Threshold | The Architect | Facilitation rooms | Choose-Your-Role | charcoal / brass | Brave spaces · 7 AI room images |
 | — | 2026-06-01 | the-people-v-the-obvious | Friction | The Adjudicator | Courtroom chamber | Predict-Then-Reveal + Sort/Rank | dark mahogany / amber | Engine proof exemplar · 7 primitives · gated 8 stages · plants in corners |
 
 ---
